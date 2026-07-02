@@ -37,5 +37,3 @@
 {#if ContentLoaded}
     <ContentLoaded />
 {/if}
-
-<h1>test</h1>
