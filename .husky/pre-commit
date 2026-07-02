@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # Fix PATH so pnpm works reliably from VS Code Source Control
 export PATH="$(pnpm bin):$PATH"
 
