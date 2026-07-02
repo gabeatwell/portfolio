@@ -47,20 +47,18 @@ export default defineConfig({
                 },
             },
             // kit specific
-            kit: {
-                prerender: {
-                    handleHttpError: ({ status, path, referrer, message }) => {
-                        if (status === 404) {
-                            console.warn(
-                                `Prerendering warning: ${status} ${path} (linked from ${referrer})`,
-                            );
-                            return;
-                        }
-                        throw new Error(message);
-                    },
-                    handleUnseenRoutes: 'warn',
-                    concurrency: 10,
+            prerender: {
+                handleHttpError: ({ status, path, referrer, message }) => {
+                    if (status === 404) {
+                        console.warn(
+                            `Prerendering warning: ${status} ${path} (linked from ${referrer})`,
+                        );
+                        return;
+                    }
+                    throw new Error(message);
                 },
+                handleUnseenRoutes: 'warn',
+                concurrency: 10,
             },
         }),
         svelteTesting(),
@@ -82,17 +80,14 @@ export default defineConfig({
                         {
                             test: /[\\/]node_modules[\\/](svelte|@sveltejs)[\\/]/,
                             name: 'svelte',
-                            enforce: true,
                         },
                         {
                             test: /[\\/]node_modules[\\/]three[\\/]/,
                             name: 'three',
-                            enforce: true,
                         },
                         {
                             test: /[\\/]node_modules[\\/]gsap[\\/]/,
                             name: 'gsap',
-                            enforce: true,
                         },
                     ],
                 },
