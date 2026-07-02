@@ -28,7 +28,6 @@
         if (typeof window === 'undefined') return;
 
         const abortController = new AbortController();
-        let updateDetected = false;
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker
@@ -47,7 +46,6 @@
                                             newWorker.state === 'installed' &&
                                             navigator.serviceWorker.controller
                                         ) {
-                                            updateDetected = true;
                                             newWorker.postMessage({
                                                 type: 'SKIP_WAITING',
                                             });
@@ -63,29 +61,6 @@
                 .catch((error) => {
                     console.error('Service Worker registration failed:', error);
                 });
-
-            navigator.serviceWorker.addEventListener(
-                'controllerchange',
-                () => {
-                    if (updateDetected && 'setAppBadge' in navigator) {
-                        navigator.setAppBadge(1);
-
-                        // Clear badge on next click/touch anywhere
-                        const clearBadge = () => {
-                            if ('clearAppBadge' in navigator)
-                                navigator.clearAppBadge();
-                            document.removeEventListener('click', clearBadge);
-                            document.removeEventListener(
-                                'touchstart',
-                                clearBadge,
-                            );
-                        };
-                        document.addEventListener('click', clearBadge);
-                        document.addEventListener('touchstart', clearBadge);
-                    }
-                },
-                { signal: abortController.signal },
-            );
         }
 
         return () => abortController.abort();
