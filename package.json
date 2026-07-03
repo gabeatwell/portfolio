@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "portfolio",
-	"version": "3.5.6",
+	"version": "3.5.7",
 	"private": true,
 	"packageManager": "pnpm@10.33.0",
 	"engines": {
@@ -11,6 +11,7 @@
 	"scripts": {
 		"dev": "vite dev --host --open",
 		"build": "vite build",
+		"postbuild": "node scripts/copy-404.js",
 		"preview": "vite preview --host",
 		"lint": "oxlint .",
 		"format": "oxfmt --write .",
