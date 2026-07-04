@@ -6,6 +6,7 @@ interface Post {
     title: string;
     subtitle?: string;
     image?: string;
+    date: string;
     content: string;
 }
 
@@ -55,12 +56,14 @@ export const getPosts = prerender(async (): Promise<Post[]> => {
             const title = data.title ?? extractTitle(body) ?? `Post ${id}`;
             const subtitle = data.subtitle ?? extractSubtitle(body) ?? '';
             const image = data.image ?? extractImage(body);
+            const date = data.date ?? `Post ${id}`;
 
             return {
                 id,
                 title,
                 subtitle,
                 image,
+                date,
                 content: body.slice(0, 200) + '…',
             };
         })
@@ -86,7 +89,8 @@ export const getPost = prerender(
         const rawContent = modules[filePath] as string;
         const { data, content } = parseFrontmatter(rawContent);
         const title = data.title ?? extractTitle(content) ?? `Post ${id}`;
+        const date = data.date ?? `Post ${id}`;
 
-        return { id: Number(id), title, content };
+        return { id: Number(id), title, date, content };
     },
 );
