@@ -8,6 +8,16 @@
     let { data } = $props();
     let post = $derived(data.post);
 
+    let formattedDate = $derived(
+        post?.date
+            ? new Date(post.date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+              })
+            : '',
+    );
+
     let sanitizedHtml = $derived(
         post?.content &&
             DOMPurify.sanitize(
@@ -36,14 +46,22 @@
 
 {#if post}
     <section class="blog-post">
+        <div class="author-row">
+            <Avatar2 />
+
+            <div class="post-description">
+                <p class="name">gabe atwell</p>
+
+                {#if formattedDate}
+                    <time class="date">{formattedDate}</time>
+                {/if}
+            </div>
+        </div>
+
         <div class="post-content">
             {@html renderedHtml}
         </div>
     </section>
-
-    <div class="avatar">
-        <Avatar2 name="gabe atwell" size="7.5em" />
-    </div>
 
     <a class="go-back" href="/blog">go back</a>
 {:else}
@@ -110,19 +128,51 @@
         }
     }
 
-    .avatar {
+    .author-row {
         margin-inline: auto;
         inline-size: fit-content;
         display: flex;
+        flex-direction: row;
         justify-content: center;
         align-items: center;
-        margin-top: 8em;
+        gap: 0.75em;
+        margin-bottom: 3em;
 
-        @media (width <= 990px) {
-            margin-top: 5.5em;
-        }
-        @media (width <= 768px) {
+        /* @media (width <= 990px) {
+            margin-top: 10em;
+        } */
+
+        /* @media (width <= 768px) {
             margin-top: 3em;
+        } */
+    }
+
+    .post-description {
+        display: flex;
+        gap: 1em;
+        margin-top: 5em;
+        margin-left: 1em;
+
+        @media (width <= 768px) {
+            margin-top: 7em;
+        }
+
+        & .name {
+            color: var(--clr-light-500);
+            font-family: var(--bronova-bold);
+            font-size: clamp(var(--sm), 1.5vw, var(--h4));
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            opacity: 0.7;
+            white-space: nowrap;
+        }
+
+        & .date {
+            color: var(--clr-light-400);
+            font-family: var(--mono);
+            font-size: clamp(var(--xs), 1.25vw, var(--h4));
+            opacity: 0.7;
+            white-space: nowrap;
         }
     }
 
