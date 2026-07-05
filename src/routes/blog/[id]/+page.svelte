@@ -150,8 +150,9 @@
 
             @media (width <= 768px) {
                 flex-direction: column;
+                align-items: center;
                 gap: 0;
-                margin-top: 8em;
+                margin-top: 2em;
             }
 
             & .name {

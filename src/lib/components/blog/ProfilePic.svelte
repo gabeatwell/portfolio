@@ -54,6 +54,10 @@
                 block-size: 100%;
                 object-fit: contain;
                 display: block;
+
+                @media (width <= 768px) {
+                    margin-top: -2.5em;
+                }
             }
         }
     }
