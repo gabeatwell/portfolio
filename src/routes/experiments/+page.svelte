@@ -75,6 +75,9 @@
             load: () =>
                 import('$lib/components/experiments/vertical-text/VerticalText.svelte'),
         },
+        10: {
+            load: () => import('$lib/components/photos/DialogVT.svelte'),
+        },
     };
 
     const sortedKeys = Object.keys(componentMap)
