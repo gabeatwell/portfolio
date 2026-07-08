@@ -14,8 +14,8 @@
         if (path === '/')
             return `${REPO_URL}/tree/main/src/routes/+page.svelte`;
 
-        // handle blog posts:: /blog/3 -> src/content/posts/3.md
-        const blogMatch = path.match(/^\/blog\/(\d+)$/);
+        // handle blog posts:: /threejs-blog/3 -> src/content/posts/3.md
+        const blogMatch = path.match(/^\/threejs-blog\/(\d+)$/);
         if (blogMatch) {
             return `${REPO_URL}/tree/main/src/content/posts/${blogMatch[1]}.md`;
         }
@@ -34,7 +34,7 @@
                 }
             }
 
-            return `${REPO_URL}/tree/main/src/routes/blog/three-components/+page.svelte`;
+            return `${REPO_URL}/tree/main/src/routes/threejs-blog/three-components/+page.svelte`;
         }
 
         // handle multi-segment routes

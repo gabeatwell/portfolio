@@ -38,7 +38,7 @@
             <div class="title-wrapper">
                 <p class="post-index">{index + 1}</p>
                 <h2 class="title">
-                    <a href="/blog/{post.id}">{post.title}</a>
+                    <a href="/threejs-blog/{post.id}">{post.title}</a>
                 </h2>
             </div>
 
