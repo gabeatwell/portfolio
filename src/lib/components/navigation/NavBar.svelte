@@ -55,7 +55,7 @@
         </li>
         <li>
             <NavLink
-                href="/blog"
+                href="/threejs-blog"
                 title="Three.js"
                 index={3}
                 viewTransitionName="three-heading"
@@ -83,7 +83,11 @@
             <NavLink href="/learn" title="Learn the Web" onclick={closeMenu} />
         </li>
         <li>
-            <NavLink href="/blog" title="Learn Three.js" onclick={closeMenu} />
+            <NavLink
+                href="/threejs-blog"
+                title="Learn Three.js"
+                onclick={closeMenu}
+            />
         </li>
         <li><NavLink href="/hire" title="Hire Me" onclick={closeMenu} /></li>
         <li>

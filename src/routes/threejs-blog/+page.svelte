@@ -7,7 +7,7 @@
 
 <SEO
     title="Blog - Learn Three.js"
-    description="Learn Three.js with Gabriel Atwell's blog"
+    description="Learn Three.js Techniques"
     keywords="three.js blog, three.js tutorial, web development, gabe atwell blog, gabe three.js blog"
 />
 
@@ -16,7 +16,7 @@
 </h1>
 
 <aside class="examples-link">
-    <a href="/blog/three-components">
+    <a href="/threejs-blog/three-components">
         <h2 class="examples">examples</h2>
     </a>
 </aside>
@@ -25,7 +25,7 @@
     {#each posts as post, index (post.id)}
         <section class="complete-post">
             {#if post.image}
-                <a href="/blog/{post.id}">
+                <a href="/threejs-blog/{post.id}">
                     <img
                         class="post-image"
                         src={post.image}

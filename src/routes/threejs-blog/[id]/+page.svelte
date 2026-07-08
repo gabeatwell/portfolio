@@ -63,7 +63,7 @@
         </div>
     </section>
 
-    <a class="go-back" href="/blog">go back</a>
+    <a class="go-back" href="/threejs-blog">go back</a>
 {:else}
     <p class="not-found">Post not found..</p>
 {/if}
