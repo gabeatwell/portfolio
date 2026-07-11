@@ -14,7 +14,7 @@ interface Week {
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ fetch }) {
     try {
-        // GitHub GraphQL query to get contribution data
+        // graphql query to get contribution data
         const query = `
             query($username: String!, $from: DateTime!, $to: DateTime!) {
                 user(login: $username) {
@@ -34,7 +34,7 @@ export async function GET({ fetch }) {
             }
         `;
 
-        // Calculate date range (last year)
+        // date range (last year)
         const to = new Date();
         const from = new Date();
         from.setFullYear(to.getFullYear() - 1);
@@ -90,7 +90,9 @@ export async function GET({ fetch }) {
             },
             {
                 headers: {
-                    'Cache-Control': 'public, max-age=86400, s-maxage=86400', // 24 hours
+                    // browser: 30minutes - cdn: 6hour
+                    'Cache-Control':
+                        'public, max-age=1800, s-maxage=21600, stale-while-revalidate=300',
                 },
             },
         );
@@ -120,7 +122,7 @@ export async function GET({ fetch }) {
     }
 }
 
-// Fallback data generator (simplified version of your current mock data)
+// fallback data
 function generateFallbackData() {
     const weeks: Week[] = [];
     const today = new Date();
