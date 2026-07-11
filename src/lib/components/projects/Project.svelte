@@ -7,8 +7,8 @@
         title: string;
         img: {
             src: string;
-            srcset: string;
-            sizes: string;
+            srcset?: string;
+            sizes?: string;
         };
         url: string;
         description: string;

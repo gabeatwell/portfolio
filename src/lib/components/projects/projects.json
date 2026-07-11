@@ -52,19 +52,6 @@
         "url": "https://fake-store-products.vercel.app"
     },
     {
-        "id": "thinkflow",
-        "description": "sveltekit",
-        "img": {
-            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/think.flow.webp",
-            "srcset": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/think.flow-400w.webp 400w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/think.flow-800w.webp 800w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/think.flow.webp 470w",
-            "sizes": "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 403px"
-        },
-        "index": 5,
-        "summary": "Custom blog page where you can add, edit, and remove posts. It uses localStorage to save the posts, so they persist even after refreshing the page.",
-        "title": "think.flow",
-        "url": "https://thinkdotflow.vercel.app"
-    },
-    {
         "id": "passcraft",
         "description": "sveltekit",
         "img": {
@@ -76,5 +63,16 @@
         "summary": "If you're like me and have a hard time creating passwords, PassCraft is for you! It generates random passwords based on user input.",
         "title": "passcraft",
         "url": "https://make-a-password.vercel.app/"
+    },
+    {
+        "id": "go-http-server",
+        "description": "go",
+        "img": {
+            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/go-http.avif"
+        },
+        "index": 5,
+        "summary": "This is a reusable http server built in go. It uses the standard library only, environment based configuration,  and it also has graceful shutdown.",
+        "title": "go http server",
+        "url": "https://github.com/gabeatwell/go-http-server/"
     }
 ]
