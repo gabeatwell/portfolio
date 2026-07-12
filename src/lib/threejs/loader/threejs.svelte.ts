@@ -16,7 +16,7 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import gsap from 'gsap';
+import { gsap } from '$lib/data/gsap';
 
 export function setupLoader(canvas: HTMLCanvasElement) {
     let _loadingComplete = $state<boolean>(false);

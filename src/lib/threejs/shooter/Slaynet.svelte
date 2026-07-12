@@ -1,5 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
+    import { gsap } from '$lib/data/gsap';
     import HealthBar from './components/HealthBar.svelte';
     import GameOver from './components/GameOver.svelte';
     import Directions from './components/Directions.svelte';

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { tick } from 'svelte';
-    import gsap from 'gsap';
+    import { gsap } from '$lib/data/gsap';
 
     let element = $state<HTMLElement | undefined>();
     let active = $state(true);

@@ -1,6 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
-    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    import { gsap, ScrollTrigger } from '$lib/data/gsap';
     import HeroButton from '../hero/HeroButton.svelte';
     import projects from '$lib/components/projects/projects.json';
     import ProjectsGrid from '../../ProjectsGrid.svelte';

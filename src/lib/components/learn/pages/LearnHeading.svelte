@@ -1,5 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
+    import { gsap } from '$lib/data/gsap';
 
     interface Props {
         title1: string;

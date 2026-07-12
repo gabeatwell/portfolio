@@ -1,6 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
-    import { SplitText } from 'gsap/SplitText';
+    import { gsap, SplitText } from '$lib/data/gsap';
     import { goto } from '$app/navigation';
 
     interface Props {

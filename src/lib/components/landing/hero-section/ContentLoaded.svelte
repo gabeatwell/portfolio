@@ -1,5 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
+    import { gsap } from '$lib/data/gsap';
 
     let sections = $state<HTMLElement[]>([]);
     let loader = $state<HTMLElement | null>(null);

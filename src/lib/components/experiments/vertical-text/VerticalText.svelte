@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount, tick } from 'svelte';
     import { browser } from '$app/environment';
-    import gsap from 'gsap';
+    import { gsap } from '$lib/data/gsap';
 
     interface Props {
         text?: string;

@@ -1,6 +1,6 @@
 <script lang="ts">
     import Image from '$lib/components/layout/Image.svelte';
-    import gsap from 'gsap';
+    import { gsap } from '$lib/data/gsap';
 
     interface Props {
         src: string;

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import gsap from 'gsap';
-    import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
+    import { gsap, MorphSVGPlugin } from '$lib/data/gsap';
 
+    // oxlint-disable-next-line no-unassigned-vars
     let svgElement: HTMLDivElement;
 
     $effect(() => {

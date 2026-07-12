@@ -1,7 +1,6 @@
 <script lang="ts">
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
-    import gsap from 'gsap';
-    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    import { gsap, ScrollTrigger } from '$lib/data/gsap';
     import { beforeNavigate } from '$app/navigation';
     import Testimonial from '$lib/components/projects/Testimonial.svelte';
     import projects from '$lib/components/projects/projects.json';

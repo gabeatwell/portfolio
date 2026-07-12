@@ -1,7 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
-    import { SplitText } from 'gsap/SplitText';
-    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    import { gsap, ScrollTrigger, SplitText } from '$lib/data/gsap';
     import AboutHeroParallax from './AboutHeroParallax.svelte';
 
     interface Props {

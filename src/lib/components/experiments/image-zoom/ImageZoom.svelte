@@ -1,6 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
-    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    import { gsap, ScrollTrigger } from '$lib/data/gsap';
 
     $effect(() => {
         gsap.registerPlugin(ScrollTrigger);

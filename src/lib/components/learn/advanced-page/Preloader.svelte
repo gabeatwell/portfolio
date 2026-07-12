@@ -1,5 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
+    import { gsap } from '$lib/data/gsap';
     import { getPreloaderState } from '$lib/data/stores/preloadStore.svelte';
 
     let preloaderVisible: boolean = $state<boolean>(true);

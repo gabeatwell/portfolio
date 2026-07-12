@@ -1,5 +1,5 @@
 <script lang="ts">
-    import gsap from 'gsap';
+    import { gsap } from '$lib/data/gsap';
     import { fade } from 'svelte/transition';
 
     let duration = $state<number>(300);

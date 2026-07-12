@@ -1,8 +1,7 @@
 <script lang="ts">
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
     import { goto } from '$app/navigation';
-    import gsap from 'gsap';
-    import { SplitText } from 'gsap/SplitText';
+    import { gsap, SplitText } from '$lib/data/gsap';
 
     interface Props {
         firstTitle?: string;

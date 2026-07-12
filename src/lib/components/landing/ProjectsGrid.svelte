@@ -2,7 +2,7 @@
     interface Props {
         projects?: {
             url: string;
-            img: { src: string; srcset: string; sizes: string };
+            img: { src: string; srcset?: string; sizes?: string };
             title: string;
         }[];
     }

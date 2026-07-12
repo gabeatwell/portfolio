@@ -10,8 +10,7 @@
     import PWAInstall from '$lib/components/about/pwa-popovers/PWAInstall.svelte';
     import PWAVideo from '$lib/components/about/pwa-popovers/PWAVideo.svelte';
 
-    import gsap from 'gsap';
-    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    import { gsap, ScrollTrigger } from '$lib/data/gsap';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
 
     const breakpoints = getBreakpoints();

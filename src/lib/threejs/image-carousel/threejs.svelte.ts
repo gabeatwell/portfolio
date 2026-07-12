@@ -1,5 +1,5 @@
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import gsap from 'gsap';
+import { gsap } from '$lib/data/gsap';
 import {
     Color,
     DoubleSide,
