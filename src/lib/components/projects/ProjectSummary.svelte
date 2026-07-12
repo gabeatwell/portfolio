@@ -126,7 +126,7 @@
         }
 
         & [data-summary-content] {
-            min-inline-size: 85%;
+            min-inline-size: 40%;
 
             & .popover-inner {
                 position: relative;
@@ -197,7 +197,7 @@
             letter-spacing: 2px;
             padding: clamp(1rem, 2vw, 2.25rem) clamp(1.5rem, 2vw, 2.75rem);
             color: var(--clr-light-500);
-            max-inline-size: 60%;
+            max-inline-size: 40%;
             overflow-y: auto;
             border: 1px solid var(--clr-gray-700);
 
