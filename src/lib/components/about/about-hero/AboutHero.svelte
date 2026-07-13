@@ -19,8 +19,6 @@
         });
 
         mm.add('(prefers-reduced-motion: no-preference)', () => {
-            gsap.registerPlugin(SplitText, ScrollTrigger);
-
             const split = new SplitText('#title', { type: 'chars' });
             const titleElement = document.getElementById('title');
             const isMobile = window.innerWidth <= 768;

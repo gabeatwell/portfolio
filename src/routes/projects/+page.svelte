@@ -67,7 +67,6 @@
         });
 
         mm.add('(prefers-reduced-motion: no-preference)', () => {
-            gsap.registerPlugin(ScrollTrigger);
             ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
             if (prefersReducedMotion) {

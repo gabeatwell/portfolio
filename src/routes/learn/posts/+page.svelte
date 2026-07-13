@@ -52,8 +52,6 @@
 
             if (breakpoints.isReduced) return;
 
-            gsap.registerPlugin(ScrollTrigger);
-
             const ctx = gsap.context(() => {
                 const paragraphs = document.querySelectorAll('.content p');
                 const codeBlocks = document.querySelectorAll('pre');

@@ -15,7 +15,6 @@
 
     // gsap
     $effect(() => {
-        gsap.registerPlugin(ScrollTrigger);
         const mm = gsap.matchMedia();
 
         mm.add('(prefers-reduced-motion: no-preference)', () => {

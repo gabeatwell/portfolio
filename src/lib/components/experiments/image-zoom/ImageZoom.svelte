@@ -2,8 +2,6 @@
     import { gsap, ScrollTrigger } from '$lib/data/gsap';
 
     $effect(() => {
-        gsap.registerPlugin(ScrollTrigger);
-
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: '.wrapper',

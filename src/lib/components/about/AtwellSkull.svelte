@@ -9,8 +9,6 @@
         if (!browser) return;
 
         $effect(() => {
-            gsap.registerPlugin(ScrollTrigger);
-
             const skull = document.getElementById('skull');
             const isMobile = breakpoints.isMobile;
             const start = isMobile ? 'top 60%' : 'top 80%';

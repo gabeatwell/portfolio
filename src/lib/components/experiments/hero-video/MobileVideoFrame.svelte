@@ -67,8 +67,6 @@
 
     // gsap
     $effect(() => {
-        gsap.registerPlugin(SplitText);
-
         const textContent = document.querySelector('.text-content');
         const smartphone = document.querySelector('.smartphone');
 

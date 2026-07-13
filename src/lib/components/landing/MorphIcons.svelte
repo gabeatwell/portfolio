@@ -2,8 +2,6 @@
     import { gsap, MorphSVGPlugin } from '$lib/data/gsap';
 
     $effect(() => {
-        gsap.registerPlugin(MorphSVGPlugin);
-
         const morphTween = gsap.to('#website', {
             morphSVG: '#help  ',
             duration: 2.5,

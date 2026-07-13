@@ -2,8 +2,6 @@
     import { gsap, MorphSVGPlugin } from '$lib/data/gsap';
 
     $effect(() => {
-        gsap.registerPlugin(MorphSVGPlugin);
-
         const mm = gsap.matchMedia();
 
         mm.add('(prefers-reduced-motion: no-preference)', () => {

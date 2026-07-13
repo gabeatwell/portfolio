@@ -25,8 +25,6 @@
         const subWords = document.querySelectorAll<HTMLElement>('.sub-word');
         if (!subWords.length) return;
 
-        gsap.registerPlugin(ScrollTrigger);
-
         gsap.set(subWords, { scale: 0, y: 20 });
 
         const tl = gsap.timeline({

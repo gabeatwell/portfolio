@@ -29,8 +29,6 @@
     }
 
     $effect(() => {
-        gsap.registerPlugin(SplitText);
-
         const split = new SplitText('.hero-title', { type: 'chars' });
 
         const tl = gsap.timeline();

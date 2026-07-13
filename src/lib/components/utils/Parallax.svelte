@@ -4,8 +4,6 @@
     let imageElement = $state<HTMLDivElement | null>(null);
 
     $effect(() => {
-        gsap.registerPlugin(ScrollTrigger);
-
         const parallaxImage = document.querySelector('.parallax-image');
 
         gsap.from(parallaxImage, {

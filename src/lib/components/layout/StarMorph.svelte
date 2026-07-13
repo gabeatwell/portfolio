@@ -5,8 +5,6 @@
     let svgElement: HTMLDivElement;
 
     $effect(() => {
-        gsap.registerPlugin(MorphSVGPlugin);
-
         const tl = gsap.timeline();
 
         tl.to('.shape1', {
