@@ -84,7 +84,7 @@
         & [data-description-right] {
             line-height: 1.35;
             text-align: start;
-            font-size: clamp(var(--h6), 1.75vw, var(--h3));
+            font-size: clamp(var(--h6), 1.5vw, var(--h3));
             color: var(--clr-light-500);
             margin-top: -1rem;
             hyphens: auto;

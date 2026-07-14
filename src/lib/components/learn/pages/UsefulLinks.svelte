@@ -51,8 +51,8 @@
         <LoadBtn
             loading="loading..."
             delay={1500}
-            submit="MDN"
-            href="https://developer.mozilla.org/"
+            submit="GoFlow"
+            href="https://bytesizego.com/goflow-landing/"
         />
     </div>
 
