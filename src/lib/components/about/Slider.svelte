@@ -13,27 +13,13 @@
     const typedSkills: Skill[] = skills;
 
     let isPaused = $state(false);
-    let position = $state(0);
 
     const duplicatedSkills = [...typedSkills, ...typedSkills];
 
     const breakpoints = getBreakpoints();
-    let speed = $derived(
-        breakpoints.isReduced ? 0.008 : breakpoints.isMobile ? 0.035 : 0.02,
+    let duration = $derived(
+        breakpoints.isReduced ? '120s' : breakpoints.isMobile ? '30s' : '50s',
     );
-
-    $effect(() => {
-        if (!browser || isPaused) return;
-
-        const interval = setInterval(() => {
-            position += speed;
-            if (position >= 50) {
-                position = 0;
-            }
-        }, 16);
-
-        return () => clearInterval(interval);
-    });
 </script>
 
 <div class="slider-wrapper">
@@ -45,7 +31,7 @@
         role="region"
         aria-label="skills-carousel"
     >
-        <div class="slider-track" style="transform: translateX(-{position}%);">
+        <div class="slider-track" style="animation-duration: {duration};">
             {#each duplicatedSkills as skill, i (i)}
                 <a
                     href={skill.href}
@@ -123,8 +109,8 @@
 
             & .slider-track {
                 display: flex;
-                gap: 3em;
                 will-change: transform;
+                animation: scroll 75s linear infinite;
 
                 & .slide {
                     flex-shrink: 0;
@@ -133,6 +119,8 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    padding-inline: 1.5em;
+                    box-sizing: content-box;
                     transition: transform 0.3s ease;
 
                     &:focus {
