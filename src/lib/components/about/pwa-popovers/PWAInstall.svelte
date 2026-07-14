@@ -94,7 +94,6 @@
 
         & [popover] {
             margin-inline: auto;
-            margin-block: 5em;
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 5vw, var(--h3));
             letter-spacing: 2px;
@@ -115,32 +114,54 @@
         border-radius: 0.5rem;
         box-shadow: var(--blackest) 0px 20px 25px -5px;
         padding: 1rem 1.5rem;
+        transform-origin: center center;
+
+        position: fixed;
+        inset-inline: 0;
+        margin-inline: auto;
+        top: 5em;
+        inline-size: 80%;
+
+        /* close state */
         display: none;
         opacity: 0;
-        transform: translateY(-5rem);
-        transition: all 0.5s allow-discrete;
+        transform: translateY(2rem);
+        scale: 0;
+        overlay: none;
+
+        transition:
+            opacity 0.5s allow-discrete,
+            transform 0.5s allow-discrete,
+            display 0.5s allow-discrete,
+            scale 0.5s allow-discrete,
+            overlay 0.5s allow-discrete;
     }
 
+    /* open state */
     [popover]:popover-open {
         display: block;
         opacity: 1;
+        scale: 1;
         transform: translateY(0);
+        overlay: auto;
     }
 
+    /* --- entry animation --- */
     @starting-style {
         [popover]:popover-open {
-            display: block;
             opacity: 0;
+            scale: 0;
             transform: translateY(2rem);
         }
     }
 
+    /* backdrop */
     [popover]::backdrop {
         background-color: rgb(0 0 0 / 0%);
         transition:
             display 0.5s allow-discrete,
             overlay 0.5s allow-discrete,
-            background-color 0.5s;
+            background-color 0.5s ease-out;
     }
 
     [popover]:popover-open::backdrop {
@@ -153,6 +174,7 @@
         }
     }
 
+    /* title transition */
     ::view-transition-group(pwa-title) {
         animation-duration: 0.5s;
         animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
