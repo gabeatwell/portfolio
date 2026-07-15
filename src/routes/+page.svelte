@@ -27,7 +27,7 @@
 <SEO
     title="Welcome to Gabe Atwell's Portfolio"
     description="Gabriel Atwell's Portfolio"
-    keywords="gabriel atwell frontend developer, gabe atwell frontend developer, gabriel atwell web designer, gabe atwell web designer, atwell design, atwell ui, atwell dev, atwell.dev gabriel atwell portfolio, gabe atwell portfolio, las vegas web designer, las vegas web developer, responsive website development, user-centered ui/ux design, custom web design services, las vegas custom web design, las vegas responsive web design, las vegas user-centered design, las vegas ui/ux design, las vegas website development, las vegas web development services, las vegas frontend development, las vegas frontend developer, las vegas web designer and developer, atwell, gabe"
+    keywords="gabriel atwell, gabe atwell, web designer,atwell design, atwell ui, atwell dev, gabe atwell portfolio, las vegas web designer, las vegas web developer, atwell ui/ux design, custom web design services, las vegas custom web design, las vegas ui/ux design, las vegas website development, atwell, gabe"
 />
 
 {#if Hero}
