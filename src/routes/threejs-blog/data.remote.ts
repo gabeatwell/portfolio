@@ -40,7 +40,7 @@ function extractImage(content: string): string | undefined {
 }
 
 export const getPosts = prerender(async (): Promise<Post[]> => {
-    const modules = import.meta.glob('/src/content/posts/*.md', {
+    const modules = import.meta.glob('/src/content/threejs/*.md', {
         query: '?raw',
         import: 'default',
         eager: true,
@@ -75,7 +75,7 @@ export const getPosts = prerender(async (): Promise<Post[]> => {
 export const getPost = prerender(
     v.number(),
     async (id): Promise<Post | null> => {
-        const modules = import.meta.glob('/src/content/posts/*.md', {
+        const modules = import.meta.glob('/src/content/threejs/*.md', {
             query: '?raw',
             import: 'default',
             eager: true,

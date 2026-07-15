@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            {#if breakpoints.isDesktop}
+            {#if !breakpoints.isMobile}
                 <Slider />
             {:else}
                 <Skills />
