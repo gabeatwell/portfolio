@@ -1,0 +1,33 @@
+h2 {
+    font-family: var(--thunder);
+    font-size: clamp(var(--h5), 2.5vw, var(--h2));
+    font-weight: 800;
+}
+
+pre,
+code {
+    --code-background-color: var(--clr-dark-500);
+}
+
+.geometry-grid {
+    column-count: 3;
+    column-gap: 1.5em;
+    margin-bottom: 2em;
+
+    @media (max-width: 768px) {
+        column-count: 1;
+    }
+}
+
+a {
+    font-weight: 700;
+}
+
+.post-content ul li {
+    list-style-type: circle;
+}
+
+.blog-post ::view-transition-group(*) {
+    animation-duration: 0.75s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
