@@ -7,7 +7,7 @@ export const getContributions = prerender(async () => {
         const query = `
             query($username: String!, $from: DateTime!, $to: DateTime!) {
                 user(login: $username) {
-                    contributionsCollection(from: $from, to: $to) {
+                    contributionsCollection(from: $from, to: $to, includeAllCommits: true) {
                         contributionCalendar {
                             totalContributions
                             weeks {
