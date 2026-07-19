@@ -20,7 +20,13 @@
 
     <ul>
         {#each posts as post, index (post.id)}
-            <li><a href="/go-blog/{post.id}">{post.title}</a></li>
+            <li>
+                <a
+                    href="/go-blog/{post.id}"
+                    style="view-transition-name: go-title-{post.id}"
+                    >{post.title}</a
+                >
+            </li>
         {/each}
     </ul>
 </aside>
@@ -76,7 +82,7 @@
                     &:focus-visible {
                         background-color: transparent;
                         box-shadow: none;
-                        outline: 1px solid var(--clr-light-500);
+                        outline: none;
                     }
                 }
             }

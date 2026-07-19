@@ -30,10 +30,16 @@
     );
 
     function addHtmlTransitionName(html: string, postId: number): string {
-        return html.replace(
+        let result = html.replace(
             'img',
             `img style="view-transition-name: blog-image-${postId};"`,
         );
+
+        result = result.replace(
+            'h1',
+            `h1 style="view-transition-name: go-title-${postId};"`,
+        );
+        return result;
     }
 </script>
 
