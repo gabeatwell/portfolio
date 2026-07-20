@@ -32,6 +32,7 @@
             <Title
                 img="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/Svelte-Dark.svg"
                 width="40vw"
+                scaleY={1.5}
                 title="SvelteKit Framework"
                 viewTransitionName="sveltekit-logo"
                 viewTransitionClass="sveltekit-logo-transition"
@@ -69,10 +70,11 @@
     .learn-svelte {
         & .title-spacing {
             margin-top: 3em;
-            margin-bottom: 6em;
+            margin-bottom: 0;
 
             @media (width <= 768px) {
-                margin-bottom: 5em;
+                margin-top: 0;
+                margin-bottom: 6em;
             }
         }
 
@@ -80,6 +82,7 @@
             & .center-detail {
                 max-inline-size: 90vw;
                 margin-inline: auto;
+                margin-top: calc(-1 * 8em);
 
                 :global(details) {
                     position: relative;

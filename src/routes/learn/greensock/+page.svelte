@@ -33,7 +33,7 @@
                 img="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/GSAP-Dark.svg"
                 width="50vw"
                 title="Greensock Animation Platform"
-                scaleY={2.6}
+                scaleY={2.8}
                 viewTransitionName="gsap-logo"
             />
         </div>
@@ -66,10 +66,11 @@
     .learn-gsap {
         & .title-spacing {
             margin-top: 5em;
-            margin-bottom: 6em;
+            margin-bottom: 0;
 
             @media (width <= 768px) {
-                margin-bottom: 5em;
+                margin-top: 0;
+                margin-bottom: 6em;
             }
         }
 
@@ -77,7 +78,7 @@
             & .center-detail {
                 max-inline-size: 90vw;
                 margin-inline: auto;
-                padding-top: 4em;
+                margin-top: calc(-1 * 8em);
 
                 :global(details) {
                     position: relative;

@@ -48,6 +48,7 @@
                     </svg>
                 </span>
             </button>
+
             <div
                 id="content-{index}"
                 class="text"
@@ -87,8 +88,8 @@
             color: var(--clr-blue-350);
             cursor: pointer;
             font-weight: 600;
-            background: none;
-            width: 100%;
+            background: var(--clr-dark-500);
+            inline-size: 100%;
             text-align: start;
             display: flex;
             justify-content: space-between;
