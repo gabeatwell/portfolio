@@ -21,6 +21,7 @@
             stroke="currentColor"
             stroke-width="2"
         >
+            <title>open menu</title>
             <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
     </button>
@@ -232,12 +233,20 @@
         align-items: center;
         flex-shrink: 0;
 
+        @media (width <= 1465px) {
+            top: 2em;
+        }
+
+        @media (width <= 1150px) {
+            top: 2.5em;
+        }
+
         @media (width <= 1080px) {
             top: 3em;
         }
 
         @media (width <= 990px) {
-            top: 4em;
+            top: 3em;
         }
 
         @media (width <= 768px) {
@@ -306,11 +315,12 @@
                 margin: 0;
 
                 & dt {
-                    color: var(--clr-dark-500);
+                    color: var(--clr-light-500);
                     font-size: clamp(var(--h6), 1.5vw, var(--h4));
                     font-weight: 200;
                     margin: 0 0 0.2em 0;
                     text-align: center;
+                    opacity: 0.5;
                 }
 
                 & dd {
