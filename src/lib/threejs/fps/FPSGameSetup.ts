@@ -53,9 +53,15 @@ export class FPSGame {
     private boundOnKeyDown: (e: KeyboardEvent) => void = () => {};
     private boundOnKeyUp: (e: KeyboardEvent) => void = () => {};
     private boundOnMouseDown: (e: MouseEvent) => void = () => {};
+    private boundOnMouseUp: (e: MouseEvent) => void = () => {};
     private boundOnResize: () => void = () => {};
     private gunModel: Object3D | null = null;
     private muzzleOffset = new Vector3(0.35, -0.35, -0.8);
+
+    // --- Aim down sights ---
+    private isAiming = false;
+    private defaultFov = 75;
+    private aimFov = 40;
 
     // --- Mobile touch controls ---
     private mobileMode = false;
@@ -245,13 +251,22 @@ export class FPSGame {
         this.boundOnKeyUp = (e: KeyboardEvent) => this.onKeyChange(e, false);
         this.boundOnMouseDown = (e: MouseEvent) => {
             if (e.button === 0 && this.controls.isLocked) this.shoot();
+            if (e.button === 2 && this.controls.isLocked) this.isAiming = true;
+        };
+        this.boundOnMouseUp = (e: MouseEvent) => {
+            if (e.button === 2) this.isAiming = false;
         };
         this.boundOnResize = () => this.onResize();
+
+        // Store default FOV for aim zoom
+        this.defaultFov = this.camera.fov;
 
         // --- Input ---
         document.addEventListener('keydown', this.boundOnKeyDown);
         document.addEventListener('keyup', this.boundOnKeyUp);
         document.addEventListener('mousedown', this.boundOnMouseDown);
+        document.addEventListener('mouseup', this.boundOnMouseUp);
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
         window.addEventListener('resize', this.boundOnResize);
 
         this.animate();
@@ -481,6 +496,12 @@ export class FPSGame {
         }
 
         this.fpsPlayer.update();
+
+        // ─── Aim zoom (smooth interpolation) ──────────────
+        const targetFov = this.isAiming ? this.aimFov : this.defaultFov;
+        this.camera.fov += (targetFov - this.camera.fov) * 0.12;
+        this.camera.updateProjectionMatrix();
+
         if (this.started) {
             this.enemyManager.update(dt);
             this.combatManager.update(dt);
@@ -529,6 +550,7 @@ export class FPSGame {
         document.removeEventListener('keydown', this.boundOnKeyDown);
         document.removeEventListener('keyup', this.boundOnKeyUp);
         document.removeEventListener('mousedown', this.boundOnMouseDown);
+        document.removeEventListener('mouseup', this.boundOnMouseUp);
         window.removeEventListener('resize', this.boundOnResize);
         if (this.gunModel) {
             this.scene.remove(this.gunModel);
