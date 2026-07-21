@@ -65,13 +65,16 @@ export class FPSBuilding {
 
             placed.add(cellKey);
 
-            const radius = Math.max(w, d) / 2 + 0.5;
-            const ceil = Math.ceil(radius);
-            for (let dx = -ceil; dx <= ceil; dx++) {
-                for (let dz = -ceil; dz <= ceil; dz++) {
-                    if (Math.hypot(dx, dz) <= radius) {
-                        occupiedCells.add(`${cellX + dx},${cellZ + dz}`);
-                    }
+            // Mark only cells that the building geometry actually covers
+            const halfW = w / 2;
+            const halfD = d / 2;
+            const colStart = Math.floor(cellX - halfW);
+            const colEnd = Math.floor(cellX + halfW);
+            const rowStart = Math.floor(cellZ - halfD);
+            const rowEnd = Math.floor(cellZ + halfD);
+            for (let col = colStart; col <= colEnd; col++) {
+                for (let row = rowStart; row <= rowEnd; row++) {
+                    occupiedCells.add(`${col},${row}`);
                 }
             }
         }

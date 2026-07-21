@@ -1156,9 +1156,21 @@ export class FPSEnemy extends Object3D {
 
     private isBlockedPosition(x: number, z: number): boolean {
         if (!this.world?.buildingCells) return false;
-        return this.world.buildingCells.has(
-            `${Math.floor(x)},${Math.floor(z)}`,
-        );
+        // Check all cells within the enemy's hitbox radius
+        const r = Math.ceil(this.hitboxRadius);
+        for (let dx = -r; dx <= r; dx++) {
+            for (let dz = -r; dz <= r; dz++) {
+                if (Math.hypot(dx, dz) > this.hitboxRadius) continue;
+                if (
+                    this.world.buildingCells.has(
+                        `${Math.floor(x + dx)},${Math.floor(z + dz)}`,
+                    )
+                ) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private clampToWorldBounds(): void {

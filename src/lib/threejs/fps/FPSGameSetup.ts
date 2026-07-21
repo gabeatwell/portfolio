@@ -146,16 +146,15 @@ export class FPSGame {
         if (this.world.buildings) {
             this.world.remove(this.world.buildings);
         }
-        const buildingCells = new Set<string>();
+        // Clear leftover cells from the World's own building generation
+        // (those buildings were visually removed, so their cells are phantom blockers)
+        this.world.buildingCells.clear();
         this.buildings = await FPSBuilding.createBuildings(
             50,
             50,
             8,
-            buildingCells,
+            this.world.buildingCells,
         );
-        for (const cell of buildingCells) {
-            this.world.buildingCells.add(cell);
-        }
         this.scene.add(this.buildings);
 
         // --- FPS Player ---
@@ -289,6 +288,48 @@ export class FPSGame {
         this.combatManager.shoot(dir, spawnPos);
     }
 
+    /** Check if a position (with hitbox radius) overlaps any building cell */
+    private isBlockedPosition(
+        x: number,
+        z: number,
+        radius: number = 0.5,
+    ): boolean {
+        if (!this.world?.buildingCells) return false;
+        const r = Math.ceil(radius);
+        for (let dx = -r; dx <= r; dx++) {
+            for (let dz = -r; dz <= r; dz++) {
+                if (Math.hypot(dx, dz) > radius) continue;
+                if (
+                    this.world.buildingCells.has(
+                        `${Math.floor(x + dx)},${Math.floor(z + dz)}`,
+                    )
+                ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /** Move player with building collision (axis-separated for wall sliding) */
+    private movePlayerWithCollision(dx: number, dz: number): void {
+        const radius = this.fpsPlayer.getHitboxRadius();
+        const px = this.fpsPlayer.position.x;
+        const pz = this.fpsPlayer.position.z;
+
+        // Try X movement independently
+        const nx = px + dx;
+        if (!this.isBlockedPosition(nx, pz, radius)) {
+            this.fpsPlayer.position.x = nx;
+        }
+
+        // Try Z movement independently
+        const nz = pz + dz;
+        if (!this.isBlockedPosition(px, nz, radius)) {
+            this.fpsPlayer.position.z = nz;
+        }
+    }
+
     private animate() {
         this.animationFrameId = requestAnimationFrame(() => this.animate());
 
@@ -326,8 +367,9 @@ export class FPSGame {
             this.direction.normalize();
 
             const speed = 5;
-            this.fpsPlayer.position.add(
-                this.direction.multiplyScalar(speed * dt),
+            this.movePlayerWithCollision(
+                this.direction.x * speed * dt,
+                this.direction.z * speed * dt,
             );
 
             // Auto-shoot when crosshair is on an enemy
@@ -353,8 +395,9 @@ export class FPSGame {
             this.direction.normalize();
 
             const speed = this.isRunning ? 8 : 5;
-            this.fpsPlayer.position.add(
-                this.direction.multiplyScalar(speed * dt),
+            this.movePlayerWithCollision(
+                this.direction.x * speed * dt,
+                this.direction.z * speed * dt,
             );
         }
 
