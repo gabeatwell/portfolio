@@ -3,6 +3,7 @@ import { FPSEnemy } from './FPSEnemy';
 import { EnemyArchetype, getRandomArchetype } from './EnemyArchetypes';
 import type { Projectile } from '../../shooter/combat/Projectile';
 import type { World } from '../../shooter/world';
+import type { ModelSize } from '../FPSModelLoader';
 
 /**
  * Squad order types for coordinated enemy behavior.
@@ -47,11 +48,29 @@ export class FPSEnemyManager extends Object3D {
     private squadInterval: number = 3; // re-evaluate tactics every 3s
     private currentOrder: SquadOrder = 'assault';
 
-    constructor(player: Object3D, world: World, scene: Scene) {
+    /** Pre-loaded GLTF scenes */
+    private enemyModel: Object3D;
+    private bossModel: Object3D;
+    private enemySize: ModelSize;
+    private bossSize: ModelSize;
+
+    constructor(
+        player: Object3D,
+        world: World,
+        scene: Scene,
+        enemyModel: Object3D,
+        bossModel: Object3D,
+        enemySize: ModelSize,
+        bossSize: ModelSize,
+    ) {
         super();
         this.player = player;
         this.world = world;
         this.scene = scene;
+        this.enemyModel = enemyModel;
+        this.bossModel = bossModel;
+        this.enemySize = enemySize;
+        this.bossSize = bossSize;
     }
 
     /** Set the buildings group for obstacle/LOS checks on enemies */
@@ -142,6 +161,10 @@ export class FPSEnemyManager extends Object3D {
             type,
             this.obstacles,
             isBoss,
+            this.enemyModel,
+            this.bossModel,
+            this.enemySize,
+            this.bossSize,
         );
         this.enemies.push(enemy);
         this.scene.add(enemy);

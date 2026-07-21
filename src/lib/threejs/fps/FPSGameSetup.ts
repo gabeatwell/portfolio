@@ -1,5 +1,4 @@
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {
     Scene,
     PerspectiveCamera,
@@ -24,6 +23,7 @@ import { FPSEnemyManager } from './enemy/FPSEnemyManager';
 import { FPSBuilding } from './buildings/FPSBuilding';
 import { FPSCombatManager } from './combat/FPSCombatManager';
 import { FPSAmmoBrick } from './combat/FPSAmmoBricks';
+import { preloadModels, createLoader } from './FPSModelLoader';
 
 export class FPSGame {
     scene!: Scene;
@@ -142,29 +142,35 @@ export class FPSGame {
         await this.world.generate();
         this.scene.add(this.world);
 
+        // ─── Pre-load GLTF models from CDN in parallel ──────
+        const gltfLoader = createLoader();
+        const modelPromise = preloadModels(gltfLoader);
+
         // Swap GLTF buildings for simple boxes
         if (this.world.buildings) {
             this.world.remove(this.world.buildings);
         }
         // Clear leftover cells from the World's own building generation
-        // (those buildings were visually removed, so their cells are phantom blockers)
         this.world.buildingCells.clear();
-        this.buildings = await FPSBuilding.createBuildings(
+
+        // Wait for models to arrive, then create buildings
+        const models = await modelPromise;
+        this.buildings = FPSBuilding.createBuildings(
             50,
             50,
             8,
             this.world.buildingCells,
+            models.buildings,
         );
         this.scene.add(this.buildings);
 
         // --- FPS Player ---
         this.fpsPlayer = new FPSPlayer();
         this.fpsPlayer.rotation.y = Math.PI;
-        this.fpsPlayer.position.set(5.5, 0, 5.5);
+        this.spawnPlayer();
         this.scene.add(this.fpsPlayer);
 
         // --- Gun Model (async callback — doesn't hold up init) ---
-        const gltfLoader = new GLTFLoader();
         gltfLoader.load(
             '/threejayess/models/ray_gun.glb',
             (gltf) => {
@@ -193,10 +199,11 @@ export class FPSGame {
         // HemisphereLight gives a natural sky/ground fill
         const hemi = new HemisphereLight(0x87ceeb, 0x362d25, 0.8);
         this.scene.add(hemi);
-        const ambient = new AmbientLight(0xffffff, 0.4);
+        const ambient = new AmbientLight(0xffffff, 0.55);
         this.scene.add(ambient);
-        const sun = new DirectionalLight(0xffffff, 1.2);
+        const sun = new DirectionalLight(0xffffff, 1.4);
         sun.position.set(10, 20, 10);
+        sun.castShadow = true;
         this.scene.add(sun);
         // Extra light near player so the gun is always lit
         const playerLight = new PointLight(0xffffff, 0.8, 10);
@@ -211,12 +218,16 @@ export class FPSGame {
 
         // --- AI Combat & Enemies ---
         this.combatManager = new FPSCombatManager(this.fpsPlayer, this.scene);
-        this.combatManager.setPlayerAmmo(50);
+        this.combatManager.setPlayerAmmo(100);
 
         this.enemyManager = new FPSEnemyManager(
             this.fpsPlayer,
             this.world,
             this.scene,
+            models.enemy,
+            models.boss,
+            models.enemySize,
+            models.bossSize,
         );
         this.enemyManager.setObstacles(this.obstacles);
         this.scene.add(this.enemyManager);
@@ -327,6 +338,35 @@ export class FPSGame {
         const nz = pz + dz;
         if (!this.isBlockedPosition(px, nz, radius)) {
             this.fpsPlayer.position.z = nz;
+        }
+    }
+
+    /** Place the player at a valid (non-blocked) position near the origin */
+    private spawnPlayer(): void {
+        const radius = this.fpsPlayer.getHitboxRadius();
+        // Try the intended position first
+        const candidates = [
+            { x: 5.5, z: 5.5 },
+            { x: 7, z: 7 },
+            { x: 4, z: 4 },
+            { x: 3, z: 3 },
+            { x: 8, z: 5 },
+            { x: 5, z: 8 },
+        ];
+        for (const c of candidates) {
+            if (!this.isBlockedPosition(c.x, c.z, radius)) {
+                this.fpsPlayer.position.set(c.x, 0, c.z);
+                return;
+            }
+        }
+        // Last resort — scan outward from 0,0
+        for (let x = 2; x < 48; x += 2) {
+            for (let z = 2; z < 48; z += 2) {
+                if (!this.isBlockedPosition(x, z, radius)) {
+                    this.fpsPlayer.position.set(x, 0, z);
+                    return;
+                }
+            }
         }
     }
 

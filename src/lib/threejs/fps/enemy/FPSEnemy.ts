@@ -7,6 +7,7 @@ import {
     SphereGeometry,
     Color,
 } from 'three';
+import type { ModelSize } from '../FPSModelLoader';
 import type { World } from '../../shooter/world';
 import { EnemyFSM, EnemyState } from './EnemyStateMachine';
 import { AIPerception } from './AIPerception';
@@ -78,13 +79,19 @@ export class FPSEnemy extends Object3D {
     /** Duration (seconds) before the enemy becomes fully active */
     private readonly spawnIdleDuration: number = 0.8;
 
-    // ─── Visual ──────────────────────────────────────────────
-    private body: Mesh;
-    private head: Mesh;
-    private readonly originalBodyColor: number;
-    private readonly originalHeadColor: number;
+    // ─── Visual (box fallback) ────────────────────────────────
+    private body: Mesh | null = null;
+    private head: Mesh | null = null;
+    private readonly originalBodyColor: number = 0;
+    private readonly originalHeadColor: number = 0;
     private flashTimer: number = 0;
     private readonly flashDuration: number = 0.08;
+
+    // ─── Visual (GLTF model) ─────────────────────────────────
+    /** Root of the cloned GLTF model (if using model instead of box/head) */
+    private modelRoot: Object3D | null = null;
+    /** Cached mesh children of the model for hit-flash traversal */
+    private modelMeshes: { mesh: Mesh; originalColor: number }[] = [];
 
     // ─── Death ────────────────────────────────────────────────
     private deathTimer: number = 0;
@@ -121,6 +128,12 @@ export class FPSEnemy extends Object3D {
         archetype: EnemyArchetype = EnemyArchetype.Grunt,
         obstacles: Object3D[] = [],
         isBoss: boolean = false,
+        /** Pre-loaded GLTF scene for normal enemies */
+        private enemyModel?: Object3D,
+        /** Pre-loaded GLTF scene for the boss (Bob the Tomato) */
+        private bossModel?: Object3D,
+        private enemySize?: ModelSize,
+        private bossSize?: ModelSize,
     ) {
         super();
         this.enemyId = FPSEnemy.nextEnemyId++;
@@ -149,31 +162,73 @@ export class FPSEnemy extends Object3D {
         // Initialize player position tracking to prevent hearing spike on first frame
         this.lastPlayerPos.copy(this.player.position);
 
-        // ─── Meshes ──────────────────────────────────────────
+        // ─── Meshes or GLTF Model ───────────────────────────
         const bossScale = isBoss ? 2.0 : 1.0;
-        const bodyGeo = new BoxGeometry(
-            0.8 * bossScale,
-            1.2 * bossScale,
-            0.8 * bossScale,
-        );
-        const bodyMat = new MeshStandardMaterial({
-            color: this.config.color,
-            emissive: isBoss ? new Color(0xff4400) : undefined,
-            emissiveIntensity: isBoss ? 0.6 : 0,
-        });
-        this.body = new Mesh(bodyGeo, bodyMat);
-        this.body.position.y = 0.6 * bossScale;
-        this.add(this.body);
 
-        const headGeo = new SphereGeometry(0.35 * bossScale, 8, 8);
-        const headMat = new MeshStandardMaterial({
-            color: this.config.headColor,
-            emissive: isBoss ? new Color(0xff4400) : undefined,
-            emissiveIntensity: isBoss ? 0.4 : 0,
-        });
-        this.head = new Mesh(headGeo, headMat);
-        this.head.position.y = 1.3 * bossScale;
-        this.add(this.head);
+        if (isBoss && this.bossModel) {
+            // Use Bob the Tomato for the boss — scale to 2.4 units tall
+            this.modelRoot = this.bossModel.clone(true);
+            const bossH = this.bossSize?.height ?? 1;
+            this.modelRoot.scale.setScalar(2.4 / bossH);
+            this.modelRoot.traverse((child) => {
+                if ((child as Mesh).isMesh) {
+                    const m = child as Mesh;
+                    const mat = m.material as MeshStandardMaterial;
+                    if (mat) {
+                        mat.emissive = new Color(0xff4400);
+                        mat.emissiveIntensity = 0.6;
+                        this.modelMeshes.push({
+                            mesh: m,
+                            originalColor: mat.color.getHex(),
+                        });
+                    }
+                }
+            });
+            this.add(this.modelRoot);
+        } else if (this.enemyModel) {
+            // Use Minecraft avatar for normal enemies — scale to 1.2 units tall
+            this.modelRoot = this.enemyModel.clone(true);
+            const enemyH = this.enemySize?.height ?? 1;
+            this.modelRoot.scale.setScalar(1.2 / enemyH);
+            this.modelRoot.traverse((child) => {
+                if ((child as Mesh).isMesh) {
+                    const m = child as Mesh;
+                    const mat = m.material as MeshStandardMaterial;
+                    if (mat) {
+                        this.modelMeshes.push({
+                            mesh: m,
+                            originalColor: mat.color.getHex(),
+                        });
+                    }
+                }
+            });
+            this.add(this.modelRoot);
+        } else {
+            // Fallback: create box + sphere meshes
+            const bodyGeo = new BoxGeometry(
+                0.8 * bossScale,
+                1.2 * bossScale,
+                0.8 * bossScale,
+            );
+            const bodyMat = new MeshStandardMaterial({
+                color: this.config.color,
+                emissive: isBoss ? new Color(0xff4400) : undefined,
+                emissiveIntensity: isBoss ? 0.6 : 0,
+            });
+            this.body = new Mesh(bodyGeo, bodyMat);
+            this.body.position.y = 0.6 * bossScale;
+            this.add(this.body);
+
+            const headGeo = new SphereGeometry(0.35 * bossScale, 8, 8);
+            const headMat = new MeshStandardMaterial({
+                color: this.config.headColor,
+                emissive: isBoss ? new Color(0xff4400) : undefined,
+                emissiveIntensity: isBoss ? 0.4 : 0,
+            });
+            this.head = new Mesh(headGeo, headMat);
+            this.head.position.y = 1.3 * bossScale;
+            this.add(this.head);
+        }
 
         // ─── Patrol waypoints ────────────────────────────────
         this.generatePatrolRoute(position);
@@ -210,7 +265,18 @@ export class FPSEnemy extends Object3D {
         if (!this.isAlive()) return;
         this.health -= amount;
         this.flashTimer = this.flashDuration;
-        (this.body.material as MeshStandardMaterial).color.setHex(0xffffff);
+
+        // Flash white on hit (model meshes or box body)
+        if (this.modelMeshes.length > 0) {
+            for (const entry of this.modelMeshes) {
+                (entry.mesh.material as MeshStandardMaterial).color.setHex(
+                    0xffffff,
+                );
+            }
+        } else if (this.body) {
+            (this.body.material as MeshStandardMaterial).color.setHex(0xffffff);
+        }
+
         this.onHit?.(this);
 
         if (!this.isAlive()) {
@@ -336,9 +402,17 @@ export class FPSEnemy extends Object3D {
         if (this.flashTimer > 0) {
             this.flashTimer -= dt;
             if (this.flashTimer <= 0) {
-                (this.body.material as MeshStandardMaterial).color.setHex(
-                    this.originalBodyColor,
-                );
+                if (this.modelMeshes.length > 0) {
+                    for (const entry of this.modelMeshes) {
+                        (
+                            entry.mesh.material as MeshStandardMaterial
+                        ).color.setHex(entry.originalColor);
+                    }
+                } else if (this.body) {
+                    (this.body.material as MeshStandardMaterial).color.setHex(
+                        this.originalBodyColor,
+                    );
+                }
             }
         }
 
@@ -374,7 +448,7 @@ export class FPSEnemy extends Object3D {
             onUpdate: (_dt: number) => {
                 // Slow head turning
                 lookAngle += _dt * 0.5;
-                self.body.rotation.y = lookAngle;
+                self.setFacingRotation(lookAngle);
                 self.facingDirection.set(
                     Math.sin(lookAngle),
                     0,
@@ -411,7 +485,7 @@ export class FPSEnemy extends Object3D {
                     }
                     // Slow head look-around while dwelling
                     const lookAngle = Math.sin(performance.now() * 0.002) * 0.5;
-                    self.body.rotation.y = lookAngle;
+                    self.setFacingRotation(lookAngle);
                 } else {
                     self.moveTowardTarget(self.config.moveSpeed, _dt);
                 }
@@ -502,9 +576,8 @@ export class FPSEnemy extends Object3D {
                         }
                         self.clampToWorldBounds();
                         self.facingDirection.copy(toPlayer);
-                        self.body.rotation.y = Math.atan2(
-                            toPlayer.x,
-                            toPlayer.z,
+                        self.setFacingRotation(
+                            Math.atan2(toPlayer.x, toPlayer.z),
                         );
                         return;
                     }
@@ -859,9 +932,8 @@ export class FPSEnemy extends Object3D {
 
         // Update facing direction
         this.facingDirection.set(dx, 0, dz).normalize();
-        this.body.rotation.y = Math.atan2(
-            this.facingDirection.x,
-            this.facingDirection.z,
+        this.setFacingRotation(
+            Math.atan2(this.facingDirection.x, this.facingDirection.z),
         );
 
         this.clampToWorldBounds();
@@ -900,9 +972,8 @@ export class FPSEnemy extends Object3D {
         }
 
         this.facingDirection.set(dx, 0, dz).normalize();
-        this.body.rotation.y = Math.atan2(
-            this.facingDirection.x,
-            this.facingDirection.z,
+        this.setFacingRotation(
+            Math.atan2(this.facingDirection.x, this.facingDirection.z),
         );
 
         this.clampToWorldBounds();
@@ -1004,14 +1075,22 @@ export class FPSEnemy extends Object3D {
         }
     }
 
+    /** Set the Y rotation on either the model root or box body */
+    private setFacingRotation(y: number): void {
+        if (this.modelRoot) {
+            this.modelRoot.rotation.y = y;
+        } else if (this.body) {
+            this.body.rotation.y = y;
+        }
+    }
+
     private facePlayer(): void {
         const dx = this.player.position.x - this.position.x;
         const dz = this.player.position.z - this.position.z;
         if (Math.hypot(dx, dz) > 0) {
             this.facingDirection.set(dx, 0, dz).normalize();
-            this.body.rotation.y = Math.atan2(
-                this.facingDirection.x,
-                this.facingDirection.z,
+            this.setFacingRotation(
+                Math.atan2(this.facingDirection.x, this.facingDirection.z),
             );
         }
     }
@@ -1145,9 +1224,13 @@ export class FPSEnemy extends Object3D {
     private die(): void {
         this.dead = true;
         this.deathTimer = this.deathDuration;
-        // Tilt the body over
-        this.body.rotation.x = Math.PI / 2;
-        this.head.rotation.x = Math.PI / 2;
+        // Tilt the model or body over
+        if (this.modelRoot) {
+            this.modelRoot.rotation.x = Math.PI / 2;
+        } else {
+            if (this.body) this.body.rotation.x = Math.PI / 2;
+            if (this.head) this.head.rotation.x = Math.PI / 2;
+        }
     }
 
     // ════════════════════════════════════════════════════════════
@@ -1183,9 +1266,29 @@ export class FPSEnemy extends Object3D {
     // ════════════════════════════════════════════════════════════
 
     dispose(): void {
-        this.body.geometry.dispose();
-        (this.body.material as MeshStandardMaterial).dispose();
-        this.head.geometry.dispose();
-        (this.head.material as MeshStandardMaterial).dispose();
+        if (this.modelRoot) {
+            this.modelRoot.traverse((child) => {
+                if ((child as Mesh).isMesh) {
+                    const m = child as Mesh;
+                    m.geometry?.dispose();
+                    if (m.material) {
+                        if (Array.isArray(m.material)) {
+                            m.material.forEach((mat) => mat.dispose());
+                        } else {
+                            m.material.dispose();
+                        }
+                    }
+                }
+            });
+        } else {
+            if (this.body) {
+                this.body.geometry.dispose();
+                (this.body.material as MeshStandardMaterial).dispose();
+            }
+            if (this.head) {
+                this.head.geometry.dispose();
+                (this.head.material as MeshStandardMaterial).dispose();
+            }
+        }
     }
 }
