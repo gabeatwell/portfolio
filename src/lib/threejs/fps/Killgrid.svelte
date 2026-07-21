@@ -148,7 +148,7 @@
             if (playerHealth <= 0 || won) {
                 if (!isGameOver) {
                     if (!isMobile) game.controls.unlock();
-                    game?.stop();
+                    game?.pause();
                     setTimeout(() => {
                         handleRestart();
                     }, 2500);

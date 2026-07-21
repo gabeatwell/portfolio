@@ -38,9 +38,13 @@ export class FPSEnemyManager extends Object3D {
     /** Fired when the boss is killed */
     private onBossKilled: (() => void) | null = null;
 
+    // ─── Spawn angle tracking ────────────────────────────────
+    /** Track recent spawn angles to prevent same-direction spawning */
+    private lastSpawnAngles: number[] = [];
+
     // ─── Squad tactics ────────────────────────────────────────
     private squadTimer: number = 0;
-    private squadInterval: number = 4; // re-evaluate tactics every 4s
+    private squadInterval: number = 3; // re-evaluate tactics every 3s
     private currentOrder: SquadOrder = 'assault';
 
     constructor(player: Object3D, world: World, scene: Scene) {
@@ -82,9 +86,23 @@ export class FPSEnemyManager extends Object3D {
         // Pick an angle that's NOT in the player's view cone (±60° of facing)
         const facingAngle = Math.atan2(playerFacing.x, playerFacing.z);
         let spawnAngle: number;
+        let attempts = 0;
         do {
             spawnAngle = Math.random() * Math.PI * 2;
-        } while (Math.abs(spawnAngle - facingAngle) < Math.PI / 3);
+            attempts++;
+        } while (
+            (Math.abs(spawnAngle - facingAngle) < Math.PI / 3 ||
+                this.lastSpawnAngles.some(
+                    (a) => Math.abs(spawnAngle - a) < Math.PI / 3,
+                )) &&
+            attempts < 10
+        );
+
+        // Track the last 3 spawn angles
+        this.lastSpawnAngles.push(spawnAngle);
+        if (this.lastSpawnAngles.length > 3) {
+            this.lastSpawnAngles.shift();
+        }
 
         const distance = 8 + Math.random() * 5;
         const x = Math.max(
@@ -180,11 +198,14 @@ export class FPSEnemyManager extends Object3D {
 
     // ─── Wave progression ────────────────────────────────────
 
+    /** Track burst spawn cooldown for late-wave double spawns */
+    private burstSpawnTimer: number = 0;
+
     setWave(n: number): void {
         this.wave = n;
         // More enemies per wave, faster spawns
-        this.maxEnemies = Math.min(10, 2 + n);
-        this.spawnCooldownMax = Math.max(1, 3 - n * 0.2);
+        this.maxEnemies = Math.min(12, 3 + n);
+        this.spawnCooldownMax = Math.max(0.5, 3 - n * 0.3);
     }
 
     getWave(): number {
@@ -253,6 +274,24 @@ export class FPSEnemyManager extends Object3D {
                         break;
                     }
                 }
+
+                // Burst spawn: in later waves, spawn 2 enemies at once
+                if (this.wave >= 3) {
+                    this.burstSpawnTimer -= dt;
+                    if (this.burstSpawnTimer <= 0) {
+                        for (let attempts = 0; attempts < 5; attempts++) {
+                            const pos2 = playerFacing
+                                ? this.getTacticalSpawnPosition(playerFacing)
+                                : this.getRandomSpawnPosition();
+                            if (this.isValidSpawnPosition(pos2)) {
+                                this.spawnEnemy(pos2);
+                                break;
+                            }
+                        }
+                        this.burstSpawnTimer = 8 + Math.random() * 4; // every 8-12s
+                    }
+                }
+
                 this.spawnCooldown = this.spawnCooldownMax;
             }
         }
@@ -276,49 +315,54 @@ export class FPSEnemyManager extends Object3D {
             return;
         }
 
-        // Pick a tactic based on enemy composition and wave
-        const flankers = alive.filter(
-            (e) => e.archetype === EnemyArchetype.Flanker,
-        );
-        const _snipers = alive.filter(
+        // Clear all squad orders first
+        for (const e of alive) {
+            e.squadOrder = null;
+        }
+
+        // ─── Assignment logic ────────────────────────────────
+        // Tanks always assault
+        const tanks = alive.filter((e) => e.archetype === EnemyArchetype.Tank);
+        for (const t of tanks) {
+            t.squadOrder = 'assault';
+        }
+
+        // Snipers always hold
+        const snipers = alive.filter(
             (e) => e.archetype === EnemyArchetype.Sniper,
         );
-        const _tanks = alive.filter((e) => e.archetype === EnemyArchetype.Tank);
-        const _rushers = alive.filter(
+        for (const s of snipers) {
+            s.squadOrder = 'hold';
+        }
+
+        // Rushers get surround
+        const rushers = alive.filter(
             (e) => e.archetype === EnemyArchetype.Rusher,
         );
+        for (const r of rushers) {
+            r.squadOrder = 'surround';
+        }
 
-        // Sort enemies by distance to player
-        const sorted = [...alive].sort(
+        // Remaining enemies: closest 40% assault, farthest 60% flank
+        const unassigned = alive.filter((e) => e.squadOrder === null);
+        const sortedUnassigned = [...unassigned].sort(
             (a, b) =>
                 a.position.distanceTo(this.player.position) -
                 b.position.distanceTo(this.player.position),
         );
 
-        // Tactics assignment:
-        // - Tanks and closest enemies → direct assault
-        // - Flankers → flank left/right
-        // - Snipers → hold position (keep distance)
-        // - Rushers → surround from different angles
+        const assaultCount = Math.max(
+            1,
+            Math.ceil(sortedUnassigned.length * 0.4),
+        );
 
-        for (const e of alive) {
-            if (e.archetype === EnemyArchetype.Tank) {
-                e.squadOrder = 'assault';
-            } else if (e.archetype === EnemyArchetype.Sniper) {
-                e.squadOrder = 'hold';
-            } else if (e.archetype === EnemyArchetype.Rusher) {
-                e.squadOrder = 'surround';
-            } else if (
-                e.archetype === EnemyArchetype.Flanker ||
-                sorted.indexOf(e) > alive.length / 2
-            ) {
-                // Further enemies flank
-                const leftFlankers = Math.ceil(flankers.length / 2);
-                const idx = flankers.indexOf(e as any);
-                e.squadOrder =
-                    idx < leftFlankers ? 'flank_left' : 'flank_right';
+        for (let i = 0; i < sortedUnassigned.length; i++) {
+            if (i < assaultCount) {
+                sortedUnassigned[i].squadOrder = 'assault';
             } else {
-                e.squadOrder = 'assault';
+                // Alternate flank left/right for the rest
+                sortedUnassigned[i].squadOrder =
+                    (i - assaultCount) % 2 === 0 ? 'flank_left' : 'flank_right';
             }
         }
     }

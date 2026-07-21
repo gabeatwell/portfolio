@@ -427,7 +427,12 @@ export class FPSGame {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    /** Pause the game loop (freezes everything in place) */
+    /** Freeze game logic but keep rendering the last frame visible */
+    pause(): void {
+        this.started = false;
+    }
+
+    /** Kill the render loop entirely (canvas goes dark) */
     stop(): void {
         if (this.animationFrameId !== null) {
             cancelAnimationFrame(this.animationFrameId);

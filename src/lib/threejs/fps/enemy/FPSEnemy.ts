@@ -56,6 +56,22 @@ export class FPSEnemy extends Object3D {
     /** Per-enemy random phase offset so enemies don't strafe in sync */
     private strafePhase: number = 0;
 
+    // ─── Patrol dwell ─────────────────────────────────────────
+    /** Time (seconds) spent waiting at the current patrol waypoint */
+    private patrolDwellTimer: number = 0;
+    /** Duration (seconds) to wait at this patrol waypoint before moving on */
+    private patrolDwellDuration: number = 0;
+
+    // ─── Dodge / evade ────────────────────────────────────────
+    /** Cooldown until next dodge burst can trigger */
+    private dodgeCooldownTimer: number = 0;
+    /** Whether the enemy is currently in a dodge burst */
+    private isDodging: boolean = false;
+    /** Remaining time of the current dodge burst */
+    private dodgeBurstTimer: number = 0;
+    /** Direction vector of the current dodge */
+    private dodgeDir: Vector3 = new Vector3();
+
     // ─── Spawn idle ──────────────────────────────────────────
     /** Timestamp when this enemy was created — blocks perception briefly */
     private spawnTime: number = 0;
@@ -129,6 +145,9 @@ export class FPSEnemy extends Object3D {
 
         this.position.copy(position);
         this.position.y = 0.5;
+
+        // Initialize player position tracking to prevent hearing spike on first frame
+        this.lastPlayerPos.copy(this.player.position);
 
         // ─── Meshes ──────────────────────────────────────────
         const bossScale = isBoss ? 2.0 : 1.0;
@@ -384,7 +403,18 @@ export class FPSEnemy extends Object3D {
                 self.pickNextPatrolPoint();
             },
             onUpdate: (_dt: number) => {
-                self.moveTowardTarget(self.config.moveSpeed, _dt);
+                if (self.moveTarget === null) {
+                    // At a waypoint — dwell before moving on
+                    self.patrolDwellTimer += _dt;
+                    if (self.patrolDwellTimer >= self.patrolDwellDuration) {
+                        self.pickNextPatrolPoint();
+                    }
+                    // Slow head look-around while dwelling
+                    const lookAngle = Math.sin(performance.now() * 0.002) * 0.5;
+                    self.body.rotation.y = lookAngle;
+                } else {
+                    self.moveTowardTarget(self.config.moveSpeed, _dt);
+                }
             },
             transitions: [
                 {
@@ -395,7 +425,9 @@ export class FPSEnemy extends Object3D {
                 {
                     to: EnemyState.Idle,
                     condition: () =>
-                        self.moveTarget === null && self.fsm.elapsed > 1,
+                        self.moveTarget === null &&
+                        self.patrolDwellTimer >= self.patrolDwellDuration &&
+                        self.fsm.elapsed > 1,
                     priority: 1,
                 },
             ],
@@ -448,7 +480,75 @@ export class FPSEnemy extends Object3D {
                 if (self.pathRecalcTimer <= 0) {
                     self.recalcPathToPlayer();
                 }
-                self.followPath(self.config.moveSpeed * 1.3, _dt);
+
+                // ─── Archetype-specific chase behavior ────────
+                if (self.archetype === EnemyArchetype.Rusher) {
+                    // Rushers: sprint directly at player when close enough
+                    const dist = self.position.distanceTo(self.player.position);
+                    if (dist < 15) {
+                        // Direct sprint — ignore pathfinding
+                        const toPlayer = new Vector3().subVectors(
+                            self.player.position,
+                            self.position,
+                        );
+                        toPlayer.y = 0;
+                        toPlayer.normalize();
+                        const speed = self.config.moveSpeed * 1.5;
+                        const tx = self.position.x + toPlayer.x * speed * _dt;
+                        const tz = self.position.z + toPlayer.z * speed * _dt;
+                        if (!self.isBlockedPosition(tx, tz)) {
+                            self.position.x = tx;
+                            self.position.z = tz;
+                        }
+                        self.clampToWorldBounds();
+                        self.facingDirection.copy(toPlayer);
+                        self.body.rotation.y = Math.atan2(
+                            toPlayer.x,
+                            toPlayer.z,
+                        );
+                        return;
+                    }
+                    // Far away: use pathfinding but faster
+                    self.followPath(self.config.moveSpeed * 1.5, _dt);
+                } else if (
+                    self.squadOrder === 'flank_left' ||
+                    self.squadOrder === 'flank_right'
+                ) {
+                    // Squad flanking: pathfind to a point beside the player
+                    const toPlayer = new Vector3().subVectors(
+                        self.player.position,
+                        self.position,
+                    );
+                    toPlayer.y = 0;
+                    toPlayer.normalize();
+                    const flankDir = new Vector3(-toPlayer.z, 0, toPlayer.x);
+                    const side = self.squadOrder === 'flank_left' ? -1 : 1;
+                    const offset = 6;
+                    const flankTarget = self.player.position
+                        .clone()
+                        .add(flankDir.multiplyScalar(offset * side))
+                        .add(toPlayer.multiplyScalar(3));
+                    flankTarget.x = Math.max(1, Math.min(48, flankTarget.x));
+                    flankTarget.z = Math.max(1, Math.min(48, flankTarget.z));
+                    // Path toward flank target
+                    if (self.pathRecalcTimer <= 0) {
+                        self.recalcPathTo(flankTarget.x, flankTarget.z);
+                    }
+                    self.followPath(self.config.moveSpeed * 1.2, _dt);
+                } else if (self.archetype === EnemyArchetype.Sniper) {
+                    // Snipers: maintain distance — don't chase into close range
+                    const dist = self.position.distanceTo(self.player.position);
+                    if (dist < 15) {
+                        // Stop chasing, strafe and face player from range
+                        self.facePlayer();
+                        self.strafe(_dt, 0.5);
+                        return;
+                    }
+                    self.followPath(self.config.moveSpeed * 1.2, _dt);
+                } else {
+                    // Standard chase
+                    self.followPath(self.config.moveSpeed * 1.3, _dt);
+                }
             },
             transitions: [
                 {
@@ -472,10 +572,24 @@ export class FPSEnemy extends Object3D {
                 },
                 {
                     to: EnemyState.Flank,
-                    condition: () =>
-                        self.perception.canSeePlayer &&
-                        self.fsm.elapsed > 2 &&
-                        Math.random() < self.config.flankChance,
+                    condition: () => {
+                        if (
+                            self.archetype === EnemyArchetype.Tank ||
+                            self.archetype === EnemyArchetype.Rusher ||
+                            self.archetype === EnemyArchetype.Sniper
+                        )
+                            return false;
+                        // Squad flanking orders trigger flank state
+                        const squadTriggersFlank =
+                            self.squadOrder === 'flank_left' ||
+                            self.squadOrder === 'flank_right';
+                        return (
+                            self.perception.canSeePlayer &&
+                            self.fsm.elapsed > 2 &&
+                            (Math.random() < self.config.flankChance ||
+                                squadTriggersFlank)
+                        );
+                    },
                     priority: 1,
                 },
             ],
@@ -486,12 +600,57 @@ export class FPSEnemy extends Object3D {
         const self = this;
         return {
             onEnter: () => {
-                // Face the player
                 self.facePlayer();
             },
             onUpdate: (_dt: number) => {
-                // Strafe while attacking
-                self.strafe(_dt);
+                // Archetype-specific attack movement
+                if (self.archetype === EnemyArchetype.Sniper) {
+                    // Snipers backpedal when player gets close
+                    const dist = self.position.distanceTo(self.player.position);
+                    if (dist < 10) {
+                        const away = new Vector3().subVectors(
+                            self.position,
+                            self.player.position,
+                        );
+                        away.y = 0;
+                        away.normalize();
+                        const speed = self.config.moveSpeed * 0.6;
+                        const tx = self.position.x + away.x * speed * _dt;
+                        const tz = self.position.z + away.z * speed * _dt;
+                        if (!self.isBlockedPosition(tx, tz)) {
+                            self.position.x = tx;
+                            self.position.z = tz;
+                        }
+                        self.clampToWorldBounds();
+                    }
+                    self.strafe(_dt, 0.8);
+                } else if (self.archetype === EnemyArchetype.Tank) {
+                    // Tanks slowly advance while attacking
+                    const toPlayer = new Vector3().subVectors(
+                        self.player.position,
+                        self.position,
+                    );
+                    toPlayer.y = 0;
+                    toPlayer.normalize();
+                    const advanceSpeed = 0.5;
+                    const tx =
+                        self.position.x + toPlayer.x * advanceSpeed * _dt;
+                    const tz =
+                        self.position.z + toPlayer.z * advanceSpeed * _dt;
+                    if (!self.isBlockedPosition(tx, tz)) {
+                        self.position.x = tx;
+                        self.position.z = tz;
+                    }
+                    self.clampToWorldBounds();
+                    self.strafe(_dt, 0.5);
+                } else if (self.archetype === EnemyArchetype.Rusher) {
+                    // Rushers circle aggressively at melee range
+                    self.strafe(_dt, 1.5);
+                } else {
+                    // Standard strafe + dodge for Grunts and others
+                    self.strafe(_dt, self.getStrafeMultiplier());
+                    self.updateDodge(_dt);
+                }
                 self.facePlayer();
 
                 // Shooting is handled by the manager's getEnemyProjectiles()
@@ -502,9 +661,20 @@ export class FPSEnemy extends Object3D {
                 {
                     to: EnemyState.Retreat,
                     condition: () => {
+                        // Tanks and Rushers never retreat
+                        if (
+                            self.archetype === EnemyArchetype.Tank ||
+                            self.archetype === EnemyArchetype.Rusher
+                        )
+                            return false;
+                        // Snipers retreat more readily
                         const hpPct = self.health / self.maxHealth;
+                        const retreatThreshold =
+                            self.archetype === EnemyArchetype.Sniper
+                                ? 0.5
+                                : 0.3;
                         return (
-                            hpPct < 0.3 &&
+                            hpPct < retreatThreshold &&
                             Math.random() < self.config.retreatChance
                         );
                     },
@@ -516,15 +686,35 @@ export class FPSEnemy extends Object3D {
                         const d = self.position.distanceTo(
                             self.player.position,
                         );
-                        return d > self.config.attackRange * 1.3;
+                        // Snipers re-chase at wider range
+                        const rangeMul =
+                            self.archetype === EnemyArchetype.Sniper
+                                ? 0.8
+                                : 1.3;
+                        return d > self.config.attackRange * rangeMul;
                     },
                     priority: 3,
                 },
                 {
                     to: EnemyState.Flank,
-                    condition: () =>
-                        self.fsm.elapsed > 2.5 &&
-                        Math.random() < self.config.flankChance * 1.5,
+                    condition: () => {
+                        if (
+                            self.archetype === EnemyArchetype.Tank ||
+                            self.archetype === EnemyArchetype.Sniper
+                        )
+                            return false;
+                        // Consume squad order: flanking orders increase flank chance
+                        const squadBonus =
+                            self.squadOrder === 'flank_left' ||
+                            self.squadOrder === 'flank_right'
+                                ? 0.5
+                                : 0;
+                        return (
+                            self.fsm.elapsed > 2.5 &&
+                            Math.random() <
+                                self.config.flankChance * 1.5 + squadBonus
+                        );
+                    },
                     priority: 2,
                 },
             ],
@@ -535,6 +725,12 @@ export class FPSEnemy extends Object3D {
         const self = this;
         return {
             onEnter: () => {
+                // Use squad order to pick flank side
+                if (self.squadOrder === 'flank_left') {
+                    self.flankDirection = -1;
+                } else if (self.squadOrder === 'flank_right') {
+                    self.flankDirection = 1;
+                }
                 self.calculateFlankPosition();
             },
             onUpdate: (_dt: number) => {
@@ -713,7 +909,7 @@ export class FPSEnemy extends Object3D {
     }
 
     /** Strafe perpendicular to the player (attack movement) */
-    private strafe(dt: number): void {
+    private strafe(dt: number, speedMultiplier: number = 1): void {
         const toPlayer = new Vector3().subVectors(
             this.player.position,
             this.position,
@@ -723,19 +919,89 @@ export class FPSEnemy extends Object3D {
 
         // Perpendicular vector (left of player view)
         const strafeDir = new Vector3(-toPlayer.z, 0, toPlayer.x);
-        // Oscillate back and forth (per-enemy phase so they don't sync)
+        // Oscillate back and forth with wider amplitude (per-enemy phase)
         const offset =
-            Math.sin(performance.now() * 0.003 + this.strafePhase) *
+            Math.sin(performance.now() * 0.004 + this.strafePhase) *
             this.flankDirection;
-
-        const targetX = this.position.x + strafeDir.x * offset * dt * 2;
-        const targetZ = this.position.z + strafeDir.z * offset * dt * 2;
+        // Wider lateral movement: 4 units/s base, scaled by archetype
+        const step = offset * dt * 4 * speedMultiplier;
+        const targetX = this.position.x + strafeDir.x * step;
+        const targetZ = this.position.z + strafeDir.z * step;
 
         if (!this.isBlockedPosition(targetX, targetZ)) {
             this.position.x = targetX;
             this.position.z = targetZ;
         }
         this.clampToWorldBounds();
+    }
+
+    /**
+     * Dodge burst system: enemies occasionally burst left/right/back
+     * to evade player shots. Called during Attack state alongside strafe.
+     */
+    private updateDodge(dt: number): void {
+        this.dodgeCooldownTimer -= dt;
+
+        if (this.isDodging) {
+            // Currently in a dodge burst — apply movement
+            this.dodgeBurstTimer -= dt;
+            const speed = this.config.moveSpeed * 2.5;
+            const targetX = this.position.x + this.dodgeDir.x * speed * dt;
+            const targetZ = this.position.z + this.dodgeDir.z * speed * dt;
+            if (!this.isBlockedPosition(targetX, targetZ)) {
+                this.position.x = targetX;
+                this.position.z = targetZ;
+            }
+            this.clampToWorldBounds();
+
+            if (this.dodgeBurstTimer <= 0) {
+                this.isDodging = false;
+                this.dodgeCooldownTimer = 0.8 + Math.random() * 1.2;
+            }
+        } else if (this.dodgeCooldownTimer <= 0 && Math.random() < 0.015) {
+            // ~0.9 times/sec at 60fps — trigger a dodge
+            this.triggerDodge();
+        }
+    }
+
+    /** Pick a dodge direction and start the burst */
+    private triggerDodge(): void {
+        const toPlayer = new Vector3().subVectors(
+            this.player.position,
+            this.position,
+        );
+        toPlayer.y = 0;
+        toPlayer.normalize();
+        const strafeDir = new Vector3(-toPlayer.z, 0, toPlayer.x);
+
+        const roll = Math.random();
+        if (roll < 0.35) {
+            // Dodge left
+            this.dodgeDir.copy(strafeDir).multiplyScalar(-this.flankDirection);
+        } else if (roll < 0.7) {
+            // Dodge right
+            this.dodgeDir.copy(strafeDir).multiplyScalar(this.flankDirection);
+        } else {
+            // Dodge backward
+            this.dodgeDir.copy(toPlayer).multiplyScalar(-1);
+        }
+
+        this.isDodging = true;
+        this.dodgeBurstTimer = 0.15 + Math.random() * 0.2;
+    }
+
+    /** Archetype-specific strafe speed multiplier for attack movement */
+    private getStrafeMultiplier(): number {
+        switch (this.archetype) {
+            case EnemyArchetype.Flanker:
+                return 2.5;
+            case EnemyArchetype.Tank:
+                return 0.5;
+            case EnemyArchetype.Rusher:
+                return 0.2;
+            default:
+                return 1;
+        }
     }
 
     private facePlayer(): void {
@@ -775,11 +1041,11 @@ export class FPSEnemy extends Object3D {
 
     private generatePatrolRoute(origin: Vector3): void {
         this.patrolWaypoints = [];
-        const count = 2 + Math.floor(Math.random() * 3);
+        const count = 3 + Math.floor(Math.random() * 3); // 3-5 waypoints
         for (let i = 0; i < count; i++) {
-            // Random angles (not evenly spaced) so patrol routes aren't circular
+            // Random angles so patrol routes aren't circular
             const angle = Math.random() * Math.PI * 2;
-            const radius = 3 + Math.random() * 5;
+            const radius = 5 + Math.random() * 8; // 5-13 units
             const x = Math.max(
                 1,
                 Math.min(48, origin.x + Math.cos(angle) * radius),
@@ -788,7 +1054,14 @@ export class FPSEnemy extends Object3D {
                 1,
                 Math.min(48, origin.z + Math.sin(angle) * radius),
             );
+            // Skip waypoints that land inside buildings
+            const cellKey = `${Math.floor(x)},${Math.floor(z)}`;
+            if (this.world?.buildingCells?.has(cellKey)) continue;
             this.patrolWaypoints.push(new Vector3(x, 0.5, z));
+        }
+        // Fallback: if all waypoints were blocked, add the origin
+        if (this.patrolWaypoints.length === 0) {
+            this.patrolWaypoints.push(origin.clone());
         }
         this.patrolIndex = Math.floor(
             Math.random() * this.patrolWaypoints.length,
@@ -802,6 +1075,9 @@ export class FPSEnemy extends Object3D {
         }
         this.moveTarget = this.patrolWaypoints[this.patrolIndex].clone();
         this.patrolIndex = (this.patrolIndex + 1) % this.patrolWaypoints.length;
+        // Set a random dwell time at the next waypoint (1-3 seconds)
+        this.patrolDwellDuration = 1 + Math.random() * 2;
+        this.patrolDwellTimer = 0;
     }
 
     // ════════════════════════════════════════════════════════════

@@ -29,13 +29,13 @@ export class AIPerception {
     /** Max awareness range */
     private maxAwareness: number = 100;
     /** How fast awareness builds when player is visible (per second) */
-    private sightGain: number = 40;
+    private sightGain: number = 30;
     /** How fast awareness builds from nearby sounds (per second) */
-    private hearingGain: number = 20;
+    private hearingGain: number = 15;
     /** How fast awareness decays when player is not detectable (per second) */
-    private decayRate: number = 12;
+    private decayRate: number = 15;
     /** Below this awareness, enemies forget the player's last position */
-    private forgetThreshold: number = 10;
+    private forgetThreshold: number = 5;
 
     private raycaster: Raycaster = new Raycaster();
     /** Cached obstacle list — updated when buildings change */
@@ -80,8 +80,8 @@ export class AIPerception {
                 this.awareness + this.sightGain * distanceFactor * dt,
             );
             this.lastKnownPosition = playerPosition.clone();
-        } else if (playerSpeed > 2 && this.lastPlayerDistance < 10) {
-            // Hearing: player is moving fast and nearby
+        } else if (playerSpeed > 1.5 && this.lastPlayerDistance < 8) {
+            // Hearing: player is moving fast enough and nearby
             this.awareness = Math.min(
                 this.maxAwareness,
                 this.awareness + this.hearingGain * dt,
