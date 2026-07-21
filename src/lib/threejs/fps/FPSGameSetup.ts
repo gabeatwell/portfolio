@@ -69,7 +69,7 @@ export class FPSGame {
     private moveY = 0;
     private lookYaw = 0; // accumulated yaw from touch drag
     private lookPitch = 0; // accumulated pitch from touch drag
-    private lookSpeed = 0.005;
+    private lookSpeed = 0.008;
     private autoShootCooldown = 0;
     private animationFrameId: number | null = null;
     private started = false;
