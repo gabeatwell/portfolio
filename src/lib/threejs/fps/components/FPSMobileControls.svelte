@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { tick } from 'svelte';
-
     interface Props {
         game: any;
         enabled: boolean;
@@ -17,84 +15,6 @@
     let lastRightY = 0;
     let joystickX = $state(0);
     let joystickY = $state(0);
-    let navHidden = $state(false);
-    let footerHidden = $state(false);
-
-    // Hide nav/footer/chrome in landscape on mobile
-    $effect(() => {
-        if (!enabled) return;
-
-        function updateChrome() {
-            const isLandscape = window.innerWidth > window.innerHeight;
-            const nav = document.querySelector('nav') as HTMLElement | null;
-            const select = document.querySelector(
-                '.select',
-            ) as HTMLElement | null;
-            const footer = document.querySelector(
-                'footer',
-            ) as HTMLElement | null;
-            const body = document.body;
-            const html = document.documentElement;
-
-            if (isLandscape) {
-                if (nav) {
-                    nav.style.display = 'none';
-                    navHidden = true;
-                }
-                if (footer) {
-                    footer.style.display = 'none';
-                    footerHidden = true;
-                }
-                if (select) select.style.display = 'none';
-                body.style.overflow = 'hidden';
-                body.style.width = '100vw';
-                body.style.height = '100vh';
-                body.style.margin = '0';
-                body.style.padding = '0';
-                html.style.overflow = 'hidden';
-                html.style.width = '100vw';
-                html.style.height = '100vh';
-                html.style.margin = '0';
-                html.style.padding = '0';
-            } else {
-                if (nav && navHidden) {
-                    nav.style.display = '';
-                    navHidden = false;
-                }
-                if (footer && footerHidden) {
-                    footer.style.display = '';
-                    footerHidden = false;
-                }
-                if (select) select.style.display = '';
-                body.style.overflow = '';
-                body.style.width = '';
-                body.style.height = '';
-                body.style.margin = '';
-                body.style.padding = '';
-                html.style.overflow = '';
-                html.style.width = '';
-                html.style.height = '';
-                html.style.margin = '';
-                html.style.padding = '';
-            }
-        }
-
-        updateChrome();
-        window.addEventListener('resize', updateChrome);
-        window.addEventListener('orientationchange', updateChrome);
-
-        return () => {
-            window.removeEventListener('resize', updateChrome);
-            window.removeEventListener('orientationchange', updateChrome);
-            // Restore on unmount
-            const nav = document.querySelector('nav') as HTMLElement | null;
-            const footer = document.querySelector(
-                'footer',
-            ) as HTMLElement | null;
-            if (nav) nav.style.display = '';
-            if (footer) footer.style.display = '';
-        };
-    });
 
     function handleTouchStart(e: TouchEvent) {
         for (let i = 0; i < e.changedTouches.length; i++) {

@@ -27,6 +27,7 @@ export class FPSBuilding {
      * @param count          Number of buildings to place
      * @param occupiedCells  Set updated with cells each building occupies
      * @param models         Pre-loaded GLTF scenes for buildings
+     * @param excludeCells   Optional cells that no building footprint may overlap (e.g. spawn zone)
      */
     static createBuildings(
         width: number,
@@ -34,6 +35,7 @@ export class FPSBuilding {
         count: number,
         occupiedCells: Set<string>,
         models: Object3D[],
+        excludeCells?: Set<string>,
     ): Group {
         const group = new Group();
         const padding = 3;
@@ -49,7 +51,10 @@ export class FPSBuilding {
 
         for (let i = 0; i < count; i++) {
             let cellX: number, cellZ: number, cellKey: string;
+            let modelIdx = 0;
             let attempts = 0;
+            let savedScale = 1;
+            let savedSrcSize = { w: 2, d: 2 };
 
             do {
                 cellX =
@@ -58,30 +63,65 @@ export class FPSBuilding {
                     Math.floor(Math.random() * (height - padding * 2)) +
                     padding;
                 cellKey = `${cellX},${cellZ}`;
-                attempts++;
-            } while (
-                (placed.has(cellKey) ||
-                    this.isNearExisting(
-                        cellX,
-                        cellZ,
-                        placed,
-                        buildingSpacing,
-                    )) &&
-                attempts < 100
-            );
+                modelIdx = Math.floor(Math.random() * models.length);
+
+                // Skip if too close to other buildings
+                if (
+                    placed.has(cellKey) ||
+                    this.isNearExisting(cellX, cellZ, placed, buildingSpacing)
+                ) {
+                    attempts++;
+                    continue;
+                }
+
+                // Compute this building's footprint and check against exclusion zone
+                savedSrcSize = modelSizes[modelIdx];
+                const targetFootprint =
+                    modelIdx === 0
+                        ? 5 + Math.random() * 2
+                        : 8 + Math.random() * 3;
+                savedScale =
+                    targetFootprint /
+                    Math.max(savedSrcSize.w, savedSrcSize.d, 0.1);
+                const scaledW = savedSrcSize.w * savedScale;
+                const scaledD = savedSrcSize.d * savedScale;
+                const colStart = Math.floor(cellX - scaledW / 2);
+                const colEnd = Math.floor(cellX + scaledW / 2);
+                const rowStart = Math.floor(cellZ - scaledD / 2);
+                const rowEnd = Math.floor(cellZ + scaledD / 2);
+
+                let excluded = false;
+                if (excludeCells) {
+                    for (
+                        let col = colStart;
+                        col <= colEnd && !excluded;
+                        col++
+                    ) {
+                        for (
+                            let row = rowStart;
+                            row <= rowEnd && !excluded;
+                            row++
+                        ) {
+                            if (excludeCells.has(`${col},${row}`)) {
+                                excluded = true;
+                            }
+                        }
+                    }
+                }
+
+                if (excluded) {
+                    attempts++;
+                    continue;
+                }
+
+                break; // Valid position found
+            } while (attempts < 100);
 
             if (attempts >= 100) continue;
 
-            // Randomly pick a building model and clone it
-            const modelIdx = Math.floor(Math.random() * models.length);
+            // Build the model from the selected position + model within the loop
             const model = models[modelIdx].clone(true);
-            const srcSize = modelSizes[modelIdx];
-
-            // Per-model target footprint: convenience store ~5-7, apartment block ~8-11
-            const targetFootprint =
-                modelIdx === 0 ? 5 + Math.random() * 2 : 8 + Math.random() * 3;
-            const scale = targetFootprint / Math.max(srcSize.w, srcSize.d, 0.1);
-            model.scale.setScalar(scale);
+            model.scale.setScalar(savedScale);
 
             // Stretch convenience stores vertically so they're taller
             if (modelIdx === 0) {
@@ -110,8 +150,8 @@ export class FPSBuilding {
             placed.add(cellKey);
 
             // Mark occupied cells based on scaled footprint
-            const scaledW = srcSize.w * scale;
-            const scaledD = srcSize.d * scale;
+            const scaledW = savedSrcSize.w * savedScale;
+            const scaledD = savedSrcSize.d * savedScale;
             const halfW = scaledW / 2;
             const halfD = scaledD / 2;
             const colStart = Math.floor(cellX - halfW);

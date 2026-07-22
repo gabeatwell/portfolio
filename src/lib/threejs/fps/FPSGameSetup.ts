@@ -161,12 +161,26 @@ export class FPSGame {
 
         // Wait for models to arrive, then create buildings
         const models = await modelPromise;
+
+        // Build a spawn exclusion zone: cells within 3 of the spawn point (5.5, 5.5)
+        // No building footprint may overlap this zone, so the player never spawns inside a building.
+        const spawnExclude = new Set<string>();
+        const spawnCX = 5; // floor(5.5)
+        const spawnCZ = 5;
+        const spawnRadius = 3;
+        for (let dx = -spawnRadius; dx <= spawnRadius; dx++) {
+            for (let dz = -spawnRadius; dz <= spawnRadius; dz++) {
+                spawnExclude.add(`${spawnCX + dx},${spawnCZ + dz}`);
+            }
+        }
+
         this.buildings = FPSBuilding.createBuildings(
             50,
             50,
             8,
             this.world.buildingCells,
             models.buildings,
+            spawnExclude,
         );
         this.scene.add(this.buildings);
 

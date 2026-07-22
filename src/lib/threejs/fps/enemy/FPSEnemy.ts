@@ -120,6 +120,11 @@ export class FPSEnemy extends Object3D {
     onHit: ((enemy: FPSEnemy) => void) | null = null;
     /** Squad order from manager */
     squadOrder: string | null = null;
+    /**
+     * Static Y-rotation offset to correct each GLTF model's intrinsic facing.
+     * Added to the player-facing angle so the model's front ends up toward the player.
+     */
+    private modelRotationOffset: number = 0;
 
     constructor(
         position: Vector3,
@@ -184,6 +189,7 @@ export class FPSEnemy extends Object3D {
                     }
                 }
             });
+            this.modelRotationOffset = Math.PI / 4; // model faces 45° to the left
             this.add(this.modelRoot);
         } else if (this.enemyModel) {
             // Use Minecraft avatar for normal enemies — scale to 1.2 units tall
@@ -202,6 +208,7 @@ export class FPSEnemy extends Object3D {
                     }
                 }
             });
+            this.modelRotationOffset = Math.PI; // reverse facing — model's front is -Z
             this.add(this.modelRoot);
         } else {
             // Fallback: create box + sphere meshes
@@ -1078,7 +1085,7 @@ export class FPSEnemy extends Object3D {
     /** Set the Y rotation on either the model root or box body */
     private setFacingRotation(y: number): void {
         if (this.modelRoot) {
-            this.modelRoot.rotation.y = y;
+            this.modelRoot.rotation.y = y + this.modelRotationOffset;
         } else if (this.body) {
             this.body.rotation.y = y;
         }

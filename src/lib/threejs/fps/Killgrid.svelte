@@ -3,7 +3,7 @@
     import { FPSGame } from './FPSGameSetup';
     import Confetti from './components/Confetti.svelte';
     import TitleScreen from './TitleScreen.svelte';
-    import LandscapeMobile from '$lib/threejs/shooter/components/LandscapeMobile.svelte';
+    import GameLandscape from './components/GameLandscape.svelte';
     import FPSMobileControls from './components/FPSMobileControls.svelte';
 
     let canvas = $state<HTMLCanvasElement | null>(null);
@@ -172,11 +172,6 @@
                 clearInterval(hudInterval);
                 document.removeEventListener('pointerlockchange', onLockChange);
 
-                const navEl = document.querySelector('nav');
-                const footerEl = document.querySelector('footer');
-                if (navEl) navEl.style.display = '';
-                if (footerEl) footerEl.style.display = '';
-
                 window.dispatchEvent(new CustomEvent('exit-game'));
             }
         };
@@ -192,11 +187,6 @@
                     lockChangeRef,
                 );
 
-            const navEl = document.querySelector('nav');
-            const footerEl = document.querySelector('footer');
-            if (navEl) navEl.style.display = '';
-            if (footerEl) footerEl.style.display = '';
-
             game?.dispose();
             game = null;
         };
@@ -206,6 +196,8 @@
 {#if showTitle}
     <TitleScreen onStart={startTitleGame} />
 {:else}
+    <GameLandscape active={!showTitle} />
+
     <div class="wrapper">
         <canvas bind:this={canvas} class="webgl"></canvas>
 
@@ -266,7 +258,6 @@
             enabled={isMobile && isLocked && !isGameOver}
         />
     {/key}
-    <LandscapeMobile {isMobile} onPause={() => {}} onResume={() => {}} />
     <Confetti active={isGameOver} color={won ? 'green' : 'red'} />
 {/if}
 
