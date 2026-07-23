@@ -116,13 +116,14 @@
 
                 .char {
                     display: inline-block;
-                    background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/gray-wood.webp');
+                    background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/wavy-lines.webp');
                     background-size: cover;
                     background-position: center;
                     background-attachment: fixed;
                     background-clip: text;
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
+                    -webkit-text-stroke: 1px var(--clr-light-400);
                     color: transparent;
                 }
             }
