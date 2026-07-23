@@ -39,6 +39,18 @@
             margin-bottom: 3em;
         }
 
+        /* desktop row centering */
+        @media (width >= 1100px) {
+            grid-template-columns: repeat(4, 1fr);
+
+            & .project-card:nth-child(5) {
+                grid-column: 2;
+            }
+            & .project-card:nth-child(6) {
+                grid-column: 3;
+            }
+        }
+
         & .project-card {
             display: block;
             position: relative;
