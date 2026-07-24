@@ -1,0 +1,12 @@
+packages:
+  - '.'
+allowBuilds:
+  canvas: true
+  esbuild: true
+  sharp: true
+  workerd: true
+onlyBuiltDependencies:
+  - canvas
+  - esbuild
+  - sharp
+  - workerd
