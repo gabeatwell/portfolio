@@ -114,6 +114,12 @@
                 inline-size: clamp(1.5em, 3vw, 2.5rem);
                 block-size: clamp(1.5em, 3vw, 2.5rem);
             }
+
+            &:focus,
+            &:focus-visible {
+                outline: 1px solid var(--clr-light-500);
+                box-shadow: none;
+            }
         }
 
         & [data-summary-content] {
