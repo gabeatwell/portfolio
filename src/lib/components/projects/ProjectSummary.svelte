@@ -210,7 +210,10 @@
         display: block;
         opacity: 1;
         transform: translateY(0);
-        min-inline-size: 95%;
+
+        @media (width <= 768px) {
+            min-inline-size: 95%;
+        }
     }
 
     @starting-style {
