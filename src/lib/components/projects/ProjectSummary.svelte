@@ -190,7 +190,7 @@
             overflow-y: auto;
             border: 1px solid var(--clr-gray-700);
 
-            @media (width < 500px) {
+            @media (width < 768px) {
                 letter-spacing: 1px;
                 max-height: 70vh;
             }
@@ -210,6 +210,7 @@
         display: block;
         opacity: 1;
         transform: translateY(0);
+        min-inline-size: 95%;
     }
 
     @starting-style {
