@@ -57,6 +57,11 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
 
     const url = new URL(event.request.url);
     const isCrossOrigin = url.origin !== sw.location.origin;
+
+    // Don't let the SW handle API requests — let them go to the network
+    if (url.pathname.startsWith('/api/')) {
+        return;
+    }
     const isCloudflareAnalytics =
         url.hostname.endsWith('cloudflareinsights.com') ||
         url.pathname.includes('beacon.min.js') ||
