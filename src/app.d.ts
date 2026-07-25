@@ -3,11 +3,15 @@ declare module '*.md' {
     export default component;
 }
 
-declare module '$env/static/private' {
-    export const GITHUB_TOKEN: string;
-    export const GITHUB_USERNAME: string;
-}
-
 declare module '$env/dynamic/private' {
     export const env: Record<string, string | undefined>;
+}
+
+declare namespace App {
+    interface Platform {
+        env: {
+            GITHUB_TOKEN?: string;
+            GITHUB_USERNAME?: string;
+        };
+    }
 }

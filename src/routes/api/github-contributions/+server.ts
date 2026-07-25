@@ -1,4 +1,3 @@
-import { env } from '$env/dynamic/private';
 import { json } from '@sveltejs/kit';
 
 export const prerender = false;
@@ -14,11 +13,25 @@ interface Week {
 }
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({ fetch }) {
-    if (!env.GITHUB_TOKEN || !env.GITHUB_USERNAME) {
+export async function GET({ platform, fetch }) {
+    let GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN;
+    let GITHUB_USERNAME = platform?.env?.GITHUB_USERNAME;
+
+    // Fallback for local dev (vite dev) where platform.env isn't available
+    if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
+        try {
+            const { env } = await import('$env/dynamic/private');
+            GITHUB_TOKEN ??= env.GITHUB_TOKEN;
+            GITHUB_USERNAME ??= env.GITHUB_USERNAME;
+        } catch {
+            // Not in a SvelteKit dev environment, that's fine
+        }
+    }
+
+    if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
         const missing = [
-            !env.GITHUB_TOKEN ? 'GITHUB_TOKEN' : null,
-            !env.GITHUB_USERNAME ? 'GITHUB_USERNAME' : null,
+            !GITHUB_TOKEN ? 'GITHUB_TOKEN' : null,
+            !GITHUB_USERNAME ? 'GITHUB_USERNAME' : null,
         ]
             .filter(Boolean)
             .join(', ');
@@ -61,7 +74,7 @@ export async function GET({ fetch }) {
         from.setDate(from.getDate() - 7);
 
         const variables = {
-            username: env.GITHUB_USERNAME,
+            username: GITHUB_USERNAME,
             from: from.toISOString(),
             to: to.toISOString(),
         };
@@ -69,7 +82,7 @@ export async function GET({ fetch }) {
         const response = await fetch('https://api.github.com/graphql', {
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+                Authorization: `Bearer ${GITHUB_TOKEN}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
