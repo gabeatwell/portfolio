@@ -18,7 +18,7 @@
         useTooltipViewportClamp,
     } from './contributions.svelte';
 
-    let { contributions = $bindable<ContributionsData | null>(null) } =
+    let { contributions = null }: { contributions?: ContributionsData | null } =
         $props();
     let totalContributions = $derived(contributions?.totalContributions || 0);
     let weeks = $derived(contributions?.weeks ?? []);
