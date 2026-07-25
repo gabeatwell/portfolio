@@ -57,7 +57,6 @@ export const getContributions = prerender(async () => {
             data.data.user.contributionsCollection.contributionCalendar;
 
         return {
-            success: true,
             totalContributions: calendar.totalContributions,
             weeks: calendar.weeks,
         };

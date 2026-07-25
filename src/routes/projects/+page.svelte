@@ -9,11 +9,9 @@
     import GithubContributions from '$lib/components/projects/contributions/GithubContributions.svelte';
     import Heading from '$lib/components/layout/titles/Heading.svelte';
     // import { getContributions } from './data.remote';
-
     import type { ContributionsData } from '$lib/components/projects/contributions/contributions.svelte';
 
-    let contributions = $state<ContributionsData | null>(null);
-    // let contributions = await getContributions();
+    let contributions: ContributionsData | null = $state(null);
 
     let ProjectComponent:
         | typeof import('$lib/components/projects/Project.svelte').default
@@ -38,8 +36,22 @@
         const controller = new AbortController();
 
         fetch('/api/github-contributions', { signal: controller.signal })
-            .then((r) => r.json())
+            .then(async (r) => {
+                if (!r.ok) throw new Error(`API responded with ${r.status}`);
+                return r.json();
+            })
             .then((data) => {
+                if (data.fallback) {
+                    console.warn(
+                        'GitHub contributions API returned fallback data:',
+                        data.error,
+                    );
+                    contributions = {
+                        weeks: data.weeks,
+                        totalContributions: data.totalContributions,
+                    };
+                    return;
+                }
                 contributions = {
                     weeks: data.weeks,
                     totalContributions: data.totalContributions,

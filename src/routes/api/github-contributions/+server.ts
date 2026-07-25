@@ -13,6 +13,24 @@ interface Week {
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ fetch }) {
+    if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
+        const missing = [
+            !GITHUB_TOKEN ? 'GITHUB_TOKEN' : null,
+            !GITHUB_USERNAME ? 'GITHUB_USERNAME' : null,
+        ]
+            .filter(Boolean)
+            .join(', ');
+        console.error(`Missing env vars: ${missing}`);
+        const fallback = generateFallbackData();
+        return json({
+            success: false,
+            error: `Missing environment variables: ${missing}`,
+            fallback: true,
+            totalContributions: fallback.totalContributions,
+            weeks: fallback.weeks,
+        });
+    }
+
     try {
         // graphql query to get contribution data
         const query = `
@@ -113,9 +131,8 @@ export async function GET({ fetch }) {
                 weeks: fallback.weeks,
             },
             {
-                status: 500, // Explicit error status
                 headers: {
-                    'Cache-Control': 'public, max-age=3600, s-maxage=3600', // Still cache fallback to avoid repeated failures
+                    'Cache-Control': 'public, max-age=3600, s-maxage=3600',
                 },
             },
         );

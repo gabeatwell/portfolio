@@ -114,5 +114,15 @@ export function generateFallbackData() {
         }
     }
 
-    return { weeks };
+    const totalContributions = weeks.reduce(
+        (total, week) =>
+            total +
+            week.contributionDays.reduce(
+                (weekTotal, day) => weekTotal + day.contributionCount,
+                0,
+            ),
+        0,
+    );
+
+    return { weeks, totalContributions };
 }
