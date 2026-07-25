@@ -14,19 +14,20 @@ interface Week {
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ platform, fetch }) {
-    let GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN;
-    let GITHUB_USERNAME = platform?.env?.GITHUB_USERNAME;
+    // Cloudflare Pages: env vars from dashboard are in process.env (Node.js compat)
+    // adapter-cloudflare also exposes them via platform.env
+    let GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? platform?.env?.GITHUB_TOKEN;
+    let GITHUB_USERNAME =
+        process.env.GITHUB_USERNAME ?? platform?.env?.GITHUB_USERNAME;
 
-    // Fallback for local dev (vite dev) where platform.env isn't available
-    if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
-        try {
-            const { env } = await import('$env/dynamic/private');
-            GITHUB_TOKEN ??= env.GITHUB_TOKEN;
-            GITHUB_USERNAME ??= env.GITHUB_USERNAME;
-        } catch {
-            // Not in a SvelteKit dev environment, that's fine
-        }
-    }
+    // Diagnostic info to help debug Cloudflare deployment
+    const envSources = {
+        processEnv: !!process.env.GITHUB_TOKEN,
+        platformEnv: !!platform?.env?.GITHUB_TOKEN,
+        hasToken: !!GITHUB_TOKEN,
+        hasUsername: !!GITHUB_USERNAME,
+        tokenPrefix: GITHUB_TOKEN ? GITHUB_TOKEN.substring(0, 6) : null,
+    };
 
     if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
         const missing = [
@@ -35,11 +36,12 @@ export async function GET({ platform, fetch }) {
         ]
             .filter(Boolean)
             .join(', ');
-        console.error(`Missing env vars: ${missing}`);
+        console.error(`Missing env vars: ${missing}`, envSources);
         const fallback = generateFallbackData();
         return json({
             success: false,
             error: `Missing environment variables: ${missing}`,
+            diagnostics: envSources,
             fallback: true,
             totalContributions: fallback.totalContributions,
             weeks: fallback.weeks,
