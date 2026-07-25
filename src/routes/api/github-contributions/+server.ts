@@ -1,3 +1,4 @@
+import { env as dynEnv } from '$env/dynamic/private';
 import { json } from '@sveltejs/kit';
 
 export const prerender = false;
@@ -14,20 +15,24 @@ interface Week {
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ platform, fetch }) {
-    // Cloudflare Pages: env vars from dashboard are in process.env (Node.js compat)
-    // adapter-cloudflare also exposes them via platform.env
-    let GITHUB_TOKEN = process.env.GITHUB_TOKEN ?? platform?.env?.GITHUB_TOKEN;
-    let GITHUB_USERNAME =
-        process.env.GITHUB_USERNAME ?? platform?.env?.GITHUB_USERNAME;
+    let GITHUB_TOKEN: string | undefined;
+    let GITHUB_USERNAME: string | undefined;
 
-    // Diagnostic info to help debug Cloudflare deployment
-    const envSources = {
-        processEnv: !!process.env.GITHUB_TOKEN,
-        platformEnv: !!platform?.env?.GITHUB_TOKEN,
-        hasToken: !!GITHUB_TOKEN,
-        hasUsername: !!GITHUB_USERNAME,
-        tokenPrefix: GITHUB_TOKEN ? GITHUB_TOKEN.substring(0, 6) : null,
-    };
+    try {
+        // Cloudflare: platform.env bindings
+        GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN;
+        GITHUB_USERNAME = platform?.env?.GITHUB_USERNAME;
+    } catch {
+        // not on Cloudflare
+    }
+
+    try {
+        // SvelteKit runtime: $env/dynamic/private (works in dev & most adapters)
+        GITHUB_TOKEN ??= dynEnv.GITHUB_TOKEN;
+        GITHUB_USERNAME ??= dynEnv.GITHUB_USERNAME;
+    } catch {
+        // dynamic env not available
+    }
 
     if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
         const missing = [
@@ -36,12 +41,11 @@ export async function GET({ platform, fetch }) {
         ]
             .filter(Boolean)
             .join(', ');
-        console.error(`Missing env vars: ${missing}`, envSources);
+        console.error(`Missing env vars: ${missing}`);
         const fallback = generateFallbackData();
         return json({
             success: false,
             error: `Missing environment variables: ${missing}`,
-            diagnostics: envSources,
             fallback: true,
             totalContributions: fallback.totalContributions,
             weeks: fallback.weeks,
