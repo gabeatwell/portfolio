@@ -8,9 +8,12 @@
     import SEO from '$lib/data/SEO.svelte';
     import GithubContributions from '$lib/components/projects/contributions/GithubContributions.svelte';
     import Heading from '$lib/components/layout/titles/Heading.svelte';
-    import { getContributions } from './data.remote';
+    // import { getContributions } from './data.remote';
 
-    let contributions = await getContributions();
+    import type { ContributionsData } from '$lib/components/projects/contributions/contributions.svelte';
+
+    let contributions = $state<ContributionsData | null>(null);
+    // let contributions = await getContributions();
 
     let ProjectComponent:
         | typeof import('$lib/components/projects/Project.svelte').default
@@ -28,6 +31,26 @@
 
     beforeNavigate(() => {
         isNavigating = true;
+    });
+
+    // api fetch
+    $effect(() => {
+        const controller = new AbortController();
+
+        fetch('/api/github-contributions', { signal: controller.signal })
+            .then((r) => r.json())
+            .then((data) => {
+                contributions = {
+                    weeks: data.weeks,
+                    totalContributions: data.totalContributions,
+                };
+            })
+            .catch((err) => {
+                if (err.name === 'AbortError') return;
+                console.error('Failed to retrieve contribution data:', err);
+            });
+
+        return () => controller.abort();
     });
 
     // load project component with a slight delay
