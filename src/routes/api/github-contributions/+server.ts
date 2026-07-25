@@ -1,4 +1,3 @@
-import { env as dynEnv } from '$env/dynamic/private';
 import { json } from '@sveltejs/kit';
 
 export const prerender = false;
@@ -15,24 +14,9 @@ interface Week {
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ platform, fetch }) {
-    let GITHUB_TOKEN: string | undefined;
-    let GITHUB_USERNAME: string | undefined;
-
-    try {
-        // Cloudflare: platform.env bindings
-        GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN;
-        GITHUB_USERNAME = platform?.env?.GITHUB_USERNAME;
-    } catch {
-        // not on Cloudflare
-    }
-
-    try {
-        // SvelteKit runtime: $env/dynamic/private (works in dev & most adapters)
-        GITHUB_TOKEN ??= dynEnv.GITHUB_TOKEN;
-        GITHUB_USERNAME ??= dynEnv.GITHUB_USERNAME;
-    } catch {
-        // dynamic env not available
-    }
+    // Cloudflare: platform.env bindings (set in dashboard)
+    let GITHUB_TOKEN = platform?.env?.GITHUB_TOKEN;
+    let GITHUB_USERNAME = platform?.env?.GITHUB_USERNAME;
 
     if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
         const missing = [

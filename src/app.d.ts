@@ -3,10 +3,6 @@ declare module '*.md' {
     export default component;
 }
 
-declare module '$env/dynamic/private' {
-    export const env: Record<string, string | undefined>;
-}
-
 declare namespace App {
     interface Platform {
         env: {
