@@ -1,5 +1,7 @@
-import { GITHUB_TOKEN, GITHUB_USERNAME } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { json } from '@sveltejs/kit';
+
+export const prerender = false;
 
 interface ContributionDay {
     date: string;
@@ -13,10 +15,10 @@ interface Week {
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ fetch }) {
-    if (!GITHUB_TOKEN || !GITHUB_USERNAME) {
+    if (!env.GITHUB_TOKEN || !env.GITHUB_USERNAME) {
         const missing = [
-            !GITHUB_TOKEN ? 'GITHUB_TOKEN' : null,
-            !GITHUB_USERNAME ? 'GITHUB_USERNAME' : null,
+            !env.GITHUB_TOKEN ? 'GITHUB_TOKEN' : null,
+            !env.GITHUB_USERNAME ? 'GITHUB_USERNAME' : null,
         ]
             .filter(Boolean)
             .join(', ');
@@ -59,7 +61,7 @@ export async function GET({ fetch }) {
         from.setDate(from.getDate() - 7);
 
         const variables = {
-            username: GITHUB_USERNAME,
+            username: env.GITHUB_USERNAME,
             from: from.toISOString(),
             to: to.toISOString(),
         };
@@ -67,7 +69,7 @@ export async function GET({ fetch }) {
         const response = await fetch('https://api.github.com/graphql', {
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${GITHUB_TOKEN}`,
+                Authorization: `Bearer ${env.GITHUB_TOKEN}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
