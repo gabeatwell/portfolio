@@ -7,8 +7,9 @@
     import testimonials from '$lib/components/projects/testimonials.json';
     import SEO from '$lib/data/SEO.svelte';
     import GithubContributions from '$lib/components/projects/contributions/GithubContributions.svelte';
+    import { generateFallbackData } from '$lib/components/projects/contributions/githubContributions';
     import Heading from '$lib/components/layout/titles/Heading.svelte';
-    // import { getContributions } from './data.remote';
+    import { getContributions } from './data.remote';
     import type { ContributionsData } from '$lib/components/projects/contributions/contributions.svelte';
 
     let contributions: ContributionsData | null = $state(null);
@@ -31,38 +32,23 @@
         isNavigating = true;
     });
 
-    // api fetch
+    // load prereendered contributions data (fetched at build time)
     $effect(() => {
-        const controller = new AbortController();
-
-        fetch('/api/github-contributions', { signal: controller.signal })
-            .then(async (r) => {
-                if (!r.ok) throw new Error(`API responded with ${r.status}`);
-                return r.json();
-            })
+        getContributions()
             .then((data) => {
-                if (data.fallback) {
-                    console.warn(
-                        'GitHub contributions API returned fallback data:',
-                        data.error,
-                    );
-                    contributions = {
-                        weeks: data.weeks,
-                        totalContributions: data.totalContributions,
-                    };
-                    return;
-                }
                 contributions = {
                     weeks: data.weeks,
                     totalContributions: data.totalContributions,
                 };
             })
             .catch((err) => {
-                if (err.name === 'AbortError') return;
-                console.error('Failed to retrieve contribution data:', err);
+                console.error('Failed to load contributions data:', err);
+                const fallback = generateFallbackData();
+                contributions = {
+                    weeks: fallback.weeks,
+                    totalContributions: fallback.totalContributions,
+                };
             });
-
-        return () => controller.abort();
     });
 
     // load project component with a slight delay
