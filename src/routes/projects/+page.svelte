@@ -6,13 +6,44 @@
     import projects from '$lib/components/projects/projects.json';
     import testimonials from '$lib/components/projects/testimonials.json';
     import SEO from '$lib/data/SEO.svelte';
-    import GithubContributions from '$lib/components/projects/contributions/GithubContributions.svelte';
-    import { generateFallbackData } from '$lib/components/projects/contributions/githubContributions';
     import Heading from '$lib/components/layout/titles/Heading.svelte';
+
     import { getContributions } from './data.remote';
+    import GithubContributions from '$lib/components/projects/contributions/GithubContributions.svelte';
     import type { ContributionsData } from '$lib/components/projects/contributions/contributions.svelte';
 
-    let contributions: ContributionsData | null = $state(null);
+    // build time fallback
+    const prerendered = await getContributions();
+    let contributions: ContributionsData | null = $state(
+        prerendered.weeks?.length
+            ? {
+                  weeks: prerendered.weeks,
+                  totalContributions: prerendered.totalContributions,
+              }
+            : null,
+    );
+
+    // live fetch when succeeds
+    $effect(() => {
+        const controller = new AbortController();
+
+        fetch('/api/github-contributions', { signal: controller.signal })
+            .then(async (r) => {
+                if (!r.ok) return null;
+                return r.json();
+            })
+            .then((data) => {
+                if (data?.success && data?.weeks.length) {
+                    contributions = {
+                        weeks: data.weeks,
+                        totalContributions: data.totalContributions,
+                    };
+                }
+                // else keep prerendered
+            });
+
+        return () => controller.abort();
+    });
 
     let ProjectComponent:
         | typeof import('$lib/components/projects/Project.svelte').default
@@ -30,25 +61,6 @@
 
     beforeNavigate(() => {
         isNavigating = true;
-    });
-
-    // load prereendered contributions data (fetched at build time)
-    $effect(() => {
-        getContributions()
-            .then((data) => {
-                contributions = {
-                    weeks: data.weeks,
-                    totalContributions: data.totalContributions,
-                };
-            })
-            .catch((err) => {
-                console.error('Failed to load contributions data:', err);
-                const fallback = generateFallbackData();
-                contributions = {
-                    weeks: fallback.weeks,
-                    totalContributions: fallback.totalContributions,
-                };
-            });
     });
 
     // load project component with a slight delay

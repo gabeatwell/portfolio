@@ -1,5 +1,4 @@
 import { prerender } from '$app/server';
-import { generateFallbackData } from '$lib/components/projects/contributions/githubContributions';
 import { GITHUB_TOKEN, GITHUB_USERNAME } from '$env/static/private';
 
 export const getContributions = prerender(async () => {
@@ -33,6 +32,7 @@ export const getContributions = prerender(async () => {
             headers: {
                 Authorization: `Bearer ${GITHUB_TOKEN}`,
                 'Content-Type': 'application/json',
+                'User-Agent': 'atwell-dev-portfolio',
             },
             body: JSON.stringify({
                 query,
@@ -59,9 +59,15 @@ export const getContributions = prerender(async () => {
         return {
             totalContributions: calendar.totalContributions,
             weeks: calendar.weeks,
+            source: 'prerender' as const,
         };
     } catch (error) {
-        console.error('Error fetching contributions:', error);
-        return generateFallbackData();
+        console.error('Prerender contributions failed:', error);
+
+        return {
+            totalContributions: 0,
+            weeks: [],
+            source: 'prerender-empty' as const,
+        };
     }
 });
