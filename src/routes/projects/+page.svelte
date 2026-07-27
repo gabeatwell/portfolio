@@ -8,7 +8,7 @@
     import SEO from '$lib/data/SEO.svelte';
     import Heading from '$lib/components/layout/titles/Heading.svelte';
 
-    import { getContributions } from './data.remote';
+    import { getContributions } from './contributions.remote';
     import GithubContributions from '$lib/components/projects/contributions/GithubContributions.svelte';
     import type { ContributionsData } from '$lib/components/projects/contributions/contributions.svelte';
 

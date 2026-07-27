@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getPosts } from './data.remote';
+    import { getPosts } from './blog.remote';
     import SEO from '$lib/data/SEO.svelte';
 
     let posts = await getPosts();
