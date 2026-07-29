@@ -98,6 +98,8 @@
         & .title-link {
             pointer-events: auto;
             text-decoration: none;
+            inline-size: fit-content;
+            margin-inline: auto;
 
             &:focus,
             &:focus-visible {
