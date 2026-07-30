@@ -65,25 +65,14 @@
         "url": "https://make-a-password.vercel.app/"
     },
     {
-        "id": "go-http-server",
-        "description": "go",
-        "img": {
-            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/go-http.avif"
-        },
-        "index": 5,
-        "summary": "This is a reusable http server built in go. It uses the standard library only, environment based configuration,  and it also has graceful shutdown.",
-        "title": "go http server",
-        "url": "https://github.com/gabeatwell/go-http-server/"
-    },
-    {
         "id": "go-chat",
         "description": "go",
         "img": {
             "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/chat.webp"
         },
-        "index": 6,
-        "summary": "This is a chat app I built with Go and with websockets.",
-        "title": "Chat app",
+        "index": 5,
+        "summary": "This is a chat app I built with Go and with websockets. I added a manifest.json and turned it into a progressive web app.",
+        "title": "chatski",
         "url": "https://chatski.duckdns.org"
     }
 ]
