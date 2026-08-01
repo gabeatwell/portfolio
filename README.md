@@ -6,7 +6,7 @@
 
 A fully custom, from-scratch portfolio built with **SvelteKit**, **GSAP**, and **Three.js**.
 It's a **Progressive Web App**, features a collection of **frontend experiments**, and ships
-a **Go-powered blog** — with every technique doubling as a hands-on tutorial for **CSS** and **GSAP**.
+a **Three.js blog** — and tutorials for **CSS** and **GSAP**.
 
 [https://atwell.dev](https://atwell.dev)
 
@@ -29,7 +29,7 @@ A sandbox of interactive demos I've built to explore and push the limits of the 
 - **CSS** — modern layout patterns, transforms, blend modes, and micro-interactions.
 - Each experiment is isolated, runnable, and documented so it doubles as a reference snippet.
 
-### 📝 Go Blog
+### 📝 Three.js Blog
 
 - Posts are served by a **Remote Functions** in sveltekit.
 - Content is authored in **Markdown** and rendered on the client.
