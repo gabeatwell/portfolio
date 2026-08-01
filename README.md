@@ -4,10 +4,58 @@
     <img src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/shieldy.webp" width="500" height="auto" alt="Shieldy logo" />
 </div>
 
+A fully custom, from-scratch portfolio built with **SvelteKit**, **GSAP**, and **Three.js**.
+It's a **Progressive Web App**, features a collection of **frontend experiments**, and ships
+a **Go-powered blog** — with every technique doubling as a hands-on tutorial for **CSS** and **GSAP**.
+
 [https://atwell.dev](https://atwell.dev)
 
-<article style="margin-bottom: 2rem; font-size: clamp(1rem, 1.5vw, 1.75rem); line-height: 1.25;">
-This is my portfolio website that I built with sveltekit, gsap, and three.js to showcase my projects and skills. I coded this from scratch, it's completely custom. I also added markdown for my blog posts, and I try to update the site regularly.
-</article>
+---
 
-## Please contact me if you have any questions
+## ✨ Features
+
+### 🚀 Progressive Web App (PWA)
+
+- **Installable** — web app manifest + icons let visitors add the site to their home screen or desktop.
+- **Offline-ready** — the service worker caches the app shell so the portfolio loads without a connection.
+- **Responsive & mobile-first** — fluid layouts and touch-friendly interactions on every screen size.
+
+### 🧪 Frontend Experiments
+
+A sandbox of interactive demos I've built to explore and push the limits of the web:
+
+- **GSAP** — scroll-triggered animations, timelines, scrubbing, easing, and staggered reveals.
+- **Three.js** — WebGL scenes, 3D models, and shader playgrounds.
+- **CSS** — modern layout patterns, transforms, blend modes, and micro-interactions.
+- Each experiment is isolated, runnable, and documented so it doubles as a reference snippet.
+
+### 📝 Go Blog
+
+- Posts are served by a **Remote Functions** in sveltekit.
+- Content is authored in **Markdown** and rendered on the client.
+- The blog keeps the site current — I update it regularly with new posts and experiments.
+
+### 🎓 CSS & GSAP Teachings
+
+- The experiments section is a learning resource as much as a portfolio. (Reach it by pressing tab twice when not focused on anything)
+- Every demo explains _why_ a technique works, not just _how_ to copy it.
+- Articles pair written breakdowns with live, interactive examples you can inspect and tweak.
+
+### 🎨 Completely Custom
+
+- No templates — the UI, animations, and layouts are all hand-coded.
+- Markdown-driven content makes adding projects and posts quick.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer        | Technology                        |
+| ------------ | --------------------------------- |
+| Frontend     | SvelteKit (Svelte 5 runes)        |
+| Animations   | GSAP + ScrollTrigger              |
+| 3D / WebGL   | Three.js                          |
+| Blog backend | Sveltekit Remote Functions        |
+| Content      | Markdown                          |
+| PWA          | Service worker + web app manifest |
+| Hosting      | Cloudflare Pages                  |
