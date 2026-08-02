@@ -95,6 +95,7 @@ export default defineConfig({
         },
         minify: 'terser',
         cssCodeSplit: true,
+        cssMinify: 'lightningcss',
     },
     test: {
         environment: 'jsdom',

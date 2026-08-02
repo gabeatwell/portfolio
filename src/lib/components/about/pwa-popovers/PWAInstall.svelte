@@ -191,15 +191,13 @@
         /* close state */
         display: none;
         opacity: 0;
-        transform: translateY(2rem);
-        scale: 0;
+        transform: scale(0);
         overlay: none;
 
         transition:
             opacity 0.5s allow-discrete,
-            transform 0.5s allow-discrete,
             display 0.5s allow-discrete,
-            scale 0.5s allow-discrete,
+            transform 0.5s allow-discrete,
             overlay 0.5s allow-discrete;
     }
 
@@ -207,8 +205,7 @@
     [popover]:popover-open {
         display: block;
         opacity: 1;
-        scale: 1;
-        transform: translateY(0);
+        transform: scale(1);
         overlay: auto;
     }
 
@@ -216,8 +213,7 @@
     @starting-style {
         [popover]:popover-open {
             opacity: 0;
-            scale: 0;
-            transform: translateY(2rem);
+            transform: scale(0);
         }
     }
 
