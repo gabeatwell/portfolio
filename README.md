@@ -34,6 +34,7 @@ A sandbox of interactive demos I've built to explore and push the limits of the 
 - Posts are served by a **Remote Functions** in sveltekit.
 - Content is authored in **Markdown** and rendered on the client.
 - The blog keeps the site current — I update it regularly with new posts and experiments.
+- There's also am examples pag.
 
 ### CSS & GSAP Teachings
 
