@@ -91,7 +91,7 @@
 <style>
     .learn-wrapper {
         padding-top: 7em;
-        min-height: 100vh;
+        min-block-size: 100svh;
         background: linear-gradient(
             to bottom,
             oklch(from var(--clr-gray-700) 0.35 c h) 0%,

@@ -127,7 +127,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-block-size: 100svh;
             position: relative;
 
             & h2 {

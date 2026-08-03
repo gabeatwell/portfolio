@@ -63,7 +63,7 @@
         width: 100vw;
         height: 100vh;
         z-index: 0;
-        min-height: 100vh;
+        min-block-size: 100svh;
         max-inline-size: 100vw;
         display: block;
         background: transparent;

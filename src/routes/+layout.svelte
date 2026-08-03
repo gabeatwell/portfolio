@@ -97,11 +97,11 @@
     :global(body) {
         width: 100%;
         height: 100%;
-        min-height: 100vh;
+        min-block-size: 100svh;
     }
 
     main {
-        min-height: 100vh;
+        min-block-size: 100svh;
         width: 100%;
         height: 100%;
         display: flex;

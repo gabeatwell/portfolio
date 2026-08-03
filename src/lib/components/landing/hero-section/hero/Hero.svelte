@@ -75,7 +75,7 @@
 <style>
     article {
         position: relative;
-        min-height: 100vh;
+        min-block-size: 100svh;
         height: auto;
         overflow: clip;
         display: flex;
