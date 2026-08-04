@@ -6,11 +6,12 @@
         children = (() => {}) as unknown as Snippet,
     }: { children?: Snippet } = $props();
 
-    let mask = $state<SVGSVGElement | null>(null);
+    let root = $state<HTMLDivElement | null>(null);
+    let teeth = $state<SVGSVGElement | null>(null);
     let done = $state(false);
 
     $effect(() => {
-        if (!mask) return;
+        if (!root || !teeth) return;
 
         // prefers-reduced-motion: skip the intro entirely
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -18,21 +19,27 @@
             return;
         }
 
-        // bars inside the clipPath — top half and mirrored bottom half
-        const topBars = gsap.utils.toArray<SVGRectElement>('.top-bar', mask);
-        const bottomBars = gsap.utils.toArray<SVGRectElement>(
-            '.bottom-bar',
-            mask,
+        // visible teeth bars — top half and mirrored bottom half
+        const topTeeth = gsap.utils.toArray<SVGRectElement>(
+            '.top-tooth',
+            teeth,
         );
-        if (!topBars.length || !bottomBars.length) return;
+        const bottomTeeth = gsap.utils.toArray<SVGRectElement>(
+            '.bottom-tooth',
+            teeth,
+        );
+        if (!topTeeth.length || !bottomTeeth.length) return;
+
+        const hero = root.querySelector<HTMLElement>('.hero-stack');
+        if (!hero) return;
 
         const timeline = gsap.timeline();
 
-        // 1. top bars grow upward from the center line, middle column outward
+        // 1. top teeth slide up off-screen, middle column outward
         timeline.to(
-            topBars,
+            topTeeth,
             {
-                attr: { y: 0, height: 0.5 },
+                attr: { y: -50 },
                 duration: 1.5,
                 ease: 'sine.inOut',
                 stagger: { each: 0.15, from: 'center', ease: 'none' },
@@ -40,11 +47,11 @@
             0,
         );
 
-        // 2. bottom bars grow downward from the center line (mirrored)
+        // 2. bottom teeth slide down off-screen (mirrored)
         timeline.to(
-            bottomBars,
+            bottomTeeth,
             {
-                attr: { y: 0.5, height: 0.5 },
+                attr: { y: 100 },
                 duration: 1.5,
                 ease: 'sine.inOut',
                 stagger: { each: 0.15, from: 'center', ease: 'none' },
@@ -52,14 +59,10 @@
             0,
         );
 
-        // 3. hero dollies out from behind the bars
-        timeline.from(
-            '.hero-stack',
-            { scale: 1.1, duration: timeline.duration() },
-            0,
-        );
+        // 3. hero dollies out from behind the teeth
+        timeline.from(hero, { scale: 1.1, duration: timeline.duration() }, 0);
 
-        // 3. release the clip so the hero renders unclipped
+        // 4. unmount the teeth once the reveal is complete
         timeline.add(() => {
             done = true;
         });
@@ -70,60 +73,66 @@
     });
 </script>
 
-<div class="hero-stack" class:clipped={!done}>
-    {@render children()}
+<div class="teeth-intro" class:clipped={!done} bind:this={root}>
+    <div class="hero-stack">
+        {@render children()}
+    </div>
+
+    {#if !done}
+        <svg
+            class="teeth"
+            bind:this={teeth}
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+        >
+            <!-- Top half: 5 teeth covering the top half, slide up to reveal -->
+            <rect class="top-tooth" x="0" y="0" width="20" height="50" />
+            <rect class="top-tooth" x="20" y="0" width="20" height="50" />
+            <rect class="top-tooth" x="40" y="0" width="20" height="50" />
+            <rect class="top-tooth" x="60" y="0" width="20" height="50" />
+            <rect class="top-tooth" x="80" y="0" width="20" height="50" />
+            <!-- Bottom half: mirrored teeth, slide down to reveal -->
+            <rect class="bottom-tooth" x="0" y="50" width="20" height="50" />
+            <rect class="bottom-tooth" x="20" y="50" width="20" height="50" />
+            <rect class="bottom-tooth" x="40" y="50" width="20" height="50" />
+            <rect class="bottom-tooth" x="60" y="50" width="20" height="50" />
+            <rect class="bottom-tooth" x="80" y="50" width="20" height="50" />
+        </svg>
+    {/if}
 </div>
 
-<svg
-    class="hero-mask"
-    bind:this={mask}
-    width="0"
-    height="0"
-    viewBox="0 0 1 1"
-    aria-hidden="true"
->
-    <defs>
-        <clipPath id="barsClip" clipPathUnits="objectBoundingBox">
-            <!-- Top half: 5 bars anchored at the center line (y=0.5), growing upward -->
-            <rect class="top-bar" x="0.00" y="0.5" width="0.20" height="0" />
-            <rect class="top-bar" x="0.20" y="0.5" width="0.20" height="0" />
-            <rect class="top-bar" x="0.40" y="0.5" width="0.20" height="0" />
-            <rect class="top-bar" x="0.60" y="0.5" width="0.20" height="0" />
-            <rect class="top-bar" x="0.80" y="0.5" width="0.20" height="0" />
-            <!-- Bottom half: mirrored bars, growing downward -->
-            <rect class="bottom-bar" x="0.00" y="0.5" width="0.20" height="0" />
-            <rect class="bottom-bar" x="0.20" y="0.5" width="0.20" height="0" />
-            <rect class="bottom-bar" x="0.40" y="0.5" width="0.20" height="0" />
-            <rect class="bottom-bar" x="0.60" y="0.5" width="0.20" height="0" />
-            <rect class="bottom-bar" x="0.80" y="0.5" width="0.20" height="0" />
-        </clipPath>
-    </defs>
-</svg>
-
 <style>
+    .teeth-intro {
+        position: relative;
+    }
+
+    /* During the intro the hero is locked to the viewport so the teeth
+       cover exactly what's on screen. The lock is released once the
+       intro completes. */
+    .teeth-intro.clipped {
+        height: 100vh;
+        overflow: hidden;
+    }
+
     .hero-stack {
         position: relative;
         will-change: transform;
     }
 
-    /* During the intro the hero is constrained to the viewport so the mask's
-       center line (y=0.5) lands on the horizontal center of the screen — the
-       top bars grow up from mid-screen and the bottom bars grow down, both
-       visible. The mask reveals the hero itself (no overlay). */
-    .hero-stack.clipped {
-        height: 100vh;
-        overflow: hidden;
-        clip-path: url(#barsClip);
-    }
-
-    /* The mask SVG is invisible — only its clipPath geometry is used */
-    .hero-mask {
+    /* The teeth are a full-size overlay drawn in front of the hero —
+       recolor the rects freely without touching the hero behind. */
+    .teeth {
         position: absolute;
-        overflow: hidden;
+        inset: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
         pointer-events: none;
 
         & rect {
-            fill: var(--clr-dark-200);
+            /* fill: var(--clr-dark-500); */
+            fill: #a5a5a5;
         }
     }
 </style>
