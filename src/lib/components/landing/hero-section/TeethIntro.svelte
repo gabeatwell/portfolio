@@ -131,8 +131,9 @@
         pointer-events: none;
 
         & rect {
-            /* fill: var(--clr-dark-500); */
-            fill: #a5a5a5;
+            fill: var(--clr-light-500);
+            stroke: var(--clr-dark-500);
+            stroke-width: 0.2;
         }
     }
 </style>

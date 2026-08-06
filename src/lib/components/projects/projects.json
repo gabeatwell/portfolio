@@ -39,17 +39,15 @@
         "url": "https://legit-shopping-list.vercel.app/"
     },
     {
-        "id": "ecommerce",
-        "description": "vanilla html/css/js",
+        "id": "go-chat",
+        "description": "go",
         "img": {
-            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/ecommerce.webp",
-            "srcset": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/ecommerce-400w.webp 400w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/ecommerce-800w.webp 800w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/ecommerce.webp 667w",
-            "sizes": "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 455px"
+            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/chat.webp"
         },
         "index": 3,
-        "summary": "My version of an e-commerce product page that features a product image, title, price, and description. I used the fake store API to populate the product data.",
-        "title": "e-commerce product page",
-        "url": "https://fake-store-products.vercel.app"
+        "summary": "This is a chat app I built with Go and with websockets. I added a manifest.json and turned it into a progressive web app.",
+        "title": "chatski",
+        "url": "https://chatski.duckdns.org"
     },
     {
         "id": "passcraft",
@@ -65,14 +63,16 @@
         "url": "https://make-a-password.vercel.app/"
     },
     {
-        "id": "go-chat",
-        "description": "go",
+        "id": "ecommerce",
+        "description": "vanilla html/css/js",
         "img": {
-            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/chat.webp"
+            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/ecommerce.webp",
+            "srcset": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/ecommerce-400w.webp 400w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/ecommerce-800w.webp 800w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/ecommerce.webp 667w",
+            "sizes": "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 455px"
         },
         "index": 5,
-        "summary": "This is a chat app I built with Go and with websockets. I added a manifest.json and turned it into a progressive web app.",
-        "title": "chatski",
-        "url": "https://chatski.duckdns.org"
+        "summary": "My version of an e-commerce product page that features a product image, title, price, and description. I used the fake store API to populate the product data.",
+        "title": "e-commerce product page",
+        "url": "https://fake-store-products.vercel.app"
     }
 ]
