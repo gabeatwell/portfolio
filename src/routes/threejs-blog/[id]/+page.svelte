@@ -4,6 +4,7 @@
     import DOMPurify from 'isomorphic-dompurify';
     import Avatar2 from '$lib/components/blog/ProfilePic.svelte';
     import SEO from '$lib/data/SEO.svelte';
+    import Isle from '$lib/data/island-architecture/Isle.svelte';
 
     let { data } = $props();
     let post = $derived(data.post);
@@ -61,6 +62,15 @@
         <div class="post-content">
             {@html renderedHtml}
         </div>
+
+        <Isle
+            component={() => import('./Scene.svelte')}
+            props={{ post }}
+            when="visible"
+            rootMargin="400px"
+        >
+            <div class="scene-fallback">Loading 3D Scene...</div>
+        </Isle>
     </section>
 
     <a class="go-back" href="/threejs-blog">go back</a>
@@ -104,6 +114,15 @@
         & :global(h3) {
             color: var(--clr-gray-700);
         }
+    }
+
+    .scene-fallback {
+        height: 60vh;
+        min-height: 400px;
+        display: grid;
+        place-items: center;
+        background: var(--clr-dark-500);
+        color: var(--clr-light-500);
     }
 
     .go-back {

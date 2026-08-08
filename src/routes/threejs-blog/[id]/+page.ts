@@ -1,6 +1,7 @@
 import { getPost } from '../data.remote';
+import type { PageLoad } from './$types';
 
-export async function load({ params }) {
+export const load: PageLoad = async ({ params }) => {
     const post = await getPost(Number(params.id));
     return { post };
-}
+};

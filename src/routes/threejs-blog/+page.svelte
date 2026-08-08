@@ -30,6 +30,8 @@
                         class="post-image"
                         src={post.image}
                         alt=""
+                        loading="lazy"
+                        decoding="async"
                         style="view-transition-name: blog-image-{post.id};"
                     />
                 </a>
