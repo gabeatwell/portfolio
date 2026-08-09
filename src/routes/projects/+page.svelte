@@ -26,12 +26,11 @@
     // live fetch when succeeds
     $effect(() => {
         const controller = new AbortController();
-
-        fetch('/api/github-contributions', { signal: controller.signal })
-            .then(async (r) => {
-                if (!r.ok) return null;
-                return r.json();
-            })
+        fetch('/api/github-contributions', {
+            signal: controller.signal,
+            cache: 'no-store',
+        })
+            .then(async (r) => (r.ok ? r.json() : null))
             .then((data) => {
                 if (data?.success && data?.weeks.length) {
                     contributions = {
@@ -39,9 +38,10 @@
                         totalContributions: data.totalContributions,
                     };
                 }
-                // else keep prerendered
-            });
-
+            })
+            .catch((err) =>
+                console.error('Contributions refresh failed:', err),
+            );
         return () => controller.abort();
     });
 

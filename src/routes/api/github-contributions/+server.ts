@@ -1,6 +1,10 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
+const NO_CACHE = {
+    'Cache-Control': 'no-store, max-age=0, must-revalidate',
+} as const;
+
 export const prerender = false;
 
 export const GET: RequestHandler = async ({ platform }) => {
@@ -12,10 +16,13 @@ export const GET: RequestHandler = async ({ platform }) => {
     const username = env?.GITHUB_USERNAME;
 
     if (!token || !username) {
-        return json({
-            success: false,
-            error: 'Missing GITHUB_TOKEN or GITHUB_USERNAME at runtime',
-        });
+        return json(
+            {
+                success: false,
+                error: 'Missing GITHUB_TOKEN or GITHUB_USERNAME at runtime',
+            },
+            { headers: NO_CACHE },
+        );
     }
 
     try {
@@ -76,16 +83,26 @@ export const GET: RequestHandler = async ({ platform }) => {
         const calendar =
             data.data.user.contributionsCollection.contributionCalendar;
 
-        return json({
-            success: true,
-            totalContributions: calendar.totalContributions,
-            weeks: calendar.weeks,
-            source: 'live',
-        });
+        return json(
+            {
+                success: true,
+                weeks: calendar.weeks,
+                totalContributions: calendar.totalContributions,
+                source: 'live',
+            },
+            { headers: NO_CACHE },
+        );
     } catch (error) {
-        return json({
-            success: false,
-            error: error instanceof Error ? error.message : 'Unknown error',
-        });
+        console.error('Contributions API failed:', error);
+
+        return json(
+            {
+                success: false,
+                weeks: [],
+                totalContributions: 0,
+                source: 'error',
+            },
+            { headers: NO_CACHE },
+        );
     }
 };
