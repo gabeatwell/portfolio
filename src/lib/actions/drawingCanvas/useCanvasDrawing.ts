@@ -6,7 +6,7 @@ import {
     stopDrawing,
     undo,
     clearCanvas,
-} from './drawFunctions.svelte';
+} from '../../components/learn/draw-canvas/drawFunctions.svelte';
 
 export const useCanvasDrawing: Action<HTMLCanvasElement> = (node) => {
     const ac = new AbortController();
