@@ -1,7 +1,6 @@
 <script lang="ts">
     import SEO from '$lib/data/SEO.svelte';
     import bio from '$lib/components/about/bio.json';
-    import Button from '$lib/components/layout/Button.svelte';
     import Grid from '$lib/components/about/Grid.svelte';
     import Bento from '$lib/components/about/Bento.svelte';
     import AboutHero from '$lib/components/about/about-hero/AboutHero.svelte';
@@ -10,48 +9,10 @@
     import PWAInstall from '$lib/components/about/pwa-popovers/PWAInstall.svelte';
     import PWAVideo from '$lib/components/about/pwa-popovers/PWAVideo.svelte';
 
-    import { gsap, ScrollTrigger } from '$lib/data/gsap';
+    import { fadeInBio } from '$lib/actions/gsap/fadeInBio';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
 
     const breakpoints = getBreakpoints();
-
-    // gsap scroll
-    $effect(() => {
-        const mm = gsap.matchMedia();
-
-        mm.add('(prefers-reduced-motion: no-preference)', () => {
-            const isMobile = breakpoints.isMobile;
-            const container = document.querySelector('.biography');
-            const targets = gsap.utils.toArray(
-                '.biography .bio-paragraph, .biography .three-button, .biography [data-flex-container]',
-            );
-            const startPoint = isMobile ? 'top 55%' : 'top 90%';
-
-            if (!targets.length) return;
-
-            gsap.set(targets, { opacity: 0, y: 30 });
-
-            const scrollFade = gsap.to(targets, {
-                opacity: 1,
-                y: 0,
-                ease: 'power2.out',
-                duration: 2,
-                stagger: 0.5,
-                scrollTrigger: {
-                    trigger: container,
-                    start: startPoint,
-                    scrub: 1,
-                },
-            });
-
-            return () => {
-                scrollFade?.kill();
-                ScrollTrigger.getAll().forEach((t) => t.kill());
-            };
-        });
-
-        return () => mm.revert();
-    });
 </script>
 
 <SEO
@@ -67,7 +28,11 @@
                 <AboutHero title="Gabe" viewTransitionName="about-heading" />
             </div>
 
-            <div class="biography" aria-label="bio">
+            <div
+                class="biography"
+                aria-label="bio"
+                use:fadeInBio={breakpoints.isMobile}
+            >
                 {#each bio as paragraph}
                     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                     <p class="bio-paragraph indent">{@html paragraph.text}</p>

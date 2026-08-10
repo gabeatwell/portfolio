@@ -1,0 +1,44 @@
+import { gsap } from '$lib/data/gsap';
+import type { Action } from 'svelte/action';
+
+export const fadeInBio: Action<HTMLElement, boolean> = (node, isMobile) => {
+    const mm = gsap.matchMedia();
+
+    const setup = () => {
+        mm.add('(prefers-reduced-motion: no-preference)', () => {
+            const targets = gsap.utils.toArray<HTMLElement>(
+                '.bio-paragraph, .three-button, [data-flex-container]',
+                node,
+            );
+            if (!targets.length) return;
+
+            gsap.set(targets, { opacity: 0, y: 30 });
+
+            gsap.to(targets, {
+                opacity: 1,
+                y: 0,
+                ease: 'power2.out',
+                duration: 2,
+                stagger: 0.5,
+                scrollTrigger: {
+                    trigger: node,
+                    start: isMobile ? 'top 55%' : 'top 90%',
+                    scrub: 1,
+                },
+            });
+        });
+    };
+    setup();
+
+    return {
+        update(nextIsMobile) {
+            if (nextIsMobile === isMobile) return;
+            isMobile = nextIsMobile;
+            mm.revert();
+            setup();
+        },
+        destroy() {
+            mm.revert();
+        },
+    };
+};

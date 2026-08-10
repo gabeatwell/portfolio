@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
-    import { gsap, ScrollTrigger } from '$lib/data/gsap';
+    import { fadeInProject } from '$lib/actions/gsap/fadeInProject';
     import { beforeNavigate } from '$app/navigation';
     import Testimonial from '$lib/components/projects/Testimonial.svelte';
     import projects from '$lib/components/projects/projects.json';
@@ -52,8 +51,6 @@
     >(null);
     let showProjects = $state<boolean>(false);
     let isNavigating = $state<boolean>(false);
-    let prefersReducedMotion = $state<boolean>(false);
-    const breakpoints = getBreakpoints();
 
     function getTestimonialForProject(projectIndex: number) {
         return testimonials.find((t) => t.projectIndex === projectIndex);
@@ -83,56 +80,6 @@
             cancelled = true;
             clearTimeout(timer);
         };
-    });
-
-    // GSAP scroll effect
-    $effect(() => {
-        const mm = gsap.matchMedia();
-
-        if (!showProjects || breakpoints.isReduced) return;
-
-        mm.add('(prefers-reduced-motion: reduce)', () => {
-            gsap.set('.wholeProject', {
-                opacity: 1,
-                y: 0,
-                clearProps: 'transform',
-            });
-        });
-
-        mm.add('(prefers-reduced-motion: no-preference)', () => {
-            ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
-            if (prefersReducedMotion) {
-                gsap.set('.wholeProject', {
-                    opacity: 1,
-                    y: 0,
-                    clearProps: 'transform',
-                });
-                return;
-            }
-
-            gsap.set('.wholeProject', { opacity: 0, y: 30 });
-
-            ScrollTrigger.batch('.wholeProject', {
-                onEnter: (batch) => {
-                    gsap.to(batch, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.8,
-                        stagger: 0.3,
-                        ease: 'power2.out',
-                    });
-                },
-                start: 'top 80%',
-                once: true,
-            });
-
-            return () => {
-                ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-            };
-        });
-
-        return () => mm.revert();
     });
 </script>
 
@@ -175,7 +122,7 @@
             {#each projects as project (project.index)}
                 {@const testimonial = getTestimonialForProject(project.index)}
 
-                <div class="wholeProject">
+                <div class="wholeProject" use:fadeInProject={project.index}>
                     <ProjectComponent {...project} hasBorder={false} />
 
                     {#if testimonial}

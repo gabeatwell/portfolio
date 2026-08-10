@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { useCanvasDrawing } from '$lib/actions/drawingCanvas/useCanvasDrawing';
     import {
-        initCanvas,
-        startDrawing,
         draw,
         stopDrawing,
         undo,
@@ -10,7 +10,6 @@
         drawState,
     } from './drawFunctions.svelte';
 
-    let canvas: HTMLCanvasElement | null = $state(null);
     let mouseX = $state(0);
     let mouseY = $state(0);
     let isOnCanvas = $state(false);
@@ -18,73 +17,15 @@
     const breakpoints = getBreakpoints();
 
     function handlePointerMove(e: PointerEvent) {
-        const rect = canvas?.getBoundingClientRect();
-        if (!rect) return;
+        const rect = (
+            e.currentTarget as HTMLCanvasElement
+        ).getBoundingClientRect();
         mouseX = e.clientX - rect.left;
         mouseY = e.clientY - rect.top;
         draw(e);
     }
 
-    $effect(() => {
-        if (!canvas) return;
-
-        const ac = new AbortController();
-
-        initCanvas(canvas);
-
-        canvas.addEventListener('pointerdown', startDrawing as EventListener, {
-            signal: ac.signal,
-        });
-        canvas.addEventListener('pointermove', draw as EventListener, {
-            signal: ac.signal,
-        });
-        canvas.addEventListener('pointerup', stopDrawing as EventListener, {
-            signal: ac.signal,
-        });
-        canvas.addEventListener('pointerleave', stopDrawing as EventListener, {
-            signal: ac.signal,
-        });
-
-        canvas.addEventListener(
-            'touchstart',
-            (e: TouchEvent) => {
-                e.preventDefault();
-                startDrawing(e);
-            },
-            { passive: false, signal: ac.signal } as AddEventListenerOptions,
-        );
-        canvas.addEventListener(
-            'touchmove',
-            (e: TouchEvent) => {
-                e.preventDefault();
-                draw(e);
-            },
-            { passive: false, signal: ac.signal } as AddEventListenerOptions,
-        );
-        canvas.addEventListener(
-            'touchend',
-            (e: TouchEvent) => {
-                e.preventDefault();
-                stopDrawing();
-            },
-            { passive: false, signal: ac.signal } as AddEventListenerOptions,
-        );
-
-        const handleKeyDown = (e: KeyboardEvent): void => {
-            if (e.key === 'z' && e.ctrlKey) {
-                e.preventDefault();
-                undo();
-            }
-            if (e.key === 'Delete' || e.key === 'Backspace') clearCanvas();
-        };
-        window.addEventListener('keydown', handleKeyDown, {
-            signal: ac.signal,
-        });
-
-        return () => ac.abort();
-    });
-
-    $effect(() => {
+    onMount(() => {
         const footer = document.querySelector('footer') as HTMLElement | null;
 
         if (footer) footer.style.display = 'none';
@@ -168,7 +109,7 @@
 
     <canvas
         id="canvas"
-        bind:this={canvas}
+        use:useCanvasDrawing
         onpointermove={handlePointerMove}
         onpointerenter={() => (isOnCanvas = true)}
         onpointerleave={() => {
