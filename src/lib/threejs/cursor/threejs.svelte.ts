@@ -1,3 +1,4 @@
+import type { Attachment } from 'svelte/attachments';
 import {
     WebGLRenderer,
     Scene,
@@ -19,7 +20,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import cursorVert from './shaders/cursor.vert?raw';
 import cursorFrag from './shaders/cursor.frag?raw';
 
-export function setupCursorScene(canvas: HTMLCanvasElement) {
+export const setupCursorScene: Attachment<HTMLCanvasElement> = (canvas) => {
     const abortController = new AbortController();
 
     let renderer: WebGLRenderer;
@@ -285,4 +286,4 @@ export function setupCursorScene(canvas: HTMLCanvasElement) {
             displacement.canvas.parentNode.removeChild(displacement.canvas);
         }
     };
-}
+};

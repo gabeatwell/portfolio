@@ -1,10 +1,10 @@
 import { gsap } from '$lib/data/gsap';
-import type { Action } from 'svelte/action';
+import type { Attachment } from 'svelte/attachments';
 
-export const fadeInProject: Action<HTMLElement, number> = (node, index = 0) => {
-    const mm = gsap.matchMedia();
+export function fadeInProject(index = 0): Attachment {
+    return (node) => {
+        const mm = gsap.matchMedia();
 
-    const setup = () => {
         mm.add('(prefers-reduced-motion: no-preference)', () => {
             gsap.set(node, { opacity: 0, y: 30 });
 
@@ -21,19 +21,7 @@ export const fadeInProject: Action<HTMLElement, number> = (node, index = 0) => {
                 },
             });
         });
-    };
 
-    setup();
-
-    return {
-        update(nextIndex) {
-            if (nextIndex === index) return;
-            index = nextIndex;
-            mm.revert();
-            setup();
-        },
-        destroy() {
-            mm.revert();
-        },
+        return () => mm.revert();
     };
-};
+}

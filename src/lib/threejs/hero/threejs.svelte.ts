@@ -14,8 +14,9 @@ import {
     TextureLoader,
     Texture,
 } from 'three';
+import type { Attachment } from 'svelte/attachments';
 
-export function setupHeroCanvas(canvas: HTMLCanvasElement) {
+export const setupHeroCanvas: Attachment<HTMLCanvasElement> = (canvas) => {
     let animationFrameId: number | undefined;
     let renderer: WebGLRenderer | undefined;
     let geometry: CapsuleGeometry | undefined;
@@ -372,4 +373,4 @@ export function setupHeroCanvas(canvas: HTMLCanvasElement) {
             star.dispose();
         }
     };
-}
+};

@@ -1,4 +1,4 @@
-import type { Action } from 'svelte/action';
+import type { Attachment } from 'svelte/attachments';
 import {
     initCanvas,
     startDrawing,
@@ -8,7 +8,7 @@ import {
     clearCanvas,
 } from '../../components/learn/draw-canvas/drawFunctions.svelte';
 
-export const useCanvasDrawing: Action<HTMLCanvasElement> = (node) => {
+export const useCanvasDrawing: Attachment<HTMLCanvasElement> = (node) => {
     const ac = new AbortController();
 
     initCanvas(node);
@@ -60,7 +60,5 @@ export const useCanvasDrawing: Action<HTMLCanvasElement> = (node) => {
     };
     window.addEventListener('keydown', handleKeyDown, { signal: ac.signal });
 
-    return {
-        destroy: () => ac.abort(), // runs on node destroy — same cleanup as before
-    };
+    return () => ac.abort();
 };

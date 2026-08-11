@@ -2,14 +2,7 @@
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
     import { setupEnvironment } from './threejs.svelte';
 
-    let canvas = $state<HTMLCanvasElement | null>(null);
     const breakpoints = getBreakpoints();
-
-    $effect(() => {
-        if (!canvas) return;
-
-        return setupEnvironment(canvas);
-    });
 
     $effect(() => {
         const nav = document.querySelector('.navigation') as HTMLElement | null;
@@ -30,7 +23,7 @@
     });
 </script>
 
-<canvas class="webgl" bind:this={canvas}></canvas>
+<canvas class="webgl" {@attach setupEnvironment}></canvas>
 
 <style>
     .webgl {

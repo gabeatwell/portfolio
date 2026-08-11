@@ -1,3 +1,4 @@
+import type { Attachment } from 'svelte/attachments';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import {
     Scene,
@@ -18,7 +19,7 @@ import vertexShader from '$lib/threejs/ribbon/shaders/ribbon.vert?raw';
 import fragmentShader from '$lib/threejs/ribbon/shaders/ribbon.frag?raw';
 import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
 
-export function setupRibbons(canvas: HTMLCanvasElement) {
+export const setupRibbons: Attachment<HTMLCanvasElement> = (canvas) => {
     if (!canvas) return;
 
     const breakpoints = getBreakpoints();
@@ -350,4 +351,4 @@ export function setupRibbons(canvas: HTMLCanvasElement) {
             }
         });
     };
-}
+};

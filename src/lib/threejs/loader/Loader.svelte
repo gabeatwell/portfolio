@@ -2,15 +2,8 @@
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
     import { setupLoader } from './threejs.svelte';
 
-    let canvas = $state<HTMLCanvasElement | undefined>(undefined);
     let loadingComplete = $state<boolean>(false);
     const breakpoints = getBreakpoints();
-
-    $effect(() => {
-        if (!canvas) return;
-
-        return setupLoader(canvas);
-    });
 
     $effect(() => {
         const footer = document.querySelector('footer') as HTMLElement | null;
@@ -31,7 +24,7 @@
     });
 </script>
 
-<canvas class="webgl" bind:this={canvas}></canvas>
+<canvas class="webgl" {@attach setupLoader}></canvas>
 
 <div class="loading-overlay">
     <section class="loading-bar"></section>

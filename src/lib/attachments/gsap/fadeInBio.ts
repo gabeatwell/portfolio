@@ -1,10 +1,10 @@
 import { gsap } from '$lib/data/gsap';
-import type { Action } from 'svelte/action';
+import type { Attachment } from 'svelte/attachments';
 
-export const fadeInBio: Action<HTMLElement, boolean> = (node, isMobile) => {
-    const mm = gsap.matchMedia();
+export function fadeInBio(isMobile: boolean): Attachment {
+    return (node) => {
+        const mm = gsap.matchMedia();
 
-    const setup = () => {
         mm.add('(prefers-reduced-motion: no-preference)', () => {
             const targets = gsap.utils.toArray<HTMLElement>(
                 '.bio-paragraph, .three-button, [data-flex-container]',
@@ -27,18 +27,7 @@ export const fadeInBio: Action<HTMLElement, boolean> = (node, isMobile) => {
                 },
             });
         });
-    };
-    setup();
 
-    return {
-        update(nextIsMobile) {
-            if (nextIsMobile === isMobile) return;
-            isMobile = nextIsMobile;
-            mm.revert();
-            setup();
-        },
-        destroy() {
-            mm.revert();
-        },
+        return () => mm.revert();
     };
-};
+}

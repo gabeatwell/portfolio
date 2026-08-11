@@ -9,7 +9,7 @@
     import PWAInstall from '$lib/components/about/pwa-popovers/PWAInstall.svelte';
     import PWAVideo from '$lib/components/about/pwa-popovers/PWAVideo.svelte';
 
-    import { fadeInBio } from '$lib/actions/gsap/fadeInBio';
+    import { fadeInBio } from '$lib/attachments/gsap/fadeInBio';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
 
     const breakpoints = getBreakpoints();
@@ -31,7 +31,7 @@
             <div
                 class="biography"
                 aria-label="bio"
-                use:fadeInBio={breakpoints.isMobile}
+                {@attach fadeInBio(breakpoints.isMobile)}
             >
                 {#each bio as paragraph}
                     <!-- eslint-disable-next-line svelte/no-at-html-tags -->

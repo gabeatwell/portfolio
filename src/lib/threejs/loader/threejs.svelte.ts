@@ -1,3 +1,4 @@
+import type { Attachment } from 'svelte/attachments';
 import {
     LoadingManager,
     Group,
@@ -18,7 +19,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { gsap } from '$lib/data/gsap';
 
-export function setupLoader(canvas: HTMLCanvasElement) {
+export const setupLoader: Attachment<HTMLCanvasElement> = (canvas) => {
     let _loadingComplete = $state<boolean>(false);
 
     /**
@@ -221,4 +222,4 @@ export function setupLoader(canvas: HTMLCanvasElement) {
         renderer.dispose();
         scene.clear();
     };
-}
+};

@@ -2,14 +2,7 @@
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
     import { setupPostProcess } from './threejs.svelte';
 
-    let canvas = $state<HTMLCanvasElement | undefined>(undefined);
     const breakpoints = getBreakpoints();
-
-    $effect(() => {
-        if (!canvas) return;
-
-        return setupPostProcess(canvas);
-    });
 
     $effect(() => {
         const nav = document.querySelector('.navigation') as HTMLElement | null;
@@ -30,7 +23,7 @@
     });
 </script>
 
-<canvas class="webgl" bind:this={canvas}></canvas>
+<canvas class="webgl" {@attach setupPostProcess}></canvas>
 
 <style>
     .webgl {

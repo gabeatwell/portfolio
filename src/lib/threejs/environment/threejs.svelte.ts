@@ -1,3 +1,4 @@
+import type { Attachment } from 'svelte/attachments';
 import { browser } from '$app/environment';
 import {
     CubeTextureLoader,
@@ -18,7 +19,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
-export function setupEnvironment(canvas: HTMLCanvasElement) {
+export const setupEnvironment: Attachment<HTMLCanvasElement> = (canvas) => {
     let gui: GUI | undefined;
 
     if (!browser) return;
@@ -252,4 +253,4 @@ export function setupEnvironment(canvas: HTMLCanvasElement) {
             scene.remove(child);
         }
     };
-}
+};

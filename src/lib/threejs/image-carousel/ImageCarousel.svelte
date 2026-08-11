@@ -3,25 +3,16 @@
     import LandscapeMobile from '../shooter/components/LandscapeMobile.svelte';
 
     // eslint-disable-next-line no-unassigned-vars
-    let canvas: HTMLCanvasElement | undefined = $state();
     let isMobile = $state(
         typeof window !== 'undefined' &&
             ('ontouchstart' in window || navigator.maxTouchPoints > 0),
     );
-
-    $effect(() => {
-        if (!canvas) return;
-
-        const cleanup = initCarousel(canvas);
-
-        return cleanup;
-    });
 </script>
 
 <LandscapeMobile {isMobile} onPause={() => {}} onResume={() => {}} />
 
 <h2 class:hidden={isMobile}>drag the images to move</h2>
-<canvas bind:this={canvas} class="canvas"></canvas>
+<canvas {@attach initCarousel} class="canvas"></canvas>
 
 <style>
     canvas {

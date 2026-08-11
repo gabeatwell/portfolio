@@ -2,14 +2,7 @@
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
     import { setupCursorScene } from './threejs.svelte';
 
-    let canvas = $state<HTMLCanvasElement | undefined>(undefined);
     const breakpoints = getBreakpoints();
-
-    $effect(() => {
-        if (!canvas) return;
-
-        return setupCursorScene(canvas);
-    });
 
     $effect(() => {
         const isLandscapeMobile =
@@ -30,7 +23,7 @@
     });
 </script>
 
-<canvas bind:this={canvas} class="webgl"></canvas>
+<canvas {@attach setupCursorScene} class="webgl"></canvas>
 
 <style>
     .webgl {

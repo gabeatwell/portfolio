@@ -1,3 +1,4 @@
+import type { Attachment } from 'svelte/attachments';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { gsap } from '$lib/data/gsap';
 import {
@@ -38,7 +39,7 @@ const parameters = {
     CAMERA_RIG: true,
 };
 
-export function initCarousel(canvas: HTMLCanvasElement): () => void {
+export const initCarousel: Attachment<HTMLCanvasElement> = (canvas) => {
     // --- sizes ---
     const sizes = {
         width: window.innerWidth,
@@ -239,7 +240,7 @@ export function initCarousel(canvas: HTMLCanvasElement): () => void {
         renderer.dispose(); // frees GPU resources
         document.body.style.cursor = ''; // reset cursor
     };
-}
+};
 
 function generateCirclePoints3D(
     n: number,

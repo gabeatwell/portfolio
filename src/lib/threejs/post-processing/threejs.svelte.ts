@@ -23,8 +23,9 @@ import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 import { SMAAPass } from 'three/examples/jsm/postprocessing/SMAAPass.js';
+import type { Attachment } from 'svelte/attachments';
 
-export function setupPostProcess(canvas: HTMLCanvasElement) {
+export const setupPostProcess: Attachment<HTMLCanvasElement> = (canvas) => {
     // debug
     const gui = new GUI();
     gui.close();
@@ -304,4 +305,4 @@ export function setupPostProcess(canvas: HTMLCanvasElement) {
         rgbShiftPass.dispose();
         gammaCorrectionPass.dispose();
     };
-}
+};

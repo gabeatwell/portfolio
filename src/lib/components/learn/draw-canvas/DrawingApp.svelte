@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
-    import { useCanvasDrawing } from '$lib/actions/drawingCanvas/useCanvasDrawing';
+    import { useCanvasDrawing } from '$lib/attachments/drawingCanvas/useCanvasDrawing';
     import {
         draw,
         stopDrawing,
@@ -109,7 +109,7 @@
 
     <canvas
         id="canvas"
-        use:useCanvasDrawing
+        {@attach useCanvasDrawing}
         onpointermove={handlePointerMove}
         onpointerenter={() => (isOnCanvas = true)}
         onpointerleave={() => {

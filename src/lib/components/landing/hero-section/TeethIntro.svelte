@@ -1,25 +1,23 @@
 <script lang="ts">
     import type { Snippet } from 'svelte';
     import { gsap } from '$lib/data/gsap';
+    import type { Attachment } from 'svelte/attachments';
 
     let {
         children = (() => {}) as unknown as Snippet,
     }: { children?: Snippet } = $props();
 
-    let root = $state<HTMLDivElement | null>(null);
-    let teeth = $state<SVGSVGElement | null>(null);
     let done = $state(false);
 
-    $effect(() => {
-        if (!root || !teeth) return;
-
+    const teethIntro: Attachment<SVGSVGElement> = (teeth) => {
         // prefers-reduced-motion: skip the intro entirely
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             done = true;
             return;
         }
 
-        // visible teeth bars — top half and mirrored bottom half
+        const root = teeth.closest('.teeth-intro') as HTMLElement | null;
+        if (!root) return;
         const topTeeth = gsap.utils.toArray<SVGRectElement>(
             '.top-tooth',
             teeth,
@@ -35,7 +33,7 @@
 
         const timeline = gsap.timeline();
 
-        // 1. top teeth slide up off-screen, middle column outward
+        // 1. top teeth slide up off-screen
         timeline.to(
             topTeeth,
             {
@@ -47,7 +45,7 @@
             0,
         );
 
-        // 2. bottom teeth slide down off-screen (mirrored)
+        // 2. bottom teeth slide down off-screen
         timeline.to(
             bottomTeeth,
             {
@@ -67,13 +65,11 @@
             done = true;
         });
 
-        return () => {
-            timeline.kill();
-        };
-    });
+        return () => timeline.kill();
+    };
 </script>
 
-<div class="teeth-intro" class:clipped={!done} bind:this={root}>
+<div class="teeth-intro" class:clipped={!done}>
     <div class="hero-stack">
         {@render children()}
     </div>
@@ -81,7 +77,7 @@
     {#if !done}
         <svg
             class="teeth"
-            bind:this={teeth}
+            {@attach teethIntro}
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
             aria-hidden="true"

@@ -1,16 +1,8 @@
 <script lang="ts">
     import { setupTunnel } from './threejs.svelte';
-
-    let canvas = $state<HTMLCanvasElement | undefined>(undefined);
-
-    $effect(() => {
-        if (!canvas) return;
-
-        return setupTunnel(canvas);
-    });
 </script>
 
-<canvas class="webgl" bind:this={canvas}></canvas>
+<canvas class="webgl" {@attach setupTunnel}></canvas>
 
 <style>
     .webgl {

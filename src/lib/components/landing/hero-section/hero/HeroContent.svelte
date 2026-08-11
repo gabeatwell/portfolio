@@ -1,51 +1,16 @@
 <script lang="ts">
-    import { gsap, ScrollTrigger } from '$lib/data/gsap';
     import HeroButton from '../hero/HeroButton.svelte';
     import projects from '$lib/components/projects/projects.json';
     import ProjectsGrid from '../../ProjectsGrid.svelte';
     import HandDrawnUnderline from '../HandDrawnUnderline.svelte';
     import { heroContentState } from './contentFunctions.svelte';
+    import { heroContentStats } from '$lib/attachments/gsap/heroContentStats';
 
     let { selectedBg = 0 as number | boolean } = $props();
     let isTunnel = $derived(selectedBg === 1);
 
     $effect(() => {
         heroContentState.animateTitle();
-    });
-
-    // gsap
-    $effect(() => {
-        const mm = gsap.matchMedia();
-
-        mm.add('(prefers-reduced-motion: no-preference)', () => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: '.stats-section',
-                    start: 'top center+=375',
-                },
-            });
-
-            tl.fromTo(
-                '.stat-item.a',
-                { x: -50, opacity: 0 },
-                { x: 0, opacity: 1, duration: 0.35 },
-                0,
-            );
-            tl.fromTo(
-                '.stat-item.b',
-                { scale: 1.5, opacity: 0 },
-                { scale: 1, opacity: 1, duration: 0.5 },
-                0,
-            );
-            tl.fromTo(
-                '.stat-item.c',
-                { x: 50, opacity: 0 },
-                { x: 0, opacity: 1, duration: 0.5 },
-                0,
-            );
-
-            return () => tl.kill();
-        });
     });
 </script>
 
@@ -94,7 +59,11 @@
         </nav>
 
         <!-- stats -->
-        <section aria-labelledby="stats-heading" class="stats-section">
+        <section
+            aria-labelledby="stats-heading"
+            class="stats-section"
+            {@attach heroContentStats}
+        >
             <h2 id="stats-heading" class="visually-hidden">
                 Portfolio Statistics
             </h2>

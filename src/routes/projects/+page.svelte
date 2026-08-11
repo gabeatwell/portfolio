@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fadeInProject } from '$lib/actions/gsap/fadeInProject';
+    import { fadeInProject } from '$lib/attachments/gsap/fadeInProject';
     import { beforeNavigate } from '$app/navigation';
     import Testimonial from '$lib/components/projects/Testimonial.svelte';
     import projects from '$lib/components/projects/projects.json';
@@ -122,7 +122,10 @@
             {#each projects as project (project.index)}
                 {@const testimonial = getTestimonialForProject(project.index)}
 
-                <div class="wholeProject" use:fadeInProject={project.index}>
+                <div
+                    class="wholeProject"
+                    {@attach fadeInProject(project.index)}
+                >
                     <ProjectComponent {...project} hasBorder={false} />
 
                     {#if testimonial}

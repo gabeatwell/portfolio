@@ -4,14 +4,7 @@
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
     import { setupHeroCanvas } from './threejs.svelte';
 
-    let canvas = $state<HTMLCanvasElement | undefined>(undefined);
     const breakpoints = getBreakpoints();
-
-    $effect(() => {
-        if (!canvas) return;
-
-        return setupHeroCanvas(canvas);
-    });
 
     $effect(() => {
         const footer = document.querySelector('footer') as HTMLElement | null;
@@ -38,7 +31,7 @@
     });
 </script>
 
-<canvas class="webgl" aria-label="hero" bind:this={canvas}></canvas>
+<canvas class="webgl" aria-label="hero" {@attach setupHeroCanvas}></canvas>
 
 <section aria-label="hero" class="hero-content">
     <HeroTitle title="Frontend Crafted Web Experiences" />
