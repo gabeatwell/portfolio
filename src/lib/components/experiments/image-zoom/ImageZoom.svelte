@@ -1,73 +1,8 @@
 <script lang="ts">
-    import { gsap, ScrollTrigger } from '$lib/data/gsap';
-
-    $effect(() => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: '.wrapper',
-                start: 'top top',
-                end: '+=150%',
-                pin: true,
-                scrub: 1,
-                markers: true,
-            },
-        });
-
-        tl.set('.overlay-text', {
-            xPercent: -50,
-            yPercent: -50,
-            opacity: 0,
-        });
-        tl.set('.title-start', {
-            xPercent: -100,
-            opacity: 0,
-        });
-        tl.set('.title-end', {
-            xPercent: 100,
-            opacity: 0,
-        });
-
-        tl.to('img', {
-            scale: 2,
-            z: 350,
-            transformOrigin: 'center center',
-            ease: 'circ.inOut',
-        });
-
-        tl.to('.section.hero', {
-            scale: 1.1,
-            transformOrigin: 'center center',
-            ease: 'circ.inOut',
-        });
-
-        tl.to(
-            '.overlay-text',
-            {
-                opacity: 1,
-                ease: 'circ.out',
-            },
-            '>-0.3',
-        );
-
-        tl.to(['.title-start', '.title-end'], {
-            xPercent: 0,
-            opacity: 1,
-            ease: 'circ.in',
-        });
-
-        tl.from(
-            '.desc',
-            {
-                opacity: 0,
-            },
-            '+=0.2',
-        );
-
-        return () => tl.revert();
-    });
+    import { imageZoom } from '$lib/attachments/gsap/imageZoom';
 </script>
 
-<div class="wrapper">
+<div class="wrapper" {@attach imageZoom}>
     <div class="content">
         <section class="section hero"></section>
     </div>

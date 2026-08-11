@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { gsap } from '$lib/data/gsap';
+    import { animateLearnHeading } from '$lib/attachments/gsap/learnHeading';
 
     interface Props {
         title1: string;
@@ -13,54 +13,9 @@
         $props();
 
     let transitionName = $derived(viewTransitionName || '');
-
-    $effect(() => {
-        const left = document.querySelector('.left-word');
-        const right = document.querySelector('.right-word');
-        const middle = document.querySelector('.middle-word');
-
-        const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-
-        gsap.set(['.left-word', '.right-word'], { y: 40 });
-        tl.from(
-            left,
-            {
-                opacity: 0,
-                x: -100,
-                duration: 2,
-                ease: 'power3',
-            },
-            0,
-        );
-        tl.from(
-            right,
-            {
-                opacity: 0,
-                x: 100,
-                duration: 2,
-                ease: 'power3',
-            },
-            '<',
-        ).fromTo(
-            middle,
-            { opacity: 0, scale: 0 },
-            {
-                opacity: 0.65,
-                scale: 2,
-                duration: 1,
-                ease: 'circ',
-                stagger: 0.25,
-            },
-            '<',
-        );
-
-        return () => {
-            tl.kill();
-        };
-    });
 </script>
 
-<section class="animated-title">
+<section class="animated-title" {@attach animateLearnHeading}>
     <h1 class="left-word">{title1}</h1>
     <span class="middle-word">{span}</span>
     <h2

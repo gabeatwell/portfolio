@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { gsap, SplitText } from '$lib/data/gsap';
+    import { animateHeadshotTitle } from '$lib/attachments/gsap/headshotHeroTitle';
     import { goto } from '$app/navigation';
 
     interface Props {
@@ -27,32 +27,6 @@
         const { scrollTop, scrollHeight, clientHeight } = heroText;
         maskActive = scrollTop + clientHeight < scrollHeight - 5;
     }
-
-    $effect(() => {
-        const split = new SplitText('.hero-title', { type: 'chars' });
-
-        const tl = gsap.timeline();
-
-        tl.from(split.chars, {
-            opacity: 0,
-            scale: 0.5,
-            stagger: {
-                each: 0.1,
-                from: 'random',
-            },
-            ease: 'power2.out',
-        });
-
-        tl.to(split.chars, {
-            letterSpacing: '0.15em',
-            scaleY: 1.75,
-        });
-
-        return () => {
-            tl.kill();
-            split.revert();
-        };
-    });
 </script>
 
 <article role="banner" aria-label="hero section">
@@ -62,7 +36,9 @@
 
     <section class="hero-content" aria-label="hero content">
         <header class="title-wrapper">
-            <h1 class="hero-title">{title}</h1>
+            <h1 class="hero-title" {@attach animateHeadshotTitle}>
+                {title}
+            </h1>
 
             <p
                 class="hero-text"

@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { gsap } from '$lib/data/gsap';
-    import { tick } from 'svelte';
+    import { animateDoYouNeed } from '$lib/attachments/gsap/doYouNeed';
 
     interface Props {
         text: string;
@@ -13,56 +12,13 @@
     let chars = $derived(span.split(''));
     let subtitleElement = $state<HTMLElement | null>(null);
     let charElements = $state<HTMLElement[]>([]);
-
-    // gsap
-    $effect(() => {
-        if (chars.length === 0) return;
-        const mm = gsap.matchMedia();
-
-        tick().then(() => {
-            if (!subtitleElement || !charElements.length) return;
-
-            mm.add('(prefers-reduced-motion: no-preference)', () => {
-                gsap.set(subtitleElement, { autoAlpha: 0, y: 75 });
-                gsap.set(charElements, { scaleY: 1.5 });
-
-                mm.add('(max-width: 768px)', () => {
-                    gsap.set(charElements, { scaleY: 1.75 });
-                });
-
-                const tl = gsap.timeline();
-                tl.to(subtitleElement, {
-                    autoAlpha: 0.75,
-                    y: 0,
-                    duration: 1.5,
-                    ease: 'power2.out',
-                }).fromTo(
-                    charElements,
-                    { x: '150%', opacity: 0 },
-                    {
-                        x: 0,
-                        opacity: 1,
-                        duration: 3,
-                        ease: 'circ.out',
-                        stagger: 0.5,
-                    },
-                    '-=0.5',
-                );
-
-                return () => tl.kill();
-            });
-
-            mm.add('(prefers-reduced-motion: reduce)', () => {
-                gsap.set(subtitleElement, { autoAlpha: 0.75, y: 0 });
-                gsap.set(charElements, { scaleY: 1, x: 0, opacity: 1 });
-            });
-        });
-
-        return () => mm.revert();
-    });
 </script>
 
-<section class="animated-text" aria-label={dynamicAriaLabel}>
+<section
+    class="animated-text"
+    aria-label={dynamicAriaLabel}
+    {@attach animateDoYouNeed}
+>
     <h1 class="sentence">
         <span class="subtitle" bind:this={subtitleElement}>{text}</span>
 

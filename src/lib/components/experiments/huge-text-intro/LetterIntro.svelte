@@ -1,51 +1,8 @@
 <script lang="ts">
-    import { gsap, SplitText } from '$lib/data/gsap';
-
-    $effect(() => {
-        const split = new SplitText('.intro h1', { type: 'chars' });
-        const chars = split.chars;
-
-        gsap.set(chars, {
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            xPercent: -50,
-            yPercent: -50,
-            opacity: 0,
-        });
-
-        const tl = gsap.timeline();
-
-        chars.forEach((char, i) => {
-            tl.to(char, {
-                opacity: 1,
-                duration: 0.3,
-                ease: 'circ.out',
-            }).to(
-                char,
-                { opacity: 0, duration: 0.3, ease: 'circ.in' },
-                '+=0.8',
-            );
-        });
-
-        tl.to(
-            '.full-image',
-            {
-                opacity: 1,
-                duration: 1,
-                ease: 'power2.out',
-            },
-            '+=1',
-        );
-
-        return () => {
-            split.revert();
-            tl.kill();
-        };
-    });
+    import { letterIntro } from '$lib/attachments/gsap/letterIntro';
 </script>
 
-<section class="intro">
+<section class="intro" {@attach letterIntro}>
     <h1>atwell</h1>
 
     <div class="full-image">
