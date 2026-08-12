@@ -21,7 +21,7 @@
     );
 
     const { playSoundAsync: playHoverSound } = useSound(
-        '/sounds/ui_bubble.wav',
+        '/sounds/foley-switch.wav',
     );
     const breakpoints = getBreakpoints();
 

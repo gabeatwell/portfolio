@@ -3,7 +3,7 @@
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
 
     const { playSoundAsync: playHoverSound } = useSound(
-        '/sounds/ui_bubble.wav',
+        '/sounds/foley-switch.wav',
     );
 
     function navigateValue(value: string) {

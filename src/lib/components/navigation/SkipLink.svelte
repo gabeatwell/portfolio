@@ -1,4 +1,16 @@
-<a class="skip-link" href="#main-content"
+<script lang="ts">
+    import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
+
+    const { playSoundAsync: playHoverSound } = useSound(
+        '/sounds/foley-switch.wav',
+    );
+
+    async function handleUiSound() {
+        await playHoverSound();
+    }
+</script>
+
+<a class="skip-link" href="#main-content" onmouseenter={handleUiSound}
     >Skip to Main <span class="visually-hidden">Content</span></a
 >
 
