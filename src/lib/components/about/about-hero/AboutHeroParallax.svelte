@@ -1,31 +1,14 @@
 <script lang="ts">
+    import { aboutHeroParallax } from '$lib/attachments/gsap/aboutHeroParallax';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
-    import { browser } from '$app/environment';
-
-    let scrollY = $state<number>(0);
 
     const breakpoints = getBreakpoints();
-
-    $effect(() => {
-        if (!browser || breakpoints.isReduced) return;
-
-        const abortController = new AbortController();
-
-        const onScroll = () => {
-            scrollY = window.scrollY;
-        };
-
-        window.addEventListener('scroll', onScroll, {
-            signal: abortController.signal,
-        });
-
-        return () => {
-            abortController.abort();
-        };
-    });
 </script>
 
-<section class="parallax-wrapper">
+<section
+    class="parallax-wrapper"
+    {@attach aboutHeroParallax(undefined, breakpoints.isReduced)}
+>
     <div
         class="layer background"
         style="transform: translateY({scrollY *
