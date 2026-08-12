@@ -1,41 +1,8 @@
 <script lang="ts">
-    import { gsap, MorphSVGPlugin } from '$lib/data/gsap';
-
-    $effect(() => {
-        const mm = gsap.matchMedia();
-
-        mm.add('(prefers-reduced-motion: no-preference)', () => {
-            MorphSVGPlugin.convertToPath(
-                '#sourceSVG rect, #sourceSVG circle, #sourceSVG polygon',
-            );
-
-            gsap.set('#square1, #G', { transformOrigin: 'center center' });
-            gsap.set('#circle, #A', { transformOrigin: 'center center' });
-            gsap.set('#triangle, #B', { transformOrigin: 'center center' });
-            gsap.set('#square2, #E', { transformOrigin: 'center center' });
-
-            const tl = gsap.timeline({
-                defaults: {
-                    duration: 3,
-                    ease: 'power2.out',
-                },
-
-                delay: 3,
-            });
-
-            tl.to('#square1', { morphSVG: '#G' })
-                .to('#circle', { morphSVG: '#A' }, 0)
-                .to('#triangle', { morphSVG: '#B' }, 0)
-                .to('#square2', { morphSVG: '#E' }, 0);
-
-            return () => {
-                tl.kill();
-            };
-        });
-    });
+    import { gabeMorph } from '$lib/attachments/gsap/gabeMorph';
 </script>
 
-<section class="morph-title">
+<section class="morph-title" {@attach gabeMorph()}>
     <svg
         id="sourceSVG"
         viewBox="0 0 450 100"

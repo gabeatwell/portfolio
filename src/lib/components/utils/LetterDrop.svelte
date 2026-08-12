@@ -1,44 +1,15 @@
 <script lang="ts">
-    import { gsap } from '$lib/data/gsap';
+    import { letterDrop } from '$lib/attachments/gsap/letterDrop';
     import { fade } from 'svelte/transition';
 
     let duration = $state<number>(300);
-
-    $effect(() => {
-        const letters = gsap.utils.toArray('.animated-letter');
-        const drop = gsap.utils.toArray('.drop');
-
-        gsap.set(letters, {
-            scale: 1,
-            autoAlpha: 1,
-        });
-
-        gsap.set(drop, {
-            scale: 0,
-            autoAlpha: 0,
-        });
-
-        gsap.to(drop, {
-            scale: 1,
-            transformOrigin: '50% 50%',
-            autoAlpha: 1,
-            duration: 1.5,
-            delay: 0.5,
-            ease: 'sine.out',
-            stagger: {
-                each: 0.25,
-                from: 'edges',
-            },
-        });
-
-        return () => {
-            gsap.killTweensOf(letters);
-            gsap.killTweensOf(drop);
-        };
-    });
 </script>
 
-<h1 class="animated-text" transition:fade={{ duration: duration }}>
+<h1
+    class="animated-text"
+    {@attach letterDrop()}
+    transition:fade={{ duration: duration }}
+>
     <div class="tilt">
         <span class="animated-letter drop">a</span>
         <span class="animated-letter drop">b</span>

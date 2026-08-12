@@ -1,10 +1,8 @@
 <script lang="ts">
-    import { gsap } from '$lib/data/gsap';
     import { getPreloaderState } from '$lib/data/stores/preloadStore.svelte';
+    import { preloader } from '$lib/attachments/gsap/preloader';
 
     let preloaderVisible: boolean = $state<boolean>(true);
-    let preloaderElement = $state<HTMLElement>();
-    let lines = $state<HTMLElement[]>([]);
     const preloaderState = getPreloaderState();
 
     function portal(node: HTMLElement) {
@@ -18,86 +16,21 @@
         };
     }
 
-    // gsap
-    $effect(() => {
-        const mm = gsap.matchMedia();
-
-        mm.add('(prefers-reduced-motion: reduce)', () => {
-            gsap.set('.preloader', {
-                zIndex: 2147483647,
-            });
-
-            const validLines = lines.filter(
-                (line) => line !== undefined && line !== null,
-            );
-
-            if (validLines.length !== 10 || !preloaderElement) return;
-
-            gsap.set(validLines, { scaleX: 0 });
-            gsap.set(preloaderElement, { opacity: 0, pointerEvents: 'none' });
-
-            preloaderVisible = false;
-            preloaderState.done = true;
-
-            return () => {
-                // cleanup
-            };
-        });
-
-        mm.add('(prefers-reduced-motion: no-preference)', () => {
-            gsap.set('.preloader', {
-                zIndex: 2147483647,
-            });
-
-            const validLines = lines.filter(
-                (line) => line !== undefined && line !== null,
-            );
-            if (validLines.length !== 10 || !preloaderElement) return;
-
-            const tl = gsap.timeline();
-
-            // each line from right to left
-            tl.to(validLines, {
-                duration: 1.3,
-                scaleX: 0,
-                transformOrigin: 'right',
-                stagger: 0.1,
-                ease: 'power3.inOut',
-            });
-
-            // fade out the entire preloader
-            tl.to(
-                preloaderElement,
-                {
-                    duration: 0.5,
-                    opacity: 0,
-                    pointerEvents: 'none',
-                    onComplete: () => {
-                        preloaderVisible = false;
-                        preloaderState.done = true;
-                    },
-                },
-                '-=0.3',
-            );
-
-            return () => {
-                tl.kill();
-            };
-        });
-
-        return () => mm.revert();
-    });
+    function handlePreloaderComplete() {
+        preloaderVisible = false;
+        preloaderState.done = true;
+    }
 </script>
 
 {#if preloaderVisible}
     <div
         use:portal
-        bind:this={preloaderElement}
+        {@attach preloader({ onComplete: handlePreloaderComplete })}
         class="preloader"
         id="preloader"
     >
         {#each Array(10) as _, i}
-            <div bind:this={lines[i]} class="preloader-line"></div>
+            <div class="preloader-line"></div>
         {/each}
     </div>
 {/if}

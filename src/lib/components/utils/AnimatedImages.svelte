@@ -1,6 +1,6 @@
 <script lang="ts">
     import Image from '$lib/components/layout/Image.svelte';
-    import { gsap } from '$lib/data/gsap';
+    import { animatedImage } from '$lib/attachments/gsap/animatedImage';
 
     interface Props {
         src: string;
@@ -10,24 +10,9 @@
     }
 
     let { src, alt, width, scale }: Props = $props();
-
-    $effect(() => {
-        const tween = gsap.from('.imgClass', {
-            display: 'block',
-            duration: 3,
-            scale: scale,
-            opacity: 0,
-            ease: 'power2.out',
-            stagger: 0.5,
-        });
-
-        return () => {
-            tween.kill();
-        };
-    });
 </script>
 
-<section>
+<section {@attach animatedImage(scale)}>
     <div class="imgClass">
         <Image {src} {alt} width={width?.toString()} aspectRatio="16/9" />
     </div>

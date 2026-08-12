@@ -1,34 +1,10 @@
 <script lang="ts">
-    import { gsap, ScrollTrigger } from '$lib/data/gsap';
-
-    let imageElement = $state<HTMLDivElement | null>(null);
-
-    $effect(() => {
-        const parallaxImage = document.querySelector('.parallax-image');
-
-        gsap.from(parallaxImage, {
-            scrollTrigger: {
-                trigger: '.sticky-wrapper',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1,
-                pin: true,
-            },
-            x: 100,
-            yPercent: 50,
-            scale: 3,
-            ease: 'none',
-        });
-
-        return () => {
-            gsap.killTweensOf(parallaxImage);
-        };
-    });
+    import { parallax } from '$lib/attachments/gsap/parallax';
 </script>
 
 <div class="sticky-wrapper">
     <div class="sticky-container">
-        <div class="parallax-image" bind:this={imageElement}></div>
+        <div class="parallax-image" {@attach parallax()}></div>
     </div>
 </div>
 

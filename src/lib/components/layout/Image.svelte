@@ -1,4 +1,6 @@
 <script lang="ts">
+    import type { Attachment } from 'svelte/attachments';
+
     interface Props {
         src: string;
         alt: string;
@@ -25,8 +27,9 @@
         viewTransitionClass,
     }: Props = $props();
 
-    let imageError = $state<boolean>(false);
-    let imageElement = $state<HTMLImageElement | null>(null);
+    let imageError = $state(false);
+    let isSmallScreen = $state(false);
+
     let computedHeight = $derived.by(() => {
         if (height) return height;
         if (width && aspectRatio) {
@@ -53,40 +56,36 @@
         return parts.join('; ');
     });
 
-    let isSmallScreen = $state<boolean>(false);
+    // tracks viewport size for responsive scaleY
+    const trackSmallScreen: Attachment = () => {
+        const mq = window.matchMedia('(width <= 768px)');
+        isSmallScreen = mq.matches;
 
-    $effect(() => {
-        const mobileScreen = window.matchMedia('(width <= 768px)');
-        isSmallScreen = mobileScreen.matches;
+        const handler = (e: MediaQueryListEvent) => {
+            isSmallScreen = e.matches;
+        };
+        mq.addEventListener('change', handler);
 
-        const handler = (e: MediaQueryListEvent) => (isSmallScreen = e.matches);
-        mobileScreen.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    };
 
-        return () => mobileScreen.removeEventListener('change', handler);
-    });
-
-    $effect(() => {
-        if (!imageElement) return;
-
+    // applies view-transition-class when the prop changes
+    const applyViewTransitionClass: Attachment<HTMLElement> = (node) => {
         if (viewTransitionClass) {
-            imageElement.style.setProperty(
+            node.style.setProperty(
                 'view-transition-class',
                 viewTransitionClass,
             );
-            imageElement.setAttribute(
-                'view-transition-class',
-                viewTransitionClass,
-            );
+            node.setAttribute('view-transition-class', viewTransitionClass);
         } else {
-            imageElement.style.removeProperty('view-transition-class');
-            imageElement.removeAttribute('view-transition-class');
+            node.style.removeProperty('view-transition-class');
+            node.removeAttribute('view-transition-class');
         }
-    });
+    };
 </script>
 
-<div class="image-container">
+<div class="image-container" {@attach trackSmallScreen}>
     <img
-        bind:this={imageElement}
         {src}
         {alt}
         {width}
@@ -96,6 +95,10 @@
         class:hidden={imageError}
         class:has-width={!!width}
         loading="lazy"
+        {@attach applyViewTransitionClass}
+        onerror={() => {
+            imageError = true;
+        }}
     />
 
     {#if imageError}

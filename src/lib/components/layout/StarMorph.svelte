@@ -1,30 +1,8 @@
 <script lang="ts">
-    import { gsap, MorphSVGPlugin } from '$lib/data/gsap';
-
-    // oxlint-disable-next-line no-unassigned-vars
-    let svgElement: HTMLDivElement;
-
-    $effect(() => {
-        const tl = gsap.timeline();
-
-        tl.to('.shape1', {
-            duration: 0.75,
-            morphSVG: '.shape2',
-            transformOrigin: '50% 50%',
-            onComplete: () => {
-                gsap.delayedCall(0.55, () => {
-                    svgElement.style.display = 'none';
-                });
-            },
-        });
-
-        return () => {
-            tl.kill();
-        };
-    });
+    import { starMorph } from '$lib/attachments/gsap/starMorph';
 </script>
 
-<div class="overlay" bind:this={svgElement}>
+<div class="overlay" {@attach starMorph()}>
     <svg
         id="demo"
         xmlns="http://www.w3.org/2000/svg"
