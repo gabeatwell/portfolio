@@ -31,9 +31,9 @@
 </script>
 
 <SEO
-    title="Welcome to Gabe Atwell's Portfolio"
+    title="Atwell.dev - Gabe Atwell's portfolio"
     description="Gabriel Atwell's Portfolio"
-    keywords="gabriel atwell, gabe atwell, web designer,atwell design, atwell ui, atwell dev, gabe atwell portfolio, las vegas web designer, las vegas web developer, atwell ui/ux design, custom web design services, las vegas custom web design, las vegas ui/ux design, las vegas website development, atwell, gabe"
+    keywords="gabriel atwell, gabe atwell, atwell, atwell dev, atwell.dev, atwell ui, atwell ui design, gabeatwell, Las Vegas web design, Las Vegas UI designer, Las Vegas frontend developer, website designer Las Vegas, web designer Las Vegas, custom web design Las Vegas, Svelte developer Las Vegas, GSAP developer Las Vegas, Three.js developer Las Vegas, frontend developer Las Vegas, GSAP animation developer Las Vegas, custom animated websites Las Vegas, Handcrafted frontend experiences"
 />
 
 {#if Hero && TeethIntro}
