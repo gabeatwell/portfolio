@@ -1,121 +1,35 @@
 <script lang="ts">
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
     import '@fortawesome/fontawesome-free/css/all.css';
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
+    import { InstallButtonController } from './install-button.svelte';
 
-    interface BeforeInstallPromptEvent extends Event {
-        prompt(): Promise<void>;
-        userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-    }
-
-    let deferredPrompt = $state<BeforeInstallPromptEvent | null>(null);
-    let isInstallable = $state<boolean>(false);
-    let installStatus = $state<string>('');
-    let isIOS = $state<boolean>(false);
-    let shareFallback = $state<boolean>(false);
-    let shareClicked = $state<boolean>(
-        typeof localStorage !== 'undefined'
-            ? localStorage.getItem('pwa-instructions-shown') === 'true'
-            : false,
-    );
+    const install = new InstallButtonController();
 
     const { playSoundAsync: playHoverSound } = useSound(
-        '/sounds/foley-switch.wav',
+        '/sounds/foley-bubble.wav',
     );
-    const breakpoints = getBreakpoints();
 
     async function handleUiSound() {
         await playHoverSound();
     }
-
-    // Detect iOS
-    $effect(() => {
-        const ua = window.navigator.userAgent;
-        const isAppleMobile = /iphone|ipad|ipod/i.test(ua);
-        const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-        const isMacSafari = /macintosh/i.test(ua) && isSafari;
-        isIOS =
-            (isAppleMobile &&
-                !('MSStream' in window) &&
-                !breakpoints.isStandalone) ||
-            isMacSafari;
-    });
-
-    // PWA install prompt for non-iOS
-    $effect(() => {
-        const abortController = new AbortController();
-
-        if (isIOS) return;
-
-        function handleBeforeInstallPrompt(event: Event) {
-            deferredPrompt = event as BeforeInstallPromptEvent;
-            isInstallable = true;
-            installStatus = 'App can now be installed';
-        }
-
-        function handleAppInstalled() {
-            isInstallable = false;
-            installStatus = 'App installed successfully';
-        }
-
-        window.addEventListener(
-            'beforeinstallprompt',
-            handleBeforeInstallPrompt,
-            {
-                signal: abortController.signal,
-            },
-        );
-        window.addEventListener('appinstalled', handleAppInstalled, {
-            signal: abortController.signal,
-        });
-
-        return () => {
-            abortController.abort();
-        };
-    });
-
-    const installApp = async () => {
-        if (!deferredPrompt) return;
-        installStatus = 'Installing app...';
-        deferredPrompt.prompt();
-        const choiceResult = await deferredPrompt.userChoice;
-        installStatus =
-            choiceResult.outcome === 'accepted'
-                ? 'Installation accepted'
-                : 'Installation declined';
-        deferredPrompt = null;
-        isInstallable = false;
-        setTimeout(() => (installStatus = ''), 3000);
-    };
-
-    // iOS share handler
-    const shareApp = () => {
-        shareFallback = true;
-        shareClicked = true;
-        localStorage.setItem('pwa-instructions-shown', 'true');
-    };
-
-    const closeFallback = () => {
-        shareFallback = false;
-    };
 </script>
 
-<A11yAnnouncer message={installStatus} />
+<A11yAnnouncer message={install.installStatus} />
 
-{#if isIOS}
-    {#if !shareClicked}
+{#if install.isIOS}
+    {#if !install.shareClicked}
         <button
             aria-label="Share this app"
-            onclick={shareApp}
+            onclick={install.shareApp}
             onmouseenter={handleUiSound}
         >
             <i class="fa-solid fa-share-from-square"></i>
 
             <span class="desc">install</span>
-        </button>
+        </button>install.
     {/if}
-    {#if shareFallback}
+    {#if install.shareFallback}
         <div class="apple-instructions">
             <p><u>On iOS:</u></p>
 
@@ -151,15 +65,17 @@
                 app.
             </p>
 
-            <button data-close-button onclick={closeFallback}>Close</button>
+            <button data-close-button onclick={install.closeFallback}
+                >Close</button
+            >
         </div>
     {/if}
 {:else}
     <button
         aria-label="Install this app as a PWA"
-        onclick={installApp}
+        onclick={install.installApp}
         onmouseenter={handleUiSound}
-        hidden={!isInstallable}
+        hidden={!install.isInstallable}
     >
         <i class="fa-solid fa-file-arrow-down"></i>
         <span class="desc">install</span>

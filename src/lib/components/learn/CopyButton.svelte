@@ -1,36 +1,9 @@
-<script>
-    $effect(() => {
-        const preElements = document.querySelectorAll('pre');
-
-        preElements.forEach((pre) => {
-            pre.style.setProperty('anchor-name', '--code-block');
-
-            const wrapper = document.createElement('div');
-            wrapper.style.position = 'relative';
-            pre.parentNode?.insertBefore(wrapper, pre);
-            wrapper.appendChild(pre);
-
-            const button = document.createElement('button');
-            button.textContent = 'Copy';
-            button.className = 'copy-button';
-            button.onclick = () => {
-                const code = pre.textContent || '';
-                navigator.clipboard.writeText(code).then(() => {
-                    button.textContent = '✓ Copied!';
-                    setTimeout(() => (button.textContent = 'Copy'), 2000);
-                });
-            };
-            wrapper.appendChild(button);
-        });
-    });
-</script>
-
 <style>
     :global(.copy-button) {
         position: absolute;
-        position-anchor: --code-block;
-        top: calc(anchor(top) - 0.5em);
-        right: calc(anchor(right) - 0.5em);
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
 
         inline-size: fit-content;
         block-size: fit-content;

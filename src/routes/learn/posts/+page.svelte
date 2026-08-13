@@ -7,11 +7,12 @@
     import GabeMorph from '$lib/components/learn/advanced-page/GabeMorph.svelte';
     import BackToTop from '$lib/components/learn/advanced-page/BackToTop.svelte';
     import ViewTransitionImage from '$lib/components/layout/view-transitions/ViewTransitionImage.svelte';
-    import { gsap, ScrollTrigger } from '$lib/data/gsap';
     import Popover from '$lib/components/layout/Popover.svelte';
     import Preloader from '$lib/components/learn/advanced-page/Preloader.svelte';
 
-    import CopyButton from '$lib/components/learn/CopyButton.svelte';
+    import '$lib/components/learn/CopyButton.svelte';
+    import { animateCodeParagraphs } from '$lib/attachments/gsap/animateCodeParagraphs';
+    import { copyButton } from '$lib/attachments/ui/copyButton';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
     import { sanitizeAndHighlight } from '$lib/components/utils/highlight';
 
@@ -35,78 +36,6 @@
         } else {
             mounted = true;
         }
-    });
-
-    // gsap
-    $effect(() => {
-        const mm = gsap.matchMedia();
-
-        mm.add('(prefers-reduced-motion: reduce)', () => {
-            if (breakpoints.isReduced) {
-                gsap.set('.content p, pre', { opacity: 1, x: 0 });
-            }
-        });
-
-        mm.add('(prefers-reduced-motion: no-preference)', () => {
-            if (!mounted) return;
-
-            if (breakpoints.isReduced) return;
-
-            const ctx = gsap.context(() => {
-                const paragraphs = document.querySelectorAll('.content p');
-                const codeBlocks = document.querySelectorAll('pre');
-
-                codeBlocks.forEach((pre) => {
-                    const code = pre.querySelector('code');
-                    const targets = code ? [pre, code] : pre;
-
-                    gsap.fromTo(
-                        targets,
-                        {
-                            x: 100,
-                            opacity: 0,
-                        },
-                        {
-                            x: 0,
-                            opacity: 1,
-                            duration: 1,
-                            overflow: 'hidden',
-                            ease: 'power2.out',
-                            scrollTrigger: {
-                                trigger: pre,
-                                start: 'top center+=450',
-                            },
-                        },
-                    );
-                });
-
-                paragraphs.forEach((para) => {
-                    gsap.fromTo(
-                        para,
-                        {
-                            x: -100,
-                            opacity: 0,
-                        },
-                        {
-                            x: 0,
-                            opacity: 1,
-                            duration: 1,
-                            ease: 'power2.out',
-                            scrollTrigger: {
-                                trigger: para,
-                                start: 'top center+=450',
-                            },
-                        },
-                    );
-                });
-            });
-
-            return () => {
-                ctx.revert();
-                ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-                mm.revert();
-            };
-        });
     });
 
     // highlight.js
@@ -150,11 +79,8 @@
     {@html sanitizeHtml}
 </article>
 
-<!-- for pre/code blocks -->
-<CopyButton />
-
 <section class="topics" class:mounted>
-    <div class="css">
+    <div class="css" {@attach copyButton} {@attach animateCodeParagraphs}>
         <div class="tech-stack-logo">
             <div class="aside-links">
                 <ViewTransitionImage
@@ -182,7 +108,7 @@
         </div>
     </div>
 
-    <div class="gsap">
+    <div class="gsap" {@attach copyButton} {@attach animateCodeParagraphs}>
         <ViewTransitionImage
             src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/GSAP-Dark.svg"
             alt="greensock animation platform"
