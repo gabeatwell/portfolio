@@ -38,6 +38,52 @@
             : 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/atwellUI_social-media.webp',
     );
     const siteName = 'atwellUI';
+
+    const jsonLd = $derived(
+        JSON.stringify([
+            // 1. website schema
+            {
+                '@context': 'https://schema.org',
+                '@type': 'WebSite',
+                name: 'atwellUI',
+                url: baseUrl,
+                description: description,
+                image: ogImage,
+                author: {
+                    '@type': 'Person',
+                    name: 'Gabriel Atwell',
+                },
+            },
+            // 2. person schema
+            {
+                '@context': 'https://schema.org',
+                '@type': 'Person',
+                name: 'Gabriel Atwell',
+                alternateName: ['Gabe Atwell', 'Atwell', 'atwellUI'],
+                url: baseUrl,
+                image: ogImage,
+                jobTitle: 'UI Designer & Frontend Developer',
+                description:
+                    'Las Vegas-based UI designer and frontend developer specializing in custom websites, animations, and interactive experiences.',
+                address: {
+                    '@type': 'PostalAddress',
+                    addressLocality: 'Las Vegas',
+                    addressRegion: 'NV',
+                    addressCountry: 'US',
+                },
+                sameAs: [
+                    'https://github.com/gabeatwell',
+                    'https://www.linkedin.com/in/gabrielatwell/',
+                    'https://codepen.io/gabrielatwell',
+                    'https://www.behance.net/gabrielatwell702',
+                ],
+            },
+        ]),
+    );
+
+    const structuredData = $derived(
+        '<script type="application/ld+json">' + jsonLd + '<' + '/script>',
+    );
 </script>
 
 <svelte:head>
@@ -85,27 +131,5 @@
         />
     {/if}
 
-    <!-- Structured Data: (JSON-LD) -->
-    <script type="application/ld+json">
-        {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": type === 'article' ? 'Article' : 'WebSite',
-            "name": title,
-            "description": description,
-            "url": canonicalUrl,
-            "image": ogImage,
-            "author": {
-                "@type": "Person",
-                "name": "Gabriel Atwell",
-                "url": baseUrl
-            },
-            ...(type === 'website' && {
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": `${baseUrl}/search?q={search_term_string}`,
-                    "query-input": "required name=search_term_string"
-                }
-            })
-        })}
-    </script>
+    {@html structuredData}
 </svelte:head>
