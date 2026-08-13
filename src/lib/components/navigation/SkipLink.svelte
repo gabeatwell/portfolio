@@ -2,7 +2,7 @@
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
 
     const { playSoundAsync: playHoverSound } = useSound(
-        '/sounds/foley-switch.wav',
+        '/sounds/foley-bubble.wav',
     );
 
     async function handleUiSound() {

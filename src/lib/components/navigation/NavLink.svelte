@@ -18,7 +18,7 @@
     }: Props = $props();
 
     const { playSoundAsync: playHoverSound } = useSound(
-        '/sounds/foley-switch.wav',
+        '/sounds/foley-bubble.wav',
     );
 
     // only apply view-transition-name when NOT on the target page

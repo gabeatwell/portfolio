@@ -5,7 +5,7 @@
     import LearnHeading from '$lib/components/learn/pages/LearnHeading.svelte';
     import UsefulLinks from '$lib/components/learn/pages/UsefulLinks.svelte';
     import BgCircles from '$lib/components/learn/BgCircles.svelte';
-    import BlurOverlay from '$lib/components/learn/BlurOverlay.svelte';
+    import TileIntro from '$lib/components/learn/TileIntro.svelte';
 
     $effect(() => {
         document.documentElement.scrollTo(0, 0);
@@ -18,7 +18,7 @@
     keywords="topics to learn, web animation basics, topics, web techniques"
 />
 
-<BlurOverlay />
+<TileIntro />
 <BgCircles stroke="var(--clr-gray-700)" />
 
 <div class="learn-wrapper">

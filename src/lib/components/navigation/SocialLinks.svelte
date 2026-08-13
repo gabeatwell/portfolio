@@ -5,7 +5,7 @@
     import { componentImportMap } from '$lib/data/threeComponentImports';
 
     const { playSoundAsync: playHoverSound } = useSound(
-        '/sounds/foley-switch.wav',
+        '/sounds/foley-bubble.wav',
     );
     const REPO_URL = 'https://www.github.com/gabeatwell/portfolio';
     const githubUrl = $derived.by(() => {
