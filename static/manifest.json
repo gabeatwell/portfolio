@@ -2,7 +2,10 @@
     "name": "Gabe Atwell",
     "short_name": "Atwell UI",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
+    "orientation": "any",
+    "handle_links": "preferred",
     "background_color": "#111111",
     "theme_color": "#111111",
     "description": "The portfolio of Gabe Atwell, a UI/UX designer and developer.",
@@ -26,7 +29,8 @@
         {
             "src": "/icons/pwa-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "/icons/pwa-512x512.png",
@@ -35,10 +39,28 @@
             "purpose": "any"
         },
         {
+            "src": "/icons/maskable-icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
             "src": "/icons/maskable-icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
+        },
+        {
+            "src": "/icons/pwa-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icons/pwa-1024x1024.png",
+            "sizes": "1024x1024",
+            "type": "image/png",
+            "purpose": "any"
         }
     ]
 }
