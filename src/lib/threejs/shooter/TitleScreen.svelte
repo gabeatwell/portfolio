@@ -1,72 +1,14 @@
 <script lang="ts">
+    import { attachSlaynetTitle } from '$lib/attachments/threejs/attachSlaynetTitle';
+
     interface Props {
         onStart: () => void;
     }
 
     let { onStart }: Props = $props();
-
-    $effect(() => {
-        function updateChrome() {
-            const isLandscape = window.innerWidth > window.innerHeight;
-            const nav = document.querySelector('nav') as HTMLElement | null;
-            const select = document.querySelector(
-                '.select',
-            ) as HTMLElement | null;
-            const footer = document.querySelector(
-                'footer',
-            ) as HTMLElement | null;
-            const body = document.body;
-            const html = document.documentElement;
-
-            if (isLandscape) {
-                if (nav) nav.style.display = 'none';
-                if (footer) footer.style.display = 'none';
-                if (select) select.style.display = 'none';
-                body.style.overflow = 'hidden';
-                body.style.width = '100vw';
-                body.style.height = '100vh';
-                body.style.margin = '0';
-                body.style.padding = '0';
-                html.style.overflow = 'hidden';
-                html.style.width = '100vw';
-                html.style.height = '100vh';
-                html.style.margin = '0';
-                html.style.padding = '0';
-            } else {
-                if (nav) nav.style.display = '';
-                if (footer) footer.style.display = '';
-                if (select) select.style.display = '';
-                body.style.overflow = '';
-                body.style.width = '';
-                body.style.height = '';
-                body.style.margin = '';
-                body.style.padding = '';
-                html.style.overflow = '';
-                html.style.width = '';
-                html.style.height = '';
-                html.style.margin = '';
-                html.style.padding = '';
-            }
-        }
-
-        updateChrome();
-        window.addEventListener('resize', updateChrome);
-        window.addEventListener('orientationchange', updateChrome);
-
-        return () => {
-            window.removeEventListener('resize', updateChrome);
-            window.removeEventListener('orientationchange', updateChrome);
-            const nav = document.querySelector('nav') as HTMLElement | null;
-            const footer = document.querySelector(
-                'footer',
-            ) as HTMLElement | null;
-            if (nav) nav.style.display = '';
-            if (footer) footer.style.display = '';
-        };
-    });
 </script>
 
-<div class="title-screen">
+<div class="title-screen" {@attach attachSlaynetTitle}>
     <div class="content">
         <h1 class="title">SLAYNET</h1>
         <div class="tagline">Kill the putahmen</div>

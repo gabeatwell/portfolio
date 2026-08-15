@@ -5,10 +5,12 @@
     import Directions from './components/Directions.svelte';
     import LandscapeMobile from './components/LandscapeMobile.svelte';
     import TitleScreen from './TitleScreen.svelte';
-    import { initializeGame, cleanupGame, type GameState } from './gameSetup';
+    import type { GameState } from './gameSetup';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { attachSlaynetGame } from '$lib/attachments/threejs/attachSlaynet';
+    import { attachSlaynetTitle } from '$lib/attachments/threejs/attachSlaynetTitle';
+    import type { Attachment } from 'svelte/attachments';
 
-    let canvas = $state<HTMLCanvasElement | null>(null);
     let playerHealth = $state(10);
     let maxPlayerHealth = $state(10);
     let restartTrigger = $state(0);
@@ -27,6 +29,7 @@
     function startSlaynetGame(): void {
         showTitle = false;
     }
+
     let enemiesDisposed = $state(false);
     let isMobile = $state(false);
     let isPaused = $state(false);
@@ -64,361 +67,118 @@
         }
     });
 
-    // initialize game only when canvas is available or restart is triggered
-    $effect(() => {
-        if (!canvas || showTitle) return;
-
-        const trigger = restartTrigger;
-
-        const abortController = new AbortController();
-        let lastFrameTime = performance.now();
-        let animationLoopRunning = true;
-
-        isMobile = window.innerWidth <= 768;
-
-        let cleanup: (() => void) | null = null;
-
-        initializeGame(canvas, joystickElement)
-            .then((state) => {
-                if (!animationLoopRunning) return;
-
-                gameState = state;
-
-                if (isMobile) {
-                    isPaused = false;
-                }
-
-                const {
-                    renderer,
-                    scene,
-                    camera,
-                    controls,
-                    player,
-                    enemyManager,
-                    mobileJoystick,
-                } = state;
-
-                const cameraTarget = {
-                    x: camera.position.x,
-                    y: camera.position.y,
-                    z: camera.position.z,
-                };
-                let cameraTween: gsap.core.Tween | null = null;
-
-                enemyManager.setOnEnemyKilled(() => {
-                    enemyKillCount = enemyManager.getKillCount();
-
-                    try {
-                        const cm = player.getCombatManager();
-                        const cur = cm.getPlayerAmmo();
-                        if (cur !== null) {
-                            cm.setPlayerAmmo(cur + 5);
-                        }
-                    } catch (e) {
-                        // Ignore
-                    }
-
-                    if (enemyKillCount >= 3) {
-                        console.log('Win condition met!');
-                        isGameOver = true;
-                    }
-                });
-
-                function onResize() {
-                    const w = window.innerWidth;
-                    const h = window.innerHeight;
-                    isMobile = w <= 768;
-                    camera.aspect = w / h;
-                    camera.updateProjectionMatrix();
-                    renderer.setPixelRatio(
-                        Math.min(window.devicePixelRatio, 2),
-                    );
-                    renderer.setSize(w, h, false);
-                }
-
-                onResize();
-                window.addEventListener('resize', onResize, {
-                    signal: abortController.signal,
-                });
-
-                function onKeyToggle(e: KeyboardEvent) {
-                    if (e.key === 'r' || e.key === 'R') {
-                        controls.enableRotate = !controls.enableRotate;
-                        console.log('Orbit rotate:', controls.enableRotate);
-                    }
-                }
-
-                window.addEventListener('keydown', onKeyToggle, {
-                    signal: abortController.signal,
-                });
-
-                function onEscape(e: KeyboardEvent) {
-                    if (e.key === 'Escape') {
-                        cleanupGame(state, abortController);
-                        gameState = null;
-                        window.dispatchEvent(new CustomEvent('exit-game'));
-                    }
-                }
-                window.addEventListener('keydown', onEscape, {
-                    signal: abortController.signal,
-                });
-
-                renderer.setAnimationLoop(() => {
-                    if (isPaused) {
-                        renderer.render(scene, camera);
-                        return;
-                    }
-
-                    player.update();
-
-                    const now = performance.now();
-                    const dt = Math.min(0.05, (now - lastFrameTime) / 1000);
-                    lastFrameTime = now;
-
-                    if (isGameOver && !enemiesDisposed) {
-                        enemyManager.dispose();
-                        enemiesDisposed = true;
-                    } else if (!isGameOver) {
-                        enemyManager.update(dt);
-                    }
-
-                    if (gameState?.player && gameState?.camera) {
-                        const playerWorldPos =
-                            gameState.player.position.clone();
-                        const vector = playerWorldPos.project(gameState.camera);
-
-                        const screenX =
-                            (vector.x * 0.5 + 0.5) * window.innerWidth;
-                        const screenY =
-                            -(vector.y * 0.5 - 0.5) * window.innerHeight;
-
-                        playerScreenPos = { x: screenX, y: screenY - 125 };
-                    }
-
-                    if (gameState?.camera && gameState?.enemyManager) {
-                        const enemies =
-                            gameState.enemyManager.getEnemies?.() || [];
-                        enemyHealthBars = enemies
-                            .map((enemy: any) => {
-                                try {
-                                    if (!gameState?.camera) return null;
-                                    const enemyWorldPos =
-                                        enemy.position.clone();
-                                    const vector = enemyWorldPos.project(
-                                        gameState.camera,
-                                    );
-
-                                    const screenX =
-                                        (vector.x * 0.5 + 0.5) *
-                                        window.innerWidth;
-                                    const screenY =
-                                        -(vector.y * 0.5 - 0.5) *
-                                        window.innerHeight;
-
-                                    const health = enemy.getHealth?.() || 0;
-                                    const maxHealth =
-                                        enemy.getMaxHealth?.() || 100;
-
-                                    return {
-                                        id: String(enemy.id || Math.random()),
-                                        x: screenX,
-                                        y: screenY - 125,
-                                        health: Number(health),
-                                        maxHealth: Number(maxHealth),
-                                    };
-                                } catch (e) {
-                                    return null;
-                                }
-                            })
-                            .filter(
-                                (
-                                    bar: any,
-                                ): bar is {
-                                    id: string;
-                                    x: number;
-                                    y: number;
-                                    health: number;
-                                    maxHealth: number;
-                                } => bar !== null,
-                            );
-                    }
-
-                    if (mobileJoystick) {
-                        joystickX = mobileJoystick.getJoystickX();
-                        joystickY = mobileJoystick.getJoystickY();
-                    }
-
-                    const combatManager = player.getCombatManager();
-                    playerHealth = combatManager.getPlayerHealth();
-                    maxPlayerHealth = combatManager.getMaxPlayerHealth();
-
-                    try {
-                        ammo = combatManager.getPlayerAmmo();
-                    } catch (e) {
-                        ammo = null;
-                    }
-
-                    if (playerHealth <= 0 && !isGameOver) {
-                        isGameOver = true;
-                    }
-
-                    const desiredX = player.position.x + 1;
-                    const desiredY = player.position.y + 4;
-                    const desiredZ = player.position.z + 3;
-
-                    if (isMobile) {
-                        camera.position.set(desiredX, desiredY, desiredZ);
-                    } else {
-                        if (controls.enableRotate) {
-                            if (cameraTween) {
-                                cameraTween.kill();
-                                cameraTween = null;
-                            }
-                        } else {
-                            if (cameraTween) cameraTween.kill();
-
-                            cameraTween = gsap.to(cameraTarget, {
-                                x: desiredX,
-                                y: desiredY,
-                                z: desiredZ,
-                                duration: 0.3,
-                                ease: 'power2.out',
-                                onUpdate: () => {
-                                    camera.position.set(
-                                        cameraTarget.x,
-                                        cameraTarget.y,
-                                        cameraTarget.z,
-                                    );
-                                },
-                            });
-                        }
-                    }
-
-                    controls.target.copy(player.position);
-                    controls.update();
-
-                    renderer.render(scene, camera);
-                });
-
-                cleanup = () => {
-                    animationLoopRunning = false;
-                    if (cameraTween) cameraTween.kill();
-                    cleanupGame(state, abortController);
-                    gameState = null;
-                };
-            })
-            .catch((error) => {
-                console.error('Failed to initialize game:', error);
-            });
-
-        return () => {
-            if (cleanup) cleanup();
-        };
-    });
-
-    // update pause state separately
-    $effect(() => {
-        if (gameState?.player) {
-            try {
-                gameState.player.getCombatManager().setPaused(isPaused);
-            } catch (e) {
-                // Ignore
-            }
-        }
-    });
-
     // apply pause state after game initializes
     $effect(() => {
-        if (gameState && isMobile) {
-            isPaused = false;
-        }
+        if (gameState && isMobile) isPaused = false;
     });
 
-    $effect(() => {
-        const footer = document.querySelector('footer') as HTMLElement | null;
-        const nav = document.querySelector('.navigation') as HTMLElement | null;
-        const select = document.querySelector('.select') as HTMLElement | null;
-        const isLandscapeMobile =
-            breakpoints.isLandscape && breakpoints.isMobile;
+    const hideChromeWhilePlaying: Attachment = (node) => {
+        void node;
+        if (!(breakpoints.isLandscape && breakpoints.isMobile)) return;
+        return attachSlaynetTitle(node as HTMLElement);
+    };
 
-        if (nav) nav.style.display = isLandscapeMobile ? 'none' : '';
-        if (select) select.style.display = isLandscapeMobile ? 'none' : '';
-        if (footer) footer.style.display = isLandscapeMobile ? 'none' : '';
-
-        return () => {
-            if (footer) footer.style.display = '';
-            if (nav) nav.style.display = '';
-            if (select) select.style.display = '';
-        };
-    });
+    const gameAttach = $derived(
+        attachSlaynetGame(
+            { restartTrigger, joystickElement },
+            {
+                onState: (s) => (gameState = s),
+                onKillCount: (n) => (enemyKillCount = n),
+                onGameOver: () => (isGameOver = true),
+                onPlayerHealth: (h, max) => {
+                    playerHealth = h;
+                    maxPlayerHealth = max;
+                },
+                onAmmo: (a) => (ammo = a),
+                onPlayerScreenPos: (p) => (playerScreenPos = p),
+                onEnemyHealthBars: (bars) => (enemyHealthBars = bars),
+                onJoystick: (x, y) => {
+                    joystickX = x;
+                    joystickY = y;
+                },
+                onMobile: (v) => (isMobile = v),
+                getIsPaused: () => isPaused,
+                getIsGameOver: () => isGameOver,
+                getEnemiesDisposed: () => enemiesDisposed,
+                setEnemiesDisposed: (v) => (enemiesDisposed = v),
+            },
+        ),
+    );
 </script>
 
 {#if showTitle}
     <TitleScreen onStart={startSlaynetGame} />
 {:else}
-    <LandscapeMobile
-        {isMobile}
-        onPause={() => (isPaused = true)}
-        onResume={() => (isPaused = false)}
-    />
-    <HealthBar {playerHealth} {maxPlayerHealth} screenPos={playerScreenPos} />
-    {#each enemyHealthBars as enemy (enemy.id)}
-        <HealthBar
-            playerHealth={enemy.health}
-            maxPlayerHealth={enemy.maxHealth}
-            screenPos={{ x: enemy.x, y: enemy.y }}
+    <div {@attach hideChromeWhilePlaying} style="display: contents">
+        <LandscapeMobile
+            {isMobile}
+            onPause={() => (isPaused = true)}
+            onResume={() => (isPaused = false)}
         />
-    {/each}
-    <GameOver {isGameOver} {won} onRestart={handleRestart} />
-    {#if !isMobile}
-        <Directions bind:showDirections />
-    {/if}
 
-    <div class="mobile-wrapper">
-        <canvas
-            class="webgl"
-            bind:this={canvas}
-            data-testing="scene-canvas"
-            style="anchor-name: --health-anchor;"
-        ></canvas>
+        <HealthBar
+            {playerHealth}
+            {maxPlayerHealth}
+            screenPos={playerScreenPos}
+        />
 
-        <!-- mobile joystick -->
-        <div
-            class="mobile-joystick"
-            bind:this={joystickElement}
-            data-testing="interaction-state"
-        >
-            <div class="joystick-base">
-                <div
-                    class="joystick-stick"
-                    style="transform: translate({joystickX * 30}px, {joystickY *
-                        30}px)"
-                ></div>
+        {#each enemyHealthBars as enemy (enemy.id)}
+            <HealthBar
+                playerHealth={enemy.health}
+                maxPlayerHealth={enemy.maxHealth}
+                screenPos={{ x: enemy.x, y: enemy.y }}
+            />
+        {/each}
+
+        <GameOver {isGameOver} {won} onRestart={handleRestart} />
+
+        {#if !isMobile}
+            <Directions bind:showDirections />
+        {/if}
+
+        <div class="mobile-wrapper">
+            <canvas
+                class="webgl"
+                data-testing="scene-canvas"
+                style="anchor-name: --health-anchor;"
+                {@attach gameAttach}
+            ></canvas>
+
+            <div
+                class="mobile-joystick"
+                bind:this={joystickElement}
+                data-testing="interaction-state"
+            >
+                <div class="joystick-base">
+                    <div
+                        class="joystick-stick"
+                        style="transform: translate({joystickX *
+                            30}px, {joystickY * 30}px)"
+                    ></div>
+                </div>
             </div>
+
+            <button
+                class="shoot-button"
+                onclick={() => gameState?.player?.shoot()}
+                aria-label="Shoot"
+                data-testing="interaction-state"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                    <path
+                        d="M560 120C560 106.7 549.3 96 536 96C522.7 96 512 106.7 512 120L512 128L64 128C46.3 128 32 142.3 32 160L32 272C32 289.7 46.3 304 64 304L74 304C94.8 304 110.1 323.6 105 343.8L65 504.2C62.6 513.8 64.8 523.9 70.8 531.7C76.8 539.5 86.1 544 96 544L192 544C206.7 544 219.5 534 223 519.8L249 416L353.4 416C377.1 416 398.2 401.1 406.1 378.8L432.8 304L463.9 304C472.4 304 480.5 300.6 486.5 294.6L509.1 272L575.8 272C593.5 272 607.8 257.7 607.8 240L607.8 160C607.8 142.3 593.5 128 575.8 128L559.8 128L559.8 120zM353.4 368L260.9 368L276.9 304L381.9 304L360.9 362.7C359.8 365.9 356.7 368 353.4 368zM112 192L496 192C504.8 192 512 199.2 512 208C512 216.8 504.8 224 496 224L112 224C103.2 224 96 216.8 96 208C96 199.2 103.2 192 112 192z"
+                    />
+                </svg>
+            </button>
         </div>
 
-        <!-- shoot button -->
-        <button
-            class="shoot-button"
-            onclick={() => gameState?.player?.shoot()}
-            aria-label="Shoot"
-            data-testing="interaction-state"
-        >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                <path
-                    d="M560 120C560 106.7 549.3 96 536 96C522.7 96 512 106.7 512 120L512 128L64 128C46.3 128 32 142.3 32 160L32 272C32 289.7 46.3 304 64 304L74 304C94.8 304 110.1 323.6 105 343.8L65 504.2C62.6 513.8 64.8 523.9 70.8 531.7C76.8 539.5 86.1 544 96 544L192 544C206.7 544 219.5 534 223 519.8L249 416L353.4 416C377.1 416 398.2 401.1 406.1 378.8L432.8 304L463.9 304C472.4 304 480.5 300.6 486.5 294.6L509.1 272L575.8 272C593.5 272 607.8 257.7 607.8 240L607.8 160C607.8 142.3 593.5 128 575.8 128L559.8 128L559.8 120zM353.4 368L260.9 368L276.9 304L381.9 304L360.9 362.7C359.8 365.9 356.7 368 353.4 368zM112 192L496 192C504.8 192 512 199.2 512 208C512 216.8 504.8 224 496 224L112 224C103.2 224 96 216.8 96 208C96 199.2 103.2 192 112 192z"
-                />
-            </svg>
-        </button>
-    </div>
-
-    <!-- ammo counter -->
-    <div class="ammo-counter" aria-hidden={ammo === null}>
-        {#if ammo === null}
-            <span>Ammo: ∞</span>
-        {:else}
-            <span>Ammo: {ammo}</span>
-        {/if}
+        <div class="ammo-counter" aria-hidden={ammo === null}>
+            {#if ammo === null}
+                <span>Ammo: ∞</span>
+            {:else}
+                <span>Ammo: {ammo}</span>
+            {/if}
+        </div>
     </div>
 {/if}
 

@@ -1,65 +1,14 @@
 <script lang="ts">
+    import { attachKillgridTitle } from '$lib/attachments/threejs/attachKillgridTitle';
+
     interface Props {
         onStart: () => void;
     }
 
     let { onStart }: Props = $props();
-
-    $effect(() => {
-        function updateChrome() {
-            const isLandscape = window.innerWidth > window.innerHeight;
-            const body = document.body;
-            const html = document.documentElement;
-
-            // On mobile portrait, hide nav/footer so they don't overlap title screen
-            if (!isLandscape && window.innerWidth <= 768) {
-                const nav = document.querySelector('nav');
-                const footer = document.querySelector('footer');
-                if (nav) nav.style.display = 'none';
-                if (footer) footer.style.display = 'none';
-            }
-
-            if (isLandscape) {
-                body.style.overflow = 'hidden';
-                body.style.width = '100vw';
-                body.style.height = '100vh';
-                body.style.margin = '0';
-                body.style.padding = '0';
-                html.style.overflow = 'hidden';
-                html.style.width = '100vw';
-                html.style.height = '100vh';
-                html.style.margin = '0';
-                html.style.padding = '0';
-            } else {
-                body.style.overflow = '';
-                body.style.width = '';
-                body.style.height = '';
-                body.style.margin = '';
-                body.style.padding = '';
-                html.style.overflow = '';
-                html.style.width = '';
-                html.style.height = '';
-                html.style.margin = '';
-                html.style.padding = '';
-            }
-        }
-
-        updateChrome();
-        window.addEventListener('resize', updateChrome);
-        window.addEventListener('orientationchange', updateChrome);
-
-        return () => {
-            window.removeEventListener('resize', updateChrome);
-            window.removeEventListener('orientationchange', updateChrome);
-            const nav = document.querySelector('nav');
-            const footer = document.querySelector('footer');
-            if (nav) nav.style.display = '';
-            if (footer) footer.style.display = '';
-        };
-    });
 </script>
 
-<div class="title-screen">
+<div class="title-screen" {@attach attachKillgridTitle}>
     <div class="content">
         <h1 class="title">KILLGRID</h1>
 

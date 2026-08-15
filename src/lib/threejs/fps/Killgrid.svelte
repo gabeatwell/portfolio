@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
     import { FPSGame } from './FPSGameSetup';
     import Confetti from './components/Confetti.svelte';
     import TitleScreen from './TitleScreen.svelte';
     import GameLandscape from './components/GameLandscape.svelte';
     import FPSMobileControls from './components/FPSMobileControls.svelte';
+    import { attachKillgridGame } from '$lib/attachments/threejs/attachKillgrid';
 
-    let canvas = $state<HTMLCanvasElement | null>(null);
     let game: FPSGame | null = $state(null);
     let isLocked = $state(false);
     let isMobile = $state(false);
@@ -27,27 +26,13 @@
     let bossScreenX = $state(-1000);
     let bossScreenY = $state(-1000);
 
-    // Refs for cleanup set by startTitleGame
-    let hudIntervalRef: ReturnType<typeof setInterval> | null = null;
-    let lockChangeRef: (() => void) | null = null;
+    let restartTrigger = $state(0);
 
-    // Fallback: if isGameOver stays true for 3s, force restart
-    $effect(() => {
-        if (isGameOver) {
-            const timer = setTimeout(() => {
-                handleRestart();
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
-    });
+    function startTitleGame(): void {
+        showTitle = false;
+    }
 
     function handleRestart(): void {
-        try {
-            game?.dispose();
-        } catch (_) {
-            // ignore dispose errors
-        }
-        game = null;
         isGameOver = false;
         won = false;
         bossSpawned = false;
@@ -57,140 +42,48 @@
         playerHealth = 10;
         maxPlayerHealth = 10;
         enemyKillCount = 0;
-        game = new FPSGame();
-        game.init(canvas!).catch(() => {});
-        if (isMobile) {
-            game.setMobile(true);
-        }
-        const checkInit = setInterval(() => {
-            if (game && game.combatManager && game.enemyManager) {
-                clearInterval(checkInit);
-                game.start();
-                isLocked = isMobile
-                    ? true
-                    : document.pointerLockElement === canvas;
-            }
-        }, 50);
+        restartTrigger += 1;
     }
 
-    async function startTitleGame(): Promise<void> {
-        showTitle = false;
-        // Hide nav and footer while game is active
-        document
-            .querySelector('nav')
-            ?.style.setProperty('display', 'none', 'important');
-        document
-            .querySelector('footer')
-            ?.style.setProperty('display', 'none', 'important');
-        isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    // auto restart if game sticks
+    $effect(() => {
+        if (!isGameOver) return;
+        const timer = setTimeout(() => handleRestart(), 3000);
 
-        await tick();
-
-        game = new FPSGame();
-        game.init(canvas!).then(() => {
-            if (isMobile) game?.setMobile(true);
-            game?.start();
-            isLocked = isMobile ? true : document.pointerLockElement === canvas;
-        });
-
-        const hudInterval = setInterval(() => {
-            if (!game) return;
-            if (isGameOver) return;
-            if (!game.combatManager || !game.enemyManager) return;
-
-            const mgr = game.enemyManager;
-
-            // Read game state
-            playerHealth = game.combatManager.getPlayerHealth();
-            maxPlayerHealth = game.combatManager.getMaxPlayerHealth();
-            ammo = game.combatManager.getPlayerAmmo();
-            enemyKillCount = mgr.getKillCount();
-
-            // ─── Spawn boss when threshold reached ──────────
-            if (enemyKillCount >= 5 && !mgr.hasBossSpawned()) {
-                mgr.spawnBoss();
-                bossSpawned = true;
-                bossAlive = true;
-                // Read boss HP after a short delay
-                setTimeout(() => {
-                    bossHealth = mgr.getBossHealth();
-                    bossMaxHealth = mgr.getBossMaxHealth();
-                }, 100);
-            }
-
-            // ─── Track boss HP while alive ─────────────────
-            const bossStillAlive = mgr.isBossAlive();
-            if (bossStillAlive) {
-                bossHealth = mgr.getBossHealth();
-                bossMaxHealth = mgr.getBossMaxHealth();
-                bossAlive = true;
-
-                // Project boss position to screen coordinates for floating health bar
-                const bossEnemy = mgr.getEnemies().find((e: any) => e.isBoss);
-                if (bossEnemy && game.camera) {
-                    const pos = bossEnemy.position.clone();
-                    pos.y += 2.8; // above the head
-                    const projected = pos.clone().project(game.camera);
-                    bossScreenX = ((projected.x + 1) / 2) * window.innerWidth;
-                    bossScreenY = ((-projected.y + 1) / 2) * window.innerHeight;
-                    // Hide if behind camera
-                    if (projected.z > 1) {
-                        bossScreenX = -1000;
-                        bossScreenY = -1000;
-                    }
-                }
-            } else if (bossSpawned && bossAlive) {
-                // Boss was alive last tick, now dead → win!
-                won = true;
-                bossAlive = false;
-            }
-
-            if (playerHealth <= 0 || won) {
-                if (!isGameOver) {
-                    if (!isMobile) game.controls.unlock();
-                    game?.pause();
-                    setTimeout(() => {
-                        handleRestart();
-                    }, 2500);
-                }
-                isGameOver = true;
-            }
-        }, 100);
-
-        hudIntervalRef = hudInterval;
-
-        const onLockChange = () => {
-            isLocked = document.pointerLockElement === canvas;
-        };
-        lockChangeRef = onLockChange;
-        document.addEventListener('pointerlockchange', onLockChange);
-
-        const onEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                game?.dispose();
-                game = null;
-                clearInterval(hudInterval);
-                document.removeEventListener('pointerlockchange', onLockChange);
-
-                window.dispatchEvent(new CustomEvent('exit-game'));
-            }
-        };
-        document.addEventListener('keydown', onEscape);
-    }
-
-    onMount(() => {
-        return () => {
-            if (hudIntervalRef) clearInterval(hudIntervalRef);
-            if (lockChangeRef)
-                document.removeEventListener(
-                    'pointerlockchange',
-                    lockChangeRef,
-                );
-
-            game?.dispose();
-            game = null;
-        };
+        return () => clearTimeout(timer);
     });
+
+    const gameAttach = $derived(
+        attachKillgridGame(
+            { restartTrigger },
+            {
+                onGame: (g) => (game = g),
+                onLocked: (v) => (isLocked = v),
+                onMobile: (v) => (isMobile = v),
+                onPlayerHealth: (h, max) => {
+                    playerHealth = h;
+                    maxPlayerHealth = max;
+                },
+                onAmmo: (a) => (ammo = a),
+                onKillCount: (n) => (enemyKillCount = n),
+                onBoss: (b) => {
+                    bossSpawned = b.spawned;
+                    bossAlive = b.alive;
+                    bossHealth = b.health;
+                    bossMaxHealth = b.maxHealth;
+                    bossScreenX = b.screenX;
+                    bossScreenY = b.screenY;
+                    if (b.spawned && !b.alive) won = true;
+                },
+                onGameOver: (didWin) => {
+                    won = didWin;
+                    isGameOver = true;
+                },
+                getIsGameOver: () => isGameOver,
+                onRestart: handleRestart,
+            },
+        ),
+    );
 </script>
 
 {#if showTitle}
@@ -199,7 +92,7 @@
     <GameLandscape active={!showTitle} />
 
     <div class="wrapper">
-        <canvas bind:this={canvas} class="webgl"></canvas>
+        <canvas {@attach gameAttach} class="webgl"></canvas>
 
         <!-- crosshair -->
         <div class="crosshair" class:visible={isLocked}>
@@ -258,6 +151,7 @@
             enabled={isMobile && isLocked && !isGameOver}
         />
     {/key}
+
     <Confetti active={isGameOver} color={won ? 'green' : 'red'} />
 {/if}
 
