@@ -1,39 +1,23 @@
 <script lang="ts">
+    import { attachMobileLandscape } from '$lib/attachments/threejs/attachMobileLandscape';
     import HeroTitle from '$lib/components/landing/hero-section/hero/HeroTitle.svelte';
     import Button from '$lib/components/layout/Button.svelte';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
     import { setupHeroCanvas } from './threejs.svelte';
 
     const breakpoints = getBreakpoints();
-
-    $effect(() => {
-        const footer = document.querySelector('footer') as HTMLElement | null;
-        const nav = document.querySelector('.navigation') as HTMLElement | null;
-        const select = document.querySelector('.select') as HTMLElement | null;
-        const heroContent = document.querySelector(
-            '.hero-content',
-        ) as HTMLElement | null;
-        const isLandscapeMobile =
-            breakpoints.isLandscape && breakpoints.isMobile;
-
-        if (nav) nav.style.display = isLandscapeMobile ? 'none' : '';
-        if (select) select.style.display = isLandscapeMobile ? 'none' : '';
-        if (footer) footer.style.display = isLandscapeMobile ? 'none' : '';
-        if (heroContent)
-            heroContent.style.overflowY = isLandscapeMobile ? 'auto' : '';
-
-        return () => {
-            if (footer) footer.style.display = '';
-            if (nav) nav.style.display = '';
-            if (select) select.style.display = '';
-            if (heroContent) heroContent.style.overflowY = '';
-        };
-    });
 </script>
 
 <canvas class="webgl" aria-label="hero" {@attach setupHeroCanvas}></canvas>
 
-<section aria-label="hero" class="hero-content">
+<section
+    aria-label="hero"
+    class="hero-content"
+    {@attach attachMobileLandscape({
+        isLandscapeMobile: breakpoints.isLandscape && breakpoints.isMobile,
+        heroContent: true,
+    })}
+>
     <HeroTitle title="Frontend Crafted Web Experiences" />
 
     <h4 class="summary">

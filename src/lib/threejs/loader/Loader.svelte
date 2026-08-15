@@ -1,30 +1,19 @@
 <script lang="ts">
+    import { attachMobileLandscape } from '$lib/attachments/threejs/attachMobileLandscape';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
     import { setupLoader } from './threejs.svelte';
 
     let loadingComplete = $state<boolean>(false);
     const breakpoints = getBreakpoints();
-
-    $effect(() => {
-        const footer = document.querySelector('footer') as HTMLElement | null;
-        const nav = document.querySelector('.navigation') as HTMLElement | null;
-        const select = document.querySelector('.select') as HTMLElement | null;
-        const isLandscapeMobile =
-            breakpoints.isLandscape && breakpoints.isMobile;
-
-        if (footer) footer.style.display = isLandscapeMobile ? 'none' : '';
-        if (select) select.style.display = isLandscapeMobile ? 'none' : '';
-        if (nav) nav.style.display = isLandscapeMobile ? 'none' : '';
-
-        return () => {
-            if (footer) footer.style.display = '';
-            if (nav) nav.style.display = '';
-            if (select) select.style.display = '';
-        };
-    });
 </script>
 
-<canvas class="webgl" {@attach setupLoader}></canvas>
+<canvas
+    class="webgl"
+    {@attach setupLoader}
+    {@attach attachMobileLandscape({
+        isLandscapeMobile: breakpoints.isLandscape && breakpoints.isMobile,
+    })}
+></canvas>
 
 <div class="loading-overlay">
     <section class="loading-bar"></section>
