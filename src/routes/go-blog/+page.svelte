@@ -16,8 +16,6 @@
 </h1>
 
 <aside class="toc">
-    <h2 class="title">table of contents</h2>
-
     <ul>
         {#each posts as post, index (post.id)}
             <li>
@@ -56,16 +54,25 @@
         ul {
             display: grid;
             grid-auto-flow: column;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(4, auto);
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, auto);
 
-            @media (width <= 768px) {
-                grid-template-columns: 1fr;
+            @media (width <= 1200px) {
+                grid-template-columns: repeat(3, 1fr);
                 grid-template-rows: auto;
                 grid-auto-flow: row;
             }
+            @media (width <= 990px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            @media (width <= 768px) {
+                grid-template-columns: 1fr;
+            }
 
             li {
+                margin: 0;
+                padding: 0;
+
                 a {
                     text-shadow: none;
                     text-decoration: none;
