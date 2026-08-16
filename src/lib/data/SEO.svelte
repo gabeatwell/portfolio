@@ -10,7 +10,7 @@
     }
 
     let {
-        title = 'Gabriel Atwell',
+        title = 'Gabe Atwell',
         description = 'Web developer and web designer',
         keywords = '',
         image = '',
@@ -84,11 +84,15 @@
     const structuredData = $derived(
         '<script type="application/ld+json">' + jsonLd + '<' + '/script>',
     );
+
+    const finalTitle = $derived(
+        title.startsWith('Gabe Atwell') ? title : `Gabe Atwell - ${title}`,
+    );
 </script>
 
 <svelte:head>
     <!-- critical -->
-    <title>{title}</title>
+    <title>{finalTitle}</title>
     <link rel="canonical" href={canonicalUrl} />
     <meta name="description" content={description} />
     <meta
