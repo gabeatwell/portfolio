@@ -47,11 +47,5 @@
             line-height: 1;
             inline-size: 85%;
         }
-
-        &.hidden {
-            @media (orientation: landscape) and (pointer: coarse) {
-                display: none;
-            }
-        }
     }
 </style>
