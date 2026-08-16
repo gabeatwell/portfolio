@@ -1,7 +1,7 @@
 [
     {
         "summary": "What's GSAP?",
-        "content": "<p>GSAP (GreenSock Animation Platform) is a JavaScript library for creating high-performance animations on the web. You give it an HTML element, tell it what to animate and how long to take, and it handles the rest. It works with any setup — a plain HTML page, a CMS, or a JavaScript framework — because at its core it just targets DOM elements and changes their properties over time. Animations run at a smooth 60fps and the library is lightweight, so your pages stay fast.</p>"
+        "content": "<p><a href='https://gsap.com'>GSAP</a> (GreenSock Animation Platform) is a JavaScript library for creating high-performance animations on the web. You give it an HTML element, tell it what to animate and how long to take, and it handles the rest. It works with any setup — a plain HTML page, a CMS, or a JavaScript framework — because at its core it just targets DOM elements and changes their properties over time. Animations run at a smooth 60fps and the library is lightweight, so your pages stay fast.</p>"
     },
     {
         "summary": "Installation",

@@ -206,7 +206,7 @@
 
         & .examples {
             font-family: var(--thunder);
-            font-size: clamp(var(--h1), 10vw, var(--xl));
+            font-size: clamp(var(--lg), 12vw, var(--xl));
             font-weight: 700;
             transform: rotate(15deg);
             letter-spacing: -0.025em;

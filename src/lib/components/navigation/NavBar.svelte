@@ -181,6 +181,7 @@
         transform: scale(0.8);
         transition:
             opacity 0.3s ease-out,
+            visibility 0s linear 0.3s,
             transform 0.15s ease-out;
         opacity: 0;
         transform-origin: top left;
