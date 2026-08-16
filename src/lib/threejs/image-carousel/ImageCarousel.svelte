@@ -1,18 +1,19 @@
 <script lang="ts">
+    import { attachMobileLandscape } from '$lib/attachments/threejs/attachMobileLandscape';
     import { initCarousel } from './threejs.svelte';
-    import LandscapeMobile from '../shooter/components/LandscapeMobile.svelte';
+    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
 
-    // eslint-disable-next-line no-unassigned-vars
-    let isMobile = $state(
-        typeof window !== 'undefined' &&
-            ('ontouchstart' in window || navigator.maxTouchPoints > 0),
-    );
+    const breakpoints = getBreakpoints();
 </script>
 
-<LandscapeMobile {isMobile} onPause={() => {}} onResume={() => {}} />
-
-<h2 class:hidden={isMobile}>drag the images to move</h2>
-<canvas {@attach initCarousel} class="canvas"></canvas>
+<h2>drag the images to move</h2>
+<canvas
+    {@attach initCarousel}
+    {@attach attachMobileLandscape({
+        isLandscapeMobile: breakpoints.isLandscape && breakpoints.isMobile,
+    })}
+    class="canvas"
+></canvas>
 
 <style>
     canvas {
