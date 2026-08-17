@@ -40,7 +40,7 @@
         <h1 class="h1">{title}</h1>
 
         <div class="img">
-            <a href="/three.js" onclick={handleTransitionClick}>
+            <a href="/threejs-blog" onclick={handleTransitionClick}>
                 <Image {src} {alt} {width} aspectRatio="16/9" />
             </a>
         </div>
