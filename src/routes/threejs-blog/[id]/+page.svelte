@@ -5,8 +5,9 @@
     import Avatar2 from '$lib/components/blog/ProfilePic.svelte';
     import SEO from '$lib/data/SEO.svelte';
     import Isle from '$lib/data/island-architecture/Isle.svelte';
+    import type { Post } from '$lib/data/blog/parseMD';
 
-    let { data } = $props();
+    let { data }: { data: { post: Post | null } } = $props();
     let post = $derived(data.post);
 
     let formattedDate = $derived(
