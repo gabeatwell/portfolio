@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { setupTunnel } from '../../threejs/tunnel/threejs.svelte';
+import { setupTunnel } from '../../../threejs/tunnel/threejs.svelte';
 
 describe('Tunnel setup', () => {
     it('returns a cleanup function', () => {

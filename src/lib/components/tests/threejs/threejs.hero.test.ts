@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { setupHeroCanvas } from '../../threejs/hero/threejs.svelte';
+import { setupHeroCanvas } from '../../../threejs/hero/threejs.svelte';
 
 describe('HeroCanvas setup', () => {
     beforeAll(() => {
@@ -28,6 +28,7 @@ describe('HeroCanvas setup', () => {
     it('cleanup can be called without throwing', () => {
         const canvas = document.createElement('canvas');
         const cleanup = setupHeroCanvas(canvas);
-        expect(() => cleanup()).not.toThrow();
+        expect(cleanup).toBeInstanceOf(Function);
+        expect(() => (cleanup as () => void)()).not.toThrow();
     });
 });

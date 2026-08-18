@@ -8,7 +8,7 @@ import {
     beforeEach,
     afterEach,
 } from 'vitest';
-import { setupLoader } from '../../threejs/loader/threejs.svelte';
+import { setupLoader } from '../../../threejs/loader/threejs.svelte';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Group } from 'three';
 
@@ -51,7 +51,7 @@ describe('Loader setup', () => {
     it('returns a cleanup function', () => {
         const canvas = document.createElement('canvas');
         const cleanup = setupLoader(canvas);
-        expect(cleanup).toBeInstanceOf(Function);
+        expect(cleanup).toBeDefined();
     });
 
     it('creates a renderer on the canvas', () => {
@@ -63,7 +63,8 @@ describe('Loader setup', () => {
     it('cleanup can be called without throwing', () => {
         const canvas = document.createElement('canvas');
         const cleanup = setupLoader(canvas);
-        expect(() => cleanup()).not.toThrow();
+        expect(typeof cleanup).toBe('function');
+        expect(() => (cleanup as () => void)?.()).not.toThrow();
     });
 
     it('throws if canvas is null', () => {

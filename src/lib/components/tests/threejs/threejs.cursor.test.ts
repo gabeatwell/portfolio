@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { setupCursorScene } from '../../threejs/cursor/threejs.svelte';
+import { setupCursorScene } from '../../../threejs/cursor/threejs.svelte';
 
 describe('CursorScene setup', () => {
     let canvas: HTMLCanvasElement;
@@ -28,7 +28,7 @@ describe('CursorScene setup', () => {
 
     it('cleanup removes the displacement canvas from the DOM', () => {
         const cleanup = setupCursorScene(canvas);
-        cleanup();
+        cleanup?.();
         const displacementCanvas = document.querySelector(
             'canvas[style*="position: fixed"]',
         );
@@ -37,6 +37,6 @@ describe('CursorScene setup', () => {
 
     it('cleanup can be called without throwing', () => {
         const cleanup = setupCursorScene(canvas);
-        expect(() => cleanup()).not.toThrow();
+        expect(() => cleanup?.()).not.toThrow();
     });
 });

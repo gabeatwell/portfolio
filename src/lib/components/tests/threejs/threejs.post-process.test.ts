@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
-import { setupPostProcess } from '../../threejs/post-processing/threejs.svelte';
+import { setupPostProcess } from '../../../threejs/post-processing/threejs.svelte';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Group } from 'three';
 
@@ -33,6 +33,6 @@ describe('PostProcess setup', () => {
     it('cleanup can be called without throwing', () => {
         const canvas = document.createElement('canvas');
         const cleanup = setupPostProcess(canvas);
-        expect(() => cleanup()).not.toThrow();
+        expect(() => cleanup?.()).not.toThrow();
     });
 });

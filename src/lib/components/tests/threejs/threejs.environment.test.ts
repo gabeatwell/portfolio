@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
-import { setupEnvironment } from '../../threejs/environment/threejs.svelte';
+import { setupEnvironment } from '../../../threejs/environment/threejs.svelte';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Group } from 'three';
 

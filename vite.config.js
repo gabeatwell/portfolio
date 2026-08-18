@@ -2,6 +2,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { mdsvex } from 'mdsvex';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 
 const mdsvexOptions = {
@@ -96,6 +97,12 @@ export default defineConfig({
         minify: 'terser',
         cssCodeSplit: true,
         cssMinify: 'lightningcss',
+    },
+    resolve: {
+        alias: {
+            $lib: fileURLToPath(new URL('./src/lib', import.meta.url)),
+            $routes: fileURLToPath(new URL('./src/routes', import.meta.url)),
+        },
     },
     test: {
         environment: 'jsdom',

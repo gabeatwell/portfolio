@@ -16,7 +16,7 @@ vi.mock('dompurify', () => ({
     },
 }));
 
-import { sanitizeAndHighlight } from '../utils/highlight';
+import { sanitizeAndHighlight } from '../../utils/highlight';
 import hljs from 'highlight.js/lib/core';
 
 // Capture registerLanguage calls made at module import time,
