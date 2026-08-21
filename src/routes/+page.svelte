@@ -64,12 +64,12 @@
                 <Hero cssBg={'random'} />
             {/if}
         {:else}
-            <iframe
-                src="/projects/utils/laptop-screen"
-                title="laptop screen"
-                loading="lazy"
-                style="width:100%; height:100%; border:none;"
-            ></iframe>
+            <img
+                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/website.webp"
+                alt="Preview of the atwell.dev homepage"
+                draggable="false"
+                style="width:100%; height:100%; object-fit:cover;"
+            />
         {/if}
     </Intro>
 {/if}

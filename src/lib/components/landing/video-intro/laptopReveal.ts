@@ -54,6 +54,14 @@ export function laptopScene(node: HTMLElement, onComplete: () => void) {
         cancelAnimationFrame(rafId);
     });
 
+    renderer.domElement.addEventListener('webglcontextrestored', () => {
+        contextLost = false;
+        // Three.js re-uploads programs/textures automatically on the next render
+        renderer.setSize(node.clientWidth, node.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        animate();
+    });
+
     renderer.setSize(node.clientWidth, node.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = SRGBColorSpace;

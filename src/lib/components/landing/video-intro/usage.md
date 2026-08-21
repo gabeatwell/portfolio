@@ -5,16 +5,16 @@
     import LaptopIntro from '$lib/components/landing/video-intro/LaptopIntro.svelte';
 </script>
 
-<LaptopIntro>
-    <iframe
-        src="/projects/utils/laptop-screen"
-        title="laptop screen"
-        loading="lazy"
-        style="width:100%; height:100%; border:none;"
-    ></iframe>
+<LaptopIntro onComplete={() => console.log('intro done')}>
+    <img
+        src="/images/laptop-screen.png"
+        alt="Preview of the atwell.dev homepage"
+        draggable="false"
+        style="width:100%; height:100%; object-fit:cover;"
+    />
 </LaptopIntro>
 ```
 
-You use an `iframe` inside of `<LaptopIntro>` so the screen of the laptop points to an actual page.
+You put the screen content inside of `<LaptopIntro>` as children. The screen of the laptop is a static image (`https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/website.webp`).
 
-For this project I created a page with just the main page ("/") content on a dark background in the `/projects/utils/laptop-screen` route. I made this page so there's no heavy animations so the iframe works.
+> **Why a static image?** Originally this used an `<iframe>` pointing at a live page, but compositing an animated page inside the CSS3D-transformed screen caused heavy GPU load and WebGL context loss. A static screenshot avoids that entirely.
