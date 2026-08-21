@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Component } from 'svelte';
     import SEO from '$lib/data/SEO.svelte';
+    import { tick } from 'svelte';
 
     type SvelteModule = { default: Component };
 
@@ -39,6 +40,12 @@
                 },
             );
         }
+
+        if (showHero) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => window.scrollTo(0, 0));
+            });
+        }
     });
 </script>
 
@@ -69,7 +76,6 @@
             image="/images/website.webp"
             onComplete={() => {
                 showHero = true;
-                window.scrollTo(0, 0);
             }}
         />
     {/if}
