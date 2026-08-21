@@ -3,9 +3,10 @@
 </script>
 
 <LaptopIntro>
-    <img
-        src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/website.webp"
-        alt="Homepage"
-        style="width:100%; height:100%; object-fit:cover;"
-    />
+    <iframe
+        src="/"
+        title="home"
+        loading="lazy"
+        style="width:100%; height:100%; border:none;"
+    ></iframe>
 </LaptopIntro>

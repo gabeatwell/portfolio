@@ -39,7 +39,7 @@ export function laptopScene(node: HTMLElement) {
     );
     camera.position.set(0, 1.8, 7);
 
-    let renderer = new WebGLRenderer();
+    let renderer: WebGLRenderer;
     try {
         renderer = new WebGLRenderer({ antialias: true, alpha: true });
     } catch (e) {
@@ -89,18 +89,17 @@ export function laptopScene(node: HTMLElement) {
     let cssObject: CSS3DObject;
     let laptop!: Group;
 
-    let targetWidth = 2.0;
     let scale = 0.0029;
 
-    // function getModelScale() {
-    //     const baseWidth = 1920;
-    //     return Math.max(0.5, window.innerWidth / baseWidth);
-    // }
+    function getModelScale() {
+        const baseWidth = 1920;
+        return Math.max(0.5, window.innerWidth / baseWidth);
+    }
 
     loader.load('/threejayess/models/laptop.glb', (gltf) => {
         laptop = gltf.scene;
         scene.add(laptop);
-        // laptop.scale.setScalar(getModelScale());
+        laptop.scale.setScalar(getModelScale());
 
         let screen: Mesh | undefined;
 
@@ -116,17 +115,26 @@ export function laptopScene(node: HTMLElement) {
             screen.visible = false;
             screen.updateWorldMatrix(true, false);
 
+            // Get the screen's world transform (size, center).
             const box = new Box3().setFromObject(screen);
             const center = box.getCenter(new Vector3());
+            const size = box.getSize(new Vector3());
 
-            targetWidth = 2.0;
-            scale = targetWidth / 690;
+            // Scale the 1280x800 CSS3D content to match the screen's world size.
+            scale = Math.max(size.x / 1280, size.y / 800);
 
+            // Position at the screen's center and face the camera so the
+            // iframe is always visible and aligned with the screen.
             cssObject.position.copy(center);
-            cssObject.position.z += 0.001;
+            cssObject.lookAt(camera.position);
+            cssObject.translateZ(0.001);
+
             cssObject.scale.set(scale, scale, 0.001);
         }
 
+        // Add the CSS3D content directly to the scene (not the laptop) to
+        // avoid CSS3DRenderer bugs with inherited transforms. The position
+        // and scale above are already in world space.
         scene.add(cssObject);
 
         setupAnimation();
@@ -181,7 +189,7 @@ export function laptopScene(node: HTMLElement) {
         renderer.setSize(width, height);
         cssRenderer.setSize(width, height);
 
-        // laptop.scale.setScalar(getModelScale());
+        laptop.scale.setScalar(getModelScale());
     }
     window.addEventListener('resize', onResize);
 

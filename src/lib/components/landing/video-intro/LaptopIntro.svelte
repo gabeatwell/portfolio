@@ -23,7 +23,7 @@
             overflow: hidden;
             background: transparent;
             border-radius: var(--radius);
-            background-color: var(--clr-light-400);
+            /* background-color: var(--clr-light-400); */
         }
     }
 </style>
