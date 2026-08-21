@@ -5,16 +5,14 @@
     import LaptopIntro from '$lib/components/landing/video-intro/LaptopIntro.svelte';
 </script>
 
-<LaptopIntro onComplete={() => console.log('intro done')}>
-    <img
-        src="/images/laptop-screen.png"
-        alt="Preview of the atwell.dev homepage"
-        draggable="false"
-        style="width:100%; height:100%; object-fit:cover;"
-    />
-</LaptopIntro>
+<LaptopIntro
+    image="/images/laptop-screen.png"
+    onComplete={() => console.log('intro done')}
+/>
 ```
 
-You put the screen content inside of `<LaptopIntro>` as children. The screen of the laptop is a static image (`https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/website.webp`).
+The `image` prop is the screenshot shown on the laptop's screen. It's loaded as a **WebGL texture** and mapped directly onto the screen mesh of the 3D model — no iframe, no DOM compositing.
 
-> **Why a static image?** Originally this used an `<iframe>` pointing at a live page, but compositing an animated page inside the CSS3D-transformed screen caused heavy GPU load and WebGL context loss. A static screenshot avoids that entirely.
+> **Why a texture instead of an iframe?** Originally this used an `<iframe>` (or CSS3D DOM content) composited into the 3D scene, which caused heavy GPU load, WebGL context loss, and a fragile screen-positioning race in production. A texture mapped to the screen mesh is a single renderer, no DOM compositing, and is reliable.
+
+The image should match the screen's aspect ratio (16:10 — the model's screen is 1280×800). The screen mesh is found automatically by matching its aspect ratio, so the model can be re-exported without breaking.

@@ -4,32 +4,28 @@ import {
     Box3,
     Color,
     DirectionalLight,
+    DoubleSide,
     Group,
     Mesh,
+    MeshBasicMaterial,
     PerspectiveCamera,
     Scene,
     SRGBColorSpace,
+    TextureLoader,
     Vector3,
     WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
-import {
-    CSS3DRenderer,
-    CSS3DObject,
-} from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 
-export function laptopScene(node: HTMLElement, onComplete: () => void) {
-    const screenContent = node.querySelector('.screen-content') as HTMLElement;
-
-    if (!screenContent) {
-        console.error('No .screen-content found');
-        return;
-    }
-
+export function laptopScene(
+    node: HTMLElement,
+    onComplete: () => void,
+    imageUrl: string,
+) {
     // three.js
     const scene = new Scene();
-    scene.background = new Color(0xf0f0f0);
+    scene.background = new Color(0x1d1d1d);
 
     const camera = new PerspectiveCamera(
         40,
@@ -67,14 +63,10 @@ export function laptopScene(node: HTMLElement, onComplete: () => void) {
     renderer.outputColorSpace = SRGBColorSpace;
     node.appendChild(renderer.domElement);
 
-    // CSS3D for the real HTML content on the screen
-    const cssRenderer = new CSS3DRenderer();
-    cssRenderer.setSize(node.clientWidth, node.clientHeight);
-    cssRenderer.domElement.style.position = 'absolute';
-    cssRenderer.domElement.style.top = '0';
-    cssRenderer.domElement.style.left = '0';
-    cssRenderer.domElement.style.pointerEvents = 'none';
-    node.appendChild(cssRenderer.domElement);
+    // Screen content as a WebGL texture (no CSS3D needed for a static image)
+    const screenTexture = new TextureLoader().load(imageUrl);
+    screenTexture.colorSpace = SRGBColorSpace;
+    screenTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
     // lights
     const ambient = new AmbientLight(0xffffff, 0.7);
@@ -94,14 +86,38 @@ export function laptopScene(node: HTMLElement, onComplete: () => void) {
     loader.setDRACOLoader(dracoLoader);
 
     let ctx: gsap.Context;
-    let cssObject: CSS3DObject;
     let laptop!: Group;
-
-    let scale = 0.0029;
 
     function getModelScale() {
         const baseWidth = 1920;
         return Math.max(0.5, window.innerWidth / baseWidth);
+    }
+
+    function findScreenMesh(root: Group): Mesh | undefined {
+        let best: Mesh | undefined;
+        let bestScore = Infinity;
+
+        root.traverse((obj) => {
+            if (!(obj as Mesh).isMesh) return;
+            const mesh = obj as Mesh;
+
+            const box = new Box3().setFromObject(mesh);
+            const size = box.getSize(new Vector3());
+            const dims = [size.x, size.y, size.z].sort((a, b) => b - a);
+            const [longest, middle, shortest] = dims;
+
+            // must be a flat plane (one dimension much smaller)
+            if (middle <= 0 || shortest / middle > 0.15) return;
+
+            const aspect = longest / middle;
+            const score = Math.abs(aspect - 1280 / 800);
+            if (score < bestScore) {
+                bestScore = score;
+                best = mesh;
+            }
+        });
+
+        return best;
     }
 
     loader.load('/threejayess/models/laptop.glb', (gltf) => {
@@ -109,34 +125,15 @@ export function laptopScene(node: HTMLElement, onComplete: () => void) {
         scene.add(laptop);
         laptop.scale.setScalar(getModelScale());
 
-        let screen: Mesh | undefined;
-
-        laptop.traverse((obj) => {
-            if ((obj as Mesh).isMesh && obj.id === 25) {
-                screen = obj as Mesh;
-            }
-        });
-
-        cssObject = new CSS3DObject(screenContent);
-
+        const screen = findScreenMesh(laptop);
         if (screen) {
-            screen.visible = false;
-            screen.updateWorldMatrix(true, false);
-
-            const box = new Box3().setFromObject(screen);
-            const center = box.getCenter(new Vector3());
-            const size = box.getSize(new Vector3());
-
-            scale = Math.max(size.x / 1280, size.y / 800);
-
-            cssObject.position.copy(center);
-            cssObject.lookAt(camera.position);
-            cssObject.translateZ(0.001);
-
-            cssObject.scale.set(scale, scale, 0.001);
+            screen.material = new MeshBasicMaterial({
+                map: screenTexture,
+                side: DoubleSide,
+            });
+        } else {
+            console.warn('LaptopIntro: screen mesh not found');
         }
-
-        scene.add(cssObject);
 
         setupAnimation();
     });
@@ -188,7 +185,6 @@ export function laptopScene(node: HTMLElement, onComplete: () => void) {
         if (contextLost) return;
         rafId = requestAnimationFrame(animate);
         renderer.render(scene, camera);
-        cssRenderer.render(scene, camera);
     }
     animate();
 
@@ -200,9 +196,10 @@ export function laptopScene(node: HTMLElement, onComplete: () => void) {
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
-        cssRenderer.setSize(width, height);
 
-        laptop.scale.setScalar(getModelScale());
+        if (laptop) {
+            laptop.scale.setScalar(getModelScale());
+        }
     }
     window.addEventListener('resize', onResize);
 

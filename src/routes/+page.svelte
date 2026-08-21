@@ -53,23 +53,24 @@
         <Hero cssBg={'random'} />
     {/if}
 {:else if Intro}
-    <Intro
-        onComplete={() => {
-            showHero = true;
-            window.scrollTo(0, 0);
-        }}
-    >
-        {#if isTeeth}
+    {#if isTeeth}
+        <Intro
+            onComplete={() => {
+                showHero = true;
+                window.scrollTo(0, 0);
+            }}
+        >
             {#if Hero}
                 <Hero cssBg={'random'} />
             {/if}
-        {:else}
-            <img
-                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/website.webp"
-                alt="Preview of the atwell.dev homepage"
-                draggable="false"
-                style="width:100%; height:100%; object-fit:cover;"
-            />
-        {/if}
-    </Intro>
+        </Intro>
+    {:else}
+        <Intro
+            image="/images/website.webp"
+            onComplete={() => {
+                showHero = true;
+                window.scrollTo(0, 0);
+            }}
+        />
+    {/if}
 {/if}
