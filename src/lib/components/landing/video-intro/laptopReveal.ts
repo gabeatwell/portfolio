@@ -19,7 +19,7 @@ import {
     CSS3DObject,
 } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 
-export function laptopScene(node: HTMLElement) {
+export function laptopScene(node: HTMLElement, onComplete: () => void) {
     const screenContent = node.querySelector('.screen-content') as HTMLElement;
 
     if (!screenContent) {
@@ -68,7 +68,7 @@ export function laptopScene(node: HTMLElement) {
     cssRenderer.domElement.style.pointerEvents = 'none';
     node.appendChild(cssRenderer.domElement);
 
-    // Lights
+    // lights
     const ambient = new AmbientLight(0xffffff, 0.7);
     scene.add(ambient);
     const dirLight = new DirectionalLight(0xffffff, 1.4);
@@ -115,16 +115,12 @@ export function laptopScene(node: HTMLElement) {
             screen.visible = false;
             screen.updateWorldMatrix(true, false);
 
-            // Get the screen's world transform (size, center).
             const box = new Box3().setFromObject(screen);
             const center = box.getCenter(new Vector3());
             const size = box.getSize(new Vector3());
 
-            // Scale the 1280x800 CSS3D content to match the screen's world size.
             scale = Math.max(size.x / 1280, size.y / 800);
 
-            // Position at the screen's center and face the camera so the
-            // iframe is always visible and aligned with the screen.
             cssObject.position.copy(center);
             cssObject.lookAt(camera.position);
             cssObject.translateZ(0.001);
@@ -132,9 +128,6 @@ export function laptopScene(node: HTMLElement) {
             cssObject.scale.set(scale, scale, 0.001);
         }
 
-        // Add the CSS3D content directly to the scene (not the laptop) to
-        // avoid CSS3DRenderer bugs with inherited transforms. The position
-        // and scale above are already in world space.
         scene.add(cssObject);
 
         setupAnimation();
@@ -147,10 +140,22 @@ export function laptopScene(node: HTMLElement) {
                 scrollTrigger: {
                     trigger: node,
                     start: 'top top',
-                    end: '+=220%',
+                    end: '+=400%',
                     scrub: 0.7,
                     pin: true,
                     anticipatePin: 1,
+                    onLeave: () => {
+                        gsap.set(node, {
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            zIndex: 100,
+                        });
+
+                        onComplete();
+                    },
                 },
             });
 
