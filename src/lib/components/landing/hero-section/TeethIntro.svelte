@@ -101,14 +101,20 @@
 <style>
     .teeth-intro {
         position: relative;
-    }
 
-    /* During the intro the hero is locked to the viewport so the teeth
-       cover exactly what's on screen. The lock is released once the
-       intro completes. */
-    .teeth-intro.clipped {
-        height: 100vh;
+        width: 100%;
+        min-height: 100vh;
+        width: 100%;
         overflow: hidden;
+        z-index: 1;
+        background: var(--clr-dark-500);
+
+        &.clipped {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            overflow: hidden;
+        }
     }
 
     .hero-stack {
@@ -116,8 +122,6 @@
         will-change: transform;
     }
 
-    /* The teeth are a full-size overlay drawn in front of the hero —
-       recolor the rects freely without touching the hero behind. */
     .teeth {
         position: absolute;
         inset: 0;

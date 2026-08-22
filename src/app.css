@@ -187,6 +187,7 @@
             color var(--timing) ease;
         will-change: background-color, color;
         scrollbar-gutter: stable;
+        margin: 0;
     }
 
     body {

@@ -14,26 +14,30 @@
 </section>
 
 <style>
-    h1 {
-        font-family: var(--ultra);
-        font-size: clamp(var(--h4), 3vw, var(--h3));
-        letter-spacing: 1px;
-
-        color: var(--clr-success-500);
-        background: transparent;
-        margin: 0;
-        z-index: 0;
-
-        position: absolute;
-        top: 5em;
-        left: 50%;
-        transform: translateX(-50%);
-    }
     .intro {
         position: relative;
         width: 100%;
         height: 100vh;
         overflow: hidden;
         position: relative;
+
+        & h1 {
+            font-family: var(--thunder);
+            font-size: clamp(var(--h4), 3vw, var(--h3));
+            letter-spacing: -1px;
+            text-transform: uppercase;
+
+            color: var(--clr-gray-500);
+            -webkit-text-stroke: 1px var(--clr-light-400);
+            opacity: 0.35;
+            background: transparent;
+            margin: 0;
+            z-index: 0;
+
+            position: absolute;
+            top: 5em;
+            left: 50%;
+            transform: translateX(-50%) scaleY(2);
+        }
     }
 </style>

@@ -89,9 +89,8 @@
     <div id="main-content" tabindex="-1">
         {@render children()}
     </div>
-
-    <Footer />
 </main>
+<Footer />
 
 <style>
     :global(body) {
@@ -113,7 +112,8 @@
     }
 
     #main-content {
-        min-height: calc(100vh - 120px);
+        /* min-height: calc(100vh - 120px); */
+        flex: 1;
         will-change: auto;
     }
 </style>

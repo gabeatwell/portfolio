@@ -5,6 +5,7 @@ import {
     Color,
     DirectionalLight,
     DoubleSide,
+    Fog,
     Group,
     Mesh,
     MeshBasicMaterial,
@@ -26,6 +27,7 @@ export function laptopScene(
     // three.js
     const scene = new Scene();
     scene.background = new Color(0x1d1d1d);
+    scene.fog = new Fog(0x1d1d1d, 6, 15);
 
     const camera = new PerspectiveCamera(
         40,
@@ -62,6 +64,16 @@ export function laptopScene(
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = SRGBColorSpace;
     node.appendChild(renderer.domElement);
+
+    const vignette = document.createElement('div');
+    vignette.style.cssText = `
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        box-shadow: inset 0 0 120px 40px rgba(0, 0, 0, 0.75);
+        z-index: 2;
+    `;
+    node.appendChild(vignette);
 
     // Screen content as a WebGL texture (no CSS3D needed for a static image)
     const screenTexture = new TextureLoader().load(imageUrl);
@@ -146,7 +158,7 @@ export function laptopScene(
                     trigger: node,
                     start: 'top top',
                     end: '+=400%',
-                    scrub: 0.7,
+                    scrub: 1.25,
                     pin: true,
                     anticipatePin: 1,
                     onLeave: () => {
