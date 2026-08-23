@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { Component } from 'svelte';
     import SEO from '$lib/data/SEO.svelte';
-    import { tick } from 'svelte';
 
     type SvelteModule = { default: Component };
 
@@ -20,7 +19,7 @@
         if (!loaded) {
             loaded = true;
 
-            isTeeth = Math.random() < 0.85;
+            isTeeth = Math.random() < 0.75;
             const path = isTeeth
                 ? '/src/lib/components/landing/hero-section/TeethIntro.svelte'
                 : '/src/lib/components/landing/video-intro/LaptopIntro.svelte';

@@ -158,7 +158,7 @@ export function laptopScene(
                     trigger: node,
                     start: 'top top',
                     end: '+=400%',
-                    scrub: 1.25,
+                    scrub: 1,
                     pin: true,
                     anticipatePin: 1,
                     onLeave: () => {
