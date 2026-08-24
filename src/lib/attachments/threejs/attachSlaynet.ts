@@ -8,6 +8,7 @@ import type { Attachment } from 'svelte/attachments';
 
 export type GameHudCallbacks = {
     onState: (state: GameState | null) => void;
+    onTotalEnemies: (n: number) => void;
     onKillCount: (n: number) => void;
     onGameOver: () => void;
     onPlayerHealth: (health: number, max: number) => void;
@@ -64,6 +65,8 @@ export function attachSlaynetGame(
                     mobileJoystick,
                 } = state;
 
+                cb.onTotalEnemies(enemyManager.getMaxEnemies());
+
                 const cameraTarget = {
                     x: camera.position.x,
                     y: camera.position.y,
@@ -83,7 +86,7 @@ export function attachSlaynetGame(
                         // ignore
                     }
 
-                    if (count >= 3) cb.onGameOver();
+                    if (count >= enemyManager.getMaxEnemies()) cb.onGameOver();
                 });
 
                 const onResize = () => {

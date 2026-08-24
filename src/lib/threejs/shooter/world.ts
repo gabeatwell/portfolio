@@ -10,8 +10,9 @@ import {
 } from 'three';
 import { Building } from './objects/Building';
 
-export const GROUND_TEXTURE_URL =
-    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/asphalt-texture.webp';
+export const GROUND_TEXTURE_URL = import.meta.env.DEV
+    ? 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/asphalt-texture.webp'
+    : 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/asphalt-texture.webp';
 
 function loadBrickGroundsTexture(): Texture | null {
     if (typeof document === 'undefined') return null;
@@ -118,6 +119,7 @@ export class World extends Mesh {
 
         this.material = new MeshStandardMaterial({
             map: this.brickGroundsTexture ?? null,
+            color: 0x333333,
         });
 
         this.rotation.x = -Math.PI / 2;

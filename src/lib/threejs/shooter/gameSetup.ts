@@ -12,12 +12,15 @@ import {
     MeshStandardMaterial,
     Mesh,
     Texture,
+    LoadingManager,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { World } from './world';
 import { HumanPlayer } from './players/HumanPlayer';
 import { EnemyManager } from './enemies/EnemyManager';
 import { MobileJoystick } from './actions/MobileJoystick';
+import { generateLevelConfig } from './procedural/levelGenerator';
+import type { SpawnConfig } from './enemies/EnemyManager';
 
 export interface GameState {
     scene: Scene;
@@ -73,30 +76,54 @@ export async function initializeGame(
 
     console.log('generating world');
     await world.generate();
-    console.log('generation complete, buildingCells:', world.buildingCells);
-
     scene.add(world.buildings);
 
-    // ------------- ROAD  -------------
-    const loader = new TextureLoader();
+    // ------------- procedural level config  -------------
+    const levelConfig = generateLevelConfig(world, {
+        width: WORLD_WIDTH,
+        depth: WORLD_DEPTH,
+    });
+    const spawnConfig: SpawnConfig = {
+        maxAlive: 4,
+        // maxAlive: levelConfig.spawnPoints.length,
+        cooldownMax: 3,
+        spawnRadius: { min: 6, max: 10 },
+        enemyTypes: [
+            { type: 'basic', weight: 1, health: 3, speed: 2 },
+            { type: 'ranged', weight: 1, health: 2, speed: 3 },
+            { type: 'tank', weight: 1, health: 8, speed: 1 },
+        ],
+    };
 
+    const manager = new LoadingManager();
+    const loader = new TextureLoader(manager);
+
+    const texturesLoaded = new Promise<void>((resolve) => {
+        manager.onLoad = () => resolve();
+        manager.onError = (url) => {
+            console.warn('Failed to load:', url);
+            resolve(); // don't block the game
+        };
+    });
+
+    // ------------- ROAD  -------------
     const roadColor = loader.load(
-        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/asphalt_track/asphalt_track_diff_4k.jpg',
+        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_diff_1k.jpg',
     );
     const roadNormal = loader.load(
-        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/asphalt_track/asphalt_track_nor_gl_4k.jpg',
+        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_nor_gl_1k.jpg',
     );
     const roadRough = loader.load(
-        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/asphalt_track/asphalt_track_arm_4k.jpg',
+        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_track/asphalt_track_arm_1k.jpg',
     );
     const sidewalkColor = loader.load(
-        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/concrete_pavement_03/concrete_pavement_03_diff_4k.jpg',
+        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavement_03/concrete_pavement_03_diff_1k.jpg',
     );
     const sidewalkNormal = loader.load(
-        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/concrete_pavement_03/concrete_pavement_03_nor_gl_4k.jpg',
+        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavement_03/concrete_pavement_03_nor_gl_1k.jpg',
     );
     const sidewalkRough = loader.load(
-        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/concrete_pavement_03/concrete_pavement_03_arm_4k.jpg',
+        'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavement_03/concrete_pavement_03_arm_1k.jpg',
     );
 
     const configureTextures = (
@@ -170,6 +197,8 @@ export async function initializeGame(
         sidewalkWidth / 2,
         roadLength / 5,
     );
+
+    await texturesLoaded;
     // ------------- END ROAD -------------
 
     // player
@@ -183,7 +212,8 @@ export async function initializeGame(
     );
     scene.add(player);
 
-    const enemyManager = new EnemyManager(player, world, scene);
+    const enemyManager = new EnemyManager(player, world, scene, spawnConfig);
+    enemyManager.spawnFromLevelConfig(levelConfig.spawnPoints);
     scene.add(enemyManager);
 
     player.getCombatManager().setEnemyManager(enemyManager);

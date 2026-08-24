@@ -5,6 +5,11 @@ import type { Player } from '../players/Player';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
+interface EnemyConfig {
+    health: number;
+    speed: number;
+}
+
 const loader = new GLTFLoader();
 loader.setResourcePath(
     'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/glb/',
@@ -30,12 +35,21 @@ export class Enemy extends GameObject {
     // ammo for enemy (null = unlimited)
     private ammo: number | null = 10;
 
-    constructor(position: Vector3, world: World, player: Player) {
+    constructor(
+        position: Vector3,
+        world: World,
+        player: Player,
+        config?: EnemyConfig,
+    ) {
         super(new Vector3(5.5, 0.5, 5.5));
 
         this.world = world;
         this.player = player;
         this.position.copy(position);
+
+        this.maxHealth = config?.health ?? 3;
+        this.health = this.maxHealth;
+        this.moveSpeed = config?.speed ?? 2;
 
         // align initial Y to terrain
         const origin = new Vector3(this.position.x, 100, this.position.z);
@@ -95,9 +109,8 @@ export class Enemy extends GameObject {
     }
 
     private clampToWorldBounds(): void {
-        // Keep enemy within world bounds (0-30), with buffer for collision radius
-        this.position.x = Math.max(0.5, Math.min(29.5, this.position.x));
-        this.position.z = Math.max(0.5, Math.min(29.5, this.position.z));
+        this.position.x = Math.max(0.5, Math.min(49.5, this.position.x));
+        this.position.z = Math.max(0.5, Math.min(49.5, this.position.z));
     }
 
     update(): void {

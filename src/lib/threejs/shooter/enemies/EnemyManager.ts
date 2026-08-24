@@ -5,6 +5,25 @@ import type { World } from '../world';
 import type { Projectile } from '../combat/Projectile';
 import { AudioManager } from '../actions/AudioManager';
 
+export interface SpawnConfig {
+    maxAlive: number;
+    cooldownMax: number;
+    spawnRadius: { min: number; max: number };
+    enemyTypes: {
+        type: string;
+        weight: number;
+        health: number;
+        speed: number;
+    }[];
+}
+
+const DEFAULT_SPAWN_CONFIG: SpawnConfig = {
+    maxAlive: 3,
+    cooldownMax: 3,
+    spawnRadius: { min: 6, max: 10 },
+    enemyTypes: [{ type: 'basic', weight: 1, health: 3, speed: 2 }],
+};
+
 export class EnemyManager extends Object3D {
     private enemies: Enemy[] = [];
     private player: Player;
@@ -17,14 +36,23 @@ export class EnemyManager extends Object3D {
     private onEnemyKilled: (() => void) | null = null;
     private audioManager: AudioManager;
     private audioReady: boolean = false;
+    private spawnConfig: SpawnConfig;
 
-    constructor(player: Player, world: World, scene: Scene) {
+    constructor(
+        player: Player,
+        world: World,
+        scene: Scene,
+        spawnConfig?: SpawnConfig,
+    ) {
         super();
         this.player = player;
         this.world = world;
         this.scene = scene;
         this.audioManager = new AudioManager();
         this.initializeAudio();
+        this.spawnConfig = spawnConfig ?? DEFAULT_SPAWN_CONFIG;
+        this.maxEnemies = this.spawnConfig.maxAlive;
+        this.spawnCooldownMax = this.spawnConfig.cooldownMax;
     }
 
     private async initializeAudio(): Promise<void> {
@@ -41,15 +69,14 @@ export class EnemyManager extends Object3D {
     }
 
     private getRandomSpawnPosition(): Vector3 {
-        // spawn enemies around the player
         const angle = Math.random() * Math.PI * 2;
-        const distance = 6 + Math.random() * 4; // Reduced from 8-13 to 6-10
+        const { min, max } = this.spawnConfig.spawnRadius;
+        const distance = min + Math.random() * (max - min);
         let x = this.player.position.x + Math.cos(angle) * distance;
         let z = this.player.position.z + Math.sin(angle) * distance;
 
-        // clamp to world bounds
-        x = Math.max(2, Math.min(28, x));
-        z = Math.max(2, Math.min(28, z));
+        x = Math.max(2, Math.min(49, x));
+        z = Math.max(2, Math.min(49, z));
 
         return new Vector3(x, 0.5, z);
     }
@@ -63,12 +90,50 @@ export class EnemyManager extends Object3D {
         return !this.world.buildingCells.has(cellKey);
     }
 
-    spawnEnemy(position: Vector3): Enemy {
-        const enemy = new Enemy(position.clone(), this.world, this.player);
+    private selectEnemyType(): string {
+        const types = this.spawnConfig.enemyTypes;
+        const totalWeight = types.reduce((sum, t) => sum + t.weight, 0);
+        let roll = Math.random() * totalWeight;
+
+        for (const t of types) {
+            roll -= t.weight;
+            if (roll <= 0) return t.type;
+        }
+        return types[0].type;
+    }
+
+    spawnEnemy(position: Vector3, type?: string): Enemy {
+        const typeConfig = type
+            ? this.spawnConfig.enemyTypes.find((t) => t.type === type)
+            : undefined;
+        const enemy = new Enemy(
+            position.clone(),
+            this.world,
+            this.player,
+            typeConfig
+                ? { health: typeConfig.health, speed: typeConfig.speed }
+                : undefined,
+        );
+
         this.enemies.push(enemy);
         this.scene.add(enemy);
         this.totalEnemiesSpawned++;
         return enemy;
+    }
+
+    spawnFromLevelConfig(
+        spawns: { x: number; z: number; type: string }[],
+    ): void {
+        for (const sp of spawns) {
+            const pos = new Vector3(sp.x, 0.5, sp.z);
+            if (this.isValidSpawnPosition(pos)) {
+                this.spawnEnemy(pos, sp.type);
+            }
+        }
+    }
+
+    getMaxEnemies(): number {
+        return this.maxEnemies;
     }
 
     update(dt: number): void {
@@ -97,7 +162,8 @@ export class EnemyManager extends Object3D {
                 for (let attempts = 0; attempts < 5; attempts++) {
                     const spawnPos = this.getRandomSpawnPosition();
                     if (this.isValidSpawnPosition(spawnPos)) {
-                        this.spawnEnemy(spawnPos);
+                        const type = this.selectEnemyType();
+                        this.spawnEnemy(spawnPos, type);
                         break;
                     }
                 }

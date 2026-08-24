@@ -118,8 +118,14 @@ export class Player extends GameObject {
     }
 
     protected clampToWorldBounds(): void {
-        this.position.x = Math.max(0.5, Math.min(29.5, this.position.x));
-        this.position.z = Math.max(0.5, Math.min(29.5, this.position.z));
+        this.position.x = Math.max(
+            0.5,
+            Math.min(this.world.width - 0.5, this.position.x),
+        );
+        this.position.z = Math.max(
+            0.5,
+            Math.min(this.world.height - 0.5, this.position.z),
+        );
     }
 
     protected movePath(target: Vector3, dt: number): boolean {
