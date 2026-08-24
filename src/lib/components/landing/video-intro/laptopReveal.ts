@@ -24,6 +24,8 @@ export function laptopScene(
     onComplete: () => void,
     imageUrl: string,
 ) {
+    const controller = new AbortController();
+
     // three.js
     const scene = new Scene();
     scene.background = new Color(0x1d1d1d);
@@ -46,19 +48,27 @@ export function laptopScene(
     }
 
     let contextLost = false;
-    renderer.domElement.addEventListener('webglcontextlost', (e) => {
-        e.preventDefault();
-        contextLost = true;
-        cancelAnimationFrame(rafId);
-    });
+    renderer.domElement.addEventListener(
+        'webglcontextlost',
+        (e) => {
+            e.preventDefault();
+            contextLost = true;
+            cancelAnimationFrame(rafId);
+        },
+        { signal: controller.signal },
+    );
 
-    renderer.domElement.addEventListener('webglcontextrestored', () => {
-        contextLost = false;
-        // Three.js re-uploads programs/textures automatically on the next render
-        renderer.setSize(node.clientWidth, node.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        animate();
-    });
+    renderer.domElement.addEventListener(
+        'webglcontextrestored',
+        () => {
+            contextLost = false;
+            // Three.js re-uploads programs/textures automatically on the next render
+            renderer.setSize(node.clientWidth, node.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            animate();
+        },
+        { signal: controller.signal },
+    );
 
     renderer.setSize(node.clientWidth, node.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -75,7 +85,7 @@ export function laptopScene(
     `;
     node.appendChild(vignette);
 
-    // Screen content as a WebGL texture (no CSS3D needed for a static image)
+    // content as a WebGL texture (no CSS3D needed for a static image)
     const screenTexture = new TextureLoader().load(imageUrl);
     screenTexture.colorSpace = SRGBColorSpace;
     screenTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
@@ -198,6 +208,9 @@ export function laptopScene(
         rafId = requestAnimationFrame(animate);
         renderer.render(scene, camera);
     }
+    controller.signal.addEventListener('abort', () => {
+        cancelAnimationFrame(rafId);
+    });
     animate();
 
     // resize
@@ -213,11 +226,26 @@ export function laptopScene(
             laptop.scale.setScalar(getModelScale());
         }
     }
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize, { signal: controller.signal });
+
+    // mobile spacing
+    const isMobile = window.matchMedia('(max-width: 768px)');
+    function updateMobileCamera() {
+        if (isMobile.matches) {
+            camera.position.y = 1.3;
+        } else {
+            camera.position.y = 1.7;
+        }
+        camera.updateProjectionMatrix();
+    }
+    updateMobileCamera();
+    isMobile.addEventListener('change', updateMobileCamera, {
+        signal: controller.signal,
+    });
 
     // cleanup
     return () => {
-        window.removeEventListener('resize', onResize);
+        controller.abort();
         ctx?.revert();
         renderer.dispose();
         renderer.forceContextLoss(); // ← add this
