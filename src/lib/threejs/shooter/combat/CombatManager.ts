@@ -5,6 +5,7 @@ import type { Player } from '../players/Player';
 import type { EnemyManager } from '../enemies/EnemyManager';
 import { AudioManager } from '../actions/AudioManager';
 import type { World } from '../world';
+import { Health } from '../objects/Health';
 
 export class CombatManager extends Object3D {
     private projectiles: Projectile[] = [];
@@ -17,9 +18,8 @@ export class CombatManager extends Object3D {
     private lastShotTime: number = 0;
     private playerHealth: number = 10;
     private maxPlayerHealth: number = 10;
-    // Player ammo (null = unlimited)
+    private healthPickups: Health[] = [];
     private playerAmmo: number | null = null;
-    /** How far enemy projectiles can travel before expiring */
     private enemyProjectileRange: number = 30;
     private knockbackTimeline: gsap.core.Timeline | null = null;
     private paused: boolean = false;
@@ -44,6 +44,14 @@ export class CombatManager extends Object3D {
         const now = performance.now() / 1000;
         if (this.playerAmmo !== null && this.playerAmmo <= 0) return false;
         return now - this.lastShotTime >= this.cooldownDuration;
+    }
+
+    spawnHealthPickup(position: Vector3): void {
+        if (Math.random() > 0.3) return; // 30% chance to drop health when enemy dies
+
+        const pickup = new Health(position);
+        this.healthPickups.push(pickup);
+        this.scene.add(pickup);
     }
 
     private async initializeAudio(): Promise<void> {
@@ -163,6 +171,23 @@ export class CombatManager extends Object3D {
     update(dt: number): void {
         if (this.paused) return;
 
+        // update and check health pickups
+        for (let i = this.healthPickups.length - 1; i >= 0; i--) {
+            const pickup = this.healthPickups[i];
+            pickup.update(dt);
+
+            if (pickup.canCollect(this.player)) {
+                const heal = pickup.getHealAmount(this.maxPlayerHealth);
+                this.playerHealth = Math.min(
+                    this.maxPlayerHealth,
+                    this.playerHealth + heal,
+                );
+                this.scene.remove(pickup);
+                pickup.dispose();
+                this.healthPickups.splice(i, 1);
+            }
+        }
+
         // update player projectiles
         for (let i = this.projectiles.length - 1; i >= 0; i--) {
             const projectile = this.projectiles[i];
@@ -254,6 +279,12 @@ export class CombatManager extends Object3D {
             projectile.dispose();
         }
 
+        for (const pickup of this.healthPickups) {
+            this.scene.remove(pickup);
+            pickup.dispose();
+        }
+
+        this.healthPickups = [];
         this.projectiles = [];
         this.enemyProjectiles = [];
         this.audioManager.dispose();

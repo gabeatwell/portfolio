@@ -65,7 +65,7 @@ export function attachSlaynetGame(
                     mobileJoystick,
                 } = state;
 
-                cb.onTotalEnemies(enemyManager.getMaxEnemies());
+                // cb.onTotalEnemies(killTarget);
 
                 const cameraTarget = {
                     x: camera.position.x,
@@ -74,19 +74,21 @@ export function attachSlaynetGame(
                 };
                 let cameraTween: gsap.core.Tween | null = null;
 
-                enemyManager.setOnEnemyKilled(() => {
+                enemyManager.setOnEnemyKilled((position) => {
                     const count = enemyManager.getKillCount();
                     cb.onKillCount(count);
 
+                    if (count >= 5) cb.onGameOver();
+
                     try {
                         const cm = player.getCombatManager();
+                        cm.spawnHealthPickup(position);
+
                         const cur = cm.getPlayerAmmo();
                         if (cur !== null) cm.setPlayerAmmo(cur + 5);
                     } catch {
                         // ignore
                     }
-
-                    if (count >= enemyManager.getMaxEnemies()) cb.onGameOver();
                 });
 
                 const onResize = () => {

@@ -100,6 +100,9 @@ export async function initializeGame(
 
     const enemyManager = new EnemyManager(player, world, scene, spawnConfig);
     enemyManager.spawnFromLevelConfig(levelConfig.spawnPoints);
+    enemyManager.setOnEnemyKilled((position) => {
+        player.getCombatManager().spawnHealthPickup(position);
+    });
     scene.add(enemyManager);
 
     player.getCombatManager().setEnemyManager(enemyManager);

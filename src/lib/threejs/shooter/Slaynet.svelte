@@ -23,8 +23,8 @@
 
     let enemyKillCount = $state(0);
     let isGameOver = $state(false);
-    let totalEnemies = $state(4);
-    let won = $derived(enemyKillCount >= totalEnemies);
+    let killTarget = $state(5);
+    let won = $derived(enemyKillCount >= killTarget);
     let showTitle = $state(true);
 
     function startSlaynetGame(): void {
@@ -56,7 +56,7 @@
         restartTrigger += 1;
         enemyKillCount = 0;
         enemiesDisposed = false;
-        totalEnemies = 4;
+        killTarget = 5;
     }
 
     $effect(() => {
@@ -85,7 +85,7 @@
             { restartTrigger, joystickElement },
             {
                 onState: (s) => (gameState = s),
-                onTotalEnemies: (n) => (totalEnemies = n),
+                onTotalEnemies: (n) => (killTarget = n),
                 onKillCount: (n) => (enemyKillCount = n),
                 onGameOver: () => (isGameOver = true),
                 onPlayerHealth: (h, max) => {

@@ -33,7 +33,7 @@ export class EnemyManager extends Object3D {
     private spawnCooldownMax: number = 3; // seconds between spawns
     private maxEnemies: number = 3;
     private totalEnemiesSpawned: number = 0;
-    private onEnemyKilled: (() => void) | null = null;
+    private onEnemyKilled: ((position: Vector3) => void) | null = null;
     private audioManager: AudioManager;
     private audioReady: boolean = false;
     private spawnConfig: SpawnConfig;
@@ -142,13 +142,11 @@ export class EnemyManager extends Object3D {
             const enemy = this.enemies[i];
 
             if (!enemy.isAlive()) {
-                // remove dead enemies
+                const deadPos = enemy.position.clone();
                 this.scene.remove(enemy);
                 enemy.dispose();
                 this.enemies.splice(i, 1);
-
-                this.onEnemyKilled?.();
-                console.log('Enemy killed, callback triggered');
+                this.onEnemyKilled?.(deadPos);
             } else {
                 enemy.update();
             }
@@ -221,7 +219,7 @@ export class EnemyManager extends Object3D {
         return this.enemies;
     }
 
-    setOnEnemyKilled(callback: () => void): void {
+    setOnEnemyKilled(callback: (position: Vector3) => void): void {
         this.onEnemyKilled = callback;
     }
 
