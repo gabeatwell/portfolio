@@ -51,7 +51,7 @@ export class HumanPlayer extends Player {
         if (controls) this.controls = controls;
 
         // initialize combat system
-        this.combatManager = new CombatManager(this, scene);
+        this.combatManager = new CombatManager(this, scene, world);
         this.shootingSystem = new ShootingSystem(
             this.combatManager,
             this,

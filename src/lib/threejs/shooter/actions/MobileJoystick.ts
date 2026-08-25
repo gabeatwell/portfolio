@@ -161,11 +161,11 @@ export class MobileJoystick {
             // clamp to world bounds
             playerWithFacing.position.x = Math.max(
                 0.5,
-                Math.min(this.world.width, playerWithFacing.position.x),
+                Math.min(this.world.width - 0.5, playerWithFacing.position.x),
             );
             playerWithFacing.position.z = Math.max(
                 0.5,
-                Math.min(this.world.height, playerWithFacing.position.z),
+                Math.min(this.world.height - 0.5, playerWithFacing.position.z),
             );
         }
     }

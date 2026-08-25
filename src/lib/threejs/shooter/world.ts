@@ -1,12 +1,14 @@
 import {
     Group,
     Mesh,
+    BoxGeometry,
     MeshStandardMaterial,
     PlaneGeometry,
     RepeatWrapping,
     SRGBColorSpace,
     Texture,
     TextureLoader,
+    Object3D,
 } from 'three';
 import { Building } from './objects/Building';
 
@@ -59,13 +61,18 @@ export class World extends Mesh {
         );
     }
 
-    async generate(recalculateFromDensity = true) {
+    async generate(recalculateFromDensity = true, parent?: Object3D) {
         this.clear();
 
         if (recalculateFromDensity) this.updateCountFromSize();
 
         this.createTerrain();
+        if (parent) this.createWalls(parent);
         await this.createBuildings();
+    }
+
+    get groundTexture(): Texture | null {
+        return this.brickGroundsTexture;
     }
 
     clear() {
@@ -84,6 +91,20 @@ export class World extends Mesh {
                 }
             });
             this.buildings.clear();
+        }
+
+        // remove walls and any leftover children
+        const toRemove = this.children.filter(
+            (child) => child !== this.buildings,
+        );
+        for (const child of toRemove) {
+            if (child instanceof Mesh) {
+                child.geometry?.dispose();
+                if (child.material instanceof MeshStandardMaterial) {
+                    child.material.dispose();
+                }
+            }
+            this.remove(child);
         }
 
         this.buildingCells.clear();
@@ -107,8 +128,8 @@ export class World extends Mesh {
 
         // geometry with more segments for deformation
         this.geometry = new PlaneGeometry(
-            this.width,
-            this.height,
+            this.width + 1,
+            this.height + 1,
             cols * 2,
             rows * 2,
         );
@@ -138,5 +159,42 @@ export class World extends Mesh {
             this.buildingCells,
         );
         this.add(this.buildings);
+    }
+
+    createWalls(parent: Object3D) {
+        const wallHeight = 3;
+        const wallThickness = 0.35;
+        const wallColor = 0xf3f3f3;
+        const half = wallThickness / 1;
+
+        const wallMaterial = new MeshStandardMaterial({
+            color: wallColor,
+            roughness: 0.9,
+        });
+
+        // north wall (z = 0)
+        const northGeo = new BoxGeometry(this.width, wallHeight, wallThickness);
+        const north = new Mesh(northGeo, wallMaterial);
+        north.position.set(this.width / 2, wallHeight / 2, -half);
+
+        // south wall (z = height)
+        const southGeo = new BoxGeometry(this.width, wallHeight, wallThickness);
+        const south = new Mesh(southGeo, wallMaterial);
+        south.position.set(this.width / 2, wallHeight / 2, this.height + half);
+
+        // west wall (x = 0)
+        const westGeo = new BoxGeometry(wallThickness, wallHeight, this.height);
+        const west = new Mesh(westGeo, wallMaterial);
+        west.position.set(-half, wallHeight / 2, this.height / 2);
+
+        // east wall (x = width)
+        const eastGeo = new BoxGeometry(wallThickness, wallHeight, this.height);
+        const east = new Mesh(eastGeo, wallMaterial);
+        east.position.set(this.width + half, wallHeight / 2, this.height / 2);
+
+        parent.add(north);
+        parent.add(south);
+        parent.add(west);
+        parent.add(east);
     }
 }

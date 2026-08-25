@@ -18,7 +18,7 @@ export interface SpawnConfig {
 }
 
 const DEFAULT_SPAWN_CONFIG: SpawnConfig = {
-    maxAlive: 3,
+    maxAlive: 5,
     cooldownMax: 3,
     spawnRadius: { min: 6, max: 10 },
     enemyTypes: [{ type: 'basic', weight: 1, health: 3, speed: 2 }],
@@ -75,8 +75,8 @@ export class EnemyManager extends Object3D {
         let x = this.player.position.x + Math.cos(angle) * distance;
         let z = this.player.position.z + Math.sin(angle) * distance;
 
-        x = Math.max(2, Math.min(49, x));
-        z = Math.max(2, Math.min(49, z));
+        x = Math.max(1, Math.min(this.world.width - 1, x));
+        z = Math.max(1, Math.min(this.world.height - 1, z));
 
         return new Vector3(x, 0.5, z);
     }

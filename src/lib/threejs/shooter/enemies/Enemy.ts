@@ -109,8 +109,14 @@ export class Enemy extends GameObject {
     }
 
     private clampToWorldBounds(): void {
-        this.position.x = Math.max(0.5, Math.min(49.5, this.position.x));
-        this.position.z = Math.max(0.5, Math.min(49.5, this.position.z));
+        this.position.x = Math.max(
+            0.5,
+            Math.min(this.world.width - 0.5, this.position.x),
+        );
+        this.position.z = Math.max(
+            0.5,
+            Math.min(this.world.height - 0.5, this.position.z),
+        );
     }
 
     update(): void {

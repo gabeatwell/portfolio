@@ -161,12 +161,12 @@ export class KeyboardMovement {
 
             // clamp to world bounds
             this.player.position.x = Math.max(
-                0.5,
-                Math.min(this.world.width - 0.5, this.player.position.x),
+                0,
+                Math.min(this.world.width, this.player.position.x),
             );
             this.player.position.z = Math.max(
-                0.5,
-                Math.min(this.world.height - 0.5, this.player.position.z),
+                0,
+                Math.min(this.world.height, this.player.position.z),
             );
 
             // update facing direction

@@ -4,6 +4,7 @@ import { Projectile } from './Projectile';
 import type { Player } from '../players/Player';
 import type { EnemyManager } from '../enemies/EnemyManager';
 import { AudioManager } from '../actions/AudioManager';
+import type { World } from '../world';
 
 export class CombatManager extends Object3D {
     private projectiles: Projectile[] = [];
@@ -24,11 +25,13 @@ export class CombatManager extends Object3D {
     private paused: boolean = false;
     private audioManager: AudioManager;
     private audioReady: boolean = false;
+    private world: World;
 
-    constructor(player: Player, scene: Scene) {
+    constructor(player: Player, scene: Scene, world: World) {
         super();
         this.player = player;
         this.scene = scene;
+        this.world = world;
         this.audioManager = new AudioManager();
         this.initializeAudio();
     }
@@ -113,11 +116,14 @@ export class CombatManager extends Object3D {
                     knockbackDirection.z * knockbackDistance;
 
                 // clamp to world bounds
-                const clampedX = Math.max(0.5, Math.min(29.5, targetX));
-                const clampedZ = Math.max(0.5, Math.min(29.5, targetZ));
-                // this.player.position.x = clampedX;
-                // this.player.position.z = clampedZ;
-                // this.player.position.y = 0.5;
+                const clampedX = Math.max(
+                    0.5,
+                    Math.min(this.world.width - 0.5, targetX),
+                );
+                const clampedZ = Math.max(
+                    0.5,
+                    Math.min(this.world.height - 0.5, targetZ),
+                );
 
                 if (this.knockbackTimeline) {
                     this.knockbackTimeline.kill();
