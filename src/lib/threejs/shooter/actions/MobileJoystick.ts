@@ -9,7 +9,10 @@ export class MobileJoystick {
     private joystickActive = false;
     private joystickX = 0;
     private joystickY = 0;
-    private moveSpeed: number = 5; // units per second
+    private moveSpeed = 5; // units per second
+    private moveDirection = new Vector3(0, 0, 0);
+    private moveStrength = 0;
+    private playerRadius = 0.5;
     private lastFrameTime: number = performance.now();
     private abortController = new AbortController();
 
@@ -75,6 +78,7 @@ export class MobileJoystick {
         e.preventDefault();
         e.stopPropagation();
         this.joystickActive = true;
+        this.lastFrameTime = performance.now();
         this.updateJoystick(e);
     }
 
@@ -91,6 +95,8 @@ export class MobileJoystick {
         this.joystickActive = false;
         this.joystickX = 0;
         this.joystickY = 0;
+        this.moveDirection.set(0, 0, 0);
+        this.moveStrength = 0;
     }
 
     private updateJoystick(e: TouchEvent): void {
@@ -114,59 +120,17 @@ export class MobileJoystick {
         this.joystickX = x / radius;
         this.joystickY = y / radius;
 
-        const direction = new Vector3(
-            this.joystickX,
-            0,
-            this.joystickY,
-        ).normalize();
-        if (direction.length() > 0.1) {
-            // update facing direction
-            const playerWithFacing = this.player as unknown as {
-                facingDirection: Vector3;
-                model: Object3D | null;
-                position: Vector3;
-            };
-
-            playerWithFacing.facingDirection.copy(direction);
-
-            // rotate model to face direction
-            if (playerWithFacing.model) {
-                playerWithFacing.model.rotation.y = Math.atan2(
-                    direction.x,
-                    direction.z,
-                );
-            }
-
-            // move player with slide-style collision detection
-            const now = performance.now();
-            const dt = Math.min(0.05, (now - this.lastFrameTime) / 1000);
-            this.lastFrameTime = now;
-
-            const step = this.moveSpeed * dt;
-            const desiredX = playerWithFacing.position.x + direction.x * step;
-            const desiredZ = playerWithFacing.position.z + direction.z * step;
-
-            // get valid position with sliding collision
-            const validPos = this.getValidPosition(
-                playerWithFacing.position.x,
-                playerWithFacing.position.z,
-                desiredX,
-                desiredZ,
+        const magnitude = Math.hypot(this.joystickX, this.joystickY);
+        if (magnitude > 0.1) {
+            this.moveDirection.set(
+                this.joystickX / magnitude,
+                0,
+                this.joystickY / magnitude,
             );
-
-            playerWithFacing.position.x = validPos.x;
-            playerWithFacing.position.z = validPos.z;
-            playerWithFacing.position.y = 0.5;
-
-            // clamp to world bounds
-            playerWithFacing.position.x = Math.max(
-                0.5,
-                Math.min(this.world.width - 0.5, playerWithFacing.position.x),
-            );
-            playerWithFacing.position.z = Math.max(
-                0.5,
-                Math.min(this.world.height - 0.5, playerWithFacing.position.z),
-            );
+            this.moveStrength = Math.min(1, magnitude); // optional analog
+        } else {
+            this.moveDirection.set(0, 0, 0);
+            this.moveStrength = 0;
         }
     }
 
@@ -175,33 +139,28 @@ export class MobileJoystick {
         if (x < 0 || x > this.world.width || z < 0 || z > this.world.height) {
             return true;
         }
-        const cell = { x: Math.floor(x), z: Math.floor(z) };
 
+        const checkRadius = this.playerRadius + 0.2;
         const cellsToCheck = [
-            // center and orthogonal neighbors
-            `${cell.x},${cell.z}`,
-            `${cell.x + 1},${cell.z}`,
-            `${cell.x - 1},${cell.z}`,
-            `${cell.x},${cell.z + 1}`,
-            `${cell.x},${cell.z - 1}`,
-            // diagonal neighbors
-            `${cell.x + 1},${cell.z + 1}`,
-            `${cell.x + 1},${cell.z - 1}`,
-            `${cell.x - 1},${cell.z + 1}`,
-            `${cell.x - 1},${cell.z - 1}`,
+            { x: Math.floor(x), z: Math.floor(z) },
+            { x: Math.floor(x + checkRadius), z: Math.floor(z) },
+            { x: Math.floor(x - checkRadius), z: Math.floor(z) },
+            { x: Math.floor(x), z: Math.floor(z + checkRadius) },
+            { x: Math.floor(x), z: Math.floor(z - checkRadius) },
+            { x: Math.floor(x + checkRadius), z: Math.floor(z + checkRadius) },
+            { x: Math.floor(x + checkRadius), z: Math.floor(z - checkRadius) },
+            { x: Math.floor(x - checkRadius), z: Math.floor(z + checkRadius) },
+            { x: Math.floor(x - checkRadius), z: Math.floor(z - checkRadius) },
         ];
 
-        for (const checkKey of cellsToCheck) {
-            if (this.world.buildingCells.has(checkKey)) {
-                // Only block if player would be within 0.1 units of obstacle
-                const cellParts = checkKey.split(',').map(Number);
-                const cellX = cellParts[0];
-                const cellZ = cellParts[1];
+        for (const cell of cellsToCheck) {
+            const cellKey = `${cell.x},${cell.z}`;
+            if (this.world.buildingCells.has(cellKey)) {
                 const distToCell = Math.hypot(
-                    x - (cellX + 0.5),
-                    z - (cellZ + 0.5),
+                    x - (cell.x + 0.5),
+                    z - (cell.z + 0.5),
                 );
-                if (distToCell < 0.1) {
+                if (distToCell < this.playerRadius + 0.5) {
                     return true;
                 }
             }
@@ -209,10 +168,6 @@ export class MobileJoystick {
         return false;
     }
 
-    /**
-     * slide-style collision detection: allows sliding along surfaces
-     * tries full diagonal movement first, then slides along individual axes
-     */
     private getValidPosition(
         currentX: number,
         currentZ: number,
@@ -248,5 +203,59 @@ export class MobileJoystick {
 
     dispose(): void {
         this.abortController.abort();
+    }
+
+    update(): void {
+        if (this.moveDirection.length() === 0) return;
+
+        const now = performance.now();
+        const dt = Math.min(0.05, (now - this.lastFrameTime) / 1000);
+        this.lastFrameTime = now;
+
+        // use moveStrength for analog, or just: this.moveSpeed * dt
+        const step = this.moveSpeed * this.moveStrength * dt;
+
+        const desiredX = this.player.position.x + this.moveDirection.x * step;
+        const desiredZ = this.player.position.z + this.moveDirection.z * step;
+
+        const validPos = this.getValidPosition(
+            this.player.position.x,
+            this.player.position.z,
+            desiredX,
+            desiredZ,
+        );
+
+        this.player.position.x = validPos.x;
+        this.player.position.z = validPos.z;
+        this.player.position.y = 0.5;
+
+        // clamp (match keyboard style if you prefer)
+        this.player.position.x = Math.max(
+            this.playerRadius,
+            Math.min(
+                this.world.width - this.playerRadius,
+                this.player.position.x,
+            ),
+        );
+        this.player.position.z = Math.max(
+            this.playerRadius,
+            Math.min(
+                this.world.height - this.playerRadius,
+                this.player.position.z,
+            ),
+        );
+
+        // facing + model rotation (moved here from updateJoystick)
+        const playerWithFacing = this.player as unknown as {
+            facingDirection: Vector3;
+            model: Object3D | null;
+        };
+        playerWithFacing.facingDirection.copy(this.moveDirection);
+        if (playerWithFacing.model) {
+            playerWithFacing.model.rotation.y = Math.atan2(
+                this.moveDirection.x,
+                this.moveDirection.z,
+            );
+        }
     }
 }

@@ -194,6 +194,7 @@ export function attachSlaynetGame(
                     );
 
                     if (mobileJoystick) {
+                        mobileJoystick.update();
                         cb.onJoystick(
                             mobileJoystick.getJoystickX(),
                             mobileJoystick.getJoystickY(),
