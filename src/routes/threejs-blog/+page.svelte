@@ -37,10 +37,12 @@
                 </a>
             {/if}
 
-            <div class="title-wrapper">
+            <div class="title-wrapper" class:no-subtitle={!post.subtitle}>
                 <p class="post-index">{index + 1}</p>
                 <h2 class="title">
-                    <a href="/threejs-blog/{post.id}">{post.title}</a>
+                    <a class="title-link" href="/threejs-blog/{post.id}"
+                        >{post.title}</a
+                    >
                 </h2>
             </div>
 
@@ -55,6 +57,28 @@
         border-radius: var(--radius);
         padding: 0 0.05em;
 
+        &:has(.subtitle) .title-wrapper {
+            padding: 0;
+        }
+
+        & .title-wrapper {
+            padding-bottom: 2em;
+
+            &.no-subtitle {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                flex: 1;
+                inline-size: 100%;
+                padding-bottom: 2em;
+
+                & .post-index {
+                    transform: none;
+                }
+            }
+        }
+
         & .title {
             font-family: var(--bronova-bold);
             font-weight: 800;
@@ -66,6 +90,11 @@
             font-size: clamp(var(--sm), 1.15vw, var(--h5));
             font-weight: 400;
             color: var(--clr-light-400);
+            padding-bottom: 1em;
+
+            &:empty {
+                display: none;
+            }
         }
 
         & .post-image {
@@ -121,7 +150,7 @@
                 font-size: clamp(var(--h4), 2vw, var(--h2));
                 font-weight: 800;
                 text-transform: uppercase;
-                margin-bottom: 0;
+                margin-bottom: -0.35em;
 
                 @media (width <= 768px) {
                     margin-top: 0.75em;
