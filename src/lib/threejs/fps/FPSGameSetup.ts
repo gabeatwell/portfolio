@@ -20,10 +20,11 @@ import {
 import { World } from '../shooter/world';
 import { FPSPlayer } from './player/FPSPlayer';
 import { FPSEnemyManager } from './enemy/FPSEnemyManager';
-import { FPSBuilding } from './buildings/FPSBuilding';
+// import { FPSBuilding } from './buildings/FPSBuilding';
 import { FPSCombatManager } from './combat/FPSCombatManager';
 import { FPSAmmoBrick } from './combat/FPSAmmoBricks';
 import { preloadModels, createLoader } from './FPSModelLoader';
+import { generateLevel } from './procedural/levelGenerator';
 
 export class FPSGame {
     scene!: Scene;
@@ -57,6 +58,8 @@ export class FPSGame {
     private boundOnResize: () => void = () => {};
     private gunModel: Object3D | null = null;
     private muzzleOffset = new Vector3(0.35, -0.35, -0.8);
+    private currentSeed = Date.now();
+    private buildingModels: Object3D[] = [];
 
     // --- Aim down sights ---
     private isAiming = false;
@@ -115,6 +118,44 @@ export class FPSGame {
         return false;
     }
 
+    async regenerateLevel(newSeed?: number) {
+        if (this.buildings) {
+            this.scene.remove(this.buildings);
+            this.buildings.traverse((obj) => {
+                if ((obj as any).isMesh) {
+                    (obj as any).geometry?.dispose();
+                }
+            });
+        }
+
+        this.world.buildingCells.clear();
+        this.currentSeed = newSeed ?? Date.now();
+
+        const level = generateLevel({
+            world: this.world,
+            width: 50,
+            depth: 50,
+            models: this.buildingModels,
+            seed: this.currentSeed,
+            buildingCount: 8 + Math.floor(Math.random() * 4),
+            density: 0.5 + Math.random() * 0.3,
+        });
+
+        this.buildings = level.buildings;
+        this.scene.add(this.buildings);
+
+        this.obstacles = [];
+        this.buildings.traverse((child) => {
+            if ((child as any).isMesh) this.obstacles.push(child);
+        });
+        this.enemyManager.setObstacles(this.obstacles);
+
+        // place player
+        const { x, z } = level.playerSpawn;
+        this.fpsPlayer.position.set(x, 0, z);
+        this.camera.position.set(x, 1.6, z);
+    }
+
     async init(canvas: HTMLCanvasElement) {
         this.renderer = new WebGLRenderer({ canvas });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -133,62 +174,61 @@ export class FPSGame {
 
         this.controls = new PointerLockControls(this.camera, canvas);
 
-        // ═══ Attempt pointer lock (desktop only) ═══
-        // On mobile, requestPointerLock throws — catch it and switch to mobile mode.
-        // The lock must be attempted before any await so the click gesture is active.
         try {
             this.controls.lock();
         } catch {
-            // Pointer lock failed — likely mobile. Switch to touch controls.
             this.mobileMode = true;
         }
 
-        // --- World terrain ---
+        // --- world terrain ---
         this.world = new World(50, 50);
         await this.world.generate();
         this.scene.add(this.world);
 
-        // ─── Pre-load GLTF models from CDN in parallel ──────
+        // pre-load models
         const gltfLoader = createLoader();
         const modelPromise = preloadModels(gltfLoader);
 
-        // Swap GLTF buildings for simple boxes
+        // remove buildings World class created
         if (this.world.buildings) {
             this.world.remove(this.world.buildings);
         }
-        // Clear leftover cells from the World's own building generation
         this.world.buildingCells.clear();
 
-        // Wait for models to arrive, then create buildings
         const models = await modelPromise;
+        this.buildingModels = models.buildings;
 
-        // Build a spawn exclusion zone: cells within 3 of the spawn point (5.5, 5.5)
-        // No building footprint may overlap this zone, so the player never spawns inside a building.
-        const spawnExclude = new Set<string>();
-        const spawnCX = 5; // floor(5.5)
-        const spawnCZ = 5;
-        const spawnRadius = 3;
-        for (let dx = -spawnRadius; dx <= spawnRadius; dx++) {
-            for (let dz = -spawnRadius; dz <= spawnRadius; dz++) {
-                spawnExclude.add(`${spawnCX + dx},${spawnCZ + dz}`);
-            }
-        }
+        const seed = Date.now();
+        const level = generateLevel({
+            world: this.world,
+            width: 50,
+            depth: 50,
+            models: models.buildings,
+            seed,
+            buildingCount: 8 + Math.floor(Math.random() * 4), // 8–11
+            density: 0.5 + Math.random() * 0.3, // 0.5–0.8
+        });
 
-        this.buildings = FPSBuilding.createBuildings(
-            50,
-            50,
-            8,
-            this.world.buildingCells,
-            models.buildings,
-            spawnExclude,
-        );
+        this.buildings = level.buildings;
         this.scene.add(this.buildings);
+
+        this.obstacles = [];
+        this.buildings.traverse((child) => {
+            if ((child as any).isMesh) this.obstacles.push(child);
+        });
+
+        // store seed if you want regenerate later
+        (this as any).currentSeed = level.seed;
+        console.log('Level seed:', level.seed);
 
         // --- FPS Player ---
         this.fpsPlayer = new FPSPlayer();
         this.fpsPlayer.rotation.y = Math.PI;
-        this.spawnPlayer();
         this.scene.add(this.fpsPlayer);
+
+        const { x, z } = level.playerSpawn;
+        this.fpsPlayer.position.set(x, 0, z);
+        this.camera.position.set(x, 1.6, z);
 
         // --- Gun Model (async callback — doesn't hold up init) ---
         gltfLoader.load(
@@ -216,7 +256,6 @@ export class FPSGame {
         );
 
         // --- Lighting ---
-        // HemisphereLight gives a natural sky/ground fill
         const hemi = new HemisphereLight(0x87ceeb, 0x362d25, 0.8);
         this.scene.add(hemi);
         const ambient = new AmbientLight(0xffffff, 0.55);
@@ -225,16 +264,10 @@ export class FPSGame {
         sun.position.set(10, 20, 10);
         sun.castShadow = true;
         this.scene.add(sun);
-        // Extra light near player so the gun is always lit
-        const playerLight = new PointLight(0xffffff, 0.8, 10);
-        playerLight.position.set(5.5, 3, 5.5);
-        this.scene.add(playerLight);
 
-        // --- Collect obstacle meshes for AI line-of-sight ---
-        this.obstacles = [];
-        this.buildings.traverse((child) => {
-            if ((child as any).isMesh) this.obstacles.push(child);
-        });
+        const playerLight = new PointLight(0xffffff, 0.8, 10);
+        playerLight.position.set(x, 3, z);
+        this.scene.add(playerLight);
 
         // --- AI Combat & Enemies ---
         this.combatManager = new FPSCombatManager(this.fpsPlayer, this.scene);
@@ -300,6 +333,9 @@ export class FPSGame {
             case 'KeyD':
                 this.moveRight = pressed;
                 break;
+            case 'KeyR':
+                if (pressed) this.regenerateLevel();
+                break;
             case 'Space':
                 if (pressed && this.isGrounded) {
                     this.verticalVelocity = this.jumpForce;
@@ -328,7 +364,7 @@ export class FPSGame {
         this.combatManager.shoot(dir, spawnPos);
     }
 
-    /** Check if a position (with hitbox radius) overlaps any building cell */
+    /** check if a position (with hitbox radius) overlaps any building cell */
     private isBlockedPosition(
         x: number,
         z: number,
@@ -351,7 +387,7 @@ export class FPSGame {
         return false;
     }
 
-    /** Move player with building collision (axis-separated for wall sliding) */
+    /** move player with building collision (axis-separated for wall sliding) */
     private movePlayerWithCollision(dx: number, dz: number): void {
         const radius = this.fpsPlayer.getHitboxRadius();
         const px = this.fpsPlayer.position.x;
@@ -370,7 +406,7 @@ export class FPSGame {
         }
     }
 
-    /** Place the player at a valid (non-blocked) position near the origin */
+    /** place the player at a valid (non-blocked) position near the origin */
     private spawnPlayer(): void {
         const radius = this.fpsPlayer.getHitboxRadius();
         // Try the intended position first

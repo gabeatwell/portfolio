@@ -19,8 +19,9 @@
         </button>
 
         <div class="controls-hint">
-            <p>WASD to move &middot; Click to shoot</p>
-            <p>SPACE to jump &middot; SHIFT to run</p>
+            <p>WASD - move &middot; Click - shoot</p>
+            <p>SPACE - jump &middot; SHIFT - run</p>
+            <p>R - regenerate the map</p>
         </div>
     </div>
 </div>
