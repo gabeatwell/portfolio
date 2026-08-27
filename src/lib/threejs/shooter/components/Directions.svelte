@@ -28,6 +28,7 @@
                 <li>Move = W, A, S, D</li>
                 <li>Fire = space bar</li>
                 <li>Orbit controls = letter "r"</li>
+                <li>Regenerate level = letter "l"</li>
             </ul>
 
             <h3>

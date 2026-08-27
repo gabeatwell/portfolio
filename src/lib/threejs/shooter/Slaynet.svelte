@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { gsap } from '$lib/data/gsap';
     import HealthBar from './components/HealthBar.svelte';
     import GameOver from './components/GameOver.svelte';
     import Directions from './components/Directions.svelte';
@@ -48,6 +47,13 @@
     >([]);
 
     const breakpoints = getBreakpoints();
+    let seed = $state(Date.now());
+
+    function handleKeydown(e: KeyboardEvent) {
+        if (e.key === 'l' || e.key === 'L') {
+            seed = Date.now(); // triggers regeneration with new seed
+        }
+    }
 
     function handleRestart(): void {
         isGameOver = false;
@@ -67,6 +73,10 @@
                 // Ignore
             }
         }
+
+        window.addEventListener('keydown', handleKeydown);
+
+        return () => window.removeEventListener('keydown', handleKeydown);
     });
 
     // apply pause state after game initializes
@@ -82,7 +92,7 @@
 
     const gameAttach = $derived(
         attachSlaynetGame(
-            { restartTrigger, joystickElement },
+            { restartTrigger, joystickElement, seed },
             {
                 onState: (s) => (gameState = s),
                 onTotalEnemies: (n) => (killTarget = n),

@@ -35,12 +35,14 @@ export function attachSlaynetGame(
     opts: {
         restartTrigger: number;
         joystickElement: HTMLElement | null;
+        seed: number;
     },
     cb: GameHudCallbacks,
 ): Attachment<HTMLCanvasElement> {
     return (canvas) => {
         // re-run when restartTrigger changes
         void opts.restartTrigger;
+        void opts.seed;
 
         const abortController = new AbortController();
         let lastFrameTime = performance.now();
@@ -49,7 +51,7 @@ export function attachSlaynetGame(
 
         cb.onMobile(window.innerWidth <= 768);
 
-        initializeGame(canvas, opts.joystickElement)
+        initializeGame(canvas, opts.joystickElement, opts.seed)
             .then((state) => {
                 if (!animationLoopRunning) return;
 

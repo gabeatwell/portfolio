@@ -31,6 +31,7 @@ export interface GameState {
 export async function initializeGame(
     canvas: HTMLCanvasElement,
     joystickElement: HTMLElement | null,
+    seed?: number,
 ): Promise<GameState> {
     const renderer = new WebGLRenderer({ canvas, antialias: true });
     const scene = new Scene();
@@ -57,9 +58,6 @@ export async function initializeGame(
     controls.enableDamping = false;
     controls.minDistance = 0.1;
     controls.maxDistance = 1000;
-    controls.target.set(5, 0, 5);
-    camera.position.set(1, 4, 3);
-    controls.update();
 
     // ------------- WORLD DIMENSIONS -------------
     const WORLD_WIDTH = 50;
@@ -71,10 +69,27 @@ export async function initializeGame(
     scene.add(world.buildings);
 
     // ------------- procedural level config  -------------
-    const levelConfig = generateLevelConfig(world, {
-        width: WORLD_WIDTH,
-        depth: WORLD_DEPTH,
-    });
+    const levelConfig = generateLevelConfig(
+        world,
+        {
+            width: WORLD_WIDTH,
+            depth: WORLD_DEPTH,
+        },
+        seed,
+    );
+
+    controls.target.set(
+        levelConfig.playerSpawn.x,
+        0,
+        levelConfig.playerSpawn.z,
+    );
+    camera.position.set(
+        levelConfig.playerSpawn.x + 1,
+        4,
+        levelConfig.playerSpawn.z + 3,
+    );
+    controls.update();
+
     const spawnConfig: SpawnConfig = {
         maxAlive: 4,
         // maxAlive: levelConfig.spawnPoints.length,
@@ -97,6 +112,12 @@ export async function initializeGame(
         controls,
     );
     scene.add(player);
+
+    player.position.set(
+        levelConfig.playerSpawn.x,
+        0,
+        levelConfig.playerSpawn.z,
+    );
 
     const enemyManager = new EnemyManager(player, world, scene, spawnConfig);
     enemyManager.spawnFromLevelConfig(levelConfig.spawnPoints);
