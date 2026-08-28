@@ -49,5 +49,39 @@
     </head>
     <body data-sveltekit-preload-data="hover">
         <div style="display: contents">%sveltekit.body%</div>
+
+        <noscript>
+            <div
+                style="
+                    position: fixed;
+                    inset: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #111;
+                    color: #fff;
+                    font-family: sans-serif;
+                    font-size: 1.5rem;
+                    text-align: center;
+                    padding: 2rem;
+                    z-index: 2147483647;
+                "
+            >
+                <div class="no-js-message">
+                    <p style="font-size: clamp(0.8rem, 2vw, 1.75rem)">
+                        ⚠️ JavaScript is required to view this website.
+                    </p>
+                    <p
+                        style="
+                            font-size: clamp(1rem, 3vw, 2.5rem);
+                            opacity: 0.7;
+                            margin-top: 1rem;
+                        "
+                    >
+                        Please enable JavaScript in your browser settings.
+                    </p>
+                </div>
+            </div>
+        </noscript>
     </body>
 </html>
