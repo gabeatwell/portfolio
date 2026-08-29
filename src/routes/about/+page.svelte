@@ -31,7 +31,7 @@
             <div
                 class="biography"
                 aria-label="bio"
-                {@attach fadeInBio(breakpoints.isMobile)}
+                // {@attach fadeInBio(breakpoints.isMobile)}
             >
                 {#each bio as paragraph}
                     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -184,6 +184,11 @@
                     text-align: start;
                     margin-bottom: 0;
 
+                    transform: translateY(30px);
+                    animation: fadeInUp linear both;
+                    animation-timeline: view();
+                    animation-range: entry 0% cover 50%;
+
                     @media (width >= 990px) {
                         max-inline-size: 98%;
                         line-height: 1.75;
@@ -243,6 +248,15 @@
         .about-me .about-section .biography .bio-paragraph {
             opacity: 1;
             transform: none;
+
+            animation: none;
+        }
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
     }
 </style>

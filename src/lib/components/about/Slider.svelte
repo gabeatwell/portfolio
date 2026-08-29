@@ -110,7 +110,7 @@
             & .slider-track {
                 display: flex;
                 will-change: transform;
-                animation: scroll 75s linear infinite;
+                animation: scroll 10s linear infinite;
 
                 & .slide {
                     flex-shrink: 0;
@@ -173,7 +173,7 @@
             transform: translateX(0);
         }
         100% {
-            transform: translateX(-50%);
+            transform: translateX(calc(-100% / 2));
         }
     }
 </style>
