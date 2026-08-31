@@ -51,22 +51,25 @@ export const GET: RequestHandler = async ({ platform }) => {
         const from = new Date();
         from.setFullYear(to.getFullYear() - 1);
 
-        const response = await fetch('https://api.github.com/graphql', {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-                'User-Agent': 'atwell-dev-portfolio',
-            },
-            body: JSON.stringify({
-                query,
-                variables: {
-                    username,
-                    from: from.toISOString(),
-                    to: to.toISOString(),
+        const response = await fetch(
+            `https://api.github.com/graphql?t=${Date.now()}`,
+            {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'atwell-dev-portfolio',
                 },
-            }),
-        });
+                body: JSON.stringify({
+                    query,
+                    variables: {
+                        username,
+                        from: from.toISOString(),
+                        to: to.toISOString(),
+                    },
+                }),
+            },
+        );
 
         if (!response.ok) {
             return json({
