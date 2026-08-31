@@ -42,34 +42,7 @@
                 display: inline-block;
                 opacity: 0;
                 text-shadow: 0px 2px 10px rgba(46, 74, 81, 0.3);
-
-                &:nth-child(1) {
-                    animation-delay: 0.1s;
-                }
-
-                &:nth-child(2) {
-                    animation-delay: 0.2s;
-                }
-
-                &:nth-child(3) {
-                    animation-delay: 0.3s;
-                }
-
-                &:nth-child(4) {
-                    animation-delay: 0.4s;
-                }
-
-                &:nth-child(5) {
-                    animation-delay: 0.5s;
-                }
-
-                &:nth-child(6) {
-                    animation-delay: 0.6s;
-                }
-
-                &:nth-child(7) {
-                    animation-delay: 0.7s;
-                }
+                animation-delay: calc(sibling-index() * 0.1s);
             }
         }
 

@@ -55,11 +55,7 @@
 
     <div id="sub-buttons" class="sub-buttons" role="menu">
         <a href="/about">
-            <button
-                class="first-button sub-btn"
-                data-index="1"
-                aria-label="about"
-            >
+            <button class="first-button sub-btn" aria-label="about">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                     <title>About</title>
                     <path
@@ -72,11 +68,7 @@
         >
 
         <a href="/projects">
-            <button
-                class="second-button sub-btn"
-                data-index="2"
-                aria-label="sales"
-            >
+            <button class="second-button sub-btn" aria-label="sales">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                     <title>Sales</title>
                     <path
@@ -89,11 +81,7 @@
         >
 
         <a href="/contact">
-            <button
-                class="third-button sub-btn"
-                data-index="3"
-                aria-label="share"
-            >
+            <button class="third-button sub-btn" aria-label="share">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                     <title>Share</title>
                     <path
@@ -106,11 +94,7 @@
         >
 
         <a href="/experiments" aria-label="go back">
-            <button
-                class="fourth-button sub-btn"
-                data-index="4"
-                aria-label="home"
-            >
+            <button class="fourth-button sub-btn" aria-label="home">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                     <title>Home</title>
                     <path
@@ -189,6 +173,10 @@
             block-size: 0;
             transition: scale 0.5s ease-out;
 
+            & a {
+                transition-delay: calc((sibling-index() - 1) * 0.05s);
+            }
+
             & .sub-btn {
                 position: absolute;
                 display: flex;
@@ -212,19 +200,6 @@
             opacity: 1;
             transform: scale(1);
             pointer-events: auto;
-        }
-
-        & .sub-btn[data-index='1'] {
-            transition-delay: 0s;
-        }
-        & .sub-btn[data-index='2'] {
-            transition-delay: 0.05s;
-        }
-        & .sub-btn[data-index='3'] {
-            transition-delay: 0.1s;
-        }
-        & .sub-btn[data-index='4'] {
-            transition-delay: 0.15s;
         }
 
         & .first-button {

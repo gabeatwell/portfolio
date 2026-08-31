@@ -14,7 +14,7 @@
         {#each letters as letter, i}
             <span
                 class="letter"
-                style="--index: {totalLetters - i};"
+                style:--index={totalLetters - i}
                 style:view-transition-name={`letter-${i}`}
             >
                 {letter === ' ' ? '\u00A0' : letter}
@@ -52,7 +52,7 @@
         display: inline-block;
         opacity: 0;
         animation: slide-in 0.5s forwards;
-        animation-delay: calc(var(--index) * 0.2s);
+        animation-delay: calc(sibling-index() * 0.2s);
     }
 
     ::view-transition-old(letter-*),
