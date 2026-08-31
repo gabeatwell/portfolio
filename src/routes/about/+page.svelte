@@ -194,12 +194,6 @@
                         line-height: 1.75;
                     }
 
-                    /* &:not([data-three-desc]) {
-                        @media (width <= 768px) {
-                            inline-size: 100vw;
-                        }
-                    } */
-
                     & span {
                         font-weight: 800;
                         letter-spacing: 1px;

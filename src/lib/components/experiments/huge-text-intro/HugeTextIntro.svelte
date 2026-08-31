@@ -8,7 +8,6 @@
         { text: 'gabe', dataText: 'cool', active: false, done: false },
     ]);
     let introElement: HTMLElement | undefined = $state();
-    let wordsWrapper: HTMLElement | undefined = $state();
 
     function handleMouseEnter(index: number) {
         words[index].active = true;
@@ -18,11 +17,8 @@
         words[index].active = false;
     }
 
-    function scrollText() {
-        const wrapper = wordsWrapper;
-        if (!wrapper) return;
-
-        const subWords = document.querySelectorAll<HTMLElement>('.sub-word');
+    function scrollText(wrapper: HTMLElement) {
+        const subWords = wrapper.querySelectorAll<HTMLElement>('.sub-word');
         if (!subWords.length) return;
 
         gsap.set(subWords, { scale: 0, y: 20 });
@@ -55,15 +51,10 @@
             tl.kill();
         };
     }
-
-    // gsap
-    $effect(() => {
-        scrollText();
-    });
 </script>
 
 <section class="title-intro" bind:this={introElement}>
-    <div class="words-wrapper" bind:this={wordsWrapper}>
+    <div class="words-wrapper" {@attach scrollText}>
         {#each words as word, i (i)}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div

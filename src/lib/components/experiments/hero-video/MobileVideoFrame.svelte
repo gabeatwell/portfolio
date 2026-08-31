@@ -1,7 +1,7 @@
 <script lang="ts">
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
     import { goto } from '$app/navigation';
-    import { gsap, SplitText } from '$lib/data/gsap';
+    import { mobileVideo } from './mobileVideo';
 
     interface Props {
         firstTitle?: string;
@@ -42,6 +42,12 @@
 
     $effect(() => {
         activeVideoSrc = videoSrc;
+
+        if (videoSrc) {
+            activeVideoSrc = videoSrc;
+        } else if (videos.length > 0 && !activeVideoSrc) {
+            activeVideoSrc = videos[0];
+        }
     });
 
     function handleVideoSwitch() {
@@ -65,67 +71,13 @@
     }
     let words = $derived(splitTitleIntoWords(firstTitle));
 
-    // gsap
-    $effect(() => {
-        const textContent = document.querySelector('.text-content');
-        const smartphone = document.querySelector('.smartphone');
-
-        let splitTitle = SplitText.create(
-            textContent?.querySelector('h2') as Element,
-            {
-                type: 'chars',
-            },
-        );
-
-        if (!textContent || !smartphone) return;
-
-        const tl = gsap.timeline();
-
-        tl.fromTo(
-            textContent,
-            { autoAlpha: 0 },
-            {
-                autoAlpha: 1,
-                duration: 2,
-                ease: 'power2.out',
-            },
-        )
-            .fromTo(
-                smartphone,
-                { rotation: -180, autoAlpha: 0, scale: 1.5 },
-                {
-                    rotation: 0,
-                    autoAlpha: 1,
-                    scale: 1,
-                    duration: 2.25,
-                    ease: 'power2.out',
-                },
-                '<',
-            )
-            .fromTo(
-                splitTitle.chars,
-                { rotationX: -90, autoAlpha: 0 },
-                {
-                    rotationX: 0,
-                    autoAlpha: 1,
-                    duration: 2,
-                    ease: 'back.out',
-                    letterSpacing: 'clamp(1px, 2vw, 9px)',
-                    stagger: {
-                        amount: 0.5,
-                        from: 'center',
-                    },
-                },
-                '<',
-            );
-
-        // const devTools = GSDevTools.create();
-
-        return () => {
-            tl.kill();
-            // devTools?.kill();
-        };
-    });
+    function handleVideoError(e: Event) {
+        console.error('Video failed to load:', activeVideoSrc);
+        if (videos.length > 1) {
+            // Try next video if available
+            handleVideoSwitch();
+        }
+    }
 </script>
 
 <div class="background-image">
@@ -135,7 +87,7 @@
     />
 </div>
 
-<div class="all-content">
+<div class="all-content" {@attach mobileVideo}>
     <div class="smartphone">
         <div class="content">
             <video
@@ -144,6 +96,7 @@
                 muted
                 loop
                 playsinline
+                onerror={handleVideoError}
                 style="inline-size: 100%; block-size: 100%; border: none; display: block;"
             ></video>
         </div>
