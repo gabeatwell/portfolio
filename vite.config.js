@@ -14,7 +14,14 @@ export default defineConfig({
         sveltekit({
             adapter: adapter({
                 routes: {
-                    include: ['/threejs-blog/three-components', '/api/*'],
+                    include: [
+                        '/threejs-blog/three-components',
+                        '/api/*',
+                        '/contact',
+                        '/contact/*',
+                        '/hire',
+                        '/hire/*',
+                    ],
                     exclude: [
                         '/_app/*',
                         '/.well-known/*',
