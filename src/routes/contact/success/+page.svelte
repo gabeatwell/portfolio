@@ -7,8 +7,8 @@
 </script>
 
 <SEO
-    title="Message Sent!"
-    description="Successfully Sent"
+    title="Success!"
+    description="Your message has been sent!"
     keywords="success, contact success"
 />
 
@@ -22,7 +22,7 @@
 
         <div class="success-results">
             <p class="subheading"><i>Your message has been sent.</i></p>
-
+            <p class="subheading">I'll get back to you soon!</p>
             <p class="thank-you">Thank you for reaching out!</p>
         </div>
     </section>

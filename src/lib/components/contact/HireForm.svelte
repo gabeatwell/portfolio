@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { submitHire } from './contact.remote';
     import SubmitButton from '$lib/components/contact/SubmitButton.svelte';
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
 
@@ -68,7 +69,7 @@
 <section class="hire-form-container" class:masked={maskActive}>
     <div class="anchor" bind:this={anchorEl}></div>
 
-    <form action="https://formspree.io/f/xwpoqdno" method="POST">
+    <form {...submitHire}>
         <div class="form-grid">
             <label class="form-group">
                 <span class="label-text">Name*</span>
@@ -81,6 +82,9 @@
                     autocomplete="name"
                     spellcheck="true"
                 />
+                {#each submitHire.fields.name?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
             </label>
 
             <label class="form-group">
@@ -94,6 +98,9 @@
                     autocomplete="email"
                     spellcheck="true"
                 />
+                {#each submitHire.fields.email?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
             </label>
 
             <label class="form-group">
@@ -125,6 +132,9 @@
                     <option value="Boston, MA"> </option>
                     <option value="Miami, FL"></option>
                 </datalist>
+                {#each submitHire.fields.location?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
             </label>
         </div>
 
@@ -134,7 +144,7 @@
 
                 <input
                     type="text"
-                    name="text"
+                    name="site"
                     placeholder="(e.g: if-applicable.com)"
                     spellcheck="true"
                 />
@@ -169,6 +179,9 @@
                     <option value="ecommerce">E-commerce</option>
                     <option value="other">Other</option>
                 </select>
+                {#each submitHire.fields.project_type?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
             </label>
 
             <label class="form-group">
@@ -179,6 +192,9 @@
                     <option value="yes">New</option>
                     <option value="no">Rebrand</option>
                 </select>
+                {#each submitHire.fields.new_project?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
             </label>
 
             <label class="form-group">
@@ -190,6 +206,9 @@
                     <option value="2month">Within 2 months</option>
                     <option value="available">When you're available</option>
                 </select>
+                {#each submitHire.fields.timeline?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
             </label>
 
             <label class="form-group">
@@ -205,6 +224,9 @@
                     <option value="7500-10000">$7,500 - $10,000</option>
                     <option value="10000+">$10,000+</option>
                 </select>
+                {#each submitHire.fields.budget?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
             </label>
         </div>
 
@@ -218,6 +240,9 @@
                 rows="5"
                 spellcheck="true"
             ></textarea>
+            {#each submitHire.fields.message?.issues() ?? [] as issue}
+                <p class="field-error">{issue.message}</p>
+            {/each}
         </label>
 
         <h3 class="legend">* = required</h3>

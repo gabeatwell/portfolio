@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { submitContact } from './contact.remote';
     import SubmitButton from '$lib/components/contact/SubmitButton.svelte';
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import Popover from '$lib/components/layout/Popover.svelte';
@@ -30,7 +31,7 @@
 
 <A11yAnnouncer message={submitStatus} />
 
-<form method="POST" action="https://form.taxi/s/xeyymb58" novalidate>
+<form {...submitContact} novalidate>
     <fieldset>
         <legend>reach me</legend>
 
@@ -48,6 +49,9 @@
                 spellcheck="true"
                 placeholder="Your Name"
             />
+            {#each submitContact.fields.name?.issues() ?? [] as issue}
+                <p class="field-error">{issue.message}</p>
+            {/each}
         </div>
 
         <div class="form-group">
@@ -64,6 +68,9 @@
                 spellcheck="true"
                 placeholder="Your Email"
             />
+            {#each submitContact.fields.email?.issues() ?? [] as issue}
+                <p class="field-error">{issue.message}</p>
+            {/each}
         </div>
 
         <div class="form-group">
@@ -79,6 +86,10 @@
                 spellcheck="true"
                 placeholder="Your Message"
             ></textarea>
+
+            {#each submitContact.fields.message?.issues() ?? [] as issue}
+                <p class="field-error">{issue.message}</p>
+            {/each}
         </div>
 
         <div class="submit-button">
