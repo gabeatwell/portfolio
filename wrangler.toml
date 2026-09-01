@@ -1,4 +1,4 @@
 name = "portfolio"
 account_id = "55ee5bf8f61e95ca4045501e0291a92d"
-compatibility_flags = ["nodejs_als"]
-compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat", "nodejs_als"]
+compatibility_date = "2026-08-04"

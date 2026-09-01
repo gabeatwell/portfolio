@@ -33,6 +33,9 @@ export const submitContact = form(contactSchema, async (data) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            Origin: 'https://atwell.dev', // satisfy provider domain check
+            Referer: 'https://atwell.dev/contact',
+            'User-Agent': 'Mozilla/5.0 (compatible; atwell.dev form)',
         },
         body: JSON.stringify(data),
     });
@@ -50,6 +53,9 @@ export const submitHire = form(hireSchema, async (data) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            Origin: 'https://atwell.dev', // satisfy provider domain check
+            Referer: 'https://atwell.dev/contact',
+            'User-Agent': 'Mozilla/5.0 (compatible; atwell.dev form)',
         },
         body: JSON.stringify(data),
     });
