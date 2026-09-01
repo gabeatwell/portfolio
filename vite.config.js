@@ -12,29 +12,7 @@ const mdsvexOptions = {
 export default defineConfig({
     plugins: [
         sveltekit({
-            adapter: adapter({
-                routes: {
-                    include: [
-                        '/threejs-blog/three-components',
-                        '/api/*',
-                        '/contact',
-                        '/contact/*',
-                        '/hire',
-                        '/hire/*',
-                    ],
-                    exclude: [
-                        '/_app/*',
-                        '/.well-known/*',
-                        '/favicon.*',
-                        '/fonts/*',
-                        '/manifest.json',
-                        '/robots.txt',
-                        '/service-worker.js',
-                        '/sitemap.xml',
-                        '/threejayess/*',
-                    ],
-                },
-            }),
+            adapter: adapter(),
             compilerOptions: {
                 experimental: {
                     async: true,
