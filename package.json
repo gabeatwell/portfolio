@@ -1,7 +1,7 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "portfolio",
-	"version": "4.9.7",
+	"version": "4.9.8",
 	"private": true,
 	"packageManager": "pnpm@11.17.0",
 	"engines": {
@@ -27,6 +27,7 @@
 		"@sveltejs/adapter-cloudflare": "^7.2.9",
 		"@sveltejs/kit": "^2.68.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
+		"@testing-library/jest-dom": "^7.0.1",
 		"@testing-library/svelte": "^5.3.1",
 		"@testing-library/user-event": "^14.6.1",
 		"@types/dompurify": "^3.2.0",
