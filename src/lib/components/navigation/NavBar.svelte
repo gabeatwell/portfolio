@@ -61,7 +61,7 @@
                 viewTransitionName="three-heading"
             />
         </li>
-        <!-- <SelectLink /> -->
+        <SelectLink />
     </ul>
 
     <ul
@@ -89,10 +89,10 @@
                 onclick={closeMenu}
             />
         </li>
-        <!-- <li><NavLink href="/hire" title="Hire Me" onclick={closeMenu} /></li>
+        <li><NavLink href="/hire" title="Hire Me" onclick={closeMenu} /></li>
         <li>
             <NavLink href="/contact" title="Contact Me" onclick={closeMenu} />
-        </li> -->
+        </li>
     </ul>
 </nav>
 
