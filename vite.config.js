@@ -16,7 +16,8 @@ export default defineConfig({
                 routes: {
                     include: ['/*'],
                     exclude: [
-                        '/_app/*',
+                        '/_app/immutable/*',
+                        '/_app/version.json',
                         '/.well-known/*',
                         '/favicon.*',
                         '/fonts/*',
