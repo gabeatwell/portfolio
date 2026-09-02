@@ -28,23 +28,19 @@ const hireSchema = v.object({
 });
 
 export const submitContact = form(contactSchema, async (data) => {
-    const res = await fetch('https://form.taxi/s/xeyymb58', {
+    const res = await fetch('https://formspree.io/f/xjyvrrle', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            name: data.name,
-            email: data.email,
-            message: data.message,
+            ...data,
             _replyto: data.email,
             _subject: `Contact from ${data.name}`,
             _gotcha: '',
         }),
     });
-
-    const json = await res.json().catch(() => ({}));
 
     if (!res.ok) {
         error(res.status, 'Submission failed. Please try again.');

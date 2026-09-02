@@ -1,14 +1,11 @@
 <script lang="ts">
-    // import { submitContact } from './contact.remote';
+    import { submitContact } from './contact.remote';
     import SubmitButton from '$lib/components/contact/SubmitButton.svelte';
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import Popover from '$lib/components/layout/Popover.svelte';
     import ModalPopover from '$lib/components/contact/ModalPopover.svelte';
     import MotifPhoto from './MotifPhoto.svelte';
 
-    let name = $state<string>('');
-    let email = $state<string>('');
-    let message = $state<string>('');
     let submitStatus = $state<string>('');
 </script>
 
@@ -31,7 +28,7 @@
 
 <A11yAnnouncer message={submitStatus} />
 
-<form action="https://form.taxi/s/xeyymb58" method="POST" novalidate>
+<form {...submitContact}>
     <fieldset>
         <legend>reach me</legend>
 
@@ -42,16 +39,15 @@
                 type="text"
                 id="name"
                 name="name"
-                bind:value={name}
                 required
                 aria-describedby="name-error"
                 autocomplete="name"
                 spellcheck="true"
                 placeholder="Your Name"
             />
-            <!-- {#each submitContact.fields.name?.issues() ?? [] as issue}
+            {#each submitContact.fields.name?.issues() ?? [] as issue}
                 <p class="field-error">{issue.message}</p>
-            {/each} -->
+            {/each}
         </div>
 
         <div class="form-group">
@@ -61,16 +57,15 @@
                 type="email"
                 id="email"
                 name="email"
-                bind:value={email}
                 required
                 aria-describedby="email-error"
                 autocomplete="email"
                 spellcheck="true"
                 placeholder="Your Email"
             />
-            <!-- {#each submitContact.fields.email?.issues() ?? [] as issue}
+            {#each submitContact.fields.email?.issues() ?? [] as issue}
                 <p class="field-error">{issue.message}</p>
-            {/each} -->
+            {/each}
         </div>
 
         <div class="form-group">
@@ -79,7 +74,6 @@
             <textarea
                 id="message"
                 name="message"
-                bind:value={message}
                 rows="5"
                 required
                 aria-describedby="message-error"
@@ -87,9 +81,9 @@
                 placeholder="Your Message"
             ></textarea>
 
-            <!-- {#each submitContact.fields.message?.issues() ?? [] as issue}
+            {#each submitContact.fields.message?.issues() ?? [] as issue}
                 <p class="field-error">{issue.message}</p>
-            {/each} -->
+            {/each}
         </div>
 
         <div class="submit-button">
