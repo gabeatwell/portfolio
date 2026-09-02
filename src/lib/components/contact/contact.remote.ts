@@ -40,6 +40,7 @@ export const submitContact = form(contactSchema, async (data) => {
             message: data.message,
             _replyto: data.email,
             _subject: `Contact from ${data.name}`,
+            _gotcha: '',
         }),
     });
 
