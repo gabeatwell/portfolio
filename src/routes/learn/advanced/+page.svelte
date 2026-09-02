@@ -3,7 +3,7 @@
     import GSAP from './gsap.md';
     import SEO from '$lib/data/SEO.svelte';
     import Card from '$lib/components/learn/advanced-page/Card.svelte';
-    import TableOfContents from '$lib/components/learn/advanced-page/TableOfContents.svelte';
+    // import TableOfContents from '$lib/components/learn/advanced-page/TableOfContents.svelte';
     import GabeMorph from '$lib/components/learn/advanced-page/GabeMorph.svelte';
     import BackToTop from '$lib/components/learn/advanced-page/BackToTop.svelte';
     import ViewTransitionImage from '$lib/components/layout/view-transitions/ViewTransitionImage.svelte';
@@ -15,10 +15,10 @@
     import { copyButton } from '$lib/attachments/ui/copyButton';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
     import { sanitizeAndHighlight } from '$lib/components/utils/highlight';
+    import SearchTopics from './SearchTopics.svelte';
 
     let postHtml = $state<string>('');
     let sanitizeHtml = $state<string>('');
-
     let mounted = $state<boolean>(false);
 
     const breakpoints = getBreakpoints();
@@ -72,8 +72,10 @@
         {/if}
     </div>
 
-    <TableOfContents sideBar={true} />
+    <!-- <TableOfContents sideBar={true} /> -->
 </section>
+
+<SearchTopics />
 
 <article class="code-blocks">
     {@html sanitizeHtml}

@@ -458,6 +458,7 @@
             --gray: oklch(0.5103 0 0);
             --faint-gray: oklch(0.5103 0 0 / 0.1);
             --dark-gray: oklch(0.3715 0 0);
+            --darker-gray: oklch(0.2915 0 0);
             --dark-faint-gray: oklch(0.3715 0 0 / 0.1);
             --clr-success-500-light: oklch(0.5771 0.1593 143.16);
             --clr-success-500-dark: oklch(0.4898 0.1434 141.2);
@@ -473,7 +474,7 @@
             );
             --clr-blue-500: light-dark(var(--dark-blue), var(--sky));
             --clr-dark-200: light-dark(var(--white-gray), var(--blacker));
-            --clr-gray-600: light-dark(var(--dark-gray), var(--light-gray));
+            --clr-gray-600: light-dark(var(--dark-gray), var(--darker-gray));
             --clr-gray-700: light-dark(var(--dark-gray), var(--gray));
             --clr-gray-500: light-dark(
                 var(--dark-faint-gray),
