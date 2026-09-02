@@ -33,12 +33,17 @@ export const submitContact = form(contactSchema, async (data) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Origin: 'https://atwell.dev', // satisfy provider domain check
-            Referer: 'https://atwell.dev/contact',
-            'User-Agent': 'Mozilla/5.0 (compatible; atwell.dev form)',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            message: data.message,
+            _replyto: data.email,
+            _subject: `Contact from ${data.name}`,
+        }),
     });
+
+    const json = await res.json().catch(() => ({}));
 
     if (!res.ok) {
         error(res.status, 'Submission failed. Please try again.');
