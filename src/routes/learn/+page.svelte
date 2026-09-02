@@ -70,7 +70,7 @@
 
             <button
                 onclick={() => {
-                    goto('/learn/posts');
+                    goto('/learn/advanced');
                 }}
                 class="learn-image"
                 style="grid-column: 1/-1; width: clamp(18em, 40vw, 60em); justify-self: center;"
