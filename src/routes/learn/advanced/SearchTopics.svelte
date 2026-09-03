@@ -89,6 +89,7 @@
             {#each filteredTopics as topic (topic.id)}
                 <li>
                     <a href="#{topic.id}">
+                        {topic.category}
                         {topic.title}
                     </a>
                 </li>
@@ -172,6 +173,11 @@
                 minmax(clamp(10em, 20vw, 20em), 1fr)
             );
             justify-content: center;
+            padding-left: 6em;
+
+            @media (width <= 768px) {
+                padding-left: 4em;
+            }
 
             & li {
                 list-style-type: none;

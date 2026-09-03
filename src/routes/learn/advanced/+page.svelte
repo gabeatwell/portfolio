@@ -67,7 +67,7 @@
         {#if !breakpoints.isMobile}
             <Popover
                 title=""
-                text="click the arrow button on the left to open the table of contents."
+                text="below is the different topics that you can learn about CSS and GSAP. you can click on each topic to learn more about it."
             />
         {/if}
     </div>
