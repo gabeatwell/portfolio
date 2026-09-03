@@ -93,11 +93,13 @@
         }
 
         #popover {
+            max-inline-size: 85vw;
+            inline-size: 100%;
             margin-inline: auto;
             margin-block: 5em;
             font-family: var(--bronova);
             font-size: clamp(var(--xs), 1.25vw, var(--h5));
-            font-weight: 700;
+            font-weight: 400;
             letter-spacing: 2px;
             padding: clamp(1rem, 2vw, 2.25rem) clamp(1.5rem, 2vw, 2.75rem);
             color: var(--clr-light-500);

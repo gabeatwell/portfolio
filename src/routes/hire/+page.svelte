@@ -2,7 +2,7 @@
     import HireForm from '$lib/components/contact/HireForm.svelte';
     import DoYouNeed from '$lib/components/contact/DoYouNeed.svelte';
     import SEO from '$lib/data/SEO.svelte';
-    // import Heading from '$lib/components/layout/Heading.svelte';
+    import Popover from '$lib/components/layout/Popover.svelte';
 </script>
 
 <SEO
@@ -12,13 +12,14 @@
 />
 
 <div class="hire-form">
-    <!-- <Heading
-        title="employ"
-        title2="employ"
-        viewTransitionName="employ-heading"
-        popoverText="Please fill out this questionnaire and I'll contact you back 😎"
-    /> -->
     <DoYouNeed text="do you need a " span="website?" />
+
+    <div class="popover-directions">
+        <Popover
+            title="Why?"
+            text="This form is for potential clients to fill out if they are interested in hiring me for web development or design work. Please fill out the form as accurately as possible so I can better understand your needs."
+        />
+    </div>
 
     <section class="hire-form-wrapper">
         <HireForm />
@@ -39,6 +40,19 @@
             place-items: center;
             height: 100vh;
             margin: 0;
+            anchor-name: --hire-form-wrapper;
+        }
+
+        & .popover-directions {
+            position: absolute;
+            position-anchor: --hire-form-wrapper;
+            top: calc(anchor(top) - 5em);
+            left: anchor(center);
+            transform: translateX(-50%);
+
+            @media (width <= 768px) {
+                top: calc(anchor(top) - 1.5em);
+            }
         }
     }
 </style>

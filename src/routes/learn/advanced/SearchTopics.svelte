@@ -4,8 +4,6 @@
     import { topics } from './topics';
 
     let query = $derived(page.url.searchParams.get('q') ?? '');
-
-    // filtered topics
     let filteredTopics = $derived(
         query.trim() === ''
             ? topics
@@ -16,6 +14,12 @@
                           .toLowerCase()
                           .includes(query.toLowerCase()),
               ),
+    );
+    let cssTopics = $derived(
+        filteredTopics.filter((t) => t.category.startsWith('CSS')),
+    );
+    let gsapTopics = $derived(
+        filteredTopics.filter((t) => t.category.startsWith('GSAP')),
     );
 
     // update the url
@@ -85,8 +89,19 @@
     {#if filteredTopics.length === 0}
         <p class="no-results">No topics found</p>
     {:else}
-        <ul>
-            {#each filteredTopics as topic (topic.id)}
+        <ul class="css-topics">
+            {#each cssTopics as topic (topic.id)}
+                <li>
+                    <a href="#{topic.id}">
+                        {topic.category}
+                        {topic.title}
+                    </a>
+                </li>
+            {/each}
+        </ul>
+
+        <ul class="gsap-topics">
+            {#each gsapTopics as topic (topic.id)}
                 <li>
                     <a href="#{topic.id}">
                         {topic.category}
@@ -158,7 +173,13 @@
     }
 
     .topic-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
         padding: 0 clamp(1em, 5vw, 5em);
+
+        @media (width <= 768px) {
+            grid-template-columns: 1fr;
+        }
 
         & .no-results {
             text-align: center;
@@ -168,15 +189,27 @@
 
         & ul {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(clamp(10em, 20vw, 20em), 1fr)
-            );
-            justify-content: center;
-            padding-left: 6em;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5em 1em;
 
             @media (width <= 768px) {
-                padding-left: 4em;
+                grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+            }
+
+            &.css-topics {
+                grid-column: 1 / 3;
+
+                @media (width <= 768px) {
+                    grid-column: 1;
+                }
+            }
+
+            &.gsap-topics {
+                grid-column: 3 / 5;
+
+                @media (width <= 768px) {
+                    grid-column: 1;
+                }
             }
 
             & li {
