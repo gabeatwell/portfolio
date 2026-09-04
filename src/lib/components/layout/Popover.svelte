@@ -113,7 +113,7 @@
 
     [popover] {
         position: fixed;
-        top: 30%;
+        top: 10%;
         left: 0;
         right: 0;
         margin-inline: auto;

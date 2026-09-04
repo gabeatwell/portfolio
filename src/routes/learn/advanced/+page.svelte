@@ -92,7 +92,7 @@
                 />
 
                 <a
-                    href="/learn/posts/drawing-app"
+                    href="/learn/advanced/drawing-app"
                     aria-label="drawing app"
                     class="drawing-app-link"
                 >

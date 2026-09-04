@@ -110,7 +110,7 @@
         font-size: clamp(var(--h3), 5vw, var(--lg));
         font-weight: 700;
         letter-spacing: -0.0075em;
-        color: var(--clr-gray-600);
+        color: var(--clr-gray-700);
         margin-top: 1.75em;
         padding: 0;
 

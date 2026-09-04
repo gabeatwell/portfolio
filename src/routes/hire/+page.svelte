@@ -16,7 +16,7 @@
 
     <div class="popover-directions">
         <Popover
-            title="Why?"
+            title="Need help?"
             text="This form is for potential clients to fill out if they are interested in hiring me for web development or design work. Please fill out the form as accurately as possible so I can better understand your needs."
         />
     </div>
