@@ -38,8 +38,12 @@
         & .hire-form-wrapper {
             display: grid;
             place-items: center;
-            height: 100vh;
+            height: 100dvh;
             margin: 0;
+
+            @media (width <= 768px) {
+                margin: -5em 0 0 0;
+            }
         }
 
         & .popover-directions {

@@ -45,7 +45,6 @@
             font-weight: 100;
             text-align: center;
             margin: 0;
-            padding: 2rem;
 
             @media (width <= 768px) {
                 margin-top: 7%;
