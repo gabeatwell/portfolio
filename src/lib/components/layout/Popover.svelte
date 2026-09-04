@@ -131,7 +131,7 @@
             display 0.4s allow-discrete;
 
         max-inline-size: 65vw;
-        inline-size: 100%;
+        inline-size: 100dvw;
         @media (width <= 1100px) {
             max-inline-size: 75vw;
         }
