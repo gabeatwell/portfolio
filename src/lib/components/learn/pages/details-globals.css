@@ -41,10 +41,11 @@
 .text p {
     margin: 0;
     margin-bottom: 0.2rem;
+    color: var(--clr-light-500);
+    font-weight: 500;
 }
 
 .text,
-.text p,
 .text ul,
 .text ol,
 .text pre,
