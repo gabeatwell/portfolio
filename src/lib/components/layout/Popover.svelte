@@ -115,8 +115,7 @@
         position: fixed;
         top: 30%;
         left: 50%;
-        translate: -50% -50%;
-        /* margin-block: 5em; */
+        transform: translate(-50%, -50%);
 
         border: 3px solid var(--clr-gray-700);
         border-radius: 0.5rem;
