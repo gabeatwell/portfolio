@@ -114,8 +114,10 @@
     [popover] {
         position: fixed;
         top: 30%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+        inline-size: fit-content;
 
         border: 3px solid var(--clr-gray-700);
         border-radius: 0.5rem;
@@ -130,7 +132,6 @@
             display 0.4s allow-discrete;
 
         max-inline-size: 65vw;
-        inline-size: 100dvw;
         @media (width <= 1100px) {
             max-inline-size: 75vw;
         }
