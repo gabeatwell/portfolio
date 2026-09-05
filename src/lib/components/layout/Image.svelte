@@ -4,6 +4,7 @@
     interface Props {
         src: string;
         alt: string;
+        border?: boolean;
         width?: string;
         height?: string;
         scaleY?: string;
@@ -17,6 +18,7 @@
     let {
         src,
         alt,
+        border,
         width,
         height,
         scaleY,
@@ -89,9 +91,10 @@
         {src}
         {alt}
         {width}
-        class={className}
         height={computedHeight}
         style={inlineStyles}
+        class={className}
+        class:border
         class:hidden={imageError}
         class:has-width={!!width}
         loading="lazy"
@@ -144,6 +147,16 @@
 
             &.hidden {
                 display: none;
+            }
+
+            &.border {
+                inline-size: fit-content;
+                object-fit: cover;
+                border: 3px solid
+                    light-dark(
+                        oklch(from var(--blackest) 0 c h / 55%),
+                        oklch(from var(--white) 0 c h / 15%)
+                    );
             }
         }
 

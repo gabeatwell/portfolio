@@ -80,6 +80,7 @@
                     alt="A logo that says advanced web design"
                     width="600"
                     aspectRatio="16/9"
+                    border={true}
                 />
             </button>
         </section>
