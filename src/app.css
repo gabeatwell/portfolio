@@ -513,3 +513,10 @@
         }
     }
 }
+
+.dark-intro-page nav.navigation {
+    --clr-light-500: oklch(0.8853 0 0 / 90.2%);
+    --clr-light-400: oklch(0.8297 0 0 / 90.2%);
+    --clr-dark-400: oklch(0.72 0 0 / 0.72);
+    --clr-dark-500: oklch(11% 0 0);
+}

@@ -1,12 +1,19 @@
 <script lang="ts">
     import { laptopScene } from '$lib/components/landing/video-intro/laptopReveal';
     import type { Attachment } from 'svelte/attachments';
+    import { onMount } from 'svelte';
 
     let { image, onComplete }: { image: string; onComplete: () => void } =
         $props();
 
     const intro: Attachment<HTMLElement> = (node) =>
         laptopScene(node, onComplete, image);
+
+    onMount(() => {
+        document.documentElement.classList.add('dark-intro-page');
+        return () =>
+            document.documentElement.classList.remove('dark-intro-page');
+    });
 </script>
 
 <section class="intro" {@attach intro}>
@@ -39,7 +46,7 @@
             font-size: clamp(var(--sm), 1.1vw, var(--h4));
             letter-spacing: -1px;
             margin: 0;
-            color: var(--clr-dark-500);
+            color: var(--clr-light-400);
             text-align: center;
         }
 
@@ -53,8 +60,10 @@
             cursor: pointer;
 
             & svg {
+                --clr-light-500: oklch(0.8853 0 0 / 90.2%);
                 inline-size: 3.5em;
                 block-size: 3.5em;
+                fill: var(--clr-light-500);
 
                 @media (width <= 1085px) {
                     inline-size: 3em;
