@@ -71,6 +71,44 @@
         --xxs: calc(var(--xs) / var(--scale));
         --xxxs: calc(var(--xxs) / var(--scale));
 
+        /* spacing scale */
+        --space-xxxs: calc(var(--base-size) * 0.125);
+        --space-xxs: calc(var(--base-size) * 0.25);
+        --space-xs: calc(var(--base-size) * 0.5);
+        --space-sm: calc(var(--base-size) * 0.75);
+        --space-md: var(--base-size);
+        --space-lg: calc(var(--base-size) * 1.5);
+        --space-xl: calc(var(--base-size) * 2);
+        --space-xxl: calc(var(--base-size) * 3);
+        --space-xxxl: calc(var(--base-size) * 4);
+
+        /* semantic spacing */
+        --space-tight: var(--space-xs);
+        --space-normal: var(--space-md);
+        --space-relaxed: var(--space-lg);
+        --space-loose: var(--space-xl);
+
+        /* padding tokens */
+        --padding-button: var(--space-xs) var(--space-md);
+        --padding-button-lg: var(--space-sm) var(--space-lg);
+        --padding-card: var(--space-md);
+        --padding-card-lg: var(--space-lg);
+        --padding-input: var(--space-xs) var(--space-sm);
+        --padding-section: var(--space-xl) var(--space-md);
+        --padding-nav: var(--space-sm) var(--space-md);
+        --padding-modal: var(--space-lg);
+
+        /* margin tokens */
+        --margin-xxs: var(--space-xxs);
+        --margin-xs: var(--space-xs);
+        --margin-sm: var(--space-sm);
+        --margin-md: var(--space-md);
+        --margin-lg: var(--space-lg);
+        --margin-xl: var(--space-xl);
+        --margin-section: var(--space-xxl) 0;
+        --margin-element: 0 0 var(--space-lg) 0;
+        --margin-element-sm: 0 0 var(--space-sm) 0;
+
         /* filters */
         --image-filter: grayscale(80%) brightness(80%);
 

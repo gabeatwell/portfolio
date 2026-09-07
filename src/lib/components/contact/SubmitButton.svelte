@@ -30,7 +30,7 @@
             letter-spacing: 2px;
             width: fit-content;
             transition: all 300ms ease-out;
-            padding: clamp(0.4em, 1.5vw, 0.3em) clamp(1em, 2vw, 0.7em);
+            padding: var(--padding-button);
             user-select: none;
             transition:
                 outline-offset 300ms ease-out,

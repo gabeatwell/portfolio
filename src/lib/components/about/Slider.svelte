@@ -68,6 +68,7 @@
         overflow: clip;
         background-color: transparent;
         padding: 2em 0;
+        padding: var(--space-xl) 0;
         position: relative;
         margin-inline: auto;
         margin-block: 5em;
@@ -76,7 +77,7 @@
 
         @media (width <= 768px) {
             inline-size: 90%;
-            padding: 3em 0;
+            padding: var(--space-xxl) 0;
             margin-block: 3em;
         }
 
@@ -119,7 +120,7 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    padding-inline: 1.5em;
+                    padding-inline: calc(var(--space-md) + 0.3em);
                     box-sizing: content-box;
                     transition: transform 0.3s ease;
 

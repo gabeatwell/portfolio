@@ -51,8 +51,8 @@
         justify-content: center;
 
         & .card-container {
-            width: 300px;
-            height: 400px;
+            inline-size: 300px;
+            block-size: 400px;
             perspective: 1000px;
             display: flex;
             justify-content: center;
@@ -70,8 +70,8 @@
 
             & .flip-card {
                 position: relative;
-                width: 100%;
-                height: 100%;
+                inline-size: 100%;
+                block-size: 100%;
                 text-align: center;
                 transition: transform 0.7s;
                 transform-style: preserve-3d;

@@ -83,7 +83,7 @@
     .blog-post {
         max-inline-size: 60vw;
         margin: 5em auto;
-        padding: 2em;
+        padding: calc(var(--space-md) + 1rem);
 
         @media (width <= 768px) {
             max-inline-size: 100vw;

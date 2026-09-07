@@ -22,7 +22,7 @@
         border-radius: 5px;
         background-color: transparent;
         color: var(--clr-pale-700);
-        padding: 0.5rem 0.75rem;
+        padding: var(--padding-button);
         z-index: 100;
         text-decoration: none;
         font-size: clamp(var(--xs), 1vw, var(--sm));

@@ -201,9 +201,10 @@
         z-index: 15;
         outline: none;
         cursor: pointer;
-        padding: 0.75rem;
+        padding: calc(var(--space-md) - 0.45rem);
         max-inline-size: 3em;
-        max-block-size: 2em;
+        max-block-size: 2.2em;
+        /* margin: 0; */
         will-change: transform, opacity;
         transition: all 0.15s ease-out;
 
@@ -220,20 +221,21 @@
         &:focus,
         &:focus-visible {
             outline: 1px solid var(--clr-light-500);
-            outline-offset: 0 1px;
+            /* outline-offset: 3px 0; */
             background: transparent;
             box-shadow: none;
+            /* margin-bottom: 2px; */
         }
 
         & svg {
             font-weight: 800;
 
             @media (width >= 750px) {
-                padding-top: 1rem;
+                padding-top: 0.3rem;
             }
 
             @media (width >= 990px) {
-                padding-top: 1rem;
+                padding-top: 0.5rem;
             }
         }
     }

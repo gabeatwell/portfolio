@@ -52,7 +52,7 @@
         --light-bg-rgb: var(--clr-dark-500);
         background-color: hsla(var(--light-bg-rgb), 0.25);
         border-radius: var(--radius);
-        padding: 2rem;
+        padding: calc(var(--space-md) + 0.8rem);
         position: relative;
         box-shadow: 0 0 12px var(--clr-light-500);
         margin-top: -6rem;
@@ -85,7 +85,7 @@
             flex-direction: column;
 
             border-radius: var(--radius);
-            padding: 0.75rem;
+            padding: calc(var(--space-md) - 0.55rem);
 
             & strong {
                 font-size: clamp(var(--sm), 1.75vw, var(--h5));
@@ -135,7 +135,7 @@
             padding: 1rem 0;
             display: flex;
             align-items: center;
-            padding: 2em;
+            padding: calc(var(--space-md) + 0.7rem);
 
             @media (width <= 500px) {
                 padding-bottom: 0.15rem;

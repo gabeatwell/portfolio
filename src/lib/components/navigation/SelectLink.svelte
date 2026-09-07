@@ -63,6 +63,7 @@
         letter-spacing: 1px;
         margin: 0.1em 0 0 0;
         transition: none;
+        padding: var(--padding-button-lg);
 
         & option {
             color: var(--clr-light-500);

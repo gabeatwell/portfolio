@@ -26,10 +26,18 @@
         align-items: center;
         gap: 0.5em;
         justify-content: center;
+        user-select: none;
 
+        &:focus,
         &:focus-visible {
-            outline: none;
+            outline: 1px solid var(--clr-light-500);
             box-shadow: none;
+            background: transparent;
+            color: var(--clr-light-500);
+        }
+
+        &:active {
+            color: var(--clr-light-500);
             background: transparent;
         }
     }

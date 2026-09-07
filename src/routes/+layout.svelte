@@ -94,15 +94,15 @@
 
 <style>
     :global(body) {
-        width: 100%;
-        height: 100%;
+        inline-size: 100%;
+        block-size: 100%;
         min-block-size: 100svh;
     }
 
     main {
         min-block-size: 100svh;
-        width: 100%;
-        height: 100%;
+        inline-size: 100%;
+        block-size: 100%;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;

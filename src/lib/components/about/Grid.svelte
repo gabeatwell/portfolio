@@ -35,7 +35,7 @@
     .grid-card {
         display: inline-block;
         margin: 0;
-        padding: 1rem 2rem;
+        padding: var(--padding-button-lg);
         background-color: hsla(0, 0%, 26%, 0.25);
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(4px);

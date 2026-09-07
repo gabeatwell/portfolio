@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { blur } from 'svelte/transition';
     interface Props {
         title: string;
         desc: string;
@@ -31,8 +32,8 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         overflow: clip;
         transition: all 0.3s ease-out;
-        padding-block: 1em;
-        padding-inline: 2em;
+        padding-block: calc(var(--space-md) - 0.2rem);
+        padding-inline: calc(var(--space-md) + 0.8rem);
         margin: 0;
 
         &:hover {
@@ -47,7 +48,7 @@
             display: grid;
             place-self: center;
             margin-inline: auto;
-            padding: 1rem;
+            padding-block: calc(var(--space-md) - 0.2rem);
 
             @media (width <= 768px) {
                 padding: 0;
@@ -62,6 +63,7 @@
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             color: var(--clr-dark-500);
+            line-height: 1.2;
             text-shadow:
                 0 0 1px var(--clr-dark-500),
                 -2px -2px 0 var(--clr-gray-700),
@@ -72,6 +74,10 @@
                 2px 0 0 var(--clr-gray-700),
                 0 -2px 0 var(--clr-gray-700),
                 0 2px 0 var(--clr-gray-700);
+
+            @media (width <= 768px) {
+                margin-bottom: var(--space-md);
+            }
         }
 
         .card-description {
@@ -105,7 +111,7 @@
             transition: 300ms;
             outline: 3px solid currentColor;
             outline-offset: -7px;
-            padding: 1rem 1.75rem;
+            padding: var(--padding-button);
             user-select: none;
             transition: scale 0.15s ease-out;
 
@@ -125,11 +131,10 @@
         }
 
         @media (width < 500px) {
-            width: 100%;
-            padding: 1rem 1.5rem 0 1.5rem;
+            inline-size: 100%;
 
             .card-image {
-                height: 190px;
+                block-size: 190px;
                 object-fit: cover;
             }
 
@@ -145,7 +150,7 @@
                 font-size: clamp(var(--sm), 1vw, var(--h6));
                 font-weight: 700;
                 padding: 1rem;
-                width: 100%;
+                inline-size: 100%;
             }
         }
     }

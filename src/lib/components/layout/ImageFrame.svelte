@@ -24,7 +24,7 @@
         background: var(--dark-blue);
         border-radius: 15px;
         margin: 5% 0 3% 0;
-        padding: 2rem;
+        padding: calc(var(--space-md) + 0.8rem);
 
         & img {
             width: 100%;

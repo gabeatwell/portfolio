@@ -137,8 +137,15 @@
 </section>
 
 <style>
+    .popover-morph {
+        inline-size: fit-content;
+        margin-inline: auto;
+    }
+
     .table-and-logo {
         padding-top: 5em;
+        inline-size: fit-content;
+        margin-inline: auto;
 
         & .popover-morph {
             display: flex;

@@ -37,12 +37,12 @@
 
         .success-wrapper {
             min-block-size: 70vh;
-            padding-top: 3em;
+            padding-top: var(--space-xxl);
             background-color: transparent;
 
             & .success-content {
                 inline-size: var(--100);
-                padding: clamp(2rem, 5vw, 5em);
+                padding: clamp(var(--space-xl), 5vw, var(--space-xxxl));
                 margin-inline: auto;
                 margin-top: var(--5);
                 text-align: center;

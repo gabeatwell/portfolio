@@ -153,7 +153,7 @@
         block-size: 5em;
         background-color: transparent;
         color: var(--clr-light-500);
-        padding: 1em;
+        padding: calc(var(--space-md) - 0.2rem);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
         display: flex;
@@ -175,6 +175,7 @@
         & input[type='range'] {
             cursor: pointer;
             padding: 0.5em 0.75em;
+            padding: var(--padding-button);
             border: none;
             border-radius: var(--radius);
             color: var(--clr-light-500);

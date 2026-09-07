@@ -152,7 +152,7 @@
                 text-align: center;
                 margin-top: 1em;
                 max-inline-size: 600px;
-                padding-inline: 0.2em;
+                padding-inline: var(--space-xxs);
             }
         }
     }

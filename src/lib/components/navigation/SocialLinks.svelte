@@ -134,7 +134,7 @@
         display: flex;
         justify-content: space-evenly;
         gap: 5rem;
-        padding: 1rem;
+        padding: calc(var(--space-md) - 0.2rem);
         margin-top: 2.65rem;
 
         @media (width <= 990px) {

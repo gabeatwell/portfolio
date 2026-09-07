@@ -133,7 +133,7 @@
             inline-size: 85%;
             margin-inline: auto;
             display: grid;
-            padding: 0.25rem;
+            padding: var(--space-xs) 0;
         }
 
         @media (width >= 1024px) {
@@ -141,7 +141,7 @@
                 border: 5px solid oklch(from var(--clr-light-500) 0.35 c h);
 
                 font-weight: bolder;
-                padding: 2rem 5rem;
+                padding: var(--padding-button-lg);
                 border-radius: 10px;
                 inline-size: 90%;
 
@@ -219,6 +219,7 @@
 
             & input,
             & textarea {
+                max-inline-size: 75vw;
                 inline-size: 100%;
                 background-color: transparent;
                 box-shadow: none;
@@ -228,10 +229,15 @@
                 color: var(--clr-light-500);
                 font-size: clamp(var(--sm), 1.75vw, var(--h5));
                 outline: none;
+                margin-inline: auto;
                 transition:
                     border-color 0.3s ease,
                     box-shadow 0.3s ease,
                     background-color 0.2s ease;
+
+                @media (width <= 768px) {
+                    max-inline-size: 100vw;
+                }
 
                 &:focus {
                     outline: none;
@@ -272,7 +278,7 @@
             }
 
             & textarea {
-                padding: 0.5rem 1rem;
+                padding: var(--padding-button);
                 resize: vertical;
                 min-block-size: 120px;
 

@@ -7,7 +7,7 @@
 
         inline-size: fit-content;
         block-size: fit-content;
-        padding: 0.25em 0.75em;
+        padding: var(--padding-button);
         background: var(--clr-dark-500);
         border: 2px solid var(--clr-gray-700);
         color: var(--clr-gray-700);

@@ -190,7 +190,7 @@
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 5vw, var(--h3));
             letter-spacing: 2px;
-            padding: clamp(1rem, 2vw, 2.25rem) clamp(1.5rem, 2vw, 2.75rem);
+            padding: var(--padding-modal);
             color: var(--clr-light-500);
             max-inline-size: 40%;
             overflow-y: auto;
@@ -205,7 +205,7 @@
 
     [popover] {
         border-radius: var(--radius);
-        padding: 1rem 1.5rem;
+        padding: calc(var(--space-md) - 0.2rem) calc(var(--space-md) + 0.3rem);
         display: none;
         opacity: 0;
         transform: translateY(-5rem);

@@ -49,7 +49,7 @@
         & .popover-directions {
             display: flex;
             justify-content: center;
-            padding-block: 2rem;
+            padding-block: calc(var(--space-md) + 0.8rem);
         }
     }
 </style>

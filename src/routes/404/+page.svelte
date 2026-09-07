@@ -31,7 +31,7 @@
 
 <style>
     .error-page {
-        padding: 1rem 1.5rem;
+        padding: var(--padding-button);
         height: 80vh;
 
         display: flex;
@@ -93,7 +93,7 @@
                 letter-spacing: 5px;
                 line-height: 1.1;
                 text-align: center;
-                padding: 2rem 4rem;
+                padding: var(--padding-button-lg);
                 color: var(--clr-light-500);
                 text-shadow: 0 0 8px var(--clr-dark-500);
                 z-index: 6;

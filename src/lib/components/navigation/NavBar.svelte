@@ -110,7 +110,7 @@
         z-index: 15;
         inline-size: 100%;
         block-size: fit-content;
-        padding: 0 9em 0 1rem;
+        padding: 0 calc(var(--space-xxxl) * 2) 0 calc(var(--space-md) + 2rem);
         margin-inline: auto;
         pointer-events: auto;
         position: fixed;
@@ -202,7 +202,7 @@
             align-items: center;
             gap: 1.25rem;
             border-radius: 5px;
-            padding: 0.75rem;
+            padding: calc(var(--space-md) - 0.45rem);
             background-color: var(--clr-dark-500);
             backdrop-filter: blur(125px);
             list-style: none;

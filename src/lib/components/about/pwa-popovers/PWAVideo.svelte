@@ -141,14 +141,13 @@
             &:focus {
                 outline: 1px solid var(--clr-light-500);
                 background: transparent;
-                padding: 0.1em 0.2em;
             }
         }
 
         & [popover][data-video-popover] {
             inline-size: min(95%, 900px);
             max-block-size: 90vh;
-            padding: 1rem 0;
+            padding: var(--padding-button-lg);
             margin-inline: auto;
             margin-block: auto;
             position: fixed;

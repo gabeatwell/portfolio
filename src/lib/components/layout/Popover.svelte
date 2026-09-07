@@ -93,15 +93,13 @@
         }
 
         #popover {
-            /* max-inline-size: 85vw; */
-            /* inline-size: 100%; */
             margin-inline: auto;
             margin-block: 5em;
             font-family: var(--bronova);
             font-size: clamp(var(--xs), 1.25vw, var(--h5));
             font-weight: 400;
             letter-spacing: 2px;
-            padding: clamp(1rem, 2vw, 2.25rem) clamp(1.5rem, 2vw, 2.75rem);
+            padding: var(--padding-modal);
             color: var(--clr-light-500);
             background-color: var(--clr-dark-500);
 
@@ -122,7 +120,7 @@
         border: 3px solid var(--clr-gray-700);
         border-radius: 0.5rem;
         box-shadow: var(--blackest) 0px 20px 25px -5px;
-        padding: 1rem 1.5rem;
+        padding: var(--padding-modal);
 
         opacity: 0;
         transform: translateY(2rem);

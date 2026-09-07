@@ -81,7 +81,7 @@
         border: none;
         outline: none;
         overflow: clip;
-        padding: 1rem;
+        padding: calc(var(--space-md) - 0.2rem);
         inline-size: 100ch;
 
         & .summary-custom {
@@ -95,6 +95,7 @@
             justify-content: space-between;
             align-items: center;
             border: 2px solid var(--clr-gray-700);
+            padding: var(--padding-button);
 
             &:focus-visible {
                 outline: none;
@@ -132,7 +133,7 @@
             opacity: 0;
             block-size: 0;
             overflow-y: clip;
-            padding: 0 0.75em;
+            padding: 0 var(--space-md);
             color: var(--clr-light-400);
             transition:
                 opacity 1s,

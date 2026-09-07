@@ -95,6 +95,7 @@
         outline-offset: -7px;
         border: 1px solid var(--clr-dark-500);
         border-radius: var(--radius);
+        padding: var(--padding-button);
         transition:
             300ms,
             scale 0.15s ease-out;
@@ -165,7 +166,7 @@
 
         background: var(--clr-dark-500);
         color: var(--clr-light-500);
-        padding: 1em;
+        padding: calc(var(--space-md) - 0.2rem);
         border: 1px solid var(--clr-light-500);
         border-radius: var(--radius);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);

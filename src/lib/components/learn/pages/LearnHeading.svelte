@@ -33,7 +33,11 @@
         justify-content: center;
         align-items: center;
         overflow-x: clip;
-        padding-top: clamp(1em, 3vw, 3em);
+        padding-top: clamp(
+            calc(var(--space-md) - 0.2rem),
+            3vw,
+            var(--space-lg)
+        );
         z-index: 1;
 
         .left-word,

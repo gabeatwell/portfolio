@@ -186,14 +186,14 @@
         gap: 5em;
         background-color: transparent;
         color: var(--clr-light-500);
-        padding: 0.5em 0.75em;
+        padding: var(--padding-button);
         border-radius: var(--radius);
         z-index: 300;
 
         & button {
             background: transparent;
             color: inherit;
-            padding: 0.3rem 1rem;
+            padding: var(--padding-button);
             cursor: pointer;
             pointer-events: auto;
             border: 1px solid var(--clr-light-500);

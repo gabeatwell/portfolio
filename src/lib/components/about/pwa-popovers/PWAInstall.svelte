@@ -163,7 +163,7 @@
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 5vw, var(--h3));
             letter-spacing: 2px;
-            padding: clamp(1rem, 2vw, 2.25rem) clamp(1.5rem, 2vw, 2.75rem);
+            padding: var(--padding-button-lg);
             color: var(--clr-light-500);
             width: 80%;
             overflow-y: auto;
@@ -179,7 +179,7 @@
         border: 3px solid var(--clr-gray-700);
         border-radius: 0.5rem;
         box-shadow: var(--blackest) 0px 20px 25px -5px;
-        padding: 1rem 1.5rem;
+        padding: var(--padding-button-lg);
         transform-origin: center center;
 
         position: fixed;

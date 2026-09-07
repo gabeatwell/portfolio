@@ -62,7 +62,7 @@
         }
 
         & .title-wrapper {
-            padding-bottom: 2em;
+            padding-bottom: calc(var(--space-md) + 0.8rem);
 
             &.no-subtitle {
                 position: relative;
@@ -71,7 +71,7 @@
                 justify-content: center;
                 flex: 1;
                 inline-size: 100%;
-                padding-bottom: 2em;
+                padding-bottom: calc(var(--space-md) + 0.8rem);
 
                 & .post-index {
                     transform: none;
@@ -90,7 +90,7 @@
             font-size: clamp(var(--sm), 1.15vw, var(--h5));
             font-weight: 400;
             color: var(--clr-light-400);
-            padding-bottom: 1em;
+            padding-bottom: calc(var(--space-md) - 0.2em);
 
             &:empty {
                 display: none;
@@ -126,7 +126,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 1em;
-        padding: 1em 5em;
+        padding: calc(var(--space-md) - 0.2rem) calc(var(--space-md) * 4);
 
         @media (width <= 768px) {
             padding: 1em 0;

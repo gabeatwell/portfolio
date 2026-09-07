@@ -88,6 +88,7 @@
 
             & .icons {
                 padding: 0.25rem;
+                padding: var(--space-xxxs);
                 inline-size: clamp(20vw, 6.5vw, 200px);
                 block-size: clamp(20vw, 6.5vw, 200px);
                 margin-bottom: 1em;

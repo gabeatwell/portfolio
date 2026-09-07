@@ -107,7 +107,7 @@
                 letter-spacing: 5px;
                 line-height: 1.1;
                 text-align: start;
-                padding: 2rem 4rem;
+                padding: var(--padding-button-lg);
                 color: var(--clr-light-500);
                 text-shadow: 0 0 8px var(--clr-dark-500);
                 text-align: center;

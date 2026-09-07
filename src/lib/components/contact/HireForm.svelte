@@ -258,7 +258,7 @@
         inline-size: 100%;
         max-inline-size: 1600px;
         margin-inline: auto;
-        padding: 1rem;
+        padding: calc(var(--space-md) - 0.2rem);
         block-size: 100dvh;
         position: relative;
         margin-top: 3em;
@@ -268,7 +268,7 @@
         }
 
         @media (width <= 768px) {
-            padding: 0.5rem;
+            padding: calc(var(--space-md) - 0.7rem);
 
             overflow-y: auto;
             top: 3em;
@@ -322,7 +322,7 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
             border: 2px solid var(--clr-gray-700);
-            padding: 1rem 2rem;
+            padding: var(--padding-button);
             margin-bottom: 1rem;
             border-radius: var(--radius);
 
@@ -391,7 +391,7 @@
                 & option {
                     background-color: var(--clr-dark-500);
                     color: var(--clr-light-500);
-                    padding: 0.5rem;
+                    padding: calc(var(--space-md) - 0.7rem);
                 }
             }
 
@@ -429,7 +429,7 @@
     input,
     select,
     textarea {
-        padding: 0.5rem;
+        padding: calc(var(--space-md) - 0.7rem);
         border: 2px solid var(--gray);
         border-radius: 4px;
         background: transparent;

@@ -83,7 +83,7 @@
         justify-content: center;
         align-items: center;
         inline-size: fit-content;
-        padding: 1rem;
+        padding: calc(var(--space-md) - 0.2rem);
         padding-top: 5em;
         margin-inline-start: 2em;
         z-index: 5;

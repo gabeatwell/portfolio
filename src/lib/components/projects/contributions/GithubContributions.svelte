@@ -349,7 +349,8 @@
         max-inline-size: 900px;
         margin: 0;
         margin-inline: auto;
-        padding: 2rem 1rem;
+        /* padding: 2rem 1rem; */
+        padding: var(--padding-section);
         font-family: var(--bronova);
         display: flex;
         flex-direction: column;
@@ -403,18 +404,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 200px;
-            width: 100%;
+            min-block-size: 200px;
+            inline-size: 100%;
         }
 
         & .calendar-container {
-            min-width: 50vw;
-            width: 100%;
+            min-inline-size: 50vw;
+            inline-size: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            padding: 1.5rem;
+            padding: calc(var(--space-md) - 0.3rem);
             border-radius: 8px;
             position: relative;
 
@@ -422,7 +423,7 @@
                 position: absolute;
                 background: var(--clr-light-500);
                 color: var(--clr-bg);
-                padding: 0.5rem 0.75rem;
+                padding: var(--padding-nav);
                 border-radius: 6px;
                 font-size: 0.75rem;
                 font-family: var(--bronova);

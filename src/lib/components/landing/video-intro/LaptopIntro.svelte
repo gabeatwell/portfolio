@@ -88,7 +88,7 @@
                 }
 
                 background-color: var(--clr-gray-600);
-                padding: 0.25em 0.75em;
+                padding: var(--padding-input);
                 border-radius: var(--radius);
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
                 display: none;

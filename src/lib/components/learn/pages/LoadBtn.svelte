@@ -97,7 +97,7 @@
         border-radius: var(--radius);
         outline: 2px solid var(--clr-light-500);
         outline-offset: -7px;
-        padding: clamp(0.4em, 1.5vw, 0.3em) clamp(1em, 2vw, 0.7em);
+        padding: var(--padding-button);
         color: var(--clr-light-500);
         background-color: var(--clr-dark-500);
         font-family: var(--bronova);

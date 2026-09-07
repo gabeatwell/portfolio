@@ -32,7 +32,7 @@
 
 <style>
     .animated-text {
-        padding-top: 10em;
+        padding-top: calc(var(--space-xxxl) * 2);
         user-select: none;
 
         @media (width <= 768px) {

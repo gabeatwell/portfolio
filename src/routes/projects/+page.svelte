@@ -150,16 +150,16 @@
     }
 
     .github-section {
-        padding: 2rem 1rem;
+        padding: var(--padding-section);
         margin: 2rem 0;
         background: transparent;
         border-radius: 12px;
-        min-height: 300px;
+        min-block-size: 300px;
 
         @media (width <= 768px) {
             margin: 1rem;
             padding: 1rem;
-            min-height: 250px;
+            min-block-size: 250px;
         }
 
         & .contribution-container {
@@ -176,8 +176,8 @@
                 margin-bottom: 2rem;
 
                 & .skeleton-title {
-                    height: 2rem;
-                    width: 200px;
+                    block-size: 2rem;
+                    inline-size: 200px;
                     background: var(--clr-light-500);
                     opacity: 0.3;
                     border-radius: 4px;
@@ -185,8 +185,8 @@
                 }
 
                 & .skeleton-subtitle {
-                    height: 1rem;
-                    width: 150px;
+                    block-size: 1rem;
+                    inline-size: 150px;
                     background: var(--clr-light-500);
                     opacity: 0.2;
                     border-radius: 4px;
@@ -195,7 +195,7 @@
             }
 
             & .skeleton-chart {
-                height: 150px;
+                block-size: 150px;
                 background: var(--clr-light-500);
                 opacity: 0.1;
                 border-radius: 8px;
@@ -203,8 +203,8 @@
             }
 
             & .skeleton-legend {
-                height: 20px;
-                width: 200px;
+                block-size: 20px;
+                inline-size: 200px;
                 background: var(--clr-light-500);
                 opacity: 0.1;
                 border-radius: 4px;

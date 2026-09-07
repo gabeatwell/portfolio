@@ -132,6 +132,7 @@
                     0 3px 0 var(--clr-light-500);
                 transition: scale 0.15s ease-out;
                 text-wrap: pretty;
+                line-height: 1.2;
 
                 @media (width >= 990px) {
                     text-wrap: balance;
@@ -190,7 +191,7 @@
             }
 
             @media (width >= 990px) {
-                padding: 2rem;
+                padding: calc(var(--space-md) + 0.8rem);
                 flex-basis: var(--100);
 
                 & .description {
@@ -242,7 +243,7 @@
                 text-align: center;
                 border: 1px solid var(--clr-dark-500);
                 border-radius: var(--radius);
-                padding: 5px 1em;
+                padding: var(--padding-button);
                 font-family: var(--bronova);
                 font-size: clamp(var(--sm), 1.15vw, var(--h5));
                 font-weight: 400;
