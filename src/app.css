@@ -567,4 +567,11 @@ html[data-theme='light'].tunnel-active,
 html[data-theme='light'].tunnel-active body,
 html[data-theme='light'].tunnel-active .teeth-intro {
     background-color: #0a0a0a !important;
+
+    nav.navigation {
+        --clr-light-500: #ffffff;
+        --clr-light-400: rgba(255, 255, 255, 0.9);
+        --clr-dark-400: rgba(255, 255, 255, 0.72);
+        --clr-dark-500: #0a0a0a;
+    }
 }
