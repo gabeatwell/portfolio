@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { blur } from 'svelte/transition';
     import HeroButton from '../hero/HeroButton.svelte';
     import projects from '$lib/components/projects/projects.json';
     import ProjectsGrid from '../../ProjectsGrid.svelte';
@@ -8,6 +9,7 @@
 
     let { selectedBg = 0 as number | boolean } = $props();
     let isTunnel = $derived(selectedBg === 1);
+    let isRibbon = $derived(selectedBg === 2);
 
     $effect(() => {
         heroContentState.animateTitle();
@@ -44,7 +46,11 @@
         class:show={heroContentState.showContent}
         aria-live="polite"
     >
-        <p class="summary indent" class:tunnel={isTunnel}>
+        <p
+            class="summary indent"
+            class:tunnel={isTunnel}
+            class:ribbon={isRibbon}
+        >
             I am a frontend developer who loves to create beautiful and
             functional websites. This website showcases my skills with some
             projects that I created. If you have any questions, feel free to
@@ -74,13 +80,25 @@
                     <dd class="stat-number" aria-label="One hundred percent">
                         100%
                     </dd>
-                    <dt class="stat-label" class:tunnel={isTunnel}>Custom</dt>
+                    <dt
+                        class="stat-label"
+                        class:tunnel={isTunnel}
+                        class:ribbon={isRibbon}
+                    >
+                        Custom
+                    </dt>
                 </div>
 
                 <div class="stat-item b">
                     <dt class="visually-hidden">Project delivery timeframe</dt>
                     <dd class="stat-number" aria-label="Fast">Fast</dd>
-                    <dt class="stat-label" class:tunnel={isTunnel}>Delivery</dt>
+                    <dt
+                        class="stat-label"
+                        class:tunnel={isTunnel}
+                        class:ribbon={isRibbon}
+                    >
+                        Delivery
+                    </dt>
                 </div>
 
                 <div class="stat-item c">
@@ -88,7 +106,11 @@
                     <dd class="stat-number" aria-label="Fully responsive">
                         Fully
                     </dd>
-                    <dt class="stat-label" class:tunnel={isTunnel}>
+                    <dt
+                        class="stat-label"
+                        class:tunnel={isTunnel}
+                        class:ribbon={isRibbon}
+                    >
                         Responsive
                     </dt>
                 </div>
@@ -226,6 +248,15 @@
                 &.tunnel {
                     color: var(--white-gray);
                 }
+
+                &.ribbon {
+                    background: rgba(0, 0, 0, 0.71);
+                    background: var(--clr-dark-500);
+                    padding: 0.5rem 1.5rem;
+                    border: 1px solid var(--clr-gray-700);
+                    border-radius: var(--radius);
+                    color: var(--clr-light-500);
+                }
             }
 
             & .button-container {
@@ -310,7 +341,12 @@
                             font-weight: 600;
 
                             &.tunnel {
-                                color: var(--white-gray);
+                                color: var(--clr-light-500);
+                                color: #f3f3f3;
+                            }
+
+                            &.ribbon {
+                                color: #0a0a0a;
                             }
                         }
                     }

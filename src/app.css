@@ -510,6 +510,10 @@
                 var(--clr-warning-500-dark),
                 var(--clr-warning-500-light)
             );
+            --clr-warning-400: light-dark(
+                var(--clr-warning-500-dark),
+                oklch(0.7126 0.1451 94.89)
+            );
         }
     }
 }
@@ -519,4 +523,10 @@
     --clr-light-400: oklch(0.8297 0 0 / 90.2%);
     --clr-dark-400: oklch(0.72 0 0 / 0.72);
     --clr-dark-500: oklch(11% 0 0);
+}
+
+html[data-theme='light'].tunnel-active,
+html[data-theme='light'].tunnel-active body,
+html[data-theme='light'].tunnel-active .teeth-intro {
+    background-color: #0a0a0a !important;
 }

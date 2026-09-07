@@ -64,6 +64,14 @@
             }));
         }
     });
+
+    $effect(() => {
+        if (selectedBg === 1) {
+            document.documentElement.classList.add('tunnel-active');
+        } else {
+            document.documentElement.classList.remove('tunnel-active');
+        }
+    });
 </script>
 
 <article role="banner" aria-label="Hero section">

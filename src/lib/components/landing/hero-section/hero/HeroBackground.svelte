@@ -88,6 +88,22 @@
         height: 100%;
         z-index: 0;
 
+        /* &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                var(--clr-dark-500)
+            );
+            z-index: 1;
+            pointer-events: none;
+        } */
+
         & .gradient-bg {
             position: absolute;
             inset: 0;
