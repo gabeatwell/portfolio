@@ -34,11 +34,9 @@
 
     <article class="topic-links">
         <section aria-label="icons" class="learn-icons">
-            <button
+            <a
+                href="/learn/greensock"
                 class="learn-image"
-                onclick={() => {
-                    goto('/learn/greensock');
-                }}
                 style="width: clamp(15em, 25vw, 30em);"
                 aria-label="greensock"
             >
@@ -49,13 +47,11 @@
                     aspectRatio="1/1"
                     viewTransitionName="gsap-logo"
                 />
-            </button>
+            </a>
 
-            <button
+            <a
+                href="/learn/sveltekit"
                 class="learn-image"
-                onclick={() => {
-                    goto('/learn/sveltekit');
-                }}
                 style="width: clamp(10em, 16.5vw, 30em);"
             >
                 <Image
@@ -66,12 +62,10 @@
                     viewTransitionName="sveltekit-logo"
                     viewTransitionClass="sveltekit-logo-transition"
                 />
-            </button>
+            </a>
 
-            <button
-                onclick={() => {
-                    goto('/learn/advanced');
-                }}
+            <a
+                href="/learn/advanced"
                 class="learn-image"
                 style="grid-column: 1/-1; width: clamp(18em, 40vw, 60em); justify-self: center;"
             >
@@ -82,7 +76,7 @@
                     aspectRatio="16/9"
                     border={true}
                 />
-            </button>
+            </a>
         </section>
 
         <UsefulLinks />

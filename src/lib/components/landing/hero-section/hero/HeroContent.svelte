@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { blur } from 'svelte/transition';
     import HeroButton from '../hero/HeroButton.svelte';
     import projects from '$lib/components/projects/projects.json';
     import ProjectsGrid from '../../ProjectsGrid.svelte';
@@ -372,5 +371,17 @@
                 }
             }
         }
+    }
+
+    :global(html:not(.js)) .content-wrapper {
+        opacity: 1;
+        transform: none;
+    }
+
+    :global(html:not(.js)) .stat-item.a,
+    :global(html:not(.js)) .stat-item.b,
+    :global(html:not(.js)) .stat-item.c {
+        opacity: 1;
+        transform: none;
     }
 </style>

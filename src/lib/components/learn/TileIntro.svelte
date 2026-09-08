@@ -37,4 +37,8 @@
             will-change: opacity;
         }
     }
+
+    :global(html:not(.js)) .tile-intro {
+        display: none;
+    }
 </style>

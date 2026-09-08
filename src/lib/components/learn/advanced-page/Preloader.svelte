@@ -58,4 +58,8 @@
             transform-origin: right;
         }
     }
+
+    :global(html:not(.js)) .preloader {
+        display: none;
+    }
 </style>

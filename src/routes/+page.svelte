@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
     import type { Component } from 'svelte';
     import SEO from '$lib/data/SEO.svelte';
+    import HeroContent from '$lib/components/landing/hero-section/hero/HeroContent.svelte';
 
     type SvelteModule = { default: Component };
 
@@ -9,7 +11,6 @@
     let isTeeth = $state(false);
     let showHero = $state(false);
     let loaded = $state<boolean>(false);
-    let enhanced = $state(false);
 
     const intros = import.meta.glob([
         '/src/lib/components/landing/hero-section/TeethIntro.svelte',
@@ -29,8 +30,6 @@
                 Intro = (module as SvelteModule).default;
             });
         }
-
-        if (Intro || Hero) enhanced = true;
     });
 
     // load Hero when TeethIntro is chosen, or after the laptop intro completes
@@ -58,21 +57,10 @@
 />
 
 <!-- static version -->
-{#if !enhanced}
-    <section class="ssr-fallback" aria-label="Introduction">
-        <h1>Handcrafted Frontend Experiences</h1>
-        <p>
-            I am a frontend developer who loves to create beautiful and
-            functional websites. This site showcases projects and experiments.
-        </p>
-
-        <nav class="ssr-nav">
-            <a href="/about">About</a>
-            <a href="/projects">Builds</a>
-            <a href="/learn">Learn</a>
-            <a href="/contact">Contact</a>
-        </nav>
-    </section>
+{#if !browser}
+    <div class="ssr-hero-wrapper" role="banner" aria-label="hero section">
+        <HeroContent selectedBg={false} />
+    </div>
 {/if}
 
 <!-- js version -->
@@ -103,42 +91,25 @@
 {/if}
 
 <style>
-    .ssr-fallback {
-        padding: 4rem 1.5rem;
+    .ssr-hero-wrapper {
+        position: relative;
+        min-block-size: 100svh;
+        height: auto;
+        overflow: clip;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        max-inline-size: 60vw;
-        margin-inline: auto;
+        padding: 5rem 0 0 0;
+        margin-top: 1.75em;
+        font-size: clamp(var(--h6), 4vw, var(--h1));
+        background-color: transparent;
 
-        & h1 {
-            font-family: var(--ultra);
-            font-size: clamp(var(--h4), 9vw, var(--xl));
-            color: #eee;
-            margin-bottom: 1rem;
-            line-height: 1;
-            margin-top: 1em;
-            margin-bottom: 0.5em;
-        }
-
-        & p {
-            color: #aeaeae;
-            font-family: var(--bronova);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        & .ssr-nav {
-            & a {
-                color: #7a6425;
-                text-decoration: none;
-                font-family: var(--bronova-bold);
-                font-size: clamp(var(--h6), 4vw, var(--h4));
-                font-weight: 500;
-
-                &:hover {
-                    text-decoration: underline;
-                    text-underline-offset: 0.25rem;
-                }
-            }
+        @media (height <= 768px) {
+            min-height: auto;
+            height: auto;
+            padding: 1em 0 0 0;
+            margin-top: 3.5em;
         }
     }
 </style>

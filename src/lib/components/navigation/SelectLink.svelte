@@ -1,50 +1,36 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
 
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/foley-bubble.wav',
     );
-
-    function navigateValue(value: string) {
-        if (value === 'hire') {
-            goto('/hire');
-        } else if (value === 'contact') {
-            goto('/contact');
-        }
-    }
-
-    function handleSelect(event: Event) {
-        const value = (event.target as HTMLSelectElement).value;
-        if (!value) return;
-        navigateValue(value);
-    }
 </script>
 
-<select onchange={handleSelect} onclick={playHoverSound}>
-    <option value="" disabled selected hidden>Connect</option>
-    <option value="hire"><span>Hire Me</span></option>
-    <option value="contact"><span>Contact</span></option>
-</select>
+<div class="connect-select">
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div class="select-wrapper" onmouseenter={playHoverSound}>
+        <span class="select-trigger">Connect</span>
+
+        <div class="select-options">
+            <a href="/hire" class="select-option">
+                <span class="option-text">Hire Me</span>
+            </a>
+
+            <a href="/contact" class="select-option">
+                <span class="option-text">Contact</span>
+            </a>
+        </div>
+    </div>
+</div>
 
 <style>
-    select,
-    ::picker(select) {
-        appearance: base-select;
-
-        &::picker-icon {
-            display: none;
-        }
+    .connect-select {
+        display: none;
     }
 
-    ::picker(select) {
-        background: var(--clr-dark-400);
-        border: none;
-        box-shadow: none;
-        overflow: visible;
-    }
-
-    select {
+    .select-wrapper {
+        position: relative;
+        appearance: none;
         background:
             repeating-radial-gradient(
                 ellipse at 50% 50%,
@@ -53,45 +39,71 @@
                 transparent 0.15em 1.5em
             ),
             var(--clr-dark-500);
-
         backdrop-filter: blur(12px) saturate(180%);
         border: 1px solid var(--clr-light-500);
         color: var(--clr-light-500);
-        max-inline-size: fit-content;
         font-family: var(--bronova-bold);
         font-size: clamp(var(--sm), 1.1vw, var(--h5));
         letter-spacing: 1px;
-        margin: 0.1em 0 0 0;
-        transition: none;
         padding: var(--padding-button-lg);
+        cursor: pointer;
+        max-inline-size: fit-content;
+        margin: 0.1em 0 0 0;
+    }
 
-        & option {
-            color: var(--clr-light-500);
+    .select-trigger {
+        pointer-events: none;
+    }
 
-            &:hover {
-                text-decoration: line-through;
-                text-decoration-thickness: 1px;
-            }
+    .select-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-inline-size: 100%;
+        background: var(--clr-dark-400);
+        border: none;
+        box-shadow: none;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4px);
+        transition:
+            opacity 0.2s ease-out,
+            visibility 0.2s ease-out,
+            transform 0.2s ease-out;
+        z-index: 100;
+    }
 
-            &::checkmark {
-                content: '→';
-                display: inline-block;
-                color: var(--clr-light-400);
-                animation: slideIn 0.3s ease-out;
+    .select-wrapper:hover .select-options,
+    .select-wrapper:focus-within .select-options {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
 
-                -webkit-text-stroke: 0.15em currentColor;
-            }
+    .select-option {
+        display: block;
+        color: var(--clr-light-500);
+        text-decoration: none;
+        padding: var(--padding-button-lg);
+        white-space: nowrap;
+        transition: background 0.15s ease-out;
+
+        &:hover {
+            text-decoration: line-through;
+            text-decoration-thickness: 1px;
+        }
+
+        &:focus {
+            outline: 1px solid var(--clr-light-500);
+            background: transparent;
+            box-shadow: none;
         }
     }
 
-    @keyframes slideIn {
-        from {
-            transform: translateX(-0.75em);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
+    /* show on desktop, hide on mobile */
+    @media (width > 768px) {
+        .connect-select {
+            display: block;
         }
     }
 </style>
