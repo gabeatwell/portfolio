@@ -151,6 +151,24 @@
     keywords="three.js experiments, web development experiments, creative coding, gabe atwell, gabe experiments"
 />
 
+<!-- static intro -->
+<section class="experiments-fallback">
+    <h1>Frontend experiments</h1>
+    <p>
+        Interactive demos and UI experiments. Enable JavaScript for the full
+        experience.
+    </p>
+    <ul>
+        <li>Hero video</li>
+        <li>Stretch layouts</li>
+        <li>Image zoom</li>
+        <li>Huge text intros</li>
+        <li>Letter intro</li>
+        <li>Vertical text</li>
+        <li>Dialog view transition</li>
+    </ul>
+</section>
+
 {#key currentIndex}
     {#if Component}
         <Component {...componentProps} />
@@ -176,6 +194,20 @@
 </div>
 
 <style>
+    .experiments-fallback {
+        margin-top: 8em;
+        padding: 1rem 5rem;
+
+        p {
+            text-align: center;
+        }
+        ul {
+            li {
+                list-style-type: none;
+            }
+        }
+    }
+
     .nav {
         position: fixed;
         bottom: 1em;

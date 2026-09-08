@@ -1,6 +1,6 @@
 <script lang="ts">
+    import Project from '$lib/components/projects/Project.svelte';
     import { fadeInProject } from '$lib/attachments/gsap/fadeInProject';
-    import { beforeNavigate } from '$app/navigation';
     import Testimonial from '$lib/components/projects/Testimonial.svelte';
     import projects from '$lib/components/projects/projects.json';
     import testimonials from '$lib/components/projects/testimonials.json';
@@ -44,43 +44,9 @@
         return () => controller.abort();
     });
 
-    let ProjectComponent:
-        | typeof import('$lib/components/projects/Project.svelte').default
-        | null = $state<
-        typeof import('$lib/components/projects/Project.svelte').default | null
-    >(null);
-    let showProjects = $state<boolean>(false);
-    let isNavigating = $state<boolean>(false);
-
     function getTestimonialForProject(projectIndex: number) {
         return testimonials.find((t) => t.projectIndex === projectIndex);
     }
-
-    beforeNavigate(() => {
-        isNavigating = true;
-    });
-
-    // load project component with a slight delay
-    $effect(() => {
-        if (isNavigating) return;
-
-        let cancelled = false;
-
-        const loadProject = async () => {
-            const module =
-                await import('$lib/components/projects/Project.svelte');
-            if (!cancelled && !isNavigating) {
-                ProjectComponent = module.default;
-                showProjects = true;
-            }
-        };
-
-        const timer = setTimeout(loadProject, 100);
-        return () => {
-            cancelled = true;
-            clearTimeout(timer);
-        };
-    });
 </script>
 
 <SEO
@@ -118,29 +84,24 @@
     </section>
 
     <section class="bevel-border">
-        {#if showProjects && ProjectComponent}
-            {#each projects as project (project.index)}
-                {@const testimonial = getTestimonialForProject(project.index)}
+        {#each projects as project (project.index)}
+            {@const t = getTestimonialForProject(project.index)}
 
-                <div
-                    class="wholeProject"
-                    {@attach fadeInProject(project.index)}
-                >
-                    <ProjectComponent {...project} hasBorder={false} />
+            <div class="wholeProject" {@attach fadeInProject(project.index)}>
+                <Project {...project} hasBorder={false} />
 
-                    {#if testimonial}
-                        <Testimonial
-                            name={testimonial.name}
-                            title={testimonial.title}
-                            testimonial={testimonial.testimonial}
-                            rating={Number(testimonial.rating)}
-                            avatar={testimonial.avatar}
-                            index={project.index}
-                        />
-                    {/if}
-                </div>
-            {/each}
-        {/if}
+                {#if t}
+                    <Testimonial
+                        name={t.name}
+                        title={t.title}
+                        testimonial={t.testimonial}
+                        rating={Number(t.rating)}
+                        avatar={t.avatar}
+                        index={project.index}
+                    />
+                {/if}
+            </div>
+        {/each}
     </section>
 </div>
 

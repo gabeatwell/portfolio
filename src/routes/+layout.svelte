@@ -22,6 +22,7 @@
     const theme = createThemeContext();
     let SkipLinkComponent = $state<any>(null);
     let TestLinkComponent = $state<any>(null);
+    let mounted = $state(false);
 
     // service worker
     $effect(() => {
@@ -67,11 +68,16 @@
     });
 
     $effect(() => {
+        mounted = true;
         if (typeof window !== 'undefined') {
             loading.isLoaded = true;
         }
     });
 </script>
+
+<svelte:head>
+    <meta name="color-scheme" content="light dark" />
+</svelte:head>
 
 <PullToRefresh />
 <ViewTransition />
@@ -80,12 +86,12 @@
 <TestLink title="experiments" />
 
 <!-- loading animation -->
-{#if !loading.isLoaded}
+{#if mounted && !loading.isLoaded}
     <Loading />
 {/if}
 
 <NavBar />
-<main style="visibility: {loading.isLoaded ? 'visible' : 'hidden'};">
+<main tabindex="-1">
     <div id="main-content" tabindex="-1">
         {@render children()}
     </div>
