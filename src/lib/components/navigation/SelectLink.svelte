@@ -49,54 +49,54 @@
         cursor: pointer;
         max-inline-size: fit-content;
         margin: 0.1em 0 0 0;
-    }
 
-    .select-trigger {
-        pointer-events: none;
-    }
-
-    .select-options {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        min-inline-size: 100%;
-        background: var(--clr-dark-400);
-        border: none;
-        box-shadow: none;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-4px);
-        transition:
-            opacity 0.2s ease-out,
-            visibility 0.2s ease-out,
-            transform 0.2s ease-out;
-        z-index: 100;
-    }
-
-    .select-wrapper:hover .select-options,
-    .select-wrapper:focus-within .select-options {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    .select-option {
-        display: block;
-        color: var(--clr-light-500);
-        text-decoration: none;
-        padding: var(--padding-button-lg);
-        white-space: nowrap;
-        transition: background 0.15s ease-out;
-
-        &:hover {
-            text-decoration: line-through;
-            text-decoration-thickness: 1px;
+        &:hover .select-options,
+        &:focus-within .select-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
-        &:focus {
-            outline: 1px solid var(--clr-light-500);
-            background: transparent;
+        & .select-trigger {
+            pointer-events: none;
+        }
+
+        & .select-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-inline-size: 100%;
+            background: var(--clr-dark-400);
+            border: none;
             box-shadow: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition:
+                opacity 0.2s ease-out,
+                visibility 0.2s ease-out,
+                transform 0.2s ease-out;
+            z-index: 100;
+
+            & .select-option {
+                display: block;
+                color: var(--clr-blue-400);
+                text-decoration: none;
+                padding: var(--padding-button-lg);
+                white-space: nowrap;
+                transition: background 0.15s ease-out;
+
+                &:hover {
+                    text-decoration: line-through;
+                    text-decoration-thickness: 1px;
+                }
+
+                &:focus {
+                    outline: 1px solid var(--clr-light-500);
+                    background: transparent;
+                    box-shadow: none;
+                }
+            }
         }
     }
 
