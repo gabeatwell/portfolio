@@ -25,6 +25,7 @@ import { FPSCombatManager } from './combat/FPSCombatManager';
 import { FPSAmmoBrick } from './combat/FPSAmmoBricks';
 import { preloadModels, createLoader } from './FPSModelLoader';
 import { generateLevel } from './procedural/levelGenerator';
+import { createComicStyle } from '../comicStyle';
 
 export class FPSGame {
     scene!: Scene;
@@ -36,6 +37,7 @@ export class FPSGame {
     buildings!: Group;
     enemyManager!: FPSEnemyManager;
     combatManager!: FPSCombatManager;
+    comicStyle!: ReturnType<typeof createComicStyle>;
 
     /** Combined mesh array of buildings for AI line-of-sight checks */
     private obstacles: Object3D[] = [];
@@ -172,6 +174,11 @@ export class FPSGame {
         );
         this.camera.position.set(5.5, 1.6, 5.5);
 
+        this.comicStyle = createComicStyle(
+            this.renderer,
+            this.scene,
+            this.camera,
+        );
         this.controls = new PointerLockControls(this.camera, canvas);
 
         try {
@@ -572,13 +579,15 @@ export class FPSGame {
             }
         }
 
-        this.renderer.render(this.scene, this.camera);
+        // this.renderer.render(this.scene, this.camera);
+        this.comicStyle.render();
     }
 
     private onResize() {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.comicStyle.setSize(window.innerWidth, window.innerHeight);
     }
 
     /** Freeze game logic but keep rendering the last frame visible */
@@ -608,5 +617,6 @@ export class FPSGame {
         }
         this.enemyManager.dispose();
         this.combatManager.dispose();
+        this.comicStyle.dispose();
     }
 }
