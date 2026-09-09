@@ -575,3 +575,10 @@ html[data-theme='light'].tunnel-active .teeth-intro {
         --clr-dark-500: #0a0a0a;
     }
 }
+
+nav:has(#burger-toggle:checked) .mobile {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    transition-delay: 0ms;
+}

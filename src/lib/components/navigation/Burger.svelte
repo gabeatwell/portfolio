@@ -1,26 +1,26 @@
 <script lang="ts">
     let { open = $bindable(false), ariaLabel = 'menu' } = $props();
-
-    function toggleMenu() {
-        setTimeout(() => {
-            open = !open;
-        }, 50);
-    }
 </script>
 
-<button
+<label
     class="hamburger"
     class:open
-    onclick={toggleMenu}
+    for="burger-toggle"
     aria-label={ariaLabel}
     aria-expanded={open}
     aria-controls="mobile-menu"
 >
+    <input
+        type="checkbox"
+        id="burger-toggle"
+        class="visually-hidden burger-checkbox"
+        bind:checked={open}
+    />
     <div class="bars">
         <span class="bar bar-1"></span>
         <span class="bar bar-2"></span>
     </div>
-</button>
+</label>
 
 <style>
     .hamburger {
@@ -76,7 +76,6 @@
             }
         }
 
-        /* Open state animations */
         &.open {
             padding-bottom: 0.5rem;
 
@@ -91,7 +90,6 @@
             }
         }
 
-        /* Hover effects */
         &:hover:not(.open) {
             .bar {
                 background-color: var(--clr-accent, var(--clr-light-500));
