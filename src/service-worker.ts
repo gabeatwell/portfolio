@@ -10,7 +10,7 @@ const CACHEABLE_ASSETS = ASSETS.filter(
 
 const sw = self as unknown as ServiceWorkerGlobalScope;
 
-// Install service worker
+// install service worker - cache build assets then activate
 sw.addEventListener('install', (event: ExtendableEvent) => {
     async function addFilesToCache() {
         const cache = await caches.open(CACHE);
@@ -30,11 +30,9 @@ sw.addEventListener('install', (event: ExtendableEvent) => {
     }
 
     event.waitUntil(addFilesToCache());
-    // Skip waiting so this SW activates immediately
-    sw.skipWaiting();
 });
 
-// Activate service worker
+// activate service worker
 sw.addEventListener('activate', (event: ExtendableEvent) => {
     async function deleteOldCaches() {
         for (const key of await caches.keys()) {
@@ -58,7 +56,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
     const url = new URL(event.request.url);
     const isCrossOrigin = url.origin !== sw.location.origin;
 
-    // Don't let the SW handle API requests — let them go to the network
+    // let the API requests go to the network
     if (url.pathname.startsWith('/api/')) {
         return;
     }
@@ -74,31 +72,41 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
     async function respond(): Promise<Response> {
         const cache = await caches.open(CACHE);
 
-        // Navigation requests: prefer network (fresh HTML/CSS), fallback to cache
         const acceptHeader = event.request.headers.get('accept') || '';
         const isNavigation =
             event.request.mode === 'navigate' ||
             acceptHeader.includes('text/html');
-        if (isNavigation) {
-            try {
-                const response = await fetch(event.request);
-                const isHttp =
-                    url.protocol === 'http:' || url.protocol === 'https:';
-                const isSuccess = response && response.status === 200;
-                if (isHttp && isSuccess) {
-                    cache.put(event.request, response.clone());
-                }
 
-                return response;
+        // navigation stale while revalidate
+        // serve cache page instantly - refresh in bg
+        if (isNavigation) {
+            const cached = await cache.match(event.request);
+            const freshening = fetch(event.request)
+                .then((response) => {
+                    if (response && response.status === 200) {
+                        cache.put(event.request, response.clone());
+                    }
+                    return response;
+                })
+                .catch(() => null);
+
+            if (cached) return cached;
+
+            try {
+                const response = await freshening;
+                if (response) return response;
             } catch {
-                const fallback =
-                    (await cache.match('/')) ||
-                    (await cache.match('/index.html'));
-                if (fallback) return fallback;
+                // fall through
             }
+
+            const fallback =
+                (await cache.match('/')) || (await cache.match('/index.html'));
+            if (fallback) return fallback;
+
+            return new Response('Offline', { status: 503 });
         }
 
-        // For static JS/CSS assets prefer network (keep styles/scripts fresh), fallback to cache
+        // static JS/CSS: prefer network (keep styles/scripts fresh), fallback to cache
         const isStaticScriptOrStyle = /\.(?:css|js|mjs)$/i.test(url.pathname);
         if (isStaticScriptOrStyle && ASSETS.includes(url.pathname)) {
             try {
@@ -117,7 +125,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
             }
         }
 
-        // Serve other build files from cache first (images, fonts, etc.) for performance
+        // other build files from cache first (images, fonts, etc.) for performance
         if (ASSETS.includes(url.pathname)) {
             const cachedResponse = await cache.match(event.request);
             if (cachedResponse) {
@@ -125,7 +133,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
             }
         }
 
-        // Try network first
+        // everything else network first, cache fallback
         try {
             const response = await fetch(event.request);
             const isHttp =
@@ -138,7 +146,6 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
 
             return response;
         } catch {
-            // Cache fallback
             const cachedResponse = await cache.match(event.request);
             if (cachedResponse) {
                 return cachedResponse;
@@ -151,7 +158,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
     event.respondWith(respond());
 });
 
-// Listen for messages (e.g., skip waiting)
+// listen for messages (e.g., skip waiting)
 sw.addEventListener('message', (event: ExtendableMessageEvent) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
         sw.skipWaiting();
