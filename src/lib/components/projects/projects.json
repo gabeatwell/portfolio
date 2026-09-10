@@ -53,9 +53,7 @@
         "id": "passcraft",
         "description": "sveltekit",
         "img": {
-            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/passcraft.webp",
-            "srcset": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/passcraft-400w.webp 400w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/passcraft-800w.webp 800w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/passcraft.webp 470w",
-            "sizes": "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 403px"
+            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/passcraft2.webp"
         },
         "index": 4,
         "summary": "If you're like me and have a hard time creating passwords, PassCraft is for you! It generates random passwords based on user input.",
