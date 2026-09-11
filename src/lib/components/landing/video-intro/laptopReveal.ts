@@ -172,15 +172,6 @@ export function laptopScene(
                     pin: true,
                     anticipatePin: 1,
                     onLeave: () => {
-                        gsap.set(node, {
-                            position: 'fixed',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            height: '100%',
-                            zIndex: 100,
-                        });
-
                         onComplete();
                     },
                 },
@@ -190,13 +181,25 @@ export function laptopScene(
             tl.to(
                 camera.position,
                 {
-                    z: 3.2,
+                    z: 5,
                     y: 1.4,
                     x: 0,
                     ease: 'power2.inOut',
                     duration: 0.35,
                 },
                 '-=0.15',
+            );
+
+            // rotate
+            tl.to(
+                laptop.rotation,
+                {
+                    x: -Math.PI * 2,
+                    y: Math.PI * 2,
+                    ease: 'power2.inOut',
+                    duration: 1,
+                },
+                0,
             );
         }, node);
     }
