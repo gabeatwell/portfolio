@@ -27,7 +27,7 @@
             <i class="fa-solid fa-share-from-square"></i>
 
             <span class="desc">install</span>
-        </button>install.
+        </button>add
     {/if}
     {#if install.shareFallback}
         <div class="apple-instructions">
@@ -78,7 +78,7 @@
         hidden={!install.isInstallable}
     >
         <i class="fa-solid fa-file-arrow-down"></i>
-        <span class="desc">install</span>
+        <span class="desc">add</span>
     </button>
 {/if}
 
