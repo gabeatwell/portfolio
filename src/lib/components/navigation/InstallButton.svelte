@@ -26,8 +26,8 @@
         >
             <i class="fa-solid fa-share-from-square"></i>
 
-            <span class="desc">install</span>
-        </button>add
+            <span class="desc">add</span>
+        </button>
     {/if}
     {#if install.shareFallback}
         <div class="apple-instructions">
