@@ -411,7 +411,7 @@
         );
     }
 
-    /* fallbacks for older devices */
+    /* theme fallbacks */
     :root[data-theme='dark'],
     html[data-theme='dark'] {
         --clr-dark-500: #111111;
@@ -434,10 +434,10 @@
         --clr-btn-900: #111111;
     }
 
+    // MODERN OKLCH/LIGHT-DARK()
     @supports (color: oklch(from white 0 0 0)) and
         (background: light-dark(white, black)) {
         :root {
-            /* explicit light / dark pairs */
             --clr-bg: light-dark(var(--white), var(--blackest));
             --clr-light-350: light-dark(
                 oklch(from var(--blackest) 0.2 c h),
