@@ -66,6 +66,9 @@ export default defineConfig({
         }),
         svelteTesting(),
     ],
+    css: {
+        transformer: 'postcss',
+    },
     server: {
         https: false,
         port: 5173,
