@@ -434,7 +434,7 @@
         --clr-btn-900: #111111;
     }
 
-    // MODERN OKLCH/LIGHT-DARK
+    /* MODERN OKLCH/LIGHT-DARK */
     @supports (color: oklch(from white 0 0 0)) and
         (background: light-dark(white, black)) {
         :root {

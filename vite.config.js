@@ -66,9 +66,6 @@ export default defineConfig({
         }),
         svelteTesting(),
     ],
-    css: {
-        transformer: 'postcss',
-    },
     server: {
         https: false,
         port: 5173,
@@ -101,7 +98,7 @@ export default defineConfig({
         },
         minify: 'terser',
         cssCodeSplit: true,
-        cssMinify: 'esbuild',
+        cssMinify: 'lightningcss',
     },
     resolve: {
         alias: {
