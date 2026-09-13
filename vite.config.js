@@ -101,7 +101,7 @@ export default defineConfig({
         },
         minify: 'terser',
         cssCodeSplit: true,
-        cssMinify: 'lightningcss',
+        cssMinify: 'esbuild',
     },
     resolve: {
         alias: {
