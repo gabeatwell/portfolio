@@ -17,6 +17,10 @@
 </script>
 
 <section class="intro" {@attach intro}>
+    <div class="welcome-title">
+        <h2>welcome</h2>
+    </div>
+
     <div class="icon" style="anchor-name: --icon-anchor">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <title>what to do</title>
@@ -37,6 +41,10 @@
         height: 100vh;
         overflow: hidden;
 
+        background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/abstract-bg3a.webp');
+        background-repeat: no-repeat;
+        background-size: cover;
+
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: auto 1fr;
@@ -52,17 +60,23 @@
 
         & .icon {
             position: absolute;
-            top: 10em;
-            left: 50%;
+            position-anchor: --welcome-title;
+            top: calc(anchor(top) + 13.5em);
+            left: anchor(center);
             transform: translateX(-50%);
+            z-index: 3;
 
             anchor-name: --icon-anchor;
             cursor: pointer;
 
+            @media (width <= 768px) {
+                top: calc(anchor(top) + 8em);
+            }
+
             & svg {
-                --clr-light-500: oklch(0.8853 0 0 / 90.2%);
-                inline-size: 3.5em;
-                block-size: 3.5em;
+                --clr-light-500: oklch(9.693% 0.00001 271.152 / 0.902);
+                inline-size: 4.5em;
+                block-size: 4.5em;
                 fill: var(--clr-light-500);
 
                 @media (width <= 1085px) {
@@ -71,8 +85,9 @@
                 }
 
                 @media (width <= 768px) {
-                    inline-size: 2em;
-                    block-size: 2em;
+                    --clr-light-500: oklch(78.025% 0.00111 12.77 / 0.902);
+                    inline-size: 3em;
+                    block-size: 3em;
                 }
             }
 
@@ -98,6 +113,35 @@
 
             &:hover .tooltip {
                 display: block;
+            }
+        }
+
+        & .welcome-title {
+            grid-column: 1 / -1;
+            grid-row: 1 / 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            anchor-name: --welcome-title;
+
+            & h2 {
+                color: var(--clr-dark-500);
+                text-align: center;
+                text-transform: uppercase;
+                letter-spacing: -1px;
+                font-family: var(--thunder);
+                font-size: clamp(var(--lg), 15vw, var(--xxl));
+                text-shadow: 5px 7px 10px var(--clr-gray-600);
+                letter-spacing: -1px;
+                margin: 0;
+                margin: 0.75em 0 0 0;
+
+                @media (width <= 768px) {
+                    --clr-dark-500: oklch(78.025% 0.00111 12.77 / 0.902);
+                    text-shadow: 5px 8px 10px var(--clr-gray-600);
+                    margin: 1.1em 0 0 0;
+                }
             }
         }
     }

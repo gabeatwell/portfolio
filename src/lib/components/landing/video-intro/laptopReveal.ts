@@ -2,7 +2,6 @@ import { gsap } from '$lib/data/gsap';
 import {
     AmbientLight,
     Box3,
-    Color,
     DirectionalLight,
     DoubleSide,
     Fog,
@@ -28,7 +27,8 @@ export function laptopScene(
 
     // three.js
     const scene = new Scene();
-    scene.background = new Color(0x1d1d1d);
+    // scene.background = new Color(0x1d1d1d);
+    scene.background = null;
     scene.fog = new Fog(0x1d1d1d, 6, 15);
 
     const camera = new PerspectiveCamera(
@@ -74,6 +74,15 @@ export function laptopScene(
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = SRGBColorSpace;
     node.appendChild(renderer.domElement);
+
+    renderer.domElement.style.cssText = `
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    `;
 
     const vignette = document.createElement('div');
     vignette.style.cssText = `
