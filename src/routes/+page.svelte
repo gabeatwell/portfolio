@@ -21,7 +21,8 @@
         if (!loaded) {
             loaded = true;
 
-            isTeeth = Math.random() < 0.75;
+            isTeeth = Math.random() < 0.59;
+
             const path = isTeeth
                 ? '/src/lib/components/landing/hero-section/TeethIntro.svelte'
                 : '/src/lib/components/landing/video-intro/LaptopIntro.svelte';

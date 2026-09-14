@@ -1,5 +1,4 @@
 import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
-import { browser } from '$app/environment';
 
 const chars = 'Handcrafted Frontend Interfaces';
 

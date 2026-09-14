@@ -24,10 +24,10 @@ export function laptopScene(
     imageUrl: string,
 ) {
     const controller = new AbortController();
+    const isMobile = window.matchMedia('(max-width: 768px)');
 
     // three.js
     const scene = new Scene();
-    // scene.background = new Color(0x1d1d1d);
     scene.background = null;
     scene.fog = new Fog(0x1d1d1d, 6, 15);
 
@@ -62,7 +62,6 @@ export function laptopScene(
         'webglcontextrestored',
         () => {
             contextLost = false;
-            // Three.js re-uploads programs/textures automatically on the next render
             renderer.setSize(node.clientWidth, node.clientHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             animate();
@@ -118,10 +117,26 @@ export function laptopScene(
 
     let ctx: gsap.Context;
     let laptop!: Group;
+    let laptopTopY = 0;
 
     function getModelScale() {
         const baseWidth = 1920;
         return Math.max(0.5, window.innerWidth / baseWidth);
+    }
+
+    function applyScale() {
+        if (!laptop) return;
+
+        const s = getModelScale();
+        laptop.scale.setScalar(s);
+
+        if (isMobile.matches) {
+            laptop.position.y = laptopTopY * (0.55 - s);
+            laptop.position.z = 1.2;
+        } else {
+            laptop.position.y = laptopTopY * (0.8 - s);
+            laptop.position.z = 0;
+        }
     }
 
     function findScreenMesh(root: Group): Mesh | undefined {
@@ -154,7 +169,10 @@ export function laptopScene(
     loader.load('/threejayess/models/laptop.glb', (gltf) => {
         laptop = gltf.scene;
         scene.add(laptop);
-        laptop.scale.setScalar(getModelScale());
+
+        const box = new Box3().setFromObject(laptop);
+        laptopTopY = box.max.y;
+        applyScale();
 
         const screen = findScreenMesh(laptop);
         if (screen) {
@@ -235,13 +253,12 @@ export function laptopScene(
         renderer.setSize(width, height);
 
         if (laptop) {
-            laptop.scale.setScalar(getModelScale());
+            applyScale();
         }
     }
     window.addEventListener('resize', onResize, { signal: controller.signal });
 
     // mobile spacing
-    const isMobile = window.matchMedia('(max-width: 768px)');
     function updateMobileCamera() {
         if (isMobile.matches) {
             camera.position.y = 1.3;
