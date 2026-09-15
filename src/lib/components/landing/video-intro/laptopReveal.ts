@@ -134,7 +134,7 @@ export function laptopScene(
             laptop.position.y = laptopTopY * (0.55 - s);
             laptop.position.z = 1.2;
         } else {
-            laptop.position.y = laptopTopY * (0.8 - s);
+            laptop.position.y = laptopTopY * (0.95 - s);
             laptop.position.z = 0;
         }
     }

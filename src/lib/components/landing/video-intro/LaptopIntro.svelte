@@ -18,7 +18,7 @@
 
 <section class="intro" {@attach intro}>
     <div class="welcome-title">
-        <h2>welcome</h2>
+        <!-- <h2></h2> -->
     </div>
 
     <div class="icon" style="anchor-name: --icon-anchor">
@@ -30,7 +30,7 @@
             /></svg
         >
 
-        <div class="tooltip"><h1>scroll down</h1></div>
+        <div class="tooltip"><h2>scroll down</h2></div>
     </div>
 </section>
 
@@ -49,7 +49,7 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: auto 1fr;
 
-        & h1 {
+        & h2 {
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 1.1vw, var(--h4));
             letter-spacing: -1px;
@@ -61,7 +61,7 @@
         & .icon {
             position: absolute;
             position-anchor: --welcome-title;
-            top: calc(anchor(top) + 13.5em);
+            top: calc(anchor(top) + 11.5em);
             left: anchor(center);
             transform: translateX(-50%);
             z-index: 3;
@@ -125,7 +125,7 @@
 
             anchor-name: --welcome-title;
 
-            & h2 {
+            /* & h2 {
                 color: var(--clr-dark-500);
                 text-align: center;
                 text-transform: uppercase;
@@ -142,7 +142,16 @@
                     text-shadow: 5px 8px 10px var(--clr-gray-600);
                     margin: 1.1em 0 0 0;
                 }
-            }
+            } */
         }
+    }
+
+    :global(html.dark-intro-page nav.navigation .nav-link) {
+        --clr-light-500: #0a0a0a;
+        --clr-light-400: rgba(10, 10, 10, 0.9);
+    }
+    :global(html.dark-intro-page nav.navigation .mobile .nav-link) {
+        --clr-light-500: oklch(94.395% 0.00537 16.154);
+        --clr-light-400: oklch(74.395% 0.00537 16.154);
     }
 </style>
