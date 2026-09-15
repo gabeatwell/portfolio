@@ -66,7 +66,7 @@
             top: 100%;
             left: 0;
             min-inline-size: 100%;
-            background: var(--clr-dark-400);
+            background: var(--clr-light-500);
             border: none;
             box-shadow: none;
             opacity: 0;
@@ -80,21 +80,28 @@
 
             & .select-option {
                 display: block;
-                color: var(--clr-blue-400);
                 text-decoration: none;
                 padding: var(--padding-button-lg);
                 white-space: nowrap;
                 transition: background 0.15s ease-out;
 
-                &:hover {
-                    text-decoration: line-through;
-                    text-decoration-thickness: 1px;
-                }
-
                 &:focus {
                     outline: 1px solid var(--clr-light-500);
                     background: transparent;
                     box-shadow: none;
+                }
+
+                & .option-text {
+                    color: var(--clr-dark-500);
+                    font-family: var(--bronova-bold);
+                    font-size: clamp(var(--h6), 1.3vw, var(--h3));
+
+                    &:hover {
+                        text-decoration-color: var(--clr-dark-500);
+                        /* text-decoration: line-through; */
+                        text-decoration: underline;
+                        text-decoration-thickness: 3px;
+                    }
                 }
             }
         }
