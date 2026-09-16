@@ -46,6 +46,7 @@
 
         .popover-icon {
             background-color: transparent;
+            color: var(--clr-light-500);
             inline-size: fit-content;
             font-family: var(--bronova);
             border-radius: 6px;

@@ -61,7 +61,7 @@
         & .icon {
             position: absolute;
             position-anchor: --welcome-title;
-            top: calc(anchor(top) + 11.5em);
+            top: calc(anchor(top) + 8em);
             left: anchor(center);
             transform: translateX(-50%);
             z-index: 3;
@@ -69,7 +69,11 @@
             anchor-name: --icon-anchor;
             cursor: pointer;
 
-            @media (width <= 768px) {
+            @media (width >= 400px) and (width <= 768px) {
+                top: calc(anchor(top) + 5.5em);
+                left: calc(anchor(center) - 13em);
+            }
+            @media (width <= 399px) {
                 top: calc(anchor(top) + 8em);
             }
 

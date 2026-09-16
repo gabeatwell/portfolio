@@ -85,7 +85,7 @@
                 display: inline-block;
                 font-family: var(--bronova);
                 font-weight: 300;
-                color: oklch(from var(--clr-light-500) 0.7 c h);
+                color: var(--clr-light-500);
             }
         }
     }

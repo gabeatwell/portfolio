@@ -155,6 +155,12 @@
                     &:active {
                         scale: 0.95;
                     }
+
+                    &:nth-child(3) {
+                        @media (width <= 768px) {
+                            margin-top: 5em;
+                        }
+                    }
                 }
             }
         }
