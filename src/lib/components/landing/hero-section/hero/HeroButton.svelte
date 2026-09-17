@@ -15,8 +15,9 @@
         a {
             display: inline-block;
             text-decoration: none;
-            font-family: var(--ultra);
+            font-family: var(--serif);
             font-size: clamp(var(--h5), 2vw, var(--h3));
+            font-weight: 900;
             background-color: var(--clr-warning-500);
             color: var(--clr-dark-500);
             border: 1px solid var(--clr-dark-500);

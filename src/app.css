@@ -40,6 +40,14 @@
     src: url('/fonts/Thunder-VF.ttf') format('truetype-variations');
 }
 
+@font-face {
+    font-family: 'Podkova';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/Podkova-VariableFont.ttf') format('truetype-variations');
+}
+
 @layer root {
     :root {
         color-scheme: light dark;
@@ -50,6 +58,7 @@
         --bronova-bold: 'Bronova Bold', sans-serif;
         --ultra: 'Ultra', sans-serif;
         --thunder: 'Thunder', sans-serif;
+        --serif: 'Podkova', serif;
 
         /* sizing */
         --base-size: 1.2rem;

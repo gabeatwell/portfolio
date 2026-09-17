@@ -93,12 +93,12 @@
 
                 & .option-text {
                     color: var(--clr-dark-500);
-                    font-family: var(--bronova-bold);
+                    font-family: var(--bronova);
                     font-size: clamp(var(--h6), 1.3vw, var(--h3));
+                    font-weight: 900;
 
                     &:hover {
                         text-decoration-color: var(--clr-dark-500);
-                        /* text-decoration: line-through; */
                         text-decoration: underline;
                         text-decoration-thickness: 3px;
                     }

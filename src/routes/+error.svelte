@@ -102,6 +102,7 @@
 
             & .message {
                 font-family: var(--bronova);
+                font-family: var(--serif);
                 font-size: clamp(var(--h5), 3vw, var(--h3));
                 font-weight: 400;
                 letter-spacing: 5px;
