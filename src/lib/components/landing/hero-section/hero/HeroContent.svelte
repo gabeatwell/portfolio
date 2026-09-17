@@ -345,7 +345,7 @@
                             }
 
                             &.ribbon {
-                                color: #0a0a0a;
+                                color: var(--clr-light-500);
                             }
                         }
                     }

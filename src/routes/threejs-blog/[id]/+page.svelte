@@ -129,7 +129,7 @@
     .go-back {
         text-shadow: none;
         text-decoration: none;
-        color: var(--clr-blue-300);
+        color: var(--clr-light-500);
         font-family: var(--bronova);
         font-size: clamp(var(--sm), 1.52vw, var(--h2));
         font-weight: 500;

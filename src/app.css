@@ -552,6 +552,10 @@
                 var(--clr-warning-500-dark),
                 oklch(0.7126 0.1451 94.89)
             );
+            --clr-warning-300: light-dark(
+                oklch(0.9126 0.1451 94.89),
+                oklch(0.7126 0.1451 94.89)
+            );
         }
     }
 }
