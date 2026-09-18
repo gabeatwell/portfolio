@@ -10,6 +10,10 @@
             ? 'https://www.youtube.com/embed/8l7elwrvs3w?autoplay=1&loop=1&playlist=8l7elwrvs3w&controls=1&modestbranding=1&rel=0'
             : 'https://www.youtube.com/embed/SksQ05ufRpc?autoplay=1&loop=1&playlist=SksQ05ufRpc&controls=1&modestbranding=1&rel=0',
     );
+    const videoId = $derived(
+        install.isMacSafari ? '8l7elwrvs3w' : 'SksQ05ufRpc',
+    );
+    let playing = $state(false);
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/foley-bubble.wav',
     );
@@ -24,6 +28,7 @@
 {#if install.isIOS}
     {#if !install.shareClicked}
         <button
+            class="install-btn"
             aria-label="Share this app"
             onclick={install.shareApp}
             onmouseenter={handleUiSound}
@@ -36,16 +41,31 @@
     {#if install.shareFallback}
         <div class="apple-instructions">
             <div class="video-wrapper">
-                <iframe
-                    src={videoSrc}
-                    title={install.isMacSafari
-                        ? 'How to Add to Dock'
-                        : 'How to Add to Home Screen'}
-                    allow="autoplay; encrypted-media"
-                    allowfullscreen
-                    class="instruction-video"
-                    class:portrait={install.isMacSafari}
-                ></iframe>
+                {#if playing}
+                    <iframe
+                        src={videoSrc}
+                        title={install.isMacSafari
+                            ? 'How to Add to Dock'
+                            : 'How to Add to Home Screen'}
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen
+                        class="instruction-video"
+                        class:portrait={install.isMacSafari}
+                    ></iframe>
+                {:else}
+                    <button
+                        type="button"
+                        class="thumbnail"
+                        aria-label="Play instructions video"
+                        onclick={() => (playing = true)}
+                    >
+                        <img
+                            src="https://i.ytimg.com/vi/{videoId}/hqdefault.jpg"
+                            alt=""
+                        />
+                        <span class="play-icon" aria-hidden="true">▶</span>
+                    </button>
+                {/if}
             </div>
 
             <p><u>On iOS:</u></p>
@@ -78,17 +98,42 @@
             <p><u>On iMac:</u></p>
 
             <p>
-                Do the same process but choose <b>'Add to Dock'</b> to install this
+                open the Safari browser. Tap the Share icon
+                <span>
+                    (<svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        id="Apple-Share-Icon"
+                        height="21"
+                        width="21"
+                        class="share-icon"
+                    >
+                        <title>iOS Share Icon</title>
+                        <path
+                            fill="var(--clr-light-500)"
+                            d="M5.5 23c-0.4 0 -0.75 -0.15 -1.05 -0.45 -0.3 -0.3 -0.45 -0.65 -0.45 -1.05V8.775c0 -0.4 0.15 -0.75 0.45 -1.05 0.3 -0.3 0.65 -0.45 1.05 -0.45h4.225v1.5H5.5V21.5h13V8.775h-4.275v-1.5H18.5c0.4 0 0.75 0.15 1.05 0.45 0.3 0.3 0.45 0.65 0.45 1.05V21.5c0 0.4 -0.15 0.75 -0.45 1.05 -0.3 0.3 -0.65 0.45 -1.05 0.45H5.5Zm5.725 -7.675V3.9l-2.2 2.2 -1.075 -1.075L11.975 1 16 5.025l-1.075 1.075 -2.2 -2.2v11.425h-1.5Z"
+                            stroke="var(--clr-blue-350)"
+                            stroke-width=".8"
+                        ></path>
+                    </svg>)
+                </span>
+                in Safari's toolbar and choose <b>'Add to Dock'</b> to install this
                 app.
             </p>
 
-            <button data-close-button onclick={install.closeFallback}
-                >Close</button
+            <button
+                data-close-button
+                onclick={() => {
+                    playing = false;
+                    install.closeFallback();
+                }}>Close</button
             >
         </div>
     {/if}
 {:else}
     <button
+        class="install-btn"
         aria-label="Install this app as a PWA"
         onclick={install.installApp}
         onmouseenter={handleUiSound}
@@ -100,7 +145,7 @@
 {/if}
 
 <style>
-    button {
+    .install-btn {
         width: fit-content;
         margin-inline: auto;
         font-family: var(--bronova);
@@ -176,6 +221,7 @@
 
     .video-wrapper {
         max-inline-size: 120px;
+        max-inline-size: min(240px, 60vw);
         inline-size: 100%;
         margin-inline: auto;
         margin-bottom: 0.2em;
@@ -189,8 +235,10 @@
         transform: translateX(-50%);
 
         @media (width <= 768px) {
-            top: -1.5em;
+            top: -4em;
             left: 80%;
+            max-block-size: 100px;
+            block-size: 100%;
         }
 
         & .instruction-video {
@@ -201,16 +249,41 @@
             object-fit: cover;
             margin: 0;
 
-            @media (width <= 768px) {
-                aspect-ratio: 16/9;
-            }
-
             &.portrait {
                 aspect-ratio: 9/16;
                 max-inline-size: 100%;
                 inline-size: auto;
                 block-size: min(45ch, 290px);
                 margin-inline: auto;
+            }
+        }
+
+        & .thumbnail {
+            all: unset;
+            display: block;
+            position: relative;
+            cursor: pointer;
+            pointer-events: auto;
+            z-index: auto;
+
+            &:focus-visible {
+                outline: 2px solid var(--clr-light-500);
+                outline-offset: 2px;
+            }
+
+            & img {
+                display: block;
+                inline-size: 100%;
+                block-size: auto;
+            }
+
+            & .play-icon {
+                position: absolute;
+                inset: 0;
+                display: grid;
+                place-items: center;
+                font-size: clamp(2rem, 8vw, 4rem);
+                color: var(--clr-fail-500-light);
             }
         }
     }
@@ -237,6 +310,8 @@
         & p {
             font-size: clamp(var(--sm), 1.2vw, var(--h6));
             margin-bottom: 0.5em;
+            margin: 0;
+            padding: 0;
 
             &:nth-of-type(1),
             &:nth-of-type(3) {
@@ -265,6 +340,7 @@
         bottom: calc(anchor(bottom) + 0.05em);
         left: calc(anchor(right) + 0.05em);
         margin-left: 1em;
+        inline-size: 7em;
 
         background-color: var(--clr-dark-500);
         color: var(--clr-light-500);
