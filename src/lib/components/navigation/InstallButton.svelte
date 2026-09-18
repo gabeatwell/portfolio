@@ -7,8 +7,8 @@
     const install = new InstallButtonController();
     const videoSrc = $derived(
         install.isMacSafari
-            ? 'https://www.youtube.com/embed/8l7elwrvs3w?autoplay=1&loop=1&playlist=8l7elwrvs3w&controls=1&modestbranding=1&rel=0'
-            : 'https://www.youtube.com/embed/SksQ05ufRpc?autoplay=1&loop=1&playlist=SksQ05ufRpc&controls=1&modestbranding=1&rel=0',
+            ? 'https://www.youtube.com/embed/8l7elwrvs3w?autoplay=1&okaysinline=1&loop=1&playlist=8l7elwrvs3w&controls=1&modestbranding=1&rel=0'
+            : 'https://www.youtube.com/embed/SksQ05ufRpc?autoplay=1&muted=1&playsinline=1&loop=1&playlist=SksQ05ufRpc&controls=1&modestbranding=1&rel=0',
     );
     const videoId = $derived(
         install.isMacSafari ? '8l7elwrvs3w' : 'SksQ05ufRpc',
@@ -47,7 +47,7 @@
                         title={install.isMacSafari
                             ? 'How to Add to Dock'
                             : 'How to Add to Home Screen'}
-                        allow="autoplay; encrypted-media"
+                        allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
                         allowfullscreen
                         class="instruction-video"
                         class:portrait={install.isMacSafari}
