@@ -12,34 +12,50 @@ export class InstallButtonController {
     isInstallable = $state(false);
     installStatus = $state('');
     isIOS = $state(false);
+    isMacSafari = $state(false);
     shareFallback = $state(false);
-    shareClicked = $state(
-        typeof localStorage !== 'undefined'
-            ? localStorage.getItem('pwa-instructions-shown') === 'true'
-            : false,
+    shareClicked = $state(false);
+    promptDismissed = $state(
+        typeof sessionStorage !== 'undefined' &&
+            sessionStorage.getItem('pwa-prompt-dismissed') === 'true',
     );
 
     constructor() {
-        // detect iOS
+        // detect iOS vs macOs safari
         $effect(() => {
-            const ua = window.navigator.userAgent;
+            const params = new URLSearchParams(window.location.search);
+            const forced = import.meta.env.DEV
+                ? (params.get('device') ?? params.get('ua'))
+                : null;
+            const ua =
+                forced === 'mac'
+                    ? 'macintosh safari'
+                    : forced === 'ios'
+                      ? 'iphone safari'
+                      : (forced ?? window.navigator.userAgent);
+
             const isAppleMobile = /iphone|ipad|ipod/i.test(ua);
             const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-            const isMacSafari = /macintosh/i.test(ua) && isSafari;
+            const isMac = /macintosh/i.test(ua) && isSafari;
+
             this.isIOS =
                 (isAppleMobile &&
                     !('MSStream' in window) &&
                     !this.#breakpoints.isStandalone) ||
-                isMacSafari;
+                isMac;
+            this.isMacSafari = isMac;
         });
 
         // pwa install prompt for non-iOS
         $effect(() => {
+            const ios = this.isIOS;
+            if (ios) return;
             const abortController = new AbortController();
 
             if (this.isIOS) return;
 
             const handleBeforeInstallPrompt = (event: Event) => {
+                if (this.promptDismissed) return;
                 this.#deferredPrompt = event as BeforeInstallPromptEvent;
                 this.isInstallable = true;
                 this.installStatus = 'App can now be installed';
@@ -69,11 +85,17 @@ export class InstallButtonController {
         if (!this.#deferredPrompt) return;
         this.installStatus = 'Installing app...';
         this.#deferredPrompt.prompt();
+
         const choiceResult = await this.#deferredPrompt.userChoice;
         this.installStatus =
             choiceResult.outcome === 'accepted'
                 ? 'Installation accepted'
                 : 'Installation declined';
+        if (choiceResult.outcome === 'dismissed') {
+            this.promptDismissed = true;
+            sessionStorage.setItem('pwa-prompt-dismissed', 'true');
+        }
+
         this.#deferredPrompt = null;
         this.isInstallable = false;
         setTimeout(() => (this.installStatus = ''), 3000);
@@ -82,10 +104,10 @@ export class InstallButtonController {
     shareApp = () => {
         this.shareFallback = true;
         this.shareClicked = true;
-        localStorage.setItem('pwa-instructions-shown', 'true');
     };
 
     closeFallback = () => {
         this.shareFallback = false;
+        this.shareClicked = false;
     };
 }

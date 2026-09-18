@@ -1,80 +1,80 @@
 {
-  "version": 1,
-  "skills": {
-    "find-skills": {
-      "source": "vercel-labs/skills",
-      "sourceType": "github",
-      "computedHash": "645b891da1edbae76ab79c7b088d4e73397464f8396edaf773c0e01971ce75d6"
-    },
-    "gsap-core": {
-      "source": "greensock/gsap-skills",
-      "sourceType": "github",
-      "computedHash": "b891c9ed42d9319685250231085ebe21538f2c844613b277b9dd2b3ff529a542"
-    },
-    "gsap-frameworks": {
-      "source": "greensock/gsap-skills",
-      "sourceType": "github",
-      "computedHash": "9fa6e640b4d702d2270b28f43b37eb50bcdcd562b6b88b27260cf8ce5831d74f"
-    },
-    "gsap-performance": {
-      "source": "greensock/gsap-skills",
-      "sourceType": "github",
-      "computedHash": "da73dbf11663abb1a880e1796367f84b19877db4a16186b36d1dce96fe0ce983"
-    },
-    "gsap-plugins": {
-      "source": "greensock/gsap-skills",
-      "sourceType": "github",
-      "computedHash": "617b55bf453607f04901221a529e88d26e33365aea7df5857b48d1d77d5db2b1"
-    },
-    "gsap-scrolltrigger": {
-      "source": "greensock/gsap-skills",
-      "sourceType": "github",
-      "computedHash": "358dd3381c74fc4be8db5a94e0cd008bf0fa7c1ccd45999671b0d61b9d9ffd9b"
-    },
-    "gsap-timeline": {
-      "source": "greensock/gsap-skills",
-      "sourceType": "github",
-      "computedHash": "e7c07909bb427f74e1bda1ff716bd97ae166269382f7abbd649c0d1ba8f6e0ec"
-    },
-    "gsap-utils": {
-      "source": "greensock/gsap-skills",
-      "sourceType": "github",
-      "computedHash": "72af4a036d417d6eaef7478eca2f28e760631fb78db822ba34a9c706797aab62"
-    },
-    "threejs-animation": {
-      "source": "cloudai-x/threejs-skills",
-      "sourceType": "github",
-      "computedHash": "457900cae6babbe092e3226a2ac9ae5d09a84199c1b3d5050ed400d4f56a9d82"
-    },
-    "threejs-fundamentals": {
-      "source": "cloudai-x/threejs-skills",
-      "sourceType": "github",
-      "computedHash": "110044d18d358c235c3f938e7117ea0ccbcf72e0a8703567473e85c84b09ae99"
-    },
-    "threejs-geometry": {
-      "source": "cloudai-x/threejs-skills",
-      "sourceType": "github",
-      "computedHash": "9312cc4d2a68f408c789ff326904bbc88840605c8f6985d9a7a0a92d64918953"
-    },
-    "threejs-lighting": {
-      "source": "cloudai-x/threejs-skills",
-      "sourceType": "github",
-      "computedHash": "7adc319af73a15ce16b94c83aafe0bcca7b8ef17d9fb263d75a937b9670f1772"
-    },
-    "threejs-loaders": {
-      "source": "cloudai-x/threejs-skills",
-      "sourceType": "github",
-      "computedHash": "ba08b24a9700c4e89f86155ee4f5f31709479ecb7c51bfe07306b3e2a5ad2e4a"
-    },
-    "threejs-materials": {
-      "source": "cloudai-x/threejs-skills",
-      "sourceType": "github",
-      "computedHash": "4d181db0b35213b772bf20eff5fe6f72f1c84bdc03294db96d1f712dd9047443"
-    },
-    "threejs-textures": {
-      "source": "cloudai-x/threejs-skills",
-      "sourceType": "github",
-      "computedHash": "5afbbaa048507fcbb76adca76cdc2fa58f7edb68383c0c48785756fecb68a2d0"
+    "version": 1,
+    "skills": {
+        "find-skills": {
+            "source": "vercel-labs/skills",
+            "sourceType": "github",
+            "computedHash": "645b891da1edbae76ab79c7b088d4e73397464f8396edaf773c0e01971ce75d6"
+        },
+        "gsap-core": {
+            "source": "greensock/gsap-skills",
+            "sourceType": "github",
+            "computedHash": "b891c9ed42d9319685250231085ebe21538f2c844613b277b9dd2b3ff529a542"
+        },
+        "gsap-frameworks": {
+            "source": "greensock/gsap-skills",
+            "sourceType": "github",
+            "computedHash": "9fa6e640b4d702d2270b28f43b37eb50bcdcd562b6b88b27260cf8ce5831d74f"
+        },
+        "gsap-performance": {
+            "source": "greensock/gsap-skills",
+            "sourceType": "github",
+            "computedHash": "da73dbf11663abb1a880e1796367f84b19877db4a16186b36d1dce96fe0ce983"
+        },
+        "gsap-plugins": {
+            "source": "greensock/gsap-skills",
+            "sourceType": "github",
+            "computedHash": "617b55bf453607f04901221a529e88d26e33365aea7df5857b48d1d77d5db2b1"
+        },
+        "gsap-scrolltrigger": {
+            "source": "greensock/gsap-skills",
+            "sourceType": "github",
+            "computedHash": "358dd3381c74fc4be8db5a94e0cd008bf0fa7c1ccd45999671b0d61b9d9ffd9b"
+        },
+        "gsap-timeline": {
+            "source": "greensock/gsap-skills",
+            "sourceType": "github",
+            "computedHash": "e7c07909bb427f74e1bda1ff716bd97ae166269382f7abbd649c0d1ba8f6e0ec"
+        },
+        "gsap-utils": {
+            "source": "greensock/gsap-skills",
+            "sourceType": "github",
+            "computedHash": "72af4a036d417d6eaef7478eca2f28e760631fb78db822ba34a9c706797aab62"
+        },
+        "threejs-animation": {
+            "source": "cloudai-x/threejs-skills",
+            "sourceType": "github",
+            "computedHash": "457900cae6babbe092e3226a2ac9ae5d09a84199c1b3d5050ed400d4f56a9d82"
+        },
+        "threejs-fundamentals": {
+            "source": "cloudai-x/threejs-skills",
+            "sourceType": "github",
+            "computedHash": "110044d18d358c235c3f938e7117ea0ccbcf72e0a8703567473e85c84b09ae99"
+        },
+        "threejs-geometry": {
+            "source": "cloudai-x/threejs-skills",
+            "sourceType": "github",
+            "computedHash": "9312cc4d2a68f408c789ff326904bbc88840605c8f6985d9a7a0a92d64918953"
+        },
+        "threejs-lighting": {
+            "source": "cloudai-x/threejs-skills",
+            "sourceType": "github",
+            "computedHash": "7adc319af73a15ce16b94c83aafe0bcca7b8ef17d9fb263d75a937b9670f1772"
+        },
+        "threejs-loaders": {
+            "source": "cloudai-x/threejs-skills",
+            "sourceType": "github",
+            "computedHash": "ba08b24a9700c4e89f86155ee4f5f31709479ecb7c51bfe07306b3e2a5ad2e4a"
+        },
+        "threejs-materials": {
+            "source": "cloudai-x/threejs-skills",
+            "sourceType": "github",
+            "computedHash": "4d181db0b35213b772bf20eff5fe6f72f1c84bdc03294db96d1f712dd9047443"
+        },
+        "threejs-textures": {
+            "source": "cloudai-x/threejs-skills",
+            "sourceType": "github",
+            "computedHash": "5afbbaa048507fcbb76adca76cdc2fa58f7edb68383c0c48785756fecb68a2d0"
+        }
     }
-  }
 }

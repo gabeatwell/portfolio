@@ -3,36 +3,36 @@ export function createLocalStorage<T>(
     key: string,
     defaultValue: T | null = null,
 ) {
-    let value = $state<T | string | null>(defaultValue)
+    let value = $state<T | string | null>(defaultValue);
 
     // Initialize from localStorage
     if (typeof window !== 'undefined') {
-        const stored = localStorage.getItem(key)
+        const stored = localStorage.getItem(key);
         if (stored) {
             try {
-                value = JSON.parse(stored)
+                value = JSON.parse(stored);
             } catch {
-                value = stored
+                value = stored;
             }
         }
     }
 
     return {
         get value() {
-            return value
+            return value;
         },
         set value(newValue) {
-            value = newValue
+            value = newValue;
             if (typeof window !== 'undefined') {
-                localStorage.setItem(key, JSON.stringify(newValue))
+                localStorage.setItem(key, JSON.stringify(newValue));
             }
         },
 
         clear() {
-            value = defaultValue
+            value = defaultValue;
             if (typeof window !== 'undefined') {
-                localStorage.removeItem(key)
+                localStorage.removeItem(key);
             }
         },
-    }
+    };
 }

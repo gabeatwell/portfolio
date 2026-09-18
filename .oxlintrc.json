@@ -24,9 +24,7 @@
     ],
     "overrides": [
         {
-            "files": [
-                "src/routes/**/*.svelte"
-            ],
+            "files": ["src/routes/**/*.svelte"],
             "rules": {
                 "no-unused-expressions": "off"
             }

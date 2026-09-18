@@ -1,11 +1,11 @@
 {
-  "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "semi": true,
-  "singleQuote": true,
-  "tabWidth": 4,
-  "useTabs": false,
-  "proseWrap": "preserve",
-  "printWidth": 80,
-  "sortPackageJson": false,
-  "ignorePatterns": []
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "useTabs": false,
+    "proseWrap": "preserve",
+    "printWidth": 80,
+    "sortPackageJson": false,
+    "ignorePatterns": []
 }

@@ -1,86 +1,86 @@
 {
-	"$schema": "https://json.schemastore.org/package.json",
-	"name": "portfolio",
-	"version": "5.5.4",
-	"private": true,
-	"packageManager": "pnpm@11.17.0",
-	"engines": {
-		"node": ">=22.0.0",
-		"npm": ">=10.0.0"
-	},
-	"scripts": {
-		"dev": "vite dev --host --open",
-		"build": "vite build",
-		"postbuild": "node scripts/copy-404.js",
-		"preview": "vite preview --host",
-		"lint": "oxlint .",
-		"format": "oxfmt --write .",
-		"format:svelte": "prettier --write \"src/**/*.svelte\"",
-		"test": "vitest",
-		"check": "svelte-check",
-		"skills:add": "skills add https://github.com/greensock/gsap-skills",
-		"logs": "wrangler tail --env production",
-		"prepare": "husky"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^6.1.0",
-		"@sveltejs/adapter-cloudflare": "^7.2.9",
-		"@sveltejs/kit": "^2.68.0",
-		"@sveltejs/vite-plugin-svelte": "^7.0.0",
-		"@testing-library/jest-dom": "^7.0.1",
-		"@testing-library/svelte": "^5.3.1",
-		"@testing-library/user-event": "^14.6.1",
-		"@types/dompurify": "^3.2.0",
-		"@types/node": "^25.0.6",
-		"@types/pulltorefreshjs": "^0.1.7",
-		"@types/three": "^0.182.0",
-		"@vite-pwa/assets-generator": "^0.2.4",
-		"dompurify": "^3.3.3",
-		"dotenv": "^16.4.5",
-		"esbuild": "0.27.3",
-		"gsap": "^3.14.2",
-		"husky": "^9.1.7",
-		"jsdom": "^28.1.0",
-		"lightningcss": "^1.33.0",
-		"mdsvex": "^0.11.2",
-		"oxfmt": "^0.41.0",
-		"oxlint": "^1.56.0",
-		"prettier": "^3.2.5",
-		"prettier-plugin-svelte": "^3.2.3",
-		"pulltorefreshjs": "^0.1.22",
-		"sharp": "^0.34.5",
-		"skills": "^1.4.7",
-		"svelte-check": "^4.7.1",
-		"svelte-language-server": "^0.17.31",
-		"terser": "^5.46.0",
-		"three": "^0.167.1",
-		"typescript": "^7.0.2",
-		"vite": "^8.0.0",
-		"vitest": "^4.1.0",
-		"wrangler": "^4.59.2"
-	},
-	"type": "module",
-	"dependencies": {
-		"@fortawesome/fontawesome-free": "^6.6.0",
-		"@picocss/pico": "^1.5.13",
-		"copy-to-clipboard": "^3.3.3",
-		"highlight.js": "^11.11.1",
-		"isomorphic-dompurify": "^3.14.0",
-		"marked": "^18.0.4",
-		"svelte": "^5.54.0",
-		"valibot": "^1.4.1"
-	},
-	"overrides": {
-		"cookie": "^0.7.0"
-	},
-	"optionalDependencies": {
-		"@img/sharp-win32-x64": "0.34.5"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"sharp",
-			"esbuild",
-			"workerd"
-		]
-	}
+    "$schema": "https://json.schemastore.org/package.json",
+    "name": "portfolio",
+    "version": "5.5.5",
+    "private": true,
+    "packageManager": "pnpm@11.17.0",
+    "engines": {
+        "node": ">=22.0.0",
+        "npm": ">=10.0.0"
+    },
+    "scripts": {
+        "dev": "vite dev --host --open",
+        "build": "vite build",
+        "postbuild": "node scripts/copy-404.js",
+        "preview": "vite preview --host",
+        "lint": "oxlint .",
+        "format": "oxfmt --write .",
+        "format:svelte": "prettier --write \"src/**/*.svelte\"",
+        "test": "vitest",
+        "check": "svelte-check",
+        "skills:add": "skills add https://github.com/greensock/gsap-skills",
+        "logs": "wrangler tail --env production",
+        "prepare": "husky"
+    },
+    "devDependencies": {
+        "@sveltejs/adapter-auto": "^6.1.0",
+        "@sveltejs/adapter-cloudflare": "^7.2.9",
+        "@sveltejs/kit": "^2.68.0",
+        "@sveltejs/vite-plugin-svelte": "^7.0.0",
+        "@testing-library/jest-dom": "^7.0.1",
+        "@testing-library/svelte": "^5.3.1",
+        "@testing-library/user-event": "^14.6.1",
+        "@types/dompurify": "^3.2.0",
+        "@types/node": "^25.0.6",
+        "@types/pulltorefreshjs": "^0.1.7",
+        "@types/three": "^0.182.0",
+        "@vite-pwa/assets-generator": "^0.2.4",
+        "dompurify": "^3.3.3",
+        "dotenv": "^16.4.5",
+        "esbuild": "0.27.3",
+        "gsap": "^3.14.2",
+        "husky": "^9.1.7",
+        "jsdom": "^28.1.0",
+        "lightningcss": "^1.33.0",
+        "mdsvex": "^0.11.2",
+        "oxfmt": "^0.41.0",
+        "oxlint": "^1.56.0",
+        "prettier": "^3.2.5",
+        "prettier-plugin-svelte": "^3.2.3",
+        "pulltorefreshjs": "^0.1.22",
+        "sharp": "^0.34.5",
+        "skills": "^1.4.7",
+        "svelte-check": "^4.7.1",
+        "svelte-language-server": "^0.17.31",
+        "terser": "^5.46.0",
+        "three": "^0.167.1",
+        "typescript": "^7.0.2",
+        "vite": "^8.0.0",
+        "vitest": "^4.1.0",
+        "wrangler": "^4.59.2"
+    },
+    "type": "module",
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.6.0",
+        "@picocss/pico": "^1.5.13",
+        "copy-to-clipboard": "^3.3.3",
+        "highlight.js": "^11.11.1",
+        "isomorphic-dompurify": "^3.14.0",
+        "marked": "^18.0.4",
+        "svelte": "^5.54.0",
+        "valibot": "^1.4.1"
+    },
+    "overrides": {
+        "cookie": "^0.7.0"
+    },
+    "optionalDependencies": {
+        "@img/sharp-win32-x64": "0.34.5"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "sharp",
+            "esbuild",
+            "workerd"
+        ]
+    }
 }

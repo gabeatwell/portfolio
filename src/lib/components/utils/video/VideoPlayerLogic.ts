@@ -1,32 +1,32 @@
 export function playVid(video: HTMLVideoElement | null) {
-    video?.play()
+    video?.play();
 }
 
 export function pauseVid(video: HTMLVideoElement | null) {
-    video?.pause()
+    video?.pause();
 }
 
 export function stopVid(
     video: HTMLVideoElement | null,
     currentTime: number,
 ): number {
-    if (!video) return currentTime
-    video.pause()
-    video.currentTime = 0
-    return 0
+    if (!video) return currentTime;
+    video.pause();
+    video.currentTime = 0;
+    return 0;
 }
 
 export function changeVol(event: Event, video: HTMLVideoElement | null) {
-    if (!video) return
-    video.volume = Number((event.target as HTMLInputElement).value)
+    if (!video) return;
+    video.volume = Number((event.target as HTMLInputElement).value);
 }
 
 export function togglePlay(video: HTMLVideoElement | null) {
-    if (!video) return
+    if (!video) return;
     if (video.paused) {
-        video.play()
+        video.play();
     } else {
-        video.pause()
+        video.pause();
     }
 }
 
@@ -35,8 +35,8 @@ export function handleKeydown(
     video: HTMLVideoElement | null,
 ) {
     if (event.code === 'Space' || event.key === ' ') {
-        event.preventDefault()
-        togglePlay(video)
+        event.preventDefault();
+        togglePlay(video);
     }
 }
 
@@ -44,16 +44,16 @@ export function handleLoadedMetadata(
     video: HTMLVideoElement | null,
     duration: number,
 ): number {
-    if (!video) return duration
-    return video.duration || 0
+    if (!video) return duration;
+    return video.duration || 0;
 }
 
 export function handleTimeUpdate(
     video: HTMLVideoElement | null,
     currentTime: number,
 ): number {
-    if (!video) return currentTime
-    return video.currentTime
+    if (!video) return currentTime;
+    return video.currentTime;
 }
 
 export function handleSeek(
@@ -61,8 +61,8 @@ export function handleSeek(
     event: Event,
     currentTime: number,
 ): number {
-    if (!video) return currentTime
-    const value = Number((event.target as HTMLInputElement).value)
-    video.currentTime = value
-    return value
+    if (!video) return currentTime;
+    const value = Number((event.target as HTMLInputElement).value);
+    video.currentTime = value;
+    return value;
 }

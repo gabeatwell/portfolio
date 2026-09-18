@@ -57,19 +57,19 @@ Once your component is rendered, control debugging via browser console:
 
 ```javascript
 // Enable all debugging for "YourComponent"
-window.yourcomponentDebug.enable()
+window.yourcomponentDebug.enable();
 
 // Enable specific categories only
-window.yourcomponentDebug.enable(['events', 'lifecycle'])
+window.yourcomponentDebug.enable(['events', 'lifecycle']);
 
 // Toggle individual categories
-window.yourcomponentDebug.toggle('events')
+window.yourcomponentDebug.toggle('events');
 
 // Check current debug status
-window.yourcomponentDebug.status()
+window.yourcomponentDebug.status();
 
 // Disable all debugging
-window.yourcomponentDebug.disable()
+window.yourcomponentDebug.disable();
 ```
 
 ## Available Categories
@@ -162,9 +162,9 @@ window.yourcomponentDebug.disable()
 
 ```javascript
 // Replace "componentname" with your actual namespace (lowercase)
-window.componentnameDebug.enable() // Enable all
-window.componentnameDebug.enable(['events']) // Enable specific categories
-window.componentnameDebug.disable() // Disable all
-window.componentnameDebug.toggle('events') // Toggle category
-window.componentnameDebug.status() // Show current config
+window.componentnameDebug.enable(); // Enable all
+window.componentnameDebug.enable(['events']); // Enable specific categories
+window.componentnameDebug.disable(); // Disable all
+window.componentnameDebug.toggle('events'); // Toggle category
+window.componentnameDebug.status(); // Show current config
 ```

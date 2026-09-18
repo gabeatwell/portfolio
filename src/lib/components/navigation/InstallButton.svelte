@@ -5,7 +5,11 @@
     import { InstallButtonController } from './install-button.svelte';
 
     const install = new InstallButtonController();
-
+    const videoSrc = $derived(
+        install.isMacSafari
+            ? 'https://www.youtube.com/embed/8l7elwrvs3w?autoplay=1&loop=1&playlist=8l7elwrvs3w&controls=1&modestbranding=1&rel=0'
+            : 'https://www.youtube.com/embed/SksQ05ufRpc?autoplay=1&loop=1&playlist=SksQ05ufRpc&controls=1&modestbranding=1&rel=0',
+    );
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/foley-bubble.wav',
     );
@@ -31,6 +35,19 @@
     {/if}
     {#if install.shareFallback}
         <div class="apple-instructions">
+            <div class="video-wrapper">
+                <iframe
+                    src={videoSrc}
+                    title={install.isMacSafari
+                        ? 'How to Add to Dock'
+                        : 'How to Add to Home Screen'}
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen
+                    class="instruction-video"
+                    class:portrait={install.isMacSafari}
+                ></iframe>
+            </div>
+
             <p><u>On iOS:</u></p>
 
             <p>
@@ -143,6 +160,9 @@
             margin-top: 0.5rem;
             cursor: pointer;
         }
+        &[hidden] {
+            display: none;
+        }
 
         @media (width >= 750px) {
             bottom: 1em;
@@ -151,6 +171,47 @@
 
         @media (width <= 500px) {
             margin: 1em;
+        }
+    }
+
+    .video-wrapper {
+        max-inline-size: 120px;
+        inline-size: 100%;
+        margin-inline: auto;
+        margin-bottom: 0.2em;
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: #000;
+
+        position: absolute;
+        top: -12em;
+        left: 50%;
+        transform: translateX(-50%);
+
+        @media (width <= 768px) {
+            top: -1.5em;
+            left: 80%;
+        }
+
+        & .instruction-video {
+            display: block;
+            inline-size: 100%;
+            block-size: auto;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            margin: 0;
+
+            @media (width <= 768px) {
+                aspect-ratio: 16/9;
+            }
+
+            &.portrait {
+                aspect-ratio: 9/16;
+                max-inline-size: 100%;
+                inline-size: auto;
+                block-size: min(45ch, 290px);
+                margin-inline: auto;
+            }
         }
     }
 

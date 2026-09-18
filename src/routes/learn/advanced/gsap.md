@@ -38,7 +38,7 @@ Only use this if you need to run custom logic for distributing the staggers. The
 <div class="image">
 
 ```js
-gsap.to('.example', { yPercent: 100, stagger: 0.1 })
+gsap.to('.example', { yPercent: 100, stagger: 0.1 });
 
 gsap.to('.example', {
     y: 50,
@@ -46,15 +46,15 @@ gsap.to('.example', {
         each: 0.2,
         from: 'edges',
     },
-})
+});
 
 gsap.to('.example', {
     y: 50,
     stagger: function (index) {
         // logic goes here
-        return index * 0.2
+        return index * 0.2;
     },
-})
+});
 ```
 
 </div>
@@ -75,10 +75,10 @@ Timelines makes sequencing multiple tweens really easy and faster to code, in th
 <div class="image">
 
 ```js
-const tl = gsap.timeline()
+const tl = gsap.timeline();
 
-tl.to('.red', { x: 100, duration: 2 })
-tl.to('.blue', { y: 300, duration: 1 }, '+=300')
+tl.to('.red', { x: 100, duration: 2 });
+tl.to('.blue', { y: 300, duration: 1 }, '+=300');
 ```
 
 </div>
@@ -105,7 +105,7 @@ gsap.to('.example', {
         easeEach: 'power2.out',
     },
     duration: 3,
-})
+});
 ```
 
 </div>
@@ -160,7 +160,7 @@ apply `visibility: hidden;` to your elements in CSS and then use GSAP's autoAlph
 
 ```js
 // then use autoAlpha in gsap
-gsap.to('.example', { autoAlpha: 1 })
+gsap.to('.example', { autoAlpha: 1 });
 ```
 
 </div>
@@ -182,21 +182,21 @@ You don't need to put ScrollTriggers directly into animations (though that's pro
 
 ```js
 // install with a package manager
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 ```
 
 ```js
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 ScrollTrigger.create({
     trigger: '.example',
     start: 'top bottom',
     end: 'bottom center',
     onUpdate: (self) => {
-        console.log('Updated!')
+        console.log('Updated!');
     },
-})
+});
 ```
 
 </div>
@@ -220,14 +220,14 @@ To use the MorphSVG plugin, you can either use npm or use the cdn. Npm makes it 
 
 ```js
 // install with a package manager
-import gsap from 'gsap'
-import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin'
+import gsap from 'gsap';
+import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin';
 
 // converts a <rect> from the id original into a <path>
-MorphSVGPlugin.convertToPath('#original rect')
+MorphSVGPlugin.convertToPath('#original rect');
 
 // #new is what you want the shape to morph into
-gsap.to('#original', { morphSVG: '#new' })
+gsap.to('#original', { morphSVG: '#new' });
 ```
 
 </div>

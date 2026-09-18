@@ -1,16 +1,16 @@
-import { render, screen } from '@testing-library/svelte'
-import userEvent from '@testing-library/user-event'
-import type { SvelteComponent } from 'svelte'
-import { expect, type Mock } from 'vitest'
+import { render, screen } from '@testing-library/svelte';
+import userEvent from '@testing-library/user-event';
+import type { SvelteComponent } from 'svelte';
+import { expect, type Mock } from 'vitest';
 
 interface RenderOptions {
-    props?: Record<string, unknown>
-    [key: string]: unknown
+    props?: Record<string, unknown>;
+    [key: string]: unknown;
 }
 
 interface RerenderOptions {
-    timeout?: number
-    interval?: number
+    timeout?: number;
+    interval?: number;
 }
 
 /**
@@ -21,7 +21,7 @@ export function renderComponent<T extends Record<string, unknown>>(
     props?: T,
     options?: Omit<RenderOptions, 'props'>,
 ) {
-    const result = render(Component, { props, ...options })
+    const result = render(Component, { props, ...options });
 
     return {
         ...result,
@@ -30,9 +30,9 @@ export function renderComponent<T extends Record<string, unknown>>(
                 Component,
                 { ...props, ...newProps },
                 options,
-            )
+            );
         },
-    }
+    };
 }
 
 /**
@@ -48,7 +48,7 @@ export async function userInteractions() {
         selectOption: async (element: HTMLElement, value: string) =>
             userEvent.selectOptions(element, value),
         keyboard: async (keys: string) => userEvent.keyboard(keys),
-    }
+    };
 }
 
 /**
@@ -59,7 +59,7 @@ export const queries = {
     input: (label: string) => screen.getByLabelText(label),
     text: (text: string) => screen.getByText(text),
     testId: (id: string) => screen.getByTestId(id),
-}
+};
 
 /**
  * state & props changes
@@ -68,15 +68,15 @@ export async function waitForChange(
     callback: () => boolean,
     options: RerenderOptions = {},
 ): Promise<true> {
-    const { timeout = 3000, interval = 50 } = options
-    const startTime = Date.now()
+    const { timeout = 3000, interval = 50 } = options;
+    const startTime = Date.now();
 
     while (Date.now() - startTime < timeout) {
-        if (callback()) return true
-        await new Promise((resolve) => setTimeout(resolve, interval))
+        if (callback()) return true;
+        await new Promise((resolve) => setTimeout(resolve, interval));
     }
 
-    throw new Error(`Timeout waiting for change after ${timeout}ms`)
+    throw new Error(`Timeout waiting for change after ${timeout}ms`);
 }
 
 /**
@@ -89,5 +89,5 @@ export function expectCallback(callback: Mock) {
             expect(callback).toHaveBeenCalledWith(...args),
         toHaveBeenCalledTimes: (times: number) =>
             expect(callback).toHaveBeenCalledTimes(times),
-    }
+    };
 }
