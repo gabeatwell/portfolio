@@ -66,6 +66,9 @@ importers:
       '@types/three':
         specifier: ^0.182.0
         version: 0.182.0
+      '@types/youtube':
+        specifier: ^0.3.0
+        version: 0.3.0
       '@vite-pwa/assets-generator':
         specifier: ^0.2.4
         version: 0.2.6
@@ -1171,6 +1174,9 @@ packages:
 
   '@types/webxr@0.5.24':
     resolution: {integrity: sha512-h8fgEd/DpoS9CBrjEQXR+dIDraopAEfu4wYVNY2tEPwk60stPWhvZMf4Foo5FakuQ7HFZoa8WceaWFervK2Ovg==}
+
+  '@types/youtube@0.3.0':
+    resolution: {integrity: sha512-a+JnwvmYfCShUv2fPs9JL/rUr9JGx5BPjSn7sp3V5UEyyj2AIVkSCRlVoe4CjFBrkBIv9jMpOPakfitMq7tegA==}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     resolution: {integrity: sha512-MTKKkWB7p/0E9xi1d1tHtZ5PiLkGEMIq88pK2CubZjOsLtYTLqhgIgi6zepFa+9GHZ6h05NMCkQxGKiPXMxXtQ==}
@@ -3160,6 +3166,8 @@ snapshots:
   '@types/unist@2.0.11': {}
 
   '@types/webxr@0.5.24': {}
+
+  '@types/youtube@0.3.0': {}
 
   '@typescript/typescript-aix-ppc64@7.0.2':
     optional: true

@@ -3,17 +3,20 @@
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
     import { InstallButtonController } from './install-button.svelte';
+    import { YoutubeGuide } from './youtube-api.svelte';
 
     const install = new InstallButtonController();
-    const videoSrc = $derived(
-        install.isMacSafari
-            ? 'https://www.youtube.com/embed/8l7elwrvs3w?autoplay=1&okaysinline=1&loop=1&playlist=8l7elwrvs3w&controls=1&modestbranding=1&rel=0'
-            : 'https://www.youtube.com/embed/SksQ05ufRpc?autoplay=1&muted=1&playsinline=1&loop=1&playlist=SksQ05ufRpc&controls=1&modestbranding=1&rel=0',
-    );
+    // const videoSrc = $derived(
+    //     install.isMacSafari
+    //         ? 'https://www.youtube.com/embed/8l7elwrvs3w?autoplay=1&okaysinline=1&loop=1&playlist=8l7elwrvs3w&controls=1&modestbranding=1&rel=0'
+    //         : 'https://www.youtube.com/embed/SksQ05ufRpc?autoplay=1&muted=1&playsinline=1&loop=1&playlist=SksQ05ufRpc&controls=1&modestbranding=1&rel=0',
+    // );
     const videoId = $derived(
         install.isMacSafari ? '8l7elwrvs3w' : 'SksQ05ufRpc',
     );
-    let playing = $state(false);
+    const yt = new YoutubeGuide(() => videoId);
+
+    // let playing = $state(false);
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/foley-bubble.wav',
     );
@@ -21,6 +24,18 @@
     async function handleUiSound() {
         await playHoverSound();
     }
+
+    $effect(() => {
+        if (install.shareFallback) yt.loadApi();
+    });
+
+    $effect(() => {
+        if (yt.apiReady && install.shareFallback && !yt.player) {
+            requestAnimationFrame(() => yt.createPlayer());
+        }
+
+        return () => yt.close();
+    });
 </script>
 
 <A11yAnnouncer message={install.installStatus} />
@@ -41,23 +56,16 @@
     {#if install.shareFallback}
         <div class="apple-instructions">
             <div class="video-wrapper">
-                {#if playing}
-                    <iframe
-                        src={videoSrc}
-                        title={install.isMacSafari
-                            ? 'How to Add to Dock'
-                            : 'How to Add to Home Screen'}
-                        allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-                        allowfullscreen
-                        class="instruction-video"
-                        class:portrait={install.isMacSafari}
-                    ></iframe>
-                {:else}
+                <div hidden={!yt.playing}>
+                    <div id="yt-player"></div>
+                </div>
+
+                {#if !yt.playing}
                     <button
                         type="button"
                         class="thumbnail"
                         aria-label="Play instructions video"
-                        onclick={() => (playing = true)}
+                        onclick={yt.play}
                     >
                         <img
                             src="https://i.ytimg.com/vi/{videoId}/hqdefault.jpg"
@@ -125,7 +133,7 @@
             <button
                 data-close-button
                 onclick={() => {
-                    playing = false;
+                    yt.close();
                     install.closeFallback();
                 }}>Close</button
             >
@@ -235,27 +243,15 @@
         transform: translateX(-50%);
 
         @media (width <= 768px) {
-            top: -4em;
+            top: -4.5em;
             left: 80%;
-            max-block-size: 100px;
-            block-size: 100%;
         }
 
-        & .instruction-video {
+        & :global(iframe) {
             display: block;
             inline-size: 100%;
+            aspect-ratio: 9/16;
             block-size: auto;
-            aspect-ratio: 9 / 16;
-            object-fit: cover;
-            margin: 0;
-
-            &.portrait {
-                aspect-ratio: 9/16;
-                max-inline-size: 100%;
-                inline-size: auto;
-                block-size: min(45ch, 290px);
-                margin-inline: auto;
-            }
         }
 
         & .thumbnail {
@@ -282,8 +278,9 @@
                 inset: 0;
                 display: grid;
                 place-items: center;
-                font-size: clamp(2rem, 8vw, 4rem);
-                color: var(--clr-fail-500-light);
+                font-size: clamp(3rem, 8vw, 4rem);
+                color: var(--clr-success-500-light);
+                text-shadow: 0 0 15px var(--clr-dark-500);
             }
         }
     }

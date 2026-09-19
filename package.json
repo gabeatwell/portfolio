@@ -1,7 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
     "name": "portfolio",
-    "version": "5.5.7",
+    "version": "5.5.8",
     "private": true,
     "packageManager": "pnpm@11.17.0",
     "engines": {
@@ -34,6 +34,7 @@
         "@types/node": "^25.0.6",
         "@types/pulltorefreshjs": "^0.1.7",
         "@types/three": "^0.182.0",
+        "@types/youtube": "^0.3.0",
         "@vite-pwa/assets-generator": "^0.2.4",
         "dompurify": "^3.3.3",
         "dotenv": "^16.4.5",

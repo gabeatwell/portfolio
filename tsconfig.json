@@ -9,9 +9,23 @@
         "skipLibCheck": true,
         "strict": true,
         "moduleResolution": "bundler",
-        "lib": ["DOM", "DOM.Iterable", "ES2022"],
-        "types": ["svelte", "vite/client", "@types/node"]
+        "lib": [
+            "DOM",
+            "DOM.Iterable",
+            "ES2022"
+        ],
+        "types": [
+            "svelte",
+            "vite/client",
+            "@types/node",
+            "@types/youtube"
+        ]
     },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", ".svelte-kit"]
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        ".svelte-kit"
+    ]
 }
