@@ -6,7 +6,7 @@
     );
 </script>
 
-<div class="connect-select">
+<li class="connect-select">
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div class="select-wrapper" onmouseenter={playHoverSound}>
         <span class="select-trigger">Connect</span>
@@ -21,7 +21,7 @@
             </a>
         </div>
     </div>
-</div>
+</li>
 
 <style>
     .connect-select {

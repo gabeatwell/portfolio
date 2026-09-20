@@ -21,7 +21,7 @@
             {#each heroContentState.titleWords as _, wordIndex}
                 {@const wordData = heroContentState.getWordChars(wordIndex)}
 
-                <span class="word">
+                <div class="word">
                     {#each wordData.chars as char, charIndex}
                         <span
                             class="char"
@@ -35,7 +35,7 @@
                             <HandDrawnUnderline width={100} height={50} />
                         </div>
                     {/if}
-                </span>
+                </div>
             {/each}
         </h1>
     </header>
@@ -76,42 +76,44 @@
             <dl class="stats-container">
                 <div class="stat-item a">
                     <dt class="visually-hidden">Work approach</dt>
-                    <dd class="stat-number" aria-label="One hundred percent">
-                        100%
+                    <dd class="stat-number" aria-label="100% custom">
+                        <span class="stat-value">100%</span>
+                        <span
+                            class="stat-label"
+                            class:tunnel={isTunnel}
+                            class:ribbon={isRibbon}
+                        >
+                            Custom
+                        </span>
                     </dd>
-                    <dt
-                        class="stat-label"
-                        class:tunnel={isTunnel}
-                        class:ribbon={isRibbon}
-                    >
-                        Custom
-                    </dt>
                 </div>
 
                 <div class="stat-item b">
                     <dt class="visually-hidden">Project delivery timeframe</dt>
-                    <dd class="stat-number" aria-label="Fast">Fast</dd>
-                    <dt
-                        class="stat-label"
-                        class:tunnel={isTunnel}
-                        class:ribbon={isRibbon}
-                    >
-                        Delivery
-                    </dt>
+                    <dd class="stat-number" aria-label="Fast">
+                        <span class="stat-value">Fast</span>
+                        <span
+                            class="stat-label"
+                            class:tunnel={isTunnel}
+                            class:ribbon={isRibbon}
+                        >
+                            Delivery
+                        </span>
+                    </dd>
                 </div>
 
                 <div class="stat-item c">
                     <dt class="visually-hidden">Responsive design approach</dt>
                     <dd class="stat-number" aria-label="Fully responsive">
-                        Fully
+                        <span class="stat-value">Fully</span>
+                        <span
+                            class="stat-label"
+                            class:tunnel={isTunnel}
+                            class:ribbon={isRibbon}
+                        >
+                            Responsive
+                        </span>
                     </dd>
-                    <dt
-                        class="stat-label"
-                        class:tunnel={isTunnel}
-                        class:ribbon={isRibbon}
-                    >
-                        Responsive
-                    </dt>
                 </div>
             </dl>
         </section>
@@ -319,6 +321,10 @@
                         }
 
                         & .stat-number {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+
                             font-family: var(--ultra);
                             font-size: clamp(var(--h6), 3vw, var(--h2));
                             color: var(--clr-dark-500);

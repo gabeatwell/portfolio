@@ -16,10 +16,10 @@
         class="visually-hidden burger-checkbox"
         bind:checked={open}
     />
-    <div class="bars">
+    <span class="bars">
         <span class="bar bar-1"></span>
         <span class="bar bar-2"></span>
-    </div>
+    </span>
 </label>
 
 <style>
