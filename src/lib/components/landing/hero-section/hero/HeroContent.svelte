@@ -21,7 +21,7 @@
             {#each heroContentState.titleWords as _, wordIndex}
                 {@const wordData = heroContentState.getWordChars(wordIndex)}
 
-                <div class="word">
+                <span class="word">
                     {#each wordData.chars as char, charIndex}
                         <span
                             class="char"
@@ -31,11 +31,11 @@
                     {/each}
 
                     {#if wordIndex === 0}
-                        <div class="underline-wrapper">
+                        <span class="underline-wrapper">
                             <HandDrawnUnderline width={100} height={50} />
-                        </div>
+                        </span>
                     {/if}
-                </div>
+                </span>
             {/each}
         </h1>
     </header>

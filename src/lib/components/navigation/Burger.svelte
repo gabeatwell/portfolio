@@ -2,10 +2,10 @@
     let { open = $bindable(false), ariaLabel = 'menu' } = $props();
 </script>
 
-<label
+<button
     class="hamburger"
     class:open
-    for="burger-toggle"
+    onclick={() => (open = !open)}
     aria-label={ariaLabel}
     aria-expanded={open}
     aria-controls="mobile-menu"
@@ -20,7 +20,7 @@
         <span class="bar bar-1"></span>
         <span class="bar bar-2"></span>
     </span>
-</label>
+</button>
 
 <style>
     .hamburger {
