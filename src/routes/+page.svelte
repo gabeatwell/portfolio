@@ -14,7 +14,7 @@
 
     const intros = import.meta.glob([
         '/src/lib/components/landing/hero-section/TeethIntro.svelte',
-        '/src/lib/components/landing/video-intro/LaptopIntro.svelte',
+        '/src/lib/components/landing/scroll-intro/LaptopIntro.svelte',
     ]);
 
     $effect(() => {
@@ -25,7 +25,7 @@
 
             const path = isTeeth
                 ? '/src/lib/components/landing/hero-section/TeethIntro.svelte'
-                : '/src/lib/components/landing/video-intro/LaptopIntro.svelte';
+                : '/src/lib/components/landing/scroll-intro/LaptopIntro.svelte';
 
             intros[path]().then((module) => {
                 Intro = (module as SvelteModule).default;
