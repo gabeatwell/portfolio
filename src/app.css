@@ -468,6 +468,10 @@
                 oklch(from var(--white) 0.5 c h),
                 oklch(from var(--blackest) 0.72 c h)
             );
+            --clr-dark-300: light-dark(
+                oklch(from var(--dark-gray) 0.75 c h),
+                oklch(from var(--blackest) 0.72 c h)
+            );
 
             --clr-hero-text: light-dark(
                 oklch(from var(--light-gray) 0.45 c h),

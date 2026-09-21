@@ -104,9 +104,10 @@
             transform-origin: right center;
         }
 
-        &:focus-visible {
+        &:focus-visible,
+        &:focus {
             background: transparent;
-            outline: 1px solid var(--clr-light-500);
+            outline: 2px solid var(--clr-dark-300);
             outline-offset: 1px 2px;
         }
 

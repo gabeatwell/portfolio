@@ -86,7 +86,7 @@
                 transition: background 0.15s ease-out;
 
                 &:focus {
-                    outline: 1px solid var(--clr-light-500);
+                    outline: 2px solid var(--clr-dark-300);
                     background: transparent;
                     box-shadow: none;
                 }

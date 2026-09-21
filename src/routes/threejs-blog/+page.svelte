@@ -216,8 +216,12 @@
         right: 1em;
 
         @media (width <= 1100px) {
-            top: 6em;
-            /* right: auto; */
+            top: 7em;
+        }
+
+        @media (width <= 950px) {
+            top: 7em;
+            right: 0;
         }
 
         @media (width <= 768px) {
@@ -239,17 +243,17 @@
             font-weight: 700;
             transform: rotate(15deg);
             letter-spacing: -0.025em;
-            color: var(--clr-blue-500);
+            color: var(--clr-dark-500);
             text-shadow:
                 0 0 1px var(--clr-dark-500),
-                -2px -2px 0 var(--clr-dark-400),
-                2px -2px 0 var(--clr-dark-400),
-                -2px 2px 0 var(--clr-dark-400),
-                2px 2px 0 var(--clr-dark-400),
-                -2px 0 0 var(--clr-dark-400),
-                2px 0 0 var(--clr-dark-400),
-                0 -2px 0 var(--clr-dark-400),
-                0 2px 0 var(--clr-dark-400);
+                -2px -2px 0 var(--clr-success-500),
+                2px -2px 0 var(--clr-success-500),
+                -2px 2px 0 var(--clr-success-500),
+                2px 2px 0 var(--clr-success-500),
+                -2px 0 0 var(--clr-success-500),
+                2px 0 0 var(--clr-success-500),
+                0 -2px 0 var(--clr-success-500),
+                0 2px 0 var(--clr-success-500);
             text-wrap: nowrap;
             margin: 0;
             padding: 0;
