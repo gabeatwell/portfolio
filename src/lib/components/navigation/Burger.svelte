@@ -10,12 +10,6 @@
     aria-expanded={open}
     aria-controls="mobile-menu"
 >
-    <input
-        type="checkbox"
-        id="burger-toggle"
-        class="visually-hidden burger-checkbox"
-        bind:checked={open}
-    />
     <span class="bars">
         <span class="bar bar-1"></span>
         <span class="bar bar-2"></span>
