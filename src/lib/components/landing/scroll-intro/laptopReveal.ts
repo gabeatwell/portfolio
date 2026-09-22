@@ -16,7 +16,6 @@ import {
     WebGLRenderer,
     IcosahedronGeometry,
     OctahedronGeometry,
-    TetrahedronGeometry,
     MeshStandardMaterial,
     Sphere,
     Color,
@@ -27,6 +26,8 @@ import {
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
 RectAreaLightUniformsLib.init();
 
@@ -91,25 +92,24 @@ export function laptopScene(
     node.appendChild(renderer.domElement);
 
     renderer.domElement.style.cssText = `
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        pointer-events: none;
-    `;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        `;
 
     const vignette = document.createElement('div');
     vignette.style.cssText = `
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        box-shadow: inset 0 0 120px 40px rgba(0, 0, 0, 0.75);
-        z-index: 2;
-    `;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            box-shadow: inset 0 0 120px 40px rgba(0, 0, 0, 0.75);
+            z-index: 2;
+        `;
     node.appendChild(vignette);
 
-    // content as a WebGL texture (no CSS3D needed for a static image)
     const screenTexture = new TextureLoader().load(imageUrl);
     screenTexture.colorSpace = SRGBColorSpace;
     screenTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
@@ -125,49 +125,186 @@ export function laptopScene(
     // background shapes
     const shapes: Mesh[] = [];
     const mouse = new Vector2(0, 0);
-    const shapeGeos = [
-        new IcosahedronGeometry(0.55, 1),
-        new OctahedronGeometry(0.5),
-        new TetrahedronGeometry(0.6),
-        new IcosahedronGeometry(0.4, 0),
-    ];
     const outlineMat = new MeshBasicMaterial({
         color: 0x000000,
         side: BackSide,
     });
+    const sharedMat = new MeshStandardMaterial({
+        color: new Color('#60bbcc'),
+        roughness: 0.45,
+        metalness: 0.15,
+        transparent: true,
+        opacity: 0.82,
+    });
+    const textMat = new MeshStandardMaterial({
+        color: new Color('#d11111'),
+        emissive: new Color('#d11111'),
+        emissiveIntensity: 0.4,
+        roughness: 0.35,
+        metalness: 0.2,
+        transparent: true,
+        opacity: 1,
+        side: DoubleSide,
+    });
 
-    shapeGeos.forEach((geo, i) => {
-        const mat = new MeshStandardMaterial({
-            color: new Color('#60bbcc'),
-            roughness: 0.45,
-            metalness: 0.15,
-            transparent: true,
-            opacity: 0.82,
-        });
-        const mesh = new Mesh(geo, mat);
-
-        // random size
-        const scale = 0.55 + Math.random() * 0.9;
+    function finalizeShape(mesh: Mesh, radius: number, fixedScale?: number) {
+        const scale = fixedScale ?? 0.55 + Math.random() * 0.9;
         mesh.scale.setScalar(scale);
-
-        geo.computeBoundingSphere();
-        const thickness = 0.04;
-        const radius = (geo.boundingSphere?.radius ?? 0.6) * scale;
-
-        // inverted-hull outline — after radius exists
-        const hull = new Mesh(geo, outlineMat);
-        hull.scale.setScalar(1 + thickness / radius);
-        mesh.add(hull);
 
         mesh.userData = {
             basePos: mesh.position.clone(),
             velocity: new Vector3(),
-            radius,
+            radius: radius * scale,
         };
 
         scene.add(mesh);
         shapes.push(mesh);
+    }
+
+    function placeShape(mesh: Mesh) {
+        if (!laptop || mesh.userData.side) return;
+        const z = -1.5 + Math.random() * 2.5;
+        mesh.position.copy(randomSpot(z, mesh.userData.radius + 0.15, 7, 1.8));
+        mesh.userData.basePos.copy(mesh.position);
+    }
+
+    let laptopReady = false;
+    let fontReady = false;
+
+    function placeTextSides() {
+        if (!laptop) return;
+
+        const z = 0; // mid-depth, adjust if you want
+        const b = screenBounds(z, camera.position.z, camera.position.y);
+
+        const midX = (b.minX + b.maxX) / 2;
+        const midY = (b.minY + b.maxY) / 2;
+
+        shapes.forEach((mesh) => {
+            if (!mesh.userData.side) return;
+
+            // laptop margin
+            const margin = mesh.userData.radius + 0.25;
+            const minDist = exclusion.radius + margin;
+
+            let x: number;
+            let y: number;
+
+            if (mesh.userData.side === 'left') {
+                // fixed anchor: ~22% in from the left edge, ~22% down from the top
+                x = b.minX + (midX - b.minX) * 0.35;
+                y = midY + (b.maxY - midY) * 0.65;
+            } else {
+                x = midX + (b.maxX - midX) * 0.65;
+                y = b.minY + (midY - b.minY) * 0.35;
+            }
+
+            // push outside laptop sphere if needed
+            const pos = new Vector3(x, y, z);
+            const out = pos.clone().sub(exclusion.center);
+            if (out.length() < minDist) {
+                out.normalize();
+                pos.copy(exclusion.center).addScaledVector(out, minDist);
+            }
+
+            mesh.position.copy(pos);
+            mesh.userData.basePos.copy(mesh.position);
+        });
+    }
+
+    function tryStart() {
+        if (laptopReady && fontReady) {
+            applyTextScale();
+            placeTextSides();
+            shapes.forEach(placeShape);
+            setupAnimation();
+        }
+    }
+
+    const shapeGeos = [
+        new IcosahedronGeometry(0.55, 1),
+        new OctahedronGeometry(0.5),
+    ];
+
+    shapeGeos.forEach((geo) => {
+        const mesh = new Mesh(geo, sharedMat);
+
+        geo.computeBoundingSphere();
+        const thickness = 0.04;
+        const radius = geo.boundingSphere?.radius ?? 0.6;
+
+        // outline
+        const hull = new Mesh(geo, outlineMat);
+        hull.scale.setScalar(1 + thickness / radius);
+        mesh.add(hull);
+
+        finalizeShape(mesh, radius);
     });
+
+    // text
+    const fontLoader = new FontLoader();
+    fontLoader.load(
+        'https://cdn.jsdelivr.net/npm/three@0.170.0/examples/fonts/droid/droid_serif_regular.typeface.json',
+        (font) => {
+            const words = [
+                { text: 'scroll', side: 'left' as const },
+                { text: 'down', side: 'right' as const },
+            ];
+
+            words.forEach(({ text, side }) => {
+                const geo = new TextGeometry(text, {
+                    font,
+                    size: 0.38,
+                    depth: 0.07,
+                    curveSegments: 4,
+                    bevelEnabled: true,
+                    bevelThickness: 0.018,
+                    bevelSize: 0.012,
+                    bevelOffset: 0,
+                    bevelSegments: 2,
+                });
+
+                // center
+                geo.computeBoundingBox();
+                const bb = geo.boundingBox!;
+                geo.translate(
+                    -(bb.max.x + bb.min.x) / 2,
+                    -(bb.max.y + bb.min.y) / 2,
+                    -(bb.max.z + bb.min.z) / 2,
+                );
+
+                const mesh = new Mesh(geo, textMat);
+
+                const hull = new Mesh(geo, outlineMat);
+                hull.scale.setScalar(1.05);
+                mesh.add(hull);
+
+                const radius = (bb.max.x - bb.min.x) * 0.5;
+                finalizeShape(mesh, radius, 1);
+                mesh.userData.baseRadius = radius;
+
+                mesh.userData.side = side;
+            });
+
+            fontReady = true;
+            tryStart();
+        },
+    );
+
+    const REFERENCE_WIDTH = 9;
+
+    function applyTextScale() {
+        const b = screenBounds(0, camera.position.z, camera.position.y);
+        const viewWidth = b.maxX - b.minX;
+        // keep the words at a constant *fraction* of the screen
+        const s = Math.min(1, Math.max(0.5, viewWidth / REFERENCE_WIDTH));
+
+        shapes.forEach((mesh) => {
+            if (!mesh.userData.side) return;
+            mesh.scale.setScalar(s);
+            mesh.userData.radius = mesh.userData.baseRadius * s;
+        });
+    }
 
     // model
     const dracoLoader = new DRACOLoader();
@@ -179,6 +316,7 @@ export function laptopScene(
     loader.setDRACOLoader(dracoLoader);
 
     let ctx: gsap.Context;
+    let tl: gsap.core.Timeline;
 
     function getModelScale() {
         const baseWidth = 1920;
@@ -226,13 +364,21 @@ export function laptopScene(
     function randomSpot(z: number, margin: number, camZ: number, camY: number) {
         const b = screenBounds(z, camZ, camY);
         const min = exclusion.radius + margin;
+        const words = shapes.filter((m) => m.userData.side);
+
         for (let i = 0; i < 24; i++) {
             const p = new Vector3(
                 b.minX + Math.random() * (b.maxX - b.minX),
                 b.minY + Math.random() * (b.maxY - b.minY),
                 z,
             );
-            if (p.distanceTo(exclusion.center) > min) return p;
+            const clearOfWords = words.every(
+                (w) =>
+                    Math.hypot(p.x - w.position.x, p.y - w.position.y) >
+                    w.userData.radius + margin,
+            );
+
+            if (p.distanceTo(exclusion.center) > min && clearOfWords) return p;
         }
         // fallback: any direction just outside the sphere
         const dir = new Vector3(
@@ -280,15 +426,6 @@ export function laptopScene(
         laptopTopY = box.max.y;
         applyScale();
 
-        // scatter shapes
-        shapes.forEach((mesh) => {
-            const z = -1.5 + Math.random() * 2.5;
-            mesh.position.copy(
-                randomSpot(z, mesh.userData.radius + 0.15, 7, 1.8),
-            );
-            mesh.userData.basePos.copy(mesh.position);
-        });
-
         const screen = findScreenMesh(laptop);
         if (screen) {
             screen.material = new MeshBasicMaterial({
@@ -315,13 +452,14 @@ export function laptopScene(
             console.warn('LaptopIntro: screen mesh not found');
         }
 
-        setupAnimation();
+        laptopReady = true;
+        tryStart();
     });
 
     // gsap
     function setupAnimation() {
         ctx = gsap.context(() => {
-            const tl = gsap.timeline({
+            tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: node,
                     start: 'top top',
@@ -362,19 +500,49 @@ export function laptopScene(
 
             // slow movement during the scroll
             shapes.forEach((mesh, i) => {
-                const z = -1.5 + Math.random() * 2.5;
-                const target = randomSpot(
-                    z,
-                    mesh.userData.radius + 0.15,
-                    5,
-                    1.4,
-                );
+                const isSide = mesh.userData.side;
+                const z = isSide ? 0 : -1.5 + Math.random() * 2.5;
+                let target: Vector3;
+
+                if (
+                    mesh.userData.side === 'left' ||
+                    mesh.userData.side === 'right'
+                ) {
+                    const b = screenBounds(z, 5, 1.4); // end camera roughly (z=5, y=1.4)
+                    const midX = (b.minX + b.maxX) / 2;
+                    const midY = (b.minY + b.maxY) / 2;
+                    const margin = mesh.userData.radius + 0.25;
+                    const minDist = exclusion.radius + margin;
+
+                    let x: number;
+                    let y: number;
+
+                    if (mesh.userData.side === 'left') {
+                        // fixed anchor: ~22% in from the left edge, ~22% down from the top
+                        x = b.minX + (midX - b.minX) * 0.35;
+                        y = midY + (b.maxY - midY) * 0.65;
+                    } else {
+                        x = midX + (b.maxX - midX) * 0.65;
+                        y = b.minY + (midY - b.minY) * 0.35;
+                    }
+
+                    target = new Vector3(x, y, z);
+                    const out = target.clone().sub(exclusion.center);
+                    if (out.length() < minDist) {
+                        out.normalize();
+                        target
+                            .copy(exclusion.center)
+                            .addScaledVector(out, minDist);
+                    }
+                } else {
+                    target = randomSpot(z, mesh.userData.radius + 0.15, 5, 1.4);
+                }
 
                 tl.to(
                     mesh.position,
                     {
-                        x: target.x, // ← not finalX
-                        y: target.y, // ← not finalY
+                        x: target.x,
+                        y: target.y,
                         z: target.z,
                         ease: 'power2.inOut',
                         duration: 1,
@@ -406,6 +574,18 @@ export function laptopScene(
 
         shapes.forEach((mesh) => {
             const data = mesh.userData;
+            if (data.side) {
+                if (data.tilt === undefined) {
+                    data.tilt = Math.random() * Math.PI;
+                }
+                const t = performance.now() * 0.0003;
+                const MAX = Math.PI / 10;
+
+                mesh.rotation.y = Math.sin(t + data.tilt) * MAX;
+                mesh.rotation.x = Math.sin(t * 0.7 + data.tilt) * 0.04;
+                mesh.rotation.z = Math.sin(t * 0.5 + data.tilt) * 0.02;
+                return;
+            }
             const toMouse = mouseWorld.clone().sub(mesh.position);
             const d = toMouse.length();
 
@@ -435,6 +615,26 @@ export function laptopScene(
                 const inward = data.velocity.dot(out);
                 if (inward < 0) data.velocity.addScaledVector(out, -inward);
             }
+
+            // keep shapes clear of text
+            for (const word of shapes) {
+                if (!word.userData.side) continue;
+                const dx = mesh.position.x - word.position.x;
+                const dy = mesh.position.y - word.position.y;
+                const d2 = Math.hypot(dx, dy);
+                const min2 = (data.radius ?? 0) + word.userData.radius + 0.2;
+                if (d2 < min2) {
+                    const nx = d2 < 1e-4 ? 1 : dx / d2;
+                    const ny = d2 < 1e-4 ? 0 : dy / d2;
+                    mesh.position.x = word.position.x + nx * min2;
+                    mesh.position.y = word.position.y + ny * min2;
+                    const inward = data.velocity.x * nx + data.velocity.y * ny;
+                    if (inward < 0) {
+                        data.velocity.x -= nx * inward;
+                        data.velocity.y -= ny * inward;
+                    }
+                }
+            }
         });
     }
 
@@ -463,6 +663,12 @@ export function laptopScene(
 
         if (laptop) {
             applyScale();
+
+            const progress = tl?.scrollTrigger?.progress ?? 0;
+            if (progress === 0) {
+                applyTextScale();
+                placeTextSides();
+            }
         }
     }
     window.addEventListener('resize', onResize, { signal: controller.signal });
@@ -475,6 +681,12 @@ export function laptopScene(
             camera.position.y = 1.7;
         }
         camera.updateProjectionMatrix();
+
+        const progress = tl?.scrollTrigger?.progress ?? 0;
+        if (laptop && progress === 0) {
+            applyTextScale();
+            placeTextSides();
+        }
     }
     updateMobileCamera();
     isMobile.addEventListener('change', updateMobileCamera, {
@@ -497,9 +709,13 @@ export function laptopScene(
         ctx?.revert();
         cancelAnimationFrame(rafId);
 
-        shapeGeos.forEach((g) => g.dispose());
-        shapes.forEach((m) => (m.material as MeshStandardMaterial).dispose());
+        shapes.forEach((m) => {
+            m.geometry.dispose();
+        });
+        sharedMat.dispose();
+        textMat.dispose();
         outlineMat.dispose();
+        shapeGeos.forEach((g) => g.dispose());
         screenTexture.dispose();
         laptop?.traverse((obj) => {
             const mesh = obj as Mesh;
@@ -513,7 +729,8 @@ export function laptopScene(
         });
         dracoLoader.dispose();
         renderer.dispose();
-        renderer.forceContextLoss(); // ← add this
+        renderer.forceContextLoss();
         renderer.domElement.remove();
+        vignette.remove();
     };
 }
