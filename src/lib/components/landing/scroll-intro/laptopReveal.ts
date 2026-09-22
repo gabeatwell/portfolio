@@ -317,6 +317,7 @@ export function laptopScene(
 
     let ctx: gsap.Context;
     let tl: gsap.core.Timeline;
+    let originalScreenMat: MeshStandardMaterial | undefined;
 
     function getModelScale() {
         const baseWidth = 1920;
@@ -428,6 +429,7 @@ export function laptopScene(
 
         const screen = findScreenMesh(laptop);
         if (screen) {
+            originalScreenMat = screen.material as MeshStandardMaterial;
             screen.material = new MeshBasicMaterial({
                 map: screenTexture,
                 side: DoubleSide,
@@ -724,9 +726,26 @@ export function laptopScene(
                 const mats = Array.isArray(mesh.material)
                     ? mesh.material
                     : [mesh.material];
-                mats.forEach((m) => m.dispose());
+                mats.forEach((m) => {
+                    const anyMat = m as MeshStandardMaterial;
+                    anyMat.map?.dispose();
+                    anyMat.normalMap?.dispose();
+                    anyMat.roughnessMap?.dispose();
+                    anyMat.metalnessMap?.dispose();
+                    anyMat.emissiveMap?.dispose();
+                    anyMat.aoMap?.dispose();
+                    m.dispose();
+                });
             }
         });
+        if (originalScreenMat) {
+            const m = originalScreenMat as MeshStandardMaterial;
+            m.map?.dispose();
+            m.normalMap?.dispose();
+            m.roughnessMap?.dispose();
+            m.metalnessMap?.dispose();
+            originalScreenMat.dispose();
+        }
         dracoLoader.dispose();
         renderer.dispose();
         renderer.forceContextLoss();
