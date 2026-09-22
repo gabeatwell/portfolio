@@ -1,5 +1,6 @@
-/** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
+import type { Handle } from '@sveltejs/kit';
+
+export const handle: Handle = async ({ event, resolve }) => {
     // Handle Chrome DevTools requests that cause 404 errors
     if (event.url.pathname.startsWith('/.well-known/')) {
         return new Response('', { status: 204 });
@@ -84,4 +85,4 @@ export async function handle({ event, resolve }) {
     }
 
     return response;
-}
+};
