@@ -163,8 +163,17 @@ export function laptopScene(
 
     function placeShape(mesh: Mesh) {
         if (!laptop || mesh.userData.side) return;
+
         const z = -1.5 + Math.random() * 2.5;
-        mesh.position.copy(randomSpot(z, mesh.userData.radius + 0.15, 7, 1.8));
+        mesh.position.copy(
+            randomSpot(
+                z,
+                mesh.userData.radius + 0.15,
+                7,
+                1.8,
+                mesh.userData.hemisphere,
+            ),
+        );
         mesh.userData.basePos.copy(mesh.position);
     }
 
@@ -223,10 +232,12 @@ export function laptopScene(
 
     const shapeGeos = [
         new IcosahedronGeometry(0.55, 1),
-        new OctahedronGeometry(0.5),
+        new OctahedronGeometry(0.97),
+        new IcosahedronGeometry(0.98, 1),
+        new OctahedronGeometry(0.3),
     ];
 
-    shapeGeos.forEach((geo) => {
+    shapeGeos.forEach((geo, i) => {
         const mesh = new Mesh(geo, sharedMat);
 
         geo.computeBoundingSphere();
@@ -239,6 +250,8 @@ export function laptopScene(
         mesh.add(hull);
 
         finalizeShape(mesh, radius);
+        mesh.userData.hemisphere =
+            i < 2 ? ('left' as const) : ('right' as const);
     });
 
     // text
@@ -329,14 +342,15 @@ export function laptopScene(
 
         const s = getModelScale();
         laptop.scale.setScalar(s);
+        laptop.position.set(0, 0, isMobile.matches ? 1.2 : 0);
+        laptop.updateMatrixWorld(true);
 
-        if (isMobile.matches) {
-            laptop.position.y = laptopTopY * (0.55 - s);
-            laptop.position.z = 1.2;
-        } else {
-            laptop.position.y = laptopTopY * (0.95 - s);
-            laptop.position.z = 0;
-        }
+        const center = new Box3()
+            .setFromObject(laptop)
+            .getCenter(new Vector3());
+
+        laptop.position.x -= center.x;
+        laptop.position.y += camera.position.y - center.y;
 
         updateExclusion();
     }
@@ -362,14 +376,23 @@ export function laptopScene(
         };
     }
 
-    function randomSpot(z: number, margin: number, camZ: number, camY: number) {
+    function randomSpot(
+        z: number,
+        margin: number,
+        camZ: number,
+        camY: number,
+        side?: 'left' | 'right',
+    ) {
         const b = screenBounds(z, camZ, camY);
+        const midX = (b.minX + b.maxX) / 2;
+        const minX = side === 'right' ? midX : b.minX;
+        const maxX = side === 'left' ? midX : b.maxX;
         const min = exclusion.radius + margin;
         const words = shapes.filter((m) => m.userData.side);
 
         for (let i = 0; i < 24; i++) {
             const p = new Vector3(
-                b.minX + Math.random() * (b.maxX - b.minX),
+                minX + Math.random() * (maxX - minX),
                 b.minY + Math.random() * (b.maxY - b.minY),
                 z,
             );
@@ -381,9 +404,13 @@ export function laptopScene(
 
             if (p.distanceTo(exclusion.center) > min && clearOfWords) return p;
         }
-        // fallback: any direction just outside the sphere
+        // fallback: bias the escape direction toward the mesh's side
         const dir = new Vector3(
-            Math.random() - 0.5,
+            side === 'left'
+                ? -Math.random()
+                : side === 'right'
+                  ? Math.random()
+                  : Math.random() - 0.5,
             Math.random() - 0.5,
             0,
         ).normalize();
@@ -488,6 +515,16 @@ export function laptopScene(
                 '-=0.15',
             );
 
+            tl.to(
+                laptop.position,
+                {
+                    y: laptop.position.y - 0.4,
+                    ease: 'power4.inOut',
+                    duration: 0.35,
+                },
+                '-=0.15',
+            );
+
             // rotate
             tl.to(
                 laptop.rotation,
@@ -537,7 +574,13 @@ export function laptopScene(
                             .addScaledVector(out, minDist);
                     }
                 } else {
-                    target = randomSpot(z, mesh.userData.radius + 0.15, 5, 1.4);
+                    target = randomSpot(
+                        z,
+                        mesh.userData.radius + 0.15,
+                        5,
+                        1.4,
+                        mesh.userData.hemisphere,
+                    );
                 }
 
                 tl.to(

@@ -21,7 +21,7 @@
         <!-- <h2></h2> -->
     </div>
 
-    <div class="icon" style="anchor-name: --icon-anchor">
+    <!-- <div class="icon" style="anchor-name: --icon-anchor">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
             <title>what to do</title>
             <path
@@ -30,8 +30,8 @@
             /></svg
         >
 
-        <div class="tooltip"><h2>scroll down</h2></div>
-    </div>
+        <div class="tooltip"><h2>scroll down</h2></div> -->
+    <!-- </div> -->
 </section>
 
 <style>
@@ -49,16 +49,16 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: auto 1fr;
 
-        & h2 {
+        /* & h2 {
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 1.1vw, var(--h4));
             letter-spacing: -1px;
             margin: 0;
             color: var(--clr-light-400);
             text-align: center;
-        }
+        } */
 
-        & .icon {
+        /* & .icon {
             position: absolute;
             position-anchor: --welcome-title;
             top: calc(anchor(top) + 8em);
@@ -118,7 +118,7 @@
             &:hover .tooltip {
                 display: block;
             }
-        }
+        } */
 
         & .welcome-title {
             grid-column: 1 / -1;
