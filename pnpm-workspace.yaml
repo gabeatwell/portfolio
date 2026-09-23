@@ -4,9 +4,5 @@ allowBuilds:
     canvas: true
     esbuild: true
     sharp: true
+    svelte-language-server: true
     workerd: true
-onlyBuiltDependencies:
-    - canvas
-    - esbuild
-    - sharp
-    - workerd

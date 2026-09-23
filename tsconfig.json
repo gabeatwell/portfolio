@@ -13,19 +13,6 @@
             "DOM",
             "DOM.Iterable",
             "ES2022"
-        ],
-        "types": [
-            "svelte",
-            "vite/client",
-            "@types/node",
-            "@types/youtube"
         ]
-    },
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        ".svelte-kit"
-    ]
+    }
 }
