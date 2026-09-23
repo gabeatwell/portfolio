@@ -35,6 +35,10 @@
 </section>
 
 <style>
+    :global(html.dark-intro-page nav.navigation) {
+        display: none;
+    }
+
     .intro {
         position: relative;
         width: 100%;
