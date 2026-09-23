@@ -136,10 +136,11 @@ export function laptopScene(
         transparent: true,
         opacity: 0.82,
     });
+    const TEXT_COLOR = isMobile.matches ? '#ff5a5a' : '#d12121';
     const textMat = new MeshStandardMaterial({
-        color: new Color('#d11111'),
-        emissive: new Color('#d11111'),
-        emissiveIntensity: 0.4,
+        color: new Color(TEXT_COLOR),
+        emissive: new Color(TEXT_COLOR),
+        emissiveIntensity: isMobile.matches ? 0.7 : 0.4,
         roughness: 0.35,
         metalness: 0.2,
         transparent: true,
@@ -310,7 +311,7 @@ export function laptopScene(
         const b = screenBounds(0, camera.position.z, camera.position.y);
         const viewWidth = b.maxX - b.minX;
         // keep the words at a constant *fraction* of the screen
-        const s = Math.min(1, Math.max(0.5, viewWidth / REFERENCE_WIDTH));
+        const s = Math.min(1, Math.max(0.65, viewWidth / REFERENCE_WIDTH));
 
         shapes.forEach((mesh) => {
             if (!mesh.userData.side) return;
@@ -720,6 +721,11 @@ export function laptopScene(
 
     // mobile spacing
     function updateMobileCamera() {
+        const color = isMobile.matches ? '#ff5a5a' : '#d12121';
+        textMat.color.set(color);
+        textMat.emissive.set(color);
+        textMat.emissiveIntensity = isMobile.matches ? 0.7 : 0.4;
+
         if (isMobile.matches) {
             camera.position.y = 1.3;
         } else {
