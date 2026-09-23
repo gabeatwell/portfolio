@@ -493,7 +493,7 @@ export function laptopScene(
                 scrollTrigger: {
                     trigger: node,
                     start: 'top top',
-                    end: '+=400%',
+                    end: '+=335%',
                     scrub: 1,
                     pin: true,
                     anticipatePin: 1,
@@ -591,9 +591,9 @@ export function laptopScene(
                         y: target.y,
                         z: target.z,
                         ease: 'power2.inOut',
-                        duration: 1,
+                        duration: 0.55,
                     },
-                    0.25 + i * 0.07,
+                    0.25 + i * 0.055,
                 );
             });
 

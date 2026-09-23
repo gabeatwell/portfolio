@@ -1,53 +1,21 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import type { Component } from 'svelte';
+    import { tick, type Component } from 'svelte';
     import SEO from '$lib/data/SEO.svelte';
+    import Hero from '$lib/components/landing/hero-section/hero/Hero.svelte';
     import HeroContent from '$lib/components/landing/hero-section/hero/HeroContent.svelte';
 
     type SvelteModule = { default: Component };
 
     let Intro = $state<Component<any> | null>(null);
-    let Hero = $state<Component<any> | null>(null);
-    let isTeeth = $state(false);
     let showHero = $state(false);
-    let loaded = $state<boolean>(false);
-
-    const intros = import.meta.glob([
-        '/src/lib/components/landing/hero-section/TeethIntro.svelte',
-        '/src/lib/components/landing/scroll-intro/LaptopIntro.svelte',
-    ]);
 
     $effect(() => {
-        if (!loaded) {
-            loaded = true;
-
-            isTeeth = Math.random() < 0.59;
-
-            const path = isTeeth
-                ? '/src/lib/components/landing/hero-section/TeethIntro.svelte'
-                : '/src/lib/components/landing/scroll-intro/LaptopIntro.svelte';
-
-            intros[path]().then((module) => {
+        import('$lib/components/landing/scroll-intro/LaptopIntro.svelte').then(
+            (module) => {
                 Intro = (module as SvelteModule).default;
-            });
-        }
-    });
-
-    // load Hero when TeethIntro is chosen, or after the laptop intro completes
-    $effect(() => {
-        if ((isTeeth || showHero) && !Hero) {
-            import('$lib/components/landing/hero-section/hero/Hero.svelte').then(
-                (module) => {
-                    Hero = (module as SvelteModule).default;
-                },
-            );
-        }
-
-        if (showHero) {
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => window.scrollTo(0, 0));
-            });
-        }
+            },
+        );
     });
 </script>
 
@@ -64,31 +32,20 @@
     </div>
 {/if}
 
-<!-- js version -->
+<!-- ts version -->
 {#if showHero}
     {#if Hero}
         <Hero cssBg={'random'} />
     {/if}
 {:else if Intro}
-    {#if isTeeth}
-        <Intro
-            onComplete={() => {
-                showHero = true;
-                window.scrollTo(0, 0);
-            }}
-        >
-            {#if Hero}
-                <Hero cssBg={'random'} />
-            {/if}
-        </Intro>
-    {:else}
-        <Intro
-            image="/images/website.webp"
-            onComplete={() => {
-                showHero = true;
-            }}
-        />
-    {/if}
+    <Intro
+        image="/images/website.webp"
+        onComplete={async () => {
+            showHero = true;
+            await tick();
+            window.scrollTo(0, 0);
+        }}
+    />
 {/if}
 
 <style>
