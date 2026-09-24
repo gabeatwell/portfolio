@@ -1,23 +1,22 @@
 <script lang="ts">
-    import { page } from '$app/state';
+    import { beforeNavigate } from '$app/navigation';
+
     let { open = $bindable(false), ariaLabel = 'menu' } = $props();
 
-    $effect(() => {
-        page.url.pathname;
+    beforeNavigate(() => {
         open = false;
     });
 
-    $effect(() => {
-        if (!open) return;
+    function trapEscape(el: HTMLInputElement) {
         const onkey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
+            if (e.key === 'Escape' && open) {
                 open = false;
-                document.getElementById('nav-toggle')?.focus();
+                el.focus();
             }
         };
         window.addEventListener('keydown', onkey);
         return () => window.removeEventListener('keydown', onkey);
-    });
+    }
 </script>
 
 <input
@@ -27,6 +26,7 @@
     bind:checked={open}
     aria-label={ariaLabel}
     aria-controls="mobile-menu"
+    {@attach trapEscape}
 />
 <label for="nav-toggle" class="hamburger" aria-hidden="true">
     <span class="bars">
@@ -116,10 +116,6 @@
                 width: 2em;
                 transform: translateY(0.35rem);
             }
-        }
-
-        @media (width >= 755px) {
-            opacity: 0;
         }
     }
 </style>
