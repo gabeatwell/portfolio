@@ -8,35 +8,133 @@ const CACHEABLE_ASSETS = ASSETS.filter(
     (asset) => !asset.endsWith('/.gitkeep') && !asset.endsWith('/.DS_Store'),
 );
 
+/**
+ * Heavy payloads (3D models, HDR/EXR environment maps) are never precached —
+ * they are hundreds of megabytes and would flood the network on install.
+ * They still get cached at runtime the first time a page actually needs them.
+ */
+const HEAVY_ASSET = /^\/threejayess\/|\.(?:glb|gltf|exr|hdr|mp4|webm|zip)$/i;
+const PRECACHEABLE_ASSETS = CACHEABLE_ASSETS.filter(
+    (asset) => !HEAVY_ASSET.test(asset),
+);
+
 const sw = self as unknown as ServiceWorkerGlobalScope;
+
+/**
+ * The worker is dormant unless a page has told us JavaScript is running.
+ *
+ * A service worker cannot detect "JavaScript disabled" about its clients — it
+ * runs in its own context, so a worker installed by an earlier JS-enabled
+ * visit keeps intercepting fetches even after JS is switched off. Instead of
+ * guessing, the page reports an active JS session (`JS_ENABLED`, refreshed by
+ * a heartbeat) and we stamp the time. Once the heartbeat stops — because
+ * JavaScript was switched off — the stamp goes stale within `ACTIVE_TTL` and
+ * the worker passes every request straight to the network, behaving exactly as
+ * if it were not installed: no precaching, no cache reads, no cache writes.
+ */
+const ACTIVE_TTL = 5 * 60 * 1000;
+const STATE_CACHE = 'sw-js-state';
+// `Cache.put` only accepts http(s) keys
+const STAMP_URL = '/_app/sw-js-active';
+
+/**
+ * The stamp lives in a Cache API entry: service workers have no `localStorage`
+ * (no DOM access), and this survives worker eviction between page loads.
+ */
+async function readStamp(): Promise<number> {
+    try {
+        const cache = await caches.open(STATE_CACHE);
+        const match = await cache.match(STAMP_URL);
+        return match ? Number(await match.text()) || 0 : 0;
+    } catch {
+        return 0;
+    }
+}
+
+async function isJsActive(): Promise<boolean> {
+    return Date.now() - (await readStamp()) < ACTIVE_TTL;
+}
+
+async function markJsActive(): Promise<void> {
+    const cache = await caches.open(STATE_CACHE);
+    await cache.put(STAMP_URL, new Response(String(Date.now())));
+}
+
+/** Precaches the light asset bundle at most once per build version. */
+let precachedVersion: string | null = null;
+
+async function precache(): Promise<void> {
+    if (precachedVersion === version) return;
+    precachedVersion = version;
+
+    const cache = await caches.open(CACHE);
+    await Promise.allSettled(
+        PRECACHEABLE_ASSETS.map(async (asset) => {
+            try {
+                // Cheap no-op across worker restarts: only fetch what is missing.
+                if (await cache.match(asset)) return;
+                await cache.add(asset);
+            } catch (error) {
+                console.warn(
+                    '[service-worker] failed to cache asset',
+                    asset,
+                    error,
+                );
+            }
+        }),
+    );
+}
+
+async function precacheIfActive(): Promise<void> {
+    if (await isJsActive()) await precache();
+}
+
+/**
+ * Self-removal. A page with JavaScript disabled cannot call `unregister()` —
+ * there is no declarative or header-based way to drop a worker — so the worker
+ * retires *itself* once the heartbeat has been missing long enough to conclude
+ * JS is off for real. The next JS-enabled visit re-registers it from
+ * `+layout.svelte`, so it comes straight back.
+ *
+ * Only ever retires a worker that was activated at least once (a stamp exists);
+ * a freshly installed worker on a first-ever load may not have received its
+ * heartbeat yet, and must not be torn down mid-load.
+ */
+const RETIRE_AFTER = 60 * 60 * 1000;
+
+async function retireIfAbandoned(): Promise<void> {
+    const last = await readStamp();
+    if (!last || Date.now() - last < RETIRE_AFTER) return;
+
+    // `getRegistration()` exists on the worker scope but is missing from the
+    // installed webworker lib typing, so declare just that member.
+    const scope = sw as ServiceWorkerGlobalScope & {
+        getRegistration(): Promise<ServiceWorkerRegistration | undefined>;
+    };
+    const registration = await scope.getRegistration();
+    if (!registration) return;
+
+    // Drop the cached bytes too, then detach and unregister.
+    for (const key of await caches.keys()) {
+        await caches.delete(key);
+    }
+    await sw.skipWaiting();
+    await registration.unregister();
+}
 
 // install service worker - cache build assets then activate
 sw.addEventListener('install', (event: ExtendableEvent) => {
-    async function addFilesToCache() {
-        const cache = await caches.open(CACHE);
-        await Promise.allSettled(
-            CACHEABLE_ASSETS.map(async (asset) => {
-                try {
-                    await cache.add(asset);
-                } catch (error) {
-                    console.warn(
-                        '[service-worker] failed to cache asset',
-                        asset,
-                        error,
-                    );
-                }
-            }),
-        );
-    }
-
-    event.waitUntil(addFilesToCache());
+    // A fresh install triggered by a no-JS client never precaches: the page
+    // cannot send `JS_ENABLED`, so there is nothing proving JS is available.
+    event.waitUntil(precacheIfActive());
 });
 
 // activate service worker
 sw.addEventListener('activate', (event: ExtendableEvent) => {
     async function deleteOldCaches() {
         for (const key of await caches.keys()) {
-            if (key !== CACHE) {
+            // Keep the JS-session stamp; it is not versioned build data.
+            if (key !== CACHE && key !== STATE_CACHE) {
                 await caches.delete(key);
             }
         }
@@ -70,6 +168,24 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
     }
 
     async function respond(): Promise<Response> {
+        // Dormant: no page has reported a live JS session, so this request goes
+        // to the network untouched — no cache read, no cache write, no
+        // precached bulk download. A no-JS visitor is served exactly as if no
+        // worker were installed at all.
+        if (!(await isJsActive())) {
+            // Navigations are where we learn the client is really JS-free, so
+            // that is when the worker considers retiring itself.
+            const accept = event.request.headers.get('accept') || '';
+            if (
+                event.request.mode === 'navigate' ||
+                accept.includes('text/html')
+            ) {
+                event.waitUntil(retireIfAbandoned());
+            }
+
+            return fetch(event.request);
+        }
+
         const cache = await caches.open(CACHE);
 
         const acceptHeader = event.request.headers.get('accept') || '';
@@ -160,7 +276,15 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
 
 // listen for messages (e.g., skip waiting)
 sw.addEventListener('message', (event: ExtendableMessageEvent) => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
+    if (!event.data) return;
+
+    if (event.data.type === 'SKIP_WAITING') {
         sw.skipWaiting();
+    }
+
+    // The page proved JavaScript is running: stamp the session and make sure
+    // the light asset bundle is cached (idempotent per build version).
+    if (event.data.type === 'JS_ENABLED') {
+        event.waitUntil(markJsActive().then(precache));
     }
 });

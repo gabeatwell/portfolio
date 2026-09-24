@@ -118,7 +118,6 @@ describe('ContactForm', () => {
 
         render(ContactForm);
 
-        const errors = screen.queryAllByText(/.+/);
         // No .field-error elements should be visible
         const fieldErrors = document.querySelectorAll('.field-error');
         expect(fieldErrors.length).toBe(0);

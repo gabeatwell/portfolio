@@ -471,7 +471,6 @@
             --clr-purple-500: light-dark(var(--light-purple), var(--purple));
         }
     }
-
     @supports (color: oklch(50% 0 0)) and (background: light-dark(white, black)) {
         :root {
             /* base colors (oklch) */

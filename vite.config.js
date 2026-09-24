@@ -3,7 +3,7 @@ import { svelteTesting } from '@testing-library/svelte/vite';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { mdsvex } from 'mdsvex';
 import { fileURLToPath } from 'node:url';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 const mdsvexOptions = {
     extensions: ['.md', '.svx'],
@@ -40,7 +40,12 @@ export default defineConfig({
             },
             // svelte preprocess config
             extensions: ['.svelte', '.md', '.svx'],
-            preprocess: [mdsvex(mdsvexOptions)],
+            // mdsvex@0.11 declares `filename: string` (required) while Svelte
+            // passes `filename?: string`, so its return type is incompatible.
+            preprocess:
+                /** @type {import('@sveltejs/kit').Config['preprocess']} */ ([
+                    mdsvex(mdsvexOptions),
+                ]),
             // vite-plugin-svelte options
             vitePlugin: {
                 inspector: {
@@ -67,7 +72,6 @@ export default defineConfig({
         svelteTesting(),
     ],
     server: {
-        https: false,
         port: 5173,
         host: 'localhost',
         open: true,
@@ -109,8 +113,10 @@ export default defineConfig({
     test: {
         environment: 'jsdom',
         setupFiles: ['./vitest-setup.ts'],
-        deps: {
-            inline: ['three'],
+        server: {
+            deps: {
+                inline: ['three'],
+            },
         },
     },
 });

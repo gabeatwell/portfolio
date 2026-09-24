@@ -28,7 +28,7 @@
 
 <A11yAnnouncer message={submitStatus} />
 
-<form {...submitContact}>
+<form {...submitContact} novalidate>
     <fieldset>
         <legend>reach me</legend>
 
