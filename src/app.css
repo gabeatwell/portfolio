@@ -131,25 +131,6 @@
             scroll-behavior: smooth;
         }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-            animation: none;
-            transition: none;
-        }
-
-        html {
-            scroll-behavior: auto;
-        }
-
-        ::view-transition-group(*),
-        ::view-transition-old(*),
-        ::view-transition-new(*) {
-            animation: none;
-        }
-    }
 }
 
 @layer reset {
@@ -593,9 +574,47 @@ html[data-theme='light'].tunnel-active .teeth-intro {
     }
 }
 
-nav:has(#burger-toggle:checked) .mobile {
+.navigation:has(#nav-toggle:checked) .mobile {
+    display: flex;
+    flex-direction: column;
     opacity: 1;
     visibility: visible;
     transform: scale(1);
     transition-delay: 0ms;
+}
+
+body:has(#nav-toggle:checked) {
+    overflow: hidden;
+}
+
+@media (min-width: 755px) {
+    body:has(#nav-toggle:checked) {
+        overflow: auto;
+    }
+    .mobile {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms;
+        animation-iteration-count: 1;
+        transition-duration: 0.001ms;
+        transition-delay: 0ms;
+        scroll-behavior: auto;
+    }
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none;
+    }
+
+    .mobile,
+    .hamburger .bar {
+        transition: none;
+    }
 }

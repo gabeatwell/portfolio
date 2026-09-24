@@ -64,11 +64,7 @@
         <SelectLink />
     </ul>
 
-    <ul
-        class="mobile {open ? 'open' : ''}"
-        id="mobile-menu"
-        aria-label="Main navigation menu"
-    >
+    <ul class="mobile" id="mobile-menu" aria-label="Main navigation menu">
         <li>
             <NavLink href="/about" title="About Gabe" onclick={closeMenu} />
         </li>
@@ -97,16 +93,10 @@
 </nav>
 
 <style>
-    :root {
-        --100: 100%;
-    }
-
     nav.navigation {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        backdrop-filter: blur(0.15rem);
-        -webkit-backdrop-filter: blur(0.15rem);
         z-index: 15;
         inline-size: 100%;
         block-size: fit-content;
@@ -187,13 +177,6 @@
         transform-origin: top left;
         box-shadow: 0 0 0 1px var(--clr-light-500);
         visibility: hidden;
-
-        &.open {
-            transition-delay: 0ms;
-            transform: scale(1);
-            opacity: 1;
-            visibility: visible;
-        }
 
         @media (width >= 300px) and (width <= 750px) {
             display: flex;

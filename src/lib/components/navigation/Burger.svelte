@@ -1,22 +1,71 @@
 <script lang="ts">
+    import { page } from '$app/state';
     let { open = $bindable(false), ariaLabel = 'menu' } = $props();
+
+    $effect(() => {
+        page.url.pathname;
+        open = false;
+    });
+
+    $effect(() => {
+        if (!open) return;
+        const onkey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                open = false;
+                document.getElementById('nav-toggle')?.focus();
+            }
+        };
+        window.addEventListener('keydown', onkey);
+        return () => window.removeEventListener('keydown', onkey);
+    });
 </script>
 
-<button
-    class="hamburger"
-    class:open
-    onclick={() => (open = !open)}
+<input
+    type="checkbox"
+    id="nav-toggle"
+    class="nav-toggle"
+    bind:checked={open}
     aria-label={ariaLabel}
-    aria-expanded={open}
     aria-controls="mobile-menu"
->
+/>
+<label for="nav-toggle" class="hamburger" aria-hidden="true">
     <span class="bars">
         <span class="bar bar-1"></span>
         <span class="bar bar-2"></span>
     </span>
-</button>
+</label>
 
 <style>
+    .nav-toggle {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        margin: 0;
+        appearance: none;
+        opacity: 0;
+        pointer-events: none;
+
+        &:not(:checked) + .hamburger:hover .bar {
+            background: var(--clr-light-500);
+        }
+
+        &:checked + .hamburger {
+            padding-bottom: 0.5rem;
+
+            & .bar-1 {
+                width: 2.2em;
+                transform: translateY(0) rotate(45deg);
+            }
+
+            & .bar-2 {
+                width: 2.2em;
+                transform: translateY(0) rotate(-45deg);
+            }
+        }
+    }
+
     .hamburger {
         display: flex;
         flex-direction: column;
@@ -35,7 +84,6 @@
         pointer-events: auto;
 
         @media (width >= 755px) {
-            opacity: 0;
             display: none;
         }
 
@@ -67,26 +115,6 @@
             & .bar-2 {
                 width: 2em;
                 transform: translateY(0.35rem);
-            }
-        }
-
-        &.open {
-            padding-bottom: 0.5rem;
-
-            .bar-1 {
-                transform: translateY(0) rotate(45deg);
-                width: 2.2em;
-            }
-
-            .bar-2 {
-                transform: translateY(0) rotate(-45deg);
-                width: 2.2em;
-            }
-        }
-
-        &:hover:not(.open) {
-            .bar {
-                background-color: var(--clr-accent, var(--clr-light-500));
             }
         }
 
