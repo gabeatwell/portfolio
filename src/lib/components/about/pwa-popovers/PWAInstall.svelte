@@ -1,57 +1,34 @@
 <script lang="ts">
     interface Props {
         title: string;
-        popoverTitle: string;
         text: string;
         text2: string;
         text3: string;
     }
 
-    let { title, popoverTitle, text, text2, text3 }: Props = $props();
+    let { title, text, text2, text3 }: Props = $props();
 
     const id = `popover-${Math.random().toString(36).slice(2, 11)}`;
-
-    let popoverElement: HTMLElement | null = $state(null);
-
-    function openPopover(): void {
-        if (!popoverElement) return;
-
-        if (!document.startViewTransition) {
-            popoverElement.showPopover();
-            return;
-        }
-
-        document.startViewTransition(() => {
-            popoverElement!.showPopover();
-        });
-    }
-
-    function closePopover() {
-        if (!popoverElement) return;
-
-        if (!document.startViewTransition) {
-            popoverElement.hidePopover();
-            return;
-        }
-
-        document.startViewTransition(() => {
-            popoverElement!.hidePopover();
-        });
-    }
 </script>
 
 <section class="instruction-popover" aria-label="pwa instructions">
-    <button type="button" onclick={openPopover}>
+    <button type="button" popovertarget={id}>
         <span class="pwa-title">{title}</span>
     </button>
 
-    <div {id} popover="auto" bind:this={popoverElement}>
+    <div {id} popover="auto">
         <p><span class="pwa-title">{title}</span></p>
         <p data-content>{text}</p>
         <p data-content>{text2}</p>
         <p data-content>{text3}</p>
 
-        <button data-close onclick={closePopover} aria-label="close popover">
+        <button
+            data-close
+            type="button"
+            popovertarget={id}
+            popovertargetaction="hide"
+            aria-label="close popover"
+        >
             <svg
                 width="800px"
                 height="800px"
@@ -234,16 +211,5 @@
         [popover]:popover-open::backdrop {
             background-color: rgb(0 0 0 / 0%);
         }
-    }
-
-    /* title transition */
-    ::view-transition-group(pwa-title) {
-        animation-duration: 0.5s;
-        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    ::view-transition-old(pwa-title),
-    ::view-transition-new(pwa-title) {
-        mix-blend-mode: normal;
     }
 </style>

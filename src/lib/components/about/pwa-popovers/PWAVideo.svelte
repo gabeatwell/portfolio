@@ -7,85 +7,41 @@
     let { title, videoSrc }: Props = $props();
 
     const videoId = `video-popover-${Math.random().toString(36).slice(2, 11)}`;
-    let videoPopoverElement: HTMLElement | null = $state(null);
-
-    function openVideoPopover() {
-        setTimeout(() => {
-            const el = videoPopoverElement;
-            if (!el) {
-                console.error('Popover element not found!');
-                return;
-            }
-
-            // Check if Popover API is supported
-            if (typeof el.showPopover === 'function') {
-                if (!document.startViewTransition) {
-                    el.showPopover();
-                    return;
-                }
-
-                document.startViewTransition(() => {
-                    el.showPopover();
-                });
-            } else {
-                // Fallback for unsupported browsers: manually show/hide via CSS classes
-                console.warn('Popover API not supported. Using fallback.');
-                el.style.display = 'block';
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-            }
-        }, 0);
-    }
-
-    function closeVideoPopover() {
-        const el = videoPopoverElement;
-        if (!el) return;
-
-        if (typeof el.hidePopover === 'function') {
-            if (!document.startViewTransition) {
-                el.hidePopover();
-                return;
-            }
-
-            document.startViewTransition(() => {
-                el.hidePopover();
-            });
-        } else {
-            // Fallback: manually hide
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(-5rem)';
-            el.style.display = 'none';
-        }
-    }
 </script>
 
 <section class="video-popover" aria-label="pwa video tutorial">
-    <button class="open-popover" type="button" onclick={openVideoPopover}>
+    <button class="open-popover" type="button" popovertarget={videoId}>
         {title}
     </button>
 
-    <div
-        id={videoId}
-        popover="auto"
-        bind:this={videoPopoverElement}
-        data-video-popover
-    >
+    <div id={videoId} popover="auto" data-video-popover>
         <div class="video-wrapper">
             <div class="responsive-iframe">
                 <iframe
                     src={videoSrc}
                     {title}
-                    frameborder="0"
+                    loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
                     allowfullscreen
                     aria-label={title}
                 ></iframe>
             </div>
+
+            <noscript>
+                <p>
+                    JavaScript is disabled — <a
+                        href="https://www.youtube.com/watch?v=_wiOcdEVgks"
+                        >watch this tutorial on YouTube</a
+                    >.
+                </p>
+            </noscript>
         </div>
 
         <button
             data-close
-            onclick={closeVideoPopover}
+            type="button"
+            popovertarget={videoId}
+            popovertargetaction="hide"
             aria-label="close popover"
         >
             <svg
