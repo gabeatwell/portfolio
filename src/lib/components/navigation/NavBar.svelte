@@ -107,6 +107,8 @@
         top: 0;
         border-radius: var(--radius);
         box-shadow: 0 0 5px oklch(from var(--clr-light-500) 0.5 c h);
+        background: var(--clr-dark-400);
+        backdrop-filter: blur(10px);
 
         & .nav-main {
             display: flex;
@@ -187,7 +189,7 @@
             border-radius: 5px;
             padding: calc(var(--space-md) - 0.45rem);
             background-color: var(--clr-dark-500);
-            backdrop-filter: blur(125px);
+            /* backdrop-filter: blur(125px); */
             list-style: none;
             min-width: 150px;
             width: auto;

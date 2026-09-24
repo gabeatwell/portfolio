@@ -339,6 +339,10 @@
                             font-family: var(--bronova);
                             font-size: clamp(var(--sm), 2.75vw, var(--h3));
                             color: var(--clr-light-500);
+                            text-shadow:
+                                0 0 3px var(--clr-dark-500),
+                                0 0 4px var(--clr-dark-500),
+                                0 0 5px var(--clr-dark-500);
                             text-transform: uppercase;
                             letter-spacing: 1px;
                             margin-top: 0.5rem;
@@ -347,7 +351,6 @@
 
                             &.tunnel {
                                 color: var(--clr-light-500);
-                                color: #f3f3f3;
                             }
 
                             &.ribbon {

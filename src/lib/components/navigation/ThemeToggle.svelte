@@ -30,6 +30,19 @@
 
 <label class="theme-toggle" for="manual-theme">
     <svg
+        class="icon moon"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <title>Switch to Dark Mode</title>
+        <path
+            d="M13 6V3M18.5 12V7M14.5 4.5H11.5M21 9.5H16M15.5548 16.8151C16.7829 16.8151 17.9493 16.5506 19 16.0754C17.6867 18.9794 14.7642 21 11.3698 21C6.74731 21 3 17.2527 3 12.6302C3 9.23576 5.02061 6.31331 7.92462 5C7.44944 6.05072 7.18492 7.21708 7.18492 8.44523C7.18492 13.0678 10.9322 16.8151 15.5548 16.8151Z"
+            stroke="var(--light-purple)"
+        />
+    </svg>
+
+    <svg
         class="icon sun"
         viewBox="0 0 24 24"
         fill="none"
@@ -45,19 +58,6 @@
             stroke="var(--clr-sun-500)"
         />
     </svg>
-
-    <svg
-        class="icon moon"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <title>Switch to Dark Mode</title>
-        <path
-            d="M13 6V3M18.5 12V7M14.5 4.5H11.5M21 9.5H16M15.5548 16.8151C16.7829 16.8151 17.9493 16.5506 19 16.0754C17.6867 18.9794 14.7642 21 11.3698 21C6.74731 21 3 17.2527 3 12.6302C3 9.23576 5.02061 6.31331 7.92462 5C7.44944 6.05072 7.18492 7.21708 7.18492 8.44523C7.18492 13.0678 10.9322 16.8151 15.5548 16.8151Z"
-            stroke="var(--clr-moon-500)"
-        />
-    </svg>
 </label>
 
 <style>
@@ -70,6 +70,18 @@
         overflow: hidden;
         clip-path: inset(50%);
         white-space: nowrap;
+
+        &:checked ~ .theme-toggle .sun {
+            display: block;
+        }
+
+        &:checked ~ .theme-toggle .moon {
+            display: none;
+        }
+
+        &:focus-visible ~ .theme-toggle {
+            outline: 1px solid var(--clr-light-500);
+        }
     }
 
     .theme-toggle {
@@ -116,23 +128,13 @@
                 stroke-width: 1.25;
             }
         }
-    }
 
-    /* JS-free icon swap + focus ring via sibling selectors */
-    .theme-toggle .moon {
-        display: none;
-    }
-
-    .sr-only:checked ~ .theme-toggle .sun {
-        display: none;
-    }
-
-    .sr-only:checked ~ .theme-toggle .moon {
-        display: block;
-    }
-
-    .sr-only:focus-visible ~ .theme-toggle {
-        outline: 1px solid var(--clr-light-500);
+        & .sun {
+            display: none;
+        }
+        & .moon {
+            display: block;
+        }
     }
 
     ::view-transition-old(changing-theme) {

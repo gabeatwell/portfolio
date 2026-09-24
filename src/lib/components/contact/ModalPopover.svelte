@@ -119,6 +119,8 @@
             opacity: 1;
             visibility: visible;
             transform: scale(1);
+
+            animation: heartbeat 0.8s ease;
         }
 
         &::backdrop {
@@ -351,6 +353,21 @@
         80% {
             rotate: 2deg;
             translate: 5px 0;
+        }
+    }
+
+    @keyframes heartbeat {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.15);
+        }
+        75% {
+            transform: scale(1);
+        }
+        100% {
+            transform: scale(1);
         }
     }
 </style>
