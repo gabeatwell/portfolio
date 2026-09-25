@@ -1,16 +1,13 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
     import '@fortawesome/fontawesome-free/css/all.css';
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
     import { InstallButtonController } from './install-button.svelte';
-    import { YoutubeGuide } from './youtube-api.svelte';
 
     const install = new InstallButtonController();
     const videoId = $derived(
         install.isMacSafari ? '8l7elwrvs3w' : 'SksQ05ufRpc',
     );
-    const yt = new YoutubeGuide(() => videoId);
 
     // let playing = $state(false);
     const { playSoundAsync: playHoverSound } = useSound(
@@ -20,17 +17,6 @@
     async function handleUiSound() {
         await playHoverSound();
     }
-
-    $effect(() => {
-        if (install.shareFallback) yt.loadApi();
-
-        if (yt.apiReady && install.shareFallback && !yt.player) {
-            requestAnimationFrame(() => yt.createPlayer());
-        }
-    });
-    onMount(() => {
-        return () => yt.close();
-    });
 </script>
 
 <A11yAnnouncer message={install.installStatus} />
@@ -49,33 +35,13 @@
     {/if}
     {#if install.shareFallback}
         <div class="apple-instructions">
-            <div class="video-wrapper">
-                <div hidden={!yt.playing}>
-                    <div id="yt-player" {@attach (node) => yt.mount()}></div>
-                </div>
-
-                {#if !yt.playing}
-                    <button
-                        type="button"
-                        class="thumbnail"
-                        aria-label="Play instructions video"
-                        onclick={yt.play}
-                    >
-                        <img
-                            src="https://i.ytimg.com/vi/{videoId}/hqdefault.jpg"
-                            alt=""
-                        />
-                        <span class="play-icon" aria-hidden="true">▶</span>
-                    </button>
-                {/if}
-            </div>
-
             <p><u>On iOS:</u></p>
 
-            <p>
-                open the Safari browser. Tap the Share icon
-                <span>
-                    (<svg
+            <ol class="steps">
+                <li>Open this page in <b>Safari</b></li>
+                <li>
+                    Tap the Share icon
+                    <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -91,18 +57,19 @@
                             stroke="var(--clr-blue-350)"
                             stroke-width=".8"
                         ></path>
-                    </svg>)
-                </span>
-                in Safari's toolbar and choose <b>'Add to Home Screen'</b> to install
-                this app.
-            </p>
+                    </svg>
+                    in the toolbar
+                </li>
+                <li>Choose <b>'Add to Home Screen'</b></li>
+            </ol>
 
             <p><u>On iMac:</u></p>
 
-            <p>
-                open the Safari browser. Tap the Share icon
-                <span>
-                    (<svg
+            <ol class="steps">
+                <li>Open this page in <b>Safari</b></li>
+                <li>
+                    Tap the Share icon
+                    <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -118,16 +85,15 @@
                             stroke="var(--clr-blue-350)"
                             stroke-width=".8"
                         ></path>
-                    </svg>)
-                </span>
-                in Safari's toolbar and choose <b>'Add to Dock'</b> to install this
-                app.
-            </p>
+                    </svg>
+                    in the toolbar
+                </li>
+                <li>Choose <b>'Add to Dock'</b></li>
+            </ol>
 
             <button
                 data-close-button
                 onclick={() => {
-                    yt.close();
                     install.closeFallback();
                 }}>Close</button
             >
@@ -221,64 +187,6 @@
         }
     }
 
-    .video-wrapper {
-        max-inline-size: 120px;
-        max-inline-size: min(240px, 60vw);
-        inline-size: 100%;
-        margin-inline: auto;
-        margin-bottom: 0.2em;
-        border-radius: var(--radius);
-        overflow: hidden;
-        background: #000;
-
-        position: absolute;
-        top: -12em;
-        left: 50%;
-        transform: translateX(-50%);
-
-        @media (width <= 768px) {
-            top: -4.5em;
-            left: 80%;
-        }
-
-        & :global(iframe) {
-            display: block;
-            inline-size: 100%;
-            aspect-ratio: 9/16;
-            block-size: auto;
-        }
-
-        & .thumbnail {
-            all: unset;
-            display: block;
-            position: relative;
-            cursor: pointer;
-            pointer-events: auto;
-            z-index: auto;
-
-            &:focus-visible {
-                outline: 2px solid var(--clr-light-500);
-                outline-offset: 2px;
-            }
-
-            & img {
-                display: block;
-                inline-size: 100%;
-                block-size: auto;
-            }
-
-            & .play-icon {
-                position: absolute;
-                inset: 0;
-                display: grid;
-                place-items: center;
-                font-size: clamp(3rem, 8vw, 4rem);
-                color: var(--clr-success-500-light);
-                text-shadow: 0 0 15px var(--clr-dark-500);
-            }
-        }
-    }
-
     .apple-instructions {
         position: fixed;
         top: 50%;
@@ -286,7 +194,8 @@
         transform: translate(-50%, -50%);
 
         anchor-name: --instructions;
-        inline-size: fit-content;
+        max-inline-size: 95%;
+        inline-size: 100%;
         min-inline-size: 75vw;
 
         background: var(--clr-dark-500);
@@ -298,6 +207,26 @@
         z-index: 2000;
         animation: slideUp 0.5s ease-out forwards;
 
+        & .steps {
+            font-size: clamp(var(--sm), 1.2vw, var(--h6));
+            padding-inline-start: 1em;
+            margin: 0 0 0.8em;
+
+            & li {
+                margin-block: 0.4em;
+                list-style: lower-roman;
+
+                & .share-icon {
+                    display: inline-block;
+                    width: clamp(var(--h6), 1.2vw, var(--h4));
+                    height: auto;
+                    vertical-align: middle;
+                    max-width: 100%;
+                    max-height: 100%;
+                }
+            }
+        }
+
         & p {
             font-size: clamp(var(--sm), 1.2vw, var(--h6));
             margin-bottom: 0.5em;
@@ -307,20 +236,6 @@
             &:nth-of-type(1),
             &:nth-of-type(3) {
                 font-family: var(--bronova-bold);
-            }
-
-            & b {
-                font-weight: 900;
-                color: var(--clr-blue-350);
-            }
-
-            & .share-icon {
-                display: inline-block;
-                width: clamp(var(--h6), 1.2vw, var(--h4));
-                height: auto;
-                vertical-align: middle;
-                max-width: 100%;
-                max-height: 100%;
             }
         }
     }
