@@ -21,6 +21,7 @@
                     src={videoSrc}
                     {title}
                     loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;"
                     allowfullscreen
                     aria-label={title}
