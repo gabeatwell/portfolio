@@ -5,19 +5,37 @@ interface BeforeInstallPromptEvent extends Event {
     userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-export class InstallButtonController {
-    #deferredPrompt: BeforeInstallPromptEvent | null = null;
-    #breakpoints = getBreakpoints();
+const DISMISSED_KEY = 'install-prompt-dismissed';
 
-    isInstallable = $state(false);
+let deferredPrompt = $state<BeforeInstallPromptEvent | null>(null);
+if (typeof window !== 'undefined') {
+    window.addEventListener(
+        'beforeinstallprompt',
+        (e) => {
+            e.preventDefault();
+            deferredPrompt = e as BeforeInstallPromptEvent;
+        },
+        { once: true },
+    );
+}
+
+export class InstallButtonController {
+    #breakpoints = getBreakpoints();
+    #statusTimer: ReturnType<typeof setTimeout> | undefined;
+
     installStatus = $state('');
     isIOS = $state(false);
     isMacSafari = $state(false);
     shareFallback = $state(false);
     shareClicked = $state(false);
-    promptDismissed = $state(
+
+    get isInstallable() {
+        return !this.isIOS && !this.dismissed && deferredPrompt !== null;
+    }
+
+    dismissed = $state(
         typeof sessionStorage !== 'undefined' &&
-            sessionStorage.getItem('pwa-prompt-dismissed') === 'true',
+            sessionStorage.getItem(DISMISSED_KEY) === 'true',
     );
 
     constructor() {
@@ -36,69 +54,51 @@ export class InstallButtonController {
 
             const isAppleMobile = /iphone|ipad|ipod/i.test(ua);
             const isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-            const isMac = /macintosh/i.test(ua) && isSafari;
-
+            this.isMacSafari = /macintosh/i.test(ua) && isSafari;
             this.isIOS =
                 (isAppleMobile &&
                     !('MSStream' in window) &&
                     !this.#breakpoints.isStandalone) ||
-                isMac;
-            this.isMacSafari = isMac;
+                this.isMacSafari;
         });
 
-        // pwa install prompt for non-iOS
         $effect(() => {
-            const ios = this.isIOS;
-            if (ios) return;
-            const abortController = new AbortController();
-
-            if (this.isIOS) return;
-
-            const handleBeforeInstallPrompt = (event: Event) => {
-                if (this.promptDismissed) return;
-                this.#deferredPrompt = event as BeforeInstallPromptEvent;
-                this.isInstallable = true;
-                this.installStatus = 'App can now be installed';
-            };
-
-            const handleAppInstalled = () => {
-                this.isInstallable = false;
+            const onInstalled = () => {
+                this.dismissed = true;
+                sessionStorage.setItem(DISMISSED_KEY, 'true');
                 this.installStatus = 'App installed successfully';
             };
-
-            window.addEventListener(
-                'beforeinstallprompt',
-                handleBeforeInstallPrompt,
-                {
-                    signal: abortController.signal,
-                },
-            );
-            window.addEventListener('appinstalled', handleAppInstalled, {
-                signal: abortController.signal,
-            });
-
-            return () => abortController.abort();
+            window.addEventListener('appinstalled', onInstalled);
+            return () =>
+                window.removeEventListener('appinstalled', onInstalled);
         });
+
+        $effect(() => () => clearTimeout(this.#statusTimer));
+    }
+
+    #dismiss() {
+        this.dismissed = true;
+        sessionStorage.setItem(DISMISSED_KEY, 'true');
+        this.shareFallback = false;
+        this.shareClicked = false;
+        this.installStatus = '';
     }
 
     installApp = async () => {
-        if (!this.#deferredPrompt) return;
+        if (!deferredPrompt) return;
         this.installStatus = 'Installing app...';
-        this.#deferredPrompt.prompt();
+        deferredPrompt.prompt();
 
-        const choiceResult = await this.#deferredPrompt.userChoice;
+        const { outcome } = await deferredPrompt.userChoice;
         this.installStatus =
-            choiceResult.outcome === 'accepted'
+            outcome === 'accepted'
                 ? 'Installation accepted'
                 : 'Installation declined';
-        if (choiceResult.outcome === 'dismissed') {
-            this.promptDismissed = true;
-            sessionStorage.setItem('pwa-prompt-dismissed', 'true');
-        }
+        deferredPrompt = null;
+        if (outcome === 'dismissed') this.#dismiss();
 
-        this.#deferredPrompt = null;
-        this.isInstallable = false;
-        setTimeout(() => (this.installStatus = ''), 3000);
+        clearTimeout(this.#statusTimer);
+        this.#statusTimer = setTimeout(() => (this.installStatus = ''), 3000);
     };
 
     shareApp = () => {
@@ -106,8 +106,5 @@ export class InstallButtonController {
         this.shareClicked = true;
     };
 
-    closeFallback = () => {
-        this.shareFallback = false;
-        this.shareClicked = false;
-    };
+    closeFallback = () => this.#dismiss();
 }

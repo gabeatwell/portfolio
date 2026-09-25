@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import '@fortawesome/fontawesome-free/css/all.css';
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
@@ -6,11 +7,6 @@
     import { YoutubeGuide } from './youtube-api.svelte';
 
     const install = new InstallButtonController();
-    // const videoSrc = $derived(
-    //     install.isMacSafari
-    //         ? 'https://www.youtube.com/embed/8l7elwrvs3w?autoplay=1&okaysinline=1&loop=1&playlist=8l7elwrvs3w&controls=1&modestbranding=1&rel=0'
-    //         : 'https://www.youtube.com/embed/SksQ05ufRpc?autoplay=1&muted=1&playsinline=1&loop=1&playlist=SksQ05ufRpc&controls=1&modestbranding=1&rel=0',
-    // );
     const videoId = $derived(
         install.isMacSafari ? '8l7elwrvs3w' : 'SksQ05ufRpc',
     );
@@ -27,13 +23,12 @@
 
     $effect(() => {
         if (install.shareFallback) yt.loadApi();
-    });
 
-    $effect(() => {
         if (yt.apiReady && install.shareFallback && !yt.player) {
             requestAnimationFrame(() => yt.createPlayer());
         }
-
+    });
+    onMount(() => {
         return () => yt.close();
     });
 </script>
@@ -41,7 +36,7 @@
 <A11yAnnouncer message={install.installStatus} />
 
 {#if install.isIOS}
-    {#if !install.shareClicked}
+    {#if !install.dismissed && !install.shareClicked}
         <button
             class="install-btn"
             aria-label="Share this app"
@@ -49,7 +44,6 @@
             onmouseenter={handleUiSound}
         >
             <i class="fa-solid fa-share-from-square"></i>
-
             <span class="desc">add</span>
         </button>
     {/if}
@@ -57,7 +51,7 @@
         <div class="apple-instructions">
             <div class="video-wrapper">
                 <div hidden={!yt.playing}>
-                    <div id="yt-player"></div>
+                    <div id="yt-player" {@attach (node) => yt.mount()}></div>
                 </div>
 
                 {#if !yt.playing}

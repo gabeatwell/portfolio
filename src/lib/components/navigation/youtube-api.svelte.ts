@@ -19,6 +19,21 @@ export class YoutubeGuide {
         this.#getVideoId = getVideoId;
     }
 
+    mount() {
+        this.loadApi();
+        const check = setInterval(() => {
+            if (this.apiReady) {
+                clearInterval(check);
+                this.createPlayer();
+            }
+        }, 100);
+
+        return () => {
+            clearInterval(check);
+            this.close();
+        };
+    }
+
     loadApi() {
         if (window.YT?.Player) {
             this.apiReady = true;
