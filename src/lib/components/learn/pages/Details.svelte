@@ -51,7 +51,7 @@
 
             <div
                 id="content-{index}"
-                class="text"
+                class="text indent"
                 class:open={detailsAccordion.openStates[index]}
                 style="color: var(--clr-gray-600);"
             >

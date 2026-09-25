@@ -297,6 +297,10 @@
         white-space: nowrap;
     }
 
+    .indent {
+        text-indent: 1em;
+    }
+
     /* CLS prevention */
     .cls-container {
         /* reserve space to prevent layout shifts */

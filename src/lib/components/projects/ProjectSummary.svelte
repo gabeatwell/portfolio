@@ -48,7 +48,7 @@
         <div class="popover-inner">
             <div data-summary-text>
                 <p>About <span class="pwa-title">{popoverTitle}</span></p>
-                <p>{summary}</p>
+                <p class="indent">{summary}</p>
             </div>
         </div>
 

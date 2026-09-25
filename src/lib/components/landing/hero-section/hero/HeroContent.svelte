@@ -242,10 +242,6 @@
                     letter-spacing: 2px;
                 }
 
-                &.indent {
-                    text-indent: 1em;
-                }
-
                 &.tunnel {
                     color: var(--white-gray);
                 }

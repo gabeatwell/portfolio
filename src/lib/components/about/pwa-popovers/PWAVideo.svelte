@@ -193,7 +193,7 @@
         display: none;
         opacity: 0;
         transform: translateY(2rem);
-        transform-origin: center center;
+        transform-origin: top center;
 
         position: fixed;
         inset-inline: 0;
@@ -210,7 +210,7 @@
         transition:
             opacity 0.5s allow-discrete,
             display 0.5s allow-discrete,
-            transform 0.5s allow-discrete,
+            transform 0.65s allow-discrete,
             overlay 0.5s allow-discrete;
     }
 

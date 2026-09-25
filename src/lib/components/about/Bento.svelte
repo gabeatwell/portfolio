@@ -275,6 +275,7 @@
                         font-weight: 300;
                         color: var(--clr-light-500);
                         text-align: center;
+                        padding-inline: 0.75em;
                         margin-bottom: 0;
                         letter-spacing: 0px;
                         pointer-events: none;

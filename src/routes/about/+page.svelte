@@ -65,7 +65,6 @@
                 <div data-flex-container>
                     <PWAInstall
                         title="How to install the PWA"
-                        popoverTitle="How to install the PWA:"
                         text="It works on Android and iPhone. If you're using an iPhone device, you have to tap the share icon in the Safari browser and choose the 'Add to Home Screen' option.. that's the only way to save a pwa on an iOS device. On an iMac, follow the same steps using Safari but choose 'Add to Dock' instead."
                         text2="If you're on an Android device you should see an install button on the bottom-right of the screen. If you press it, an installation prompt should appear. The prompt will only appear after some user interactions (clicks)."
                         text3="Other than mobile devices, you should see the install button (on tablet, laptop, desktop). If you are having any issues or you have any questions, please feel free to contact me!"

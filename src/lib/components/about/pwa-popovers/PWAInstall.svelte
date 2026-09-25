@@ -18,9 +18,9 @@
 
     <div {id} popover="auto">
         <p><span class="pwa-title">{title}</span></p>
-        <p data-content>{text}</p>
-        <p data-content>{text2}</p>
-        <p data-content>{text3}</p>
+        <p class="indent" data-content>{text}</p>
+        <p class="indent" data-content>{text2}</p>
+        <p class="indent" data-content>{text3}</p>
 
         <button
             data-close
@@ -157,13 +157,13 @@
         border-radius: 0.5rem;
         box-shadow: var(--blackest) 0px 20px 25px -5px;
         padding: var(--padding-button-lg);
-        transform-origin: center center;
+        transform-origin: top center;
 
         position: fixed;
         inset: 0;
         margin: auto;
-        inline-size: 80%;
-        max-inline-size: 90%;
+        inline-size: 100%;
+        max-inline-size: 65%;
 
         /* close state */
         display: none;
@@ -174,7 +174,7 @@
         transition:
             opacity 0.5s allow-discrete,
             display 0.5s allow-discrete,
-            transform 0.5s allow-discrete,
+            transform 0.75s allow-discrete,
             overlay 0.5s allow-discrete;
     }
 
