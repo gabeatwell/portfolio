@@ -488,7 +488,8 @@
             --light-purple: oklch(0.6383 0.1895 268.76 / 80%);
             --yellow: oklch(0.7292 0.148 87.23 / 74.9%);
             --dark-yellow: oklch(0.512 0.0938 88.85);
-            --dark-blue: oklch(0.3506 0.0844 244.06 / 74.9%);
+            --dark-blue: oklch(0.4506 0.0844 244.06 / 74.9%);
+            --blue: oklch(0.5506 0.0844 244.06 / 74.9%);
             --darker-blue: oklch(0.288 0.061 240.78 / 74.9%);
             --darkest-blue: oklch(0.2285 0.0512 240.51 / 74.9%);
             --pale: oklch(0.6936 0.1414 83.49);
@@ -504,13 +505,11 @@
             --clr-fail-500-light: oklch(0.5189 0.175 25.76);
             --clr-fail-500-dark: oklch(0.2931 0.151 24.57);
             --clr-warning-500-light: oklch(0.7126 0.1451 94.89);
-            --clr-warning-500-dark: oklch(0.4869 0.0938 88.85);
+            --clr-warning-500-dark: oklch(0.5622 0.0838 88.85);
 
             --clr-blue-300: light-dark(var(--sky), var(--sky));
-            --clr-blue-400: light-dark(
-                var(--clr-success-500),
-                var(--light-sky)
-            );
+            --clr-blue-350: light-dark(var(--blue), var(--sky));
+            --clr-blue-400: light-dark(var(--dark-blue), var(--blue));
             --clr-blue-500: light-dark(var(--dark-blue), var(--sky));
             --clr-dark-200: light-dark(var(--white-gray), var(--blacker));
             --clr-gray-600: light-dark(var(--dark-gray), var(--darker-gray));

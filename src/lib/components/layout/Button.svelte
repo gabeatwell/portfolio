@@ -16,13 +16,13 @@
             display: inline-block;
             text-decoration: none;
             background-color: var(--clr-gray-600);
-            background-color: var(--clr-blue-500);
+            background-color: var(--clr-blue-400);
             font-family: var(--serif);
             font-size: clamp(var(--h5), 2vw, var(--h3));
             font-weight: 900;
-            border: 1px solid var(--clr-dark-500);
-            outline: 3px solid var(--clr-dark-500);
-            color: var(--clr-dark-500);
+            border: 1px solid var(--clr-light-500);
+            outline: 3px solid var(--clr-light-500);
+            color: var(--clr-light-500);
             border-radius: var(--radius);
             outline-offset: -7px;
             margin-inline: auto;
