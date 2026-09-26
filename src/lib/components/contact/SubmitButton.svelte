@@ -12,17 +12,17 @@
             font-weight: 900;
             border: 1px solid var(--clr-light-500);
             outline: 3px solid var(--clr-light-500);
-            color: var(--clr-dark-500);
+            color: var(--blackest);
             text-shadow:
-                0 0 1px var(--clr-light-500),
-                -2px -2px 0 var(--clr-light-350),
-                2px -2px 0 var(--clr-light-350),
-                -2px 2px 0 var(--clr-light-350),
-                2px 2px 0 var(--clr-light-350),
-                -2px 0 0 var(--clr-light-350),
-                2px 0 0 var(--clr-light-350),
-                0 -2px 0 var(--clr-light-350),
-                0 2px 0 var(--clr-light-350);
+                0 0 1px var(--white-gray),
+                -2px -2px 0 var(--white-gray),
+                2px -2px 0 var(--white-gray),
+                -2px 2px 0 var(--white-gray),
+                2px 2px 0 var(--white-gray),
+                -2px 0 0 var(--white-gray),
+                2px 0 0 var(--white-gray),
+                0 -2px 0 var(--white-gray),
+                0 2px 0 var(--white-gray);
             border-radius: var(--radius);
             outline-offset: -7px;
             margin-inline: auto;

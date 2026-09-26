@@ -15,14 +15,13 @@
         .button {
             display: inline-block;
             text-decoration: none;
-            background-color: var(--clr-gray-600);
-            background-color: var(--clr-blue-400);
+            background-color: var(--light-sky);
             font-family: var(--serif);
             font-size: clamp(var(--h5), 2vw, var(--h3));
             font-weight: 900;
-            border: 1px solid var(--clr-light-500);
-            outline: 3px solid var(--clr-light-500);
-            color: var(--clr-light-500);
+            border: 1px solid var(--blackest);
+            outline: 3px solid var(--blackest);
+            color: var(--blackest);
             border-radius: var(--radius);
             outline-offset: -7px;
             margin-inline: auto;

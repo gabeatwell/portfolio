@@ -18,10 +18,13 @@
             font-family: var(--serif);
             font-size: clamp(var(--h5), 2vw, var(--h3));
             font-weight: 900;
-            background-color: var(--clr-warning-500);
-            color: var(--clr-light-500);
+            background-color: var(--clr-warning-500-light);
+            color: var(--blackest);
+            border: 1px solid var(--blackest);
+            outline: 3px solid var(--blackest);
+            /* color: var(--clr-light-500);
             border: 1px solid var(--clr-light-500);
-            outline: 3px solid var(--clr-light-500);
+            outline: 3px solid var(--clr-light-500); */
             margin-inline: auto;
             cursor: pointer;
             letter-spacing: 1px;
