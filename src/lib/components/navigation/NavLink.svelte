@@ -43,10 +43,10 @@
 
 <style>
     .nav-link {
-        font-family: var(--bronova-bold);
-        font-size: clamp(var(--h6), 1.25vw, var(--h5));
+        font-family: var(--bronova);
+        font-size: clamp(var(--h6), 1.25vw, var(--h4));
         font-weight: 900;
-        letter-spacing: 2px;
+        letter-spacing: 1px;
         color: var(--clr-light-500);
         background-color: transparent;
         transition: opacity 0.15s ease-out;

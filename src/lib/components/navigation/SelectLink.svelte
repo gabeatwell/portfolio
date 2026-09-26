@@ -93,8 +93,8 @@
 
                 & .option-text {
                     color: var(--clr-dark-500);
-                    font-family: var(--bronova);
-                    font-size: clamp(var(--h6), 1.3vw, var(--h3));
+                    font-family: var(--bronova-bold);
+                    font-size: clamp(var(--h6), 1.2vw, var(--h4));
                     font-weight: 900;
 
                     &:hover {
