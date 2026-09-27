@@ -47,11 +47,11 @@
         font-size: clamp(var(--h6), 1.25vw, var(--h4));
         font-weight: 900;
         letter-spacing: 1px;
-        color: var(--clr-light-500);
+        color: var(--clr-light-300);
         background-color: transparent;
         transition: opacity 0.15s ease-out;
         pointer-events: auto;
-        mix-blend-mode: difference;
+        /* mix-blend-mode: difference; */
 
         position: relative;
         display: inline-flex;

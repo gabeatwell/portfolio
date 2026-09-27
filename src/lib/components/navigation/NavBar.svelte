@@ -106,9 +106,8 @@
         position: fixed;
         top: 0;
         border-radius: var(--radius);
-        box-shadow: 0 0 5px oklch(from var(--clr-light-500) 0.5 c h);
-        background: var(--clr-dark-400);
-        backdrop-filter: blur(10px);
+        box-shadow: 0 0 2px oklch(from var(--clr-light-500) 0.5 c h);
+        background: var(--clr-dark-450);
 
         & .nav-main {
             display: flex;
