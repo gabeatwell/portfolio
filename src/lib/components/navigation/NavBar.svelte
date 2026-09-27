@@ -97,7 +97,7 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        z-index: 15;
+        z-index: 500;
         inline-size: 100%;
         block-size: fit-content;
         padding: 0 calc(var(--space-xxxl) * 2) 0 calc(var(--space-md) + 2rem);

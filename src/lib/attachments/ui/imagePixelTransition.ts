@@ -73,8 +73,8 @@ export function pixelTransition(
                 pixel.className = 'pixel-transition-pixel';
                 Object.assign(pixel.style, {
                     background: opts.color,
-                    width: '100%',
-                    height: '100%',
+                    width: 'calc(100% + 1px)',
+                    height: 'calc(100% + 1px)',
                     transformOrigin: 'center',
                     willChange: 'transform, opacity',
                 });
@@ -112,7 +112,7 @@ export function pixelTransition(
             const prevPos = host.style.position;
             const prevOverflow = host.style.overflow;
             const spread = opts.scroll.spread ?? 5;
-            const band = opts.scroll.band ?? 0.5;
+            const band = opts.scroll.band ?? 0.25;
 
             Object.assign(overlay.style, {
                 position: 'absolute',
@@ -157,8 +157,18 @@ export function pixelTransition(
                 }
                 getPixels().forEach((p, i) => {
                     p.style.background = paint(i, sampled);
-                    if (strokeColor) {
-                        p.style.boxShadow = `inset 0 0 0 1px ${strokeColor}`;
+                    p.style.clipPath = 'inset(6% 6% 6% 6%)';
+                    if (strokeColor && !p.firstElementChild) {
+                        const stroke = document.createElement('div');
+                        Object.assign(stroke.style, {
+                            position: 'absolute',
+                            inset: '0',
+                            pointerEvents: 'none',
+                            boxShadow: `inset 0 0 0 1px ${strokeColor}`,
+                            clipPath: 'inset(6% 6% 6% 6%)',
+                        });
+                        p.style.position = 'relative';
+                        p.appendChild(stroke);
                     }
                 });
             };
@@ -174,8 +184,12 @@ export function pixelTransition(
                 const rowFromBottom = rows - 1 - Math.floor(i / opts.cols);
                 return (rowFromBottom + hash(i) * spread) / maxDelay;
             });
+            const strokes = pixels
+                .map((p) => p.firstElementChild as HTMLElement | null)
+                .filter((s): s is HTMLElement => s !== null);
 
             gsap.set(pixels, { opacity: 0 });
+            gsap.set(strokes, { opacity: 0 });
 
             const tl = gsap.timeline({
                 defaults: { ease: 'none' },
@@ -193,6 +207,37 @@ export function pixelTransition(
                 duration: 1,
                 stagger: (i) => delays[i],
             });
+
+            tl.to(
+                strokes,
+                {
+                    opacity: 1,
+                    duration: 0.6,
+                    stagger: (i) => delays[i],
+                },
+                0.2,
+            );
+
+            const mergeStart = tl.duration() - 0.35; // last ~35% of the scroll
+            tl.to(
+                strokes,
+                {
+                    opacity: 0,
+                    clipPath: 'inset(0% 0% 0% 0%)',
+                    duration: 0.25,
+                    ease: 'power1.in',
+                },
+                mergeStart,
+            );
+            tl.to(
+                pixels,
+                {
+                    clipPath: 'inset(0% 0% 0% 0%)',
+                    duration: 0.3,
+                    ease: 'power2.inOut',
+                },
+                mergeStart,
+            );
 
             return () => {
                 tl.scrollTrigger?.kill();
