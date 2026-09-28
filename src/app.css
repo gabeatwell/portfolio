@@ -616,7 +616,6 @@
 }
 
 /* ================= view transitions ================= */
-
 @view-transition {
     navigation: auto;
 }
@@ -671,6 +670,7 @@ html.theme-transitioning body {
     transition: none;
 }
 
+/* utility classes */
 .dark-intro-page nav.navigation {
     --fg: oklch(0.8853 0 0 / 90.2%);
     --clr-light-400: oklch(0.8297 0 0 / 90.2%);
@@ -688,6 +688,10 @@ html[data-theme='light'].tunnel-active .teeth-intro {
         --clr-light-400: rgba(255, 255, 255, 0.9);
         --clr-dark-400: rgba(255, 255, 255, 0.72);
         --bg: #0a0a0a;
+
+        & .nav-link {
+            --clr-light-300: #ccc;
+        }
     }
 }
 
