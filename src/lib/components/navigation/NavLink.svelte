@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { useTheme } from '$lib/data/context/theme.svelte';
     import { page } from '$app/state';
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
 
@@ -21,9 +22,12 @@
         '/sounds/foley-bubble.wav',
     );
 
-    // only apply view-transition-name when NOT on the target page
+    const theme = useTheme();
+
     let shouldTransition = $derived(
-        viewTransitionName && page.url.pathname !== href,
+        viewTransitionName &&
+            page.url.pathname !== href &&
+            !theme.isTransitioning,
     );
     let isReverse = $derived(index % 2 === 1);
 
@@ -33,12 +37,14 @@
     }
 </script>
 
-<a class="nav-link" {href} onclick={handleClick} data-reverse={isReverse}
-    ><span
-        style={shouldTransition
-            ? `view-transition-name: ${viewTransitionName};`
-            : ''}>{title}</span
+<a class="nav-link" {href} onclick={handleClick} data-reverse={isReverse}>
+    <span
+        style:view-transition-name={shouldTransition
+            ? viewTransitionName
+            : undefined}
     >
+        {title}
+    </span>
 </a>
 
 <style>
@@ -51,7 +57,6 @@
         background-color: transparent;
         transition: opacity 0.15s ease-out;
         pointer-events: auto;
-        /* mix-blend-mode: difference; */
 
         position: relative;
         display: inline-flex;

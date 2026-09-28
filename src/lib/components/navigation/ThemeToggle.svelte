@@ -2,16 +2,15 @@
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
     import { ThemeToggle } from '$lib/components/navigation/theme-toggle.svelte';
+    import { useTheme } from '$lib/data/context/theme.svelte';
 
+    const theme = useTheme();
     let themeStatus = $state<string>('');
-
     const { playSoundAsync } = useSound('/sounds/ui_bubble.wav');
 
     function announce(message: string) {
         themeStatus = message;
-        setTimeout(() => {
-            themeStatus = '';
-        }, 2000);
+        setTimeout(() => (themeStatus = ''), 2000);
     }
 </script>
 
@@ -23,6 +22,10 @@
     class="sr-only"
     aria-label="Toggle between light and dark theme"
     {@attach ThemeToggle({
+        isDark: () => theme.isDark,
+        onChange: (t) => theme.set(t),
+        onBegin: () => theme.beginTransition(),
+        onEnd: () => theme.endTransition(),
         onAnnounce: announce,
         onSound: () => void playSoundAsync(),
     })}
@@ -134,25 +137,6 @@
         }
         & .moon {
             display: block;
-        }
-    }
-
-    ::view-transition-old(changing-theme) {
-        animation: none;
-        will-change: clip-path, transform;
-        transform: translateZ(0);
-    }
-
-    ::view-transition-new(changing-theme) {
-        animation: circle-theme-transition 0.55s linear forwards;
-        clip-path: circle(0% at var(--x) var(--y));
-        will-change: clip-path, transform;
-        transform: translateZ(0);
-    }
-
-    @keyframes circle-theme-transition {
-        to {
-            clip-path: circle(150vmax at var(--x) var(--y));
         }
     }
 </style>

@@ -1,88 +1,97 @@
+import { tick } from 'svelte';
+
+type Theme = 'dark' | 'light';
+
 interface ThemeToggleOptions {
-    storageKey?: string;
+    isDark: () => boolean;
+    onChange: (theme: Theme) => void;
+    onBegin?: () => void;
+    onEnd?: () => void;
     onAnnounce?: (message: string) => void;
     onSound?: () => void;
 }
 
 export function ThemeToggle({
-    storageKey = 'theme',
+    isDark,
+    onChange,
+    onBegin,
+    onEnd,
     onAnnounce,
     onSound,
-}: ThemeToggleOptions = {}) {
+}: ThemeToggleOptions) {
     return (node: HTMLElement) => {
         const input = node as HTMLInputElement;
         const label = document.querySelector<HTMLLabelElement>(
             `label[for="${input.id}"]`,
         );
+        const root = document.documentElement;
 
-        const sync = () => {
-            const theme = input.checked ? 'dark' : 'light';
-            try {
-                localStorage.setItem(storageKey, theme);
-            } catch {
-                /* private mode etc. */
-            }
-            document.documentElement.dataset.theme = theme;
+        const paintCheckbox = () => {
+            input.checked = root.dataset.theme === 'dark';
         };
 
-        const announce = () => {
-            onAnnounce?.(
-                `Switched to ${input.checked ? 'dark' : 'light'} theme`,
-            );
-        };
+        function circleOrigin() {
+            const w = innerWidth;
+            const h = innerHeight;
+            let x: number;
+            let y: number;
 
-        // restore preference at mount (replaces the $effect)
-        const stored = localStorage.getItem(storageKey);
-        input.checked =
-            stored !== null
-                ? stored === 'dark'
-                : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        sync();
-
-        function onclick(e: MouseEvent) {
-            onSound?.();
-
-            if (!document.startViewTransition) return;
-            e.preventDefault();
-
-            const isMobile = window.innerWidth <= 768;
-            let x: number, y: number;
-            if (isMobile || !label) {
-                x = window.innerWidth / 2;
-                y = window.innerHeight / 5;
+            if (!label || w <= 768) {
+                x = w / 2;
+                y = h / 5;
             } else {
-                const rect = label.getBoundingClientRect();
-                x = rect.left + rect.width / 2;
-                y = rect.top + rect.height / 2;
+                const r = label.getBoundingClientRect();
+                x = r.left + r.width / 2;
+                y = r.top + r.height / 2;
             }
 
-            const root = document.documentElement;
+            const radius = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
+
             root.style.setProperty('--x', `${x}px`);
             root.style.setProperty('--y', `${y}px`);
-            root.style.viewTransitionName = 'changing-theme';
-
-            document
-                .startViewTransition(() => {
-                    input.checked = !input.checked;
-                    sync();
-                    announce();
-                })
-                .finished.finally(() => {
-                    root.style.viewTransitionName = '';
-                });
+            root.style.setProperty('--r', `${Math.ceil(radius)}px`);
         }
 
-        function onchange() {
-            sync();
-            announce();
+        async function onclick(e: MouseEvent) {
+            e.preventDefault(); // state decides `checked`, never the DOM
+            void onSound?.();
+
+            const next: Theme = isDark() ? 'light' : 'dark';
+            const run = async () => {
+                onChange(next);
+                await tick(); // flush the context's $effect inside the transition
+                onAnnounce?.(`Switched to ${next} theme`);
+            };
+
+            if (!document.startViewTransition) return run();
+
+            onBegin?.();
+            await tick();
+
+            circleOrigin();
+            root.classList.add('theme-transitioning');
+
+            const vt = document.startViewTransition(run);
+            const done = () => {
+                root.classList.remove('theme-transitioning');
+                onEnd?.();
+            };
+            vt.finished.finally(done);
+            vt.ready.catch(done);
         }
 
+        // reflect theme changes made anywhere else (keyboard shortcut, etc.)
+        paintCheckbox();
+        const observer = new MutationObserver(paintCheckbox);
+        observer.observe(root, {
+            attributes: true,
+            attributeFilter: ['data-theme'],
+        });
         node.addEventListener('click', onclick);
-        node.addEventListener('change', onchange);
 
         return () => {
+            observer.disconnect();
             node.removeEventListener('click', onclick);
-            node.removeEventListener('change', onchange);
         };
     };
 }

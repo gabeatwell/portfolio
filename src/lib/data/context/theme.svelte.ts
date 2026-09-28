@@ -9,23 +9,33 @@ export interface ThemeContext {
     readonly current: Theme;
     readonly isDark: boolean;
     readonly isLight: boolean;
+    readonly isTransitioning: boolean;
+    beginTransition(): void;
+    endTransition(): void;
     toggle(): Theme;
     set(value: Theme): void;
 }
 
 export function createThemeContext(): ThemeContext {
     const initialTheme: Theme = browser
-        ? (localStorage.getItem('theme') as Theme) || 'dark'
+        ? document.documentElement.dataset.theme === 'light'
+            ? 'light'
+            : 'dark'
         : 'dark';
+
     let theme = $state<Theme>(initialTheme);
 
     $effect(() => {
-        if (browser) {
-            document.documentElement.setAttribute('data-theme', theme);
-            document.documentElement.style.colorScheme = theme;
+        if (!browser) return;
+        document.documentElement.dataset.theme = theme;
+        try {
+            localStorage.setItem('theme', theme);
+        } catch {
+            /* private mode */
         }
     });
 
+    let isWiping = $state(false);
     const context: ThemeContext = {
         get current() {
             return theme;
@@ -36,22 +46,21 @@ export function createThemeContext(): ThemeContext {
         get isLight() {
             return theme === 'light';
         },
+        get isTransitioning() {
+            return isWiping;
+        },
+        beginTransition() {
+            isWiping = true;
+        },
+        endTransition() {
+            isWiping = false;
+        },
         toggle() {
             theme = theme === 'dark' ? 'light' : 'dark';
-            if (browser) {
-                localStorage.setItem('theme', theme);
-                document.documentElement.setAttribute('data-theme', theme);
-                document.documentElement.style.colorScheme = theme;
-            }
             return theme;
         },
         set(value: Theme) {
             theme = value;
-            if (browser) {
-                localStorage.setItem('theme', theme);
-                document.documentElement.setAttribute('data-theme', theme);
-                document.documentElement.style.colorScheme = theme;
-            }
         },
     };
 

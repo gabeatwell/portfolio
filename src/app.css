@@ -138,7 +138,7 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        scrollbar-color: var(--off-white) var(--blacker);
+        scrollbar-color: var(--white-gray) var(--blacker);
     }
 
     ul,
@@ -209,11 +209,8 @@
     body {
         --timing: 0.75s;
         inline-size: 100%;
-        background-color: var(--clr-dark-500);
-        transition:
-            background-color var(--timing) ease,
-            color var(--timing) ease;
-        will-change: background-color, color;
+        background-color: var(--bg);
+        color: var(--fg);
         scrollbar-gutter: stable;
         margin: 0;
     }
@@ -230,7 +227,6 @@
         -moz-osx-font-smoothing: grayscale;
         inline-size: 100%;
         min-block-size: 100svh;
-        font-display: swap;
     }
 
     main > svg {
@@ -268,7 +264,7 @@
 
     h1 {
         text-align: center;
-        color: var(--clr-light-500);
+        color: var(--fg);
         font-family: var(--ultra);
     }
 
@@ -366,7 +362,7 @@
         --clr-warning-500-light: #ffdd6b;
         --clr-warning-500-dark: #d7b24a;
 
-        --clr-bg: #111;
+        --clr-contribution-bg: #111;
         --clr-light-300: #e5e5e5;
         --clr-light-400: rgba(0, 0, 0, 0.15);
         --clr-light-500: #fff;
@@ -389,10 +385,8 @@
         --clr-pale-900: #fff3c4;
         --clr-green-500: #2b8b5a;
         --clr-btn-900: #111111;
-        --clr-btn-600: linear-gradient(90deg, #ffd66b, #7b5cff);
         --clr-sun-500: #ffd66b;
         --clr-moon-500: #1f3b6f;
-        --opacity: 1;
 
         --clr-success-500: #57c184;
         --clr-fail-500: #ff9b7a;
@@ -405,93 +399,56 @@
             rgba(45, 85, 120, 0.85) 60%,
             rgba(20, 40, 60, 0.95) 100%
         );
+
+        /* main theming */
+        --bg: var(--clr-dark-500);
+        --fg: var(--clr-light-500);
+        --accent: var(--clr-warning-500);
     }
 
     /* theme fallbacks */
-    :root[data-theme='dark'],
     html[data-theme='dark'],
     html:has(#manual-theme:checked) {
         color-scheme: dark;
-        --clr-dark-500: #111111;
-        --clr-light-500: #f7f7f7;
-        --clr-light-300: #e5e5e5;
-        --clr-dark-400: rgba(255, 255, 255, 0.06);
-        --clr-dark-450: rgba(0, 0, 0, 0.85);
-        --clr-hero-text: #cccccc;
-        --clr-blue-350: #4a90e2;
-        --clr-blue-500: #4a90e2;
-        --clr-btn-900: #ffffff;
     }
 
-    :root[data-theme='light'],
     html[data-theme='light'],
-    html:not(:has(#manual-theme:checked)) {
+    html:has(#manual-theme):not(:has(#manual-theme:checked)) {
         color-scheme: light;
-        --clr-dark-500: #f7f7f7;
-        --clr-light-500: #111111;
-        --clr-light-300: #111111;
-        --clr-dark-400: rgba(0, 0, 0, 0.2);
-        --clr-dark-450: rgba(175, 175, 175, 0.75);
-        --clr-hero-text: #c6c6c6;
-        --clr-blue-350: #172b59;
-        --clr-blue-500: #0f2246;
-        --clr-btn-900: #111111;
     }
 
-    /* MODERN OKLCH/LIGHT-DARK */
-    @supports (color: oklch(from white 0 0 0)) and
-        (background: light-dark(white, black)) {
-        :root {
-            --clr-bg: light-dark(var(--white), var(--blackest));
-            --clr-light-300: light-dark(
-                oklch(from var(--blackest) 0.18 c h),
-                oklch(from var(--white) 0.88 c h)
-            );
-            --clr-light-350: light-dark(
-                oklch(from var(--blackest) 0.2 c h),
-                oklch(from var(--white) 0.8 c h)
-            );
-            --clr-light-400: light-dark(
-                oklch(from var(--blackest) 0.1 c h),
-                oklch(from var(--white) 0.65 c h)
-            );
-            --clr-light-500: light-dark(
-                oklch(from var(--blackest) 0.1 c h),
-                oklch(from var(--white) 0 c h)
-            );
-            --clr-dark-500: light-dark(
-                oklch(from var(--white) 0.9 c h),
-                oklch(from var(--blackest) 0.1 c h)
-            );
-            --clr-dark-450: light-dark(
-                oklch(from var(--white) 0.5 c h / 0.92),
-                oklch(from var(--blackest) 0.72 c h / 0.92)
-            );
-            --clr-dark-400: light-dark(
-                oklch(from var(--white) 0.5 c h),
-                oklch(from var(--blackest) 0.72 c h)
-            );
-            --clr-dark-300: light-dark(
-                oklch(from var(--dark-gray) 0.75 c h),
-                oklch(from var(--blackest) 0.72 c h)
-            );
-
-            --clr-hero-text: light-dark(
-                oklch(from var(--light-gray) 0.45 c h),
-                var(--white)
-            );
-            --clr-blue-350: light-dark(var(--darker-blue), var(--sky));
-            --clr-blue-400: light-dark(
-                oklch(from var(--darkest-blue) 0.45 c h),
-                oklch(from var(--sky) 0.7 c h)
-            );
-
-            --clr-purple-500: light-dark(var(--light-purple), var(--purple));
+    /* hex fallbacks */
+    @supports not (background: light-dark(white, black)) {
+        html[data-theme='dark'],
+        html:has(#manual-theme:checked) {
+            --clr-dark-500: #111111;
+            --clr-light-500: #f7f7f7;
+            --clr-light-300: #e5e5e5;
+            --clr-dark-400: rgba(255, 255, 255, 0.06);
+            --clr-dark-450: rgba(0, 0, 0, 0.85);
+            --clr-hero-text: #cccccc;
+            --clr-blue-350: #4a90e2;
+            --clr-blue-500: #4a90e2;
+            --clr-btn-900: #ffffff;
+        }
+        html[data-theme='light'],
+        html:has(#manual-theme):not(:has(#manual-theme:checked)) {
+            --clr-dark-500: #f7f7f7;
+            --clr-light-500: #111111;
+            --clr-light-300: #111111;
+            --clr-dark-400: rgba(0, 0, 0, 0.2);
+            --clr-dark-450: rgba(175, 175, 175, 0.75);
+            --clr-hero-text: #c6c6c6;
+            --clr-blue-350: #172b59;
+            --clr-blue-500: #0f2246;
+            --clr-btn-900: #111111;
         }
     }
-    @supports (color: oklch(50% 0 0)) and (background: light-dark(white, black)) {
+
+    /* tier 1: light-dark() + oklch - no relative color */
+    @supports (background: light-dark(white, black)) {
         :root {
-            /* base colors (oklch) */
+            /* raw palette */
             --blackest: oklch(11% 0 0);
             --blacker: oklch(0.2809 0 0);
             --white-gray: oklch(0.8297 0 0 / 90.2%);
@@ -521,6 +478,47 @@
             --clr-warning-500-light: oklch(0.7126 0.1451 94.89);
             --clr-warning-500-dark: oklch(0.5622 0.0838 88.85);
 
+            /* theme aware */
+            --clr-contribution-bg: light-dark(var(--white), var(--blackest));
+            --clr-light-350: light-dark(
+                oklch(from var(--blackest) 0.2 c h),
+                oklch(from var(--white) 0.8 c h)
+            );
+            --clr-light-400: light-dark(
+                oklch(from var(--blackest) 0.1 c h),
+                oklch(from var(--white) 0.65 c h)
+            );
+            --clr-light-500: light-dark(
+                oklch(from var(--blackest) 0.1 c h),
+                oklch(from var(--white) 0.98 c h)
+            );
+            --clr-dark-500: light-dark(
+                oklch(from var(--white) 0.9 c h),
+                oklch(from var(--blackest) 0.1 c h)
+            );
+            --clr-dark-450: light-dark(
+                oklch(from var(--white) 0.5 c h / 0.92),
+                oklch(from var(--blackest) 0.72 c h / 0.92)
+            );
+            --clr-dark-400: light-dark(
+                oklch(from var(--white) 0.5 c h),
+                oklch(from var(--blackest) 0.72 c h)
+            );
+            --clr-dark-350: light-dark(
+                oklch(from var(--white-gray) 0.75 c h),
+                oklch(from var(--blackest) 0.72 c h)
+            );
+            --clr-dark-300: light-dark(
+                oklch(from var(--dark-gray) 0.75 c h),
+                oklch(from var(--blackest) 0.72 c h)
+            );
+
+            --clr-hero-text: light-dark(
+                oklch(from var(--light-gray) 0.45 c h),
+                var(--white)
+            );
+
+            --clr-purple-500: light-dark(var(--light-purple), var(--purple));
             --clr-blue-300: light-dark(var(--sky), var(--sky));
             --clr-blue-350: light-dark(var(--blue), var(--sky));
             --clr-blue-400: light-dark(var(--dark-blue), var(--blue));
@@ -549,7 +547,6 @@
             --clr-btn-700: light-dark(var(--purple), var(--light-purple));
             --clr-sun-500: light-dark(var(--yellow), var(--pale));
             --clr-moon-500: light-dark(var(--dark-blue), var(--sky));
-            --opacity: light-dark(1, 0.85);
 
             --clr-success-500: light-dark(
                 var(--clr-success-500-light),
@@ -573,13 +570,112 @@
             );
         }
     }
+
+    /* tier 2: relative color refinements over-ride tier 1 */
+    @supports (color: oklch(from white 0 0 0)) and
+        (background: light-dark(white, black)) {
+        :root {
+            --clr-dark-500: light-dark(
+                oklch(from var(--white) 0.9 c h),
+                oklch(from var(--blackest) 0.1 c h)
+            );
+            --clr-light-500: light-dark(
+                oklch(from var(--blackest) 0.1 c h),
+                oklch(from var(--white) 0.98 c h)
+            );
+            --clr-light-350: light-dark(
+                oklch(from var(--blackest) 0.2 c h),
+                oklch(from var(--white) 0.8 c h)
+            );
+            --clr-light-400: light-dark(
+                oklch(from var(--blackest) 0.1 c h),
+                oklch(from var(--white) 0.65 c h)
+            );
+            --clr-dark-450: light-dark(
+                oklch(from var(--white) 0.5 c h / 0.92),
+                oklch(from var(--blackest) 0.72 c h / 0.92)
+            );
+            --clr-dark-400: light-dark(
+                oklch(from var(--white) 0.5 c h),
+                oklch(from var(--blackest) 0.72 c h)
+            );
+            --clr-dark-350: light-dark(
+                oklch(from var(--white-gray) 0.75 c h),
+                oklch(from var(--blackest) 0.72 c h)
+            );
+            --clr-dark-300: light-dark(
+                oklch(from var(--dark-gray) 0.75 c h),
+                oklch(from var(--blackest) 0.72 c h)
+            );
+            --clr-hero-text: light-dark(
+                oklch(from var(--light-gray) 0.45 c h),
+                var(--white)
+            );
+        }
+    }
+}
+
+/* ================= view transitions ================= */
+
+@view-transition {
+    navigation: auto;
+}
+
+/* nav is captured into the top layer too, so nothing can paint over it */
+nav.navigation {
+    view-transition-name: site-nav;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    z-index: 0;
+}
+::view-transition-group(site-nav) {
+    z-index: 50;
+}
+
+::view-transition-group(.heading-transition) {
+    z-index: 1;
+}
+
+:root {
+    --vt-duration: 0.75s;
+    --vt-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html.theme-transitioning::view-transition-old(root) {
+    animation: none;
+}
+html.theme-transitioning::view-transition-new(root) {
+    animation: circle-reveal var(--vt-duration) var(--vt-ease) forwards;
+    clip-path: circle(100% at var(--x) var(--y));
+}
+
+@keyframes circle-reveal {
+    from {
+        clip-path: circle(0px at var(--x) var(--y));
+    }
+    to {
+        clip-path: circle(var(--r, 150vmax) at var(--x) var(--y));
+    }
+}
+
+/* during a theme wipe, nothing should be individually named */
+html.theme-transitioning [style*='view-transition-name'] {
+    view-transition-name: none;
+}
+
+/* don't let the color transition double-run behind the snapshot */
+html.theme-transitioning,
+html.theme-transitioning body {
+    transition: none;
 }
 
 .dark-intro-page nav.navigation {
-    --clr-light-500: oklch(0.8853 0 0 / 90.2%);
+    --fg: oklch(0.8853 0 0 / 90.2%);
     --clr-light-400: oklch(0.8297 0 0 / 90.2%);
     --clr-dark-400: oklch(0.72 0 0 / 0.72);
-    --clr-dark-500: oklch(11% 0 0);
+    --bg: oklch(11% 0 0);
 }
 
 html[data-theme='light'].tunnel-active,
@@ -588,10 +684,10 @@ html[data-theme='light'].tunnel-active .teeth-intro {
     background-color: #0a0a0a !important;
 
     nav.navigation {
-        --clr-light-500: #ffffff;
+        --fg: #ffffff;
         --clr-light-400: rgba(255, 255, 255, 0.9);
         --clr-dark-400: rgba(255, 255, 255, 0.72);
-        --clr-dark-500: #0a0a0a;
+        --bg: #0a0a0a;
     }
 }
 

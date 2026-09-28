@@ -422,7 +422,7 @@
             & .mobile-tooltip {
                 position: absolute;
                 background: var(--clr-light-500);
-                color: var(--clr-bg);
+                color: var(--clr-contribution-bg);
                 padding: var(--padding-nav);
                 border-radius: 6px;
                 font-size: 0.75rem;

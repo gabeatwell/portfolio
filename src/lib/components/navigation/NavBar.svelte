@@ -107,7 +107,7 @@
         top: 0;
         border-radius: var(--radius);
         box-shadow: 0 0 2px oklch(from var(--clr-light-500) 0.5 c h);
-        background: var(--clr-dark-450);
+        background: oklch(from var(--bg) l c h / 0.6);
 
         & .nav-main {
             display: flex;

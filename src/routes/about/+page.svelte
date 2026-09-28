@@ -9,7 +9,6 @@
     import PWAInstall from '$lib/components/about/pwa-popovers/PWAInstall.svelte';
     import PWAVideo from '$lib/components/about/pwa-popovers/PWAVideo.svelte';
 
-    import { fadeInBio } from '$lib/attachments/gsap/fadeInBio';
     import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
 
     const breakpoints = getBreakpoints();
@@ -104,7 +103,7 @@
             margin-inline: auto;
             text-align: center;
             inline-size: var(--100);
-            color: var(--clr-light-500);
+            /* color: var(--clr-light-500); */
             margin-top: 0;
 
             @media (width >= 990px) {
