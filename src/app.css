@@ -691,7 +691,23 @@ html[data-theme='light'].tunnel-active .teeth-intro {
 
         & .nav-link {
             --clr-light-300: #ccc;
+
+            &.mobile {
+                --fg: #121212;
+            }
         }
+    }
+}
+html[data-theme='light'].tunnel-active nav.navigation {
+    @media (width < 755px) {
+        /* Burger .bar */
+        --clr-light-500: #f2f2f2;
+
+        /* NavLink text color */
+        --clr-light-300: #ccc;
+
+        /* .mobile menu */
+        --clr-dark-500: #1a1a1a;
     }
 }
 

@@ -188,7 +188,6 @@
             border-radius: 5px;
             padding: calc(var(--space-md) - 0.45rem);
             background-color: var(--clr-dark-500);
-            /* backdrop-filter: blur(125px); */
             list-style: none;
             min-width: 150px;
             width: auto;
