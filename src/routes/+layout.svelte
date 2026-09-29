@@ -12,7 +12,8 @@
     import ViewTransition from '$lib/components/layout/view-transitions/ViewTransition.svelte';
     import PullToRefresh from '$lib/data/PullToRefresh.svelte';
 
-    import Lenis from 'lenis';
+    import { afterNavigate } from '$app/navigation';
+    import { createLenis, destroyLenis, resetScroll } from '$lib/data/lenis';
     import { browser } from '$app/environment';
     import { gsap, ScrollTrigger } from '$lib/data/gsap';
 
@@ -114,7 +115,7 @@
     $effect(() => {
         if (!browser) return;
 
-        const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+        const lenis = createLenis();
         lenis.on('scroll', ScrollTrigger.update);
 
         const tick = (time: number) => lenis.raf(time * 1000);
@@ -126,6 +127,7 @@
             lenis.destroy();
         };
     });
+    afterNavigate(() => resetScroll());
 </script>
 
 <svelte:head>

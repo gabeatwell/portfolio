@@ -51,6 +51,9 @@
         />
 
         <script>
+            history.scrollRestoration = 'manual';
+            if (!location.hash) window.scrollTo(0, 0);
+
             try {
                 const s = localStorage.getItem('theme');
                 const dark =

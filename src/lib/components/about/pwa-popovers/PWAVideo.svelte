@@ -102,8 +102,8 @@
         }
 
         & [popover][data-video-popover] {
-            inline-size: min(95%, 900px);
             max-block-size: 90vh;
+            inline-size: min(95%, 900px);
             padding: var(--padding-button);
             margin-inline: auto;
             margin-block: auto;
@@ -114,7 +114,7 @@
 
             @media (width <= 768px) {
                 inline-size: 95%;
-                max-block-size: 50vh;
+                min-block-size: 55vh;
             }
 
             @media (width <= 500px) {
@@ -125,13 +125,13 @@
 
             & [data-close] {
                 position: absolute;
-                top: 1em;
-                right: 1em;
+                top: 0.1em;
+                right: 0.5em;
                 inline-size: fit-content;
                 padding: 0.1em 0.2em;
 
                 @media (width <= 768px) {
-                    top: -0.2em;
+                    top: -0.01em;
                     right: -0.2em;
                 }
 
@@ -175,7 +175,7 @@
             inline-size: 100%;
             max-inline-size: 100%;
             block-size: 0;
-            padding-bottom: 56.25%;
+            padding-bottom: 76.25%;
             overflow: clip;
             border: 2px solid var(--dark-gray);
             border-radius: var(--radius);
@@ -183,8 +183,8 @@
             & iframe {
                 position: absolute;
                 inset: 0;
-                width: 100%;
-                height: 100%;
+                inline-size: 100%;
+                block-size: 100%;
             }
         }
     }

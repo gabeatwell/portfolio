@@ -97,6 +97,11 @@
         }
 
         div {
+            @media (width <= 768px) {
+                min-inline-size: 95vw;
+                inline-size: 100%;
+            }
+
             & .content {
                 padding: 1em 0.5em 0.5em 0.5em;
 

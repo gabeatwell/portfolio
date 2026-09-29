@@ -252,7 +252,6 @@
         font-style: italic;
         block-size: auto;
         max-inline-size: 100%;
-        aspect-ratio: attr(inline-size) / attr(block-size);
     }
 
     /* CLS prevention for images without explicit dimensions */
@@ -579,6 +578,81 @@
                 oklch(0.9126 0.1451 94.89),
                 oklch(0.7126 0.1451 94.89)
             );
+        }
+
+        /* no js fallback */
+        html:has(#manual-theme:not(:checked)) {
+            --clr-contribution-bg: var(--white);
+            --clr-light-350: oklch(0.2 0 0);
+            --clr-light-400: oklch(0.1 0 0);
+            --clr-light-500: oklch(0.1 0 0);
+            --clr-dark-500: oklch(0.9 0 0);
+            --clr-dark-450: oklch(0.5 0 0 / 0.92);
+            --clr-dark-400: oklch(0.5 0 0);
+            --clr-dark-350: oklch(0.75 0 0);
+            --clr-dark-300: oklch(0.75 0 0);
+            --clr-hero-text: oklch(0.45 0 17.26);
+            --clr-purple-500: var(--light-purple);
+            --clr-blue-300: var(--sky);
+            --clr-blue-350: var(--blue);
+            --clr-blue-400: var(--dark-blue);
+            --clr-blue-500: var(--dark-blue);
+            --clr-light-300: var(--blackest);
+            --clr-dark-200: var(--white-gray);
+            --clr-gray-600: var(--dark-gray);
+            --clr-gray-700: var(--dark-gray);
+            --clr-gray-500: var(--dark-faint-gray);
+            --clr-gray-900: oklch(0.7018 0.0035 17.24);
+            --clr-pale-700: var(--dark-yellow);
+            --clr-pale-900: var(--pale);
+            --clr-green-500: var(--clr-success-500-dark);
+            --clr-btn-900: var(--blackest);
+            --clr-btn-600: var(--yellow);
+            --clr-btn-700: var(--purple);
+            --clr-sun-500: var(--yellow);
+            --clr-moon-500: var(--dark-blue);
+            --clr-success-500: var(--clr-success-500-light);
+            --clr-fail-500: var(--clr-fail-500-light);
+            --clr-warning-500: var(--clr-warning-500-dark);
+            --clr-warning-400: var(--clr-warning-500-dark);
+            --clr-warning-300: oklch(0.9126 0.1451 94.89);
+        }
+
+        html:has(#manual-theme:checked) {
+            --clr-contribution-bg: var(--blackest);
+            --clr-light-350: oklch(0.8 0 0);
+            --clr-light-400: oklch(0.65 0 0);
+            --clr-light-500: oklch(0.98 0 0);
+            --clr-dark-500: oklch(0.1 0 0);
+            --clr-dark-450: oklch(0.72 0 0 / 0.92);
+            --clr-dark-400: oklch(0.72 0 0);
+            --clr-dark-350: oklch(0.72 0 0);
+            --clr-dark-300: oklch(0.72 0 0);
+            --clr-hero-text: var(--white);
+            --clr-purple-500: var(--purple);
+            --clr-blue-300: var(--sky);
+            --clr-blue-350: var(--sky);
+            --clr-blue-400: var(--blue);
+            --clr-blue-500: var(--sky);
+            --clr-light-300: var(--white-gray);
+            --clr-dark-200: var(--blacker);
+            --clr-gray-600: var(--darker-gray);
+            --clr-gray-700: var(--gray);
+            --clr-gray-500: var(--faint-gray);
+            --clr-gray-900: oklch(0.2982 0.0014 17.24);
+            --clr-pale-700: var(--pale);
+            --clr-pale-900: var(--dark-pale);
+            --clr-green-500: var(--clr-success-500-light);
+            --clr-btn-900: var(--white);
+            --clr-btn-600: var(--purple);
+            --clr-btn-700: var(--light-purple);
+            --clr-sun-500: var(--pale);
+            --clr-moon-500: var(--sky);
+            --clr-success-500: var(--clr-success-500-dark);
+            --clr-fail-500: var(--clr-fail-500-dark);
+            --clr-warning-500: var(--clr-warning-500-light);
+            --clr-warning-400: oklch(0.7126 0.1451 94.89);
+            --clr-warning-300: oklch(0.7126 0.1451 94.89);
         }
     }
 

@@ -135,7 +135,6 @@
 
         @media (height <= 700px) {
             min-height: auto;
-            /* padding: calc(var(--space-md) - .2rem); */
         }
 
         @media (width <= 768px) {
@@ -238,12 +237,18 @@
                 margin: 0 auto 3rem auto;
                 user-select: none;
 
+                background: rgba(0, 0, 0, 0.71);
+                background: var(--clr-dark-500);
+                padding: var(--padding-button);
+                border: 1px solid var(--clr-gray-700);
+                border-radius: var(--radius);
+
                 @media (width >= 990px) {
                     letter-spacing: 2px;
                 }
 
                 &.tunnel {
-                    color: var(--white-gray);
+                    color: var(--fg);
                 }
 
                 &.ribbon {
@@ -363,10 +368,6 @@
     @media (width <= 768px) {
         .hero-content {
             & .content-wrapper {
-                & .summary {
-                    padding: 0 1rem;
-                }
-
                 & .stats-container {
                     gap: 1.5rem;
 

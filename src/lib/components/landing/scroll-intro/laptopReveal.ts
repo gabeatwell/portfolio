@@ -1,4 +1,5 @@
 import { gsap } from '$lib/data/gsap';
+import { resetScroll } from '$lib/data/lenis';
 import {
     AmbientLight,
     Box3,
@@ -496,6 +497,7 @@ export function laptopScene(
                     pin: true,
                     anticipatePin: 1,
                     onLeave: () => {
+                        resetScroll();
                         onComplete();
                     },
                 },
@@ -755,6 +757,7 @@ export function laptopScene(
     // cleanup
     return () => {
         controller.abort();
+        resetScroll();
         ctx?.revert();
         cancelAnimationFrame(rafId);
 
