@@ -66,11 +66,12 @@
     });
 
     $effect(() => {
-        if (selectedBg === 1) {
-            document.documentElement.classList.add('tunnel-active');
-        } else {
+        const active = selectedBg === 1;
+        document.documentElement.classList.toggle('tunnel-active', active);
+
+        return () => {
             document.documentElement.classList.remove('tunnel-active');
-        }
+        };
     });
 </script>
 
