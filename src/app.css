@@ -205,6 +205,17 @@
 }
 
 @layer base {
+    html {
+        &.lenis,
+        &.lenis body {
+            block-size: auto;
+        }
+
+        &.lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
+    }
+
     html,
     body {
         --timing: 0.75s;

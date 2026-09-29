@@ -40,7 +40,6 @@ export function laptopScene(
     const isMobile = window.matchMedia('(max-width: 768px)');
 
     let laptop!: Group;
-    let laptopTopY = 0;
     let exclusion = { center: new Vector3(), radius: 0 };
 
     // three.js
@@ -311,7 +310,7 @@ export function laptopScene(
         const b = screenBounds(0, camera.position.z, camera.position.y);
         const viewWidth = b.maxX - b.minX;
         // keep the words at a constant *fraction* of the screen
-        const s = Math.min(1, Math.max(0.65, viewWidth / REFERENCE_WIDTH));
+        const s = Math.min(1, Math.max(0.55, viewWidth / REFERENCE_WIDTH));
 
         shapes.forEach((mesh) => {
             if (!mesh.userData.side) return;
@@ -338,6 +337,7 @@ export function laptopScene(
         return Math.max(0.5, window.innerWidth / baseWidth);
     }
 
+    const MODEL_Y_OFFSET = 0.15;
     function applyScale() {
         if (!laptop) return;
 
@@ -351,7 +351,7 @@ export function laptopScene(
             .getCenter(new Vector3());
 
         laptop.position.x -= center.x;
-        laptop.position.y += camera.position.y - center.y;
+        laptop.position.y += camera.position.y - center.y + MODEL_Y_OFFSET;
 
         updateExclusion();
     }
@@ -451,8 +451,6 @@ export function laptopScene(
         laptop = gltf.scene;
         scene.add(laptop);
 
-        const box = new Box3().setFromObject(laptop);
-        laptopTopY = box.max.y;
         applyScale();
 
         const screen = findScreenMesh(laptop);

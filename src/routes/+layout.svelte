@@ -12,6 +12,10 @@
     import ViewTransition from '$lib/components/layout/view-transitions/ViewTransition.svelte';
     import PullToRefresh from '$lib/data/PullToRefresh.svelte';
 
+    import Lenis from 'lenis';
+    import { browser } from '$app/environment';
+    import { gsap, ScrollTrigger } from '$lib/data/gsap';
+
     interface Props {
         children: Snippet;
     }
@@ -20,8 +24,7 @@
     const loading = createLoadingContext();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const theme = createThemeContext();
-    let SkipLinkComponent = $state<any>(null);
-    let TestLinkComponent = $state<any>(null);
+
     let mounted = $state(false);
 
     // service worker
@@ -105,6 +108,23 @@
         if (typeof window !== 'undefined') {
             loading.isLoaded = true;
         }
+    });
+
+    // lenis
+    $effect(() => {
+        if (!browser) return;
+
+        const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+        lenis.on('scroll', ScrollTrigger.update);
+
+        const tick = (time: number) => lenis.raf(time * 1000);
+        gsap.ticker.add(tick);
+        gsap.ticker.lagSmoothing(0);
+
+        return () => {
+            gsap.ticker.remove(tick);
+            lenis.destroy();
+        };
     });
 </script>
 
