@@ -205,7 +205,6 @@
                 font-family: var(--bronova);
                 font-size: clamp(var(--h6), 1.25vw, var(--h4));
                 font-weight: 300;
-                color: oklch(from var(--clr-light-500) 0.65 c h);
                 background: transparent;
                 hyphens: auto;
                 text-wrap: no-wrap;

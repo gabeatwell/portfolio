@@ -699,7 +699,7 @@ html[data-theme='light'].tunnel-active .teeth-intro {
     }
 }
 html[data-theme='light'].tunnel-active nav.navigation {
-    @media (width < 755px) {
+    @media (width < 768px) {
         /* Burger .bar */
         --clr-light-500: #f2f2f2;
 

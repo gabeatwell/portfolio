@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import SEO from '$lib/data/SEO.svelte';
     import Image from '$lib/components/layout/Image.svelte';
     import LearnHeading from '$lib/components/learn/pages/LearnHeading.svelte';
