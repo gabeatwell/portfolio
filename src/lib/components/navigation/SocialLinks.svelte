@@ -175,7 +175,7 @@
                 & path {
                     fill: var(--clr-dark-500);
                     stroke: var(--clr-light-500);
-                    stroke-width: 0.2em;
+                    stroke-width: 0.25em;
 
                     &:not(:hover) {
                         opacity: 0.9;

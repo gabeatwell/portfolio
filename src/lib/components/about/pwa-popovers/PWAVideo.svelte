@@ -80,7 +80,7 @@
             font-size: clamp(var(--h6), 1.5vw, var(--h4));
             font-weight: 600;
             margin: 0;
-            padding: 0;
+            padding: 0.1em 0.2em;
             border: none;
             cursor: pointer;
             min-block-size: 44px;
@@ -92,7 +92,7 @@
             }
 
             &:active {
-                scale: 0.925;
+                scale: 0.95;
             }
 
             &:focus {
@@ -104,7 +104,7 @@
         & [popover][data-video-popover] {
             inline-size: min(95%, 900px);
             max-block-size: 90vh;
-            padding: var(--padding-button-lg);
+            padding: var(--padding-button);
             margin-inline: auto;
             margin-block: auto;
             position: fixed;
@@ -128,6 +128,7 @@
                 top: 1em;
                 right: 1em;
                 inline-size: fit-content;
+                padding: 0.1em 0.2em;
 
                 @media (width <= 768px) {
                     top: -0.2em;
@@ -150,6 +151,7 @@
                 &:focus,
                 &:focus-visible {
                     outline: 1px solid var(--clr-light-500);
+                    /* padding: 0.1em 0.2em; */
                 }
             }
         }

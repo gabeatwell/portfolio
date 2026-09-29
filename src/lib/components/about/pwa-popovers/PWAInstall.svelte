@@ -17,10 +17,12 @@
     </button>
 
     <div {id} popover="auto">
-        <p><span class="pwa-title">{title}</span></p>
-        <p class="indent" data-content>{text}</p>
-        <p class="indent" data-content>{text2}</p>
-        <p class="indent" data-content>{text3}</p>
+        <!-- <p><span class="pwa-title">{title}</span></p> -->
+        <div class="content">
+            <p class="indent" data-content>{text}</p>
+            <p class="indent" data-content>{text2}</p>
+            <p class="indent" data-content>{text3}</p>
+        </div>
 
         <button
             data-close
@@ -70,7 +72,7 @@
             font-size: clamp(var(--h6), 1.5vw, var(--h4));
             font-weight: 600;
             margin: 0;
-            padding: 0;
+            padding: 0.1em 0.2em;
             border: none;
             cursor: pointer;
             transition: scale 0.15s ease-out;
@@ -86,7 +88,7 @@
             &:focus {
                 outline: 1px solid var(--clr-light-500);
                 background: transparent;
-                padding: 0.1em 0.2em;
+                /* padding: 0.1em 0.2em; */
             }
 
             & .pwa-title {
@@ -95,6 +97,15 @@
         }
 
         div {
+            & .content {
+                padding: 1em 0.5em 0.5em 0.5em;
+
+                & p.indent:last-child {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+
             & [data-close] {
                 position: absolute;
                 top: 1em;
@@ -123,16 +134,6 @@
                     outline: 1px solid var(--clr-light-500);
                 }
             }
-        }
-
-        &:has([popover]:popover-open) button .pwa-title {
-            view-transition-name: none;
-        }
-
-        [popover]:popover-open .pwa-title {
-            view-transition-name: pwa-title;
-            color: var(--clr-green-500);
-            font-size: clamp(var(--h5), 1.5vw, var(--h3));
         }
 
         & [popover] {
@@ -168,7 +169,7 @@
         /* close state */
         display: none;
         opacity: 0;
-        transform: scale(0);
+        transform: translateY(2.5em);
         overlay: none;
 
         transition:
@@ -182,7 +183,7 @@
     [popover]:popover-open {
         display: block;
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0);
         overlay: auto;
     }
 
@@ -190,7 +191,7 @@
     @starting-style {
         [popover]:popover-open {
             opacity: 0;
-            transform: scale(0);
+            transform: translateY(-2.5em);
         }
     }
 
