@@ -1,6 +1,20 @@
 {
     "extends": "./.svelte-kit/tsconfig.json",
     "compilerOptions": {
+        "paths": {
+            "$lib": [
+                "./src/lib"
+            ],
+            "$lib/*": [
+                "./src/lib/*"
+            ],
+            "$routes": [
+                "./src/routes"
+            ],
+            "$routes/*": [
+                "./src/routes/*"
+            ]
+        },
         "allowJs": true,
         "checkJs": true,
         "esModuleInterop": true,
@@ -13,6 +27,6 @@
             "DOM",
             "DOM.Iterable",
             "ES2022"
-        ]
+        ],
     }
 }

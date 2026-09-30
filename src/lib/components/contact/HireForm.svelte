@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { submitHire } from './contact.remote';
+    import { submitHire } from '$routes/contact.remote';
     import SubmitButton from '$lib/components/contact/SubmitButton.svelte';
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
 
@@ -70,6 +70,18 @@
     <div class="anchor" bind:this={anchorEl}></div>
 
     <form {...submitHire}>
+        <!-- honeypot -->
+        <input
+            class="hp"
+            type="text"
+            name="_gotcha"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            inert
+        />
+        <input type="hidden" name="ts" value={Date.now()} />
+
         <div class="form-grid">
             <label class="form-group">
                 <span class="label-text">Name*</span>
@@ -279,6 +291,17 @@
                     black 79%,
                     transparent 100%
                 );
+            }
+        }
+
+        & form {
+            & .hp {
+                position: absolute;
+                left: -9999px;
+                opacity: 0;
+                height: 0;
+                width: 0;
+                overflow: hidden;
             }
         }
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { submitContact } from './contact.remote';
+    import { submitContact } from '$routes/contact.remote';
     import SubmitButton from '$lib/components/contact/SubmitButton.svelte';
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import Popover from '$lib/components/layout/Popover.svelte';
@@ -29,6 +29,18 @@
 <A11yAnnouncer message={submitStatus} />
 
 <form {...submitContact} novalidate>
+    <!-- honeypot -->
+    <input
+        class="hp"
+        type="text"
+        name="_gotcha"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+        inert
+    />
+    <input type="hidden" name="ts" value={Date.now()} />
+
     <fieldset>
         <legend>reach me</legend>
 
@@ -156,6 +168,15 @@
                     inline-size: var(--100);
                 }
             }
+        }
+
+        .hp {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            height: 0;
+            width: 0;
+            overflow: hidden;
         }
 
         & fieldset {

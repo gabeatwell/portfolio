@@ -6,6 +6,8 @@ const contactSchema = v.object({
     name: v.pipe(v.string(), v.minLength(1, 'Name is required')),
     email: v.pipe(v.string(), v.email('Valid email required')),
     message: v.pipe(v.string(), v.minLength(1, 'Please add a bit more detail')),
+    _gotcha: v.optional(v.string()), // honeypot
+    ts: v.optional(v.string()),
 });
 
 const hireSchema = v.object({
@@ -25,9 +27,16 @@ const hireSchema = v.object({
         v.string(),
         v.minLength(10, 'Please add a bit more detail'),
     ),
+    _gotcha: v.optional(v.string()), // honeypot
+    ts: v.optional(v.string()),
 });
 
 export const submitContact = form(contactSchema, async (data) => {
+    // reject early if honeypot is filled
+    if (data._gotcha && data._gotcha.trim() !== '') {
+        redirect(303, '/contact/success');
+    }
+
     const res = await fetch('https://formspree.io/f/xjyvrrle', {
         method: 'POST',
         headers: {
@@ -42,6 +51,7 @@ export const submitContact = form(contactSchema, async (data) => {
             message: data.message,
             _replyto: data.email,
             _subject: `Contact from ${data.name}`,
+            _gotcha: data._gotcha ?? '',
         }),
     });
 
@@ -54,6 +64,11 @@ export const submitContact = form(contactSchema, async (data) => {
 });
 
 export const submitHire = form(hireSchema, async (data) => {
+    // reject early if honeypot is filled
+    if (data._gotcha && data._gotcha.trim() !== '') {
+        redirect(303, '/contact/success');
+    }
+
     const res = await fetch('https://formspree.io/f/xwpoqdno', {
         method: 'POST',
         headers: {
@@ -75,6 +90,7 @@ export const submitHire = form(hireSchema, async (data) => {
             message: data.message,
             _replyto: data.email,
             _subject: `Hire inquiry from ${data.name}`,
+            _gotcha: data._gotcha ?? '',
         }),
     });
 

@@ -1,4 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
     // Handle Chrome DevTools requests that cause 404 errors
@@ -27,29 +28,32 @@ export const handle: Handle = async ({ event, resolve }) => {
         });
     }
 
-    // Handle other common browser/crawler requests that might cause 404s
-    const ignorePaths = [
-        '/favicon.ico',
-        '/robots.txt',
-        '/sitemap.xml',
-        '/ads.txt',
-        '/apple-touch-icon.png',
-        '/.well-known/',
-    ];
+    // honeypot + timing gate
+    const SPAM_TRAP = new Set(['submitContact', 'submitHire']);
 
-    // Check if this is a request we want to handle silently
-    const shouldIgnore = ignorePaths.some(
-        (path) =>
-            event.url.pathname === path || event.url.pathname.startsWith(path),
-    );
+    if (event.request.method === 'POST') {
+        let actionName = '';
+        for (const [key, value] of event.url.searchParams) {
+            if (key === '/remote') actionName = value.split('/').pop() ?? '';
+            else if (key.startsWith('/')) actionName = key.slice(1);
+        }
 
-    if (shouldIgnore && event.url.pathname.startsWith('/.well-known/')) {
-        return new Response('', { status: 204 });
+        if (SPAM_TRAP.has(actionName)) {
+            const fd = await event.request.clone().formData();
+
+            const gotcha = (fd.get('_gotcha') as string | null)?.trim();
+            const ts = Number(fd.get('ts'));
+
+            const too_fast = !ts || Date.now() - ts < 3000;
+            const too_old = ts && Date.now() - ts > 7 * 24 * 60 * 60 * 1000; // no replays
+
+            if (gotcha || too_fast || too_old) {
+                redirect(303, '/contact/success');
+            }
+        }
     }
 
-    const response = await resolve(event, {
-        transformPageChunk: ({ html }) => html,
-    });
+    const response = await resolve(event);
 
     // Add SEO-friendly headers
     response.headers.set(
