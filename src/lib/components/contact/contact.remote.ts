@@ -59,11 +59,23 @@ export const submitHire = form(hireSchema, async (data) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Origin: 'https://atwell.dev', // satisfy provider domain check
-            Referer: 'https://atwell.dev/contact',
-            'User-Agent': 'Mozilla/5.0 (compatible; atwell.dev form)',
+            Origin: 'https://atwell.dev',
+            Referer: 'https://atwell.dev/hire', // fixed
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            location: data.location,
+            site: data.site ?? '',
+            company: data.company ?? '',
+            project_type: data.project_type,
+            new_project: data.new_project,
+            timeline: data.timeline,
+            budget: data.budget,
+            message: data.message,
+            _replyto: data.email,
+            _subject: `Hire inquiry from ${data.name}`,
+        }),
     });
 
     if (!res.ok) {
@@ -71,6 +83,5 @@ export const submitHire = form(hireSchema, async (data) => {
         error(res.status, 'Submission failed. Please try again.');
     }
 
-    // submission accepted
     redirect(303, '/contact/success');
 });
