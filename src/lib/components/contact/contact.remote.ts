@@ -1,5 +1,6 @@
 import { form } from '$app/server';
 import { redirect, error } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 import * as v from 'valibot';
 
 const contactSchema = v.object({
@@ -33,16 +34,23 @@ export const submitContact = form(contactSchema, async (data) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            // Formspree domain check: fake the origin only in local dev
+            ...(dev && {
+                Origin: 'https://atwell.dev',
+                Referer: 'https://atwell.dev/contact',
+            }),
         },
         body: JSON.stringify({
-            ...data,
+            name: data.name,
+            email: data.email,
+            message: data.message,
             _replyto: data.email,
             _subject: `Contact from ${data.name}`,
-            _gotcha: '',
         }),
     });
 
     if (!res.ok) {
+        console.error('formspree said:', res.status, await res.text());
         error(res.status, 'Submission failed. Please try again.');
     }
 
@@ -55,14 +63,18 @@ export const submitHire = form(hireSchema, async (data) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Origin: 'https://atwell.dev', // satisfy provider domain check
-            Referer: 'https://atwell.dev/contact',
-            'User-Agent': 'Mozilla/5.0 (compatible; atwell.dev form)',
+            // Formspree domain check: fake the origin only in local dev
+            ...(dev && {
+                Origin: 'https://atwell.dev',
+                Referer: 'https://atwell.dev/contact',
+                'User-Agent': 'Mozilla/5.0 (compatible; atwell.dev form)',
+            }),
         },
         body: JSON.stringify(data),
     });
 
     if (!res.ok) {
+        console.error('formspree said:', res.status, await res.text());
         error(res.status, 'Submission failed. Please try again.');
     }
 
