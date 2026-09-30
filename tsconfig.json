@@ -2,18 +2,10 @@
     "extends": "./.svelte-kit/tsconfig.json",
     "compilerOptions": {
         "paths": {
-            "$lib": [
-                "./src/lib"
-            ],
-            "$lib/*": [
-                "./src/lib/*"
-            ],
-            "$routes": [
-                "./src/routes"
-            ],
-            "$routes/*": [
-                "./src/routes/*"
-            ]
+            "$lib": ["./src/lib"],
+            "$lib/*": ["./src/lib/*"],
+            "$routes": ["./src/routes"],
+            "$routes/*": ["./src/routes/*"]
         },
         "allowJs": true,
         "checkJs": true,
@@ -23,10 +15,6 @@
         "skipLibCheck": true,
         "strict": true,
         "moduleResolution": "bundler",
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ES2022"
-        ],
+        "lib": ["DOM", "DOM.Iterable", "ES2022"]
     }
 }
