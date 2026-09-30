@@ -1,6 +1,5 @@
 import { form } from '$app/server';
 import { redirect, error } from '@sveltejs/kit';
-import { dev } from '$app/environment';
 import * as v from 'valibot';
 
 const contactSchema = v.object({
@@ -34,11 +33,8 @@ export const submitContact = form(contactSchema, async (data) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            // Formspree domain check: fake the origin only in local dev
-            ...(dev && {
-                Origin: 'https://atwell.dev',
-                Referer: 'https://atwell.dev/contact',
-            }),
+            Origin: 'https://atwell.dev', // satisfy provider domain check
+            Referer: 'https://atwell.dev/contact',
         },
         body: JSON.stringify({
             name: data.name,
@@ -63,12 +59,9 @@ export const submitHire = form(hireSchema, async (data) => {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            // Formspree domain check: fake the origin only in local dev
-            ...(dev && {
-                Origin: 'https://atwell.dev',
-                Referer: 'https://atwell.dev/contact',
-                'User-Agent': 'Mozilla/5.0 (compatible; atwell.dev form)',
-            }),
+            Origin: 'https://atwell.dev', // satisfy provider domain check
+            Referer: 'https://atwell.dev/contact',
+            'User-Agent': 'Mozilla/5.0 (compatible; atwell.dev form)',
         },
         body: JSON.stringify(data),
     });
