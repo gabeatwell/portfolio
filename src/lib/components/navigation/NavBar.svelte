@@ -3,7 +3,7 @@
     import Burger from '$lib/components/navigation/Burger.svelte';
     import ThemeToggle from '$lib/components/navigation/ThemeToggle.svelte';
     import NavLink from '$lib/components/navigation/NavLink.svelte';
-    import SelectLink from '$lib/components/navigation/SelectLink.svelte';
+    import SelectLink from '$lib/components/contact/SelectLink.svelte';
     // import AtwellUnderline from './AtwellUnderline.svelte';
     import AtwellLogo from './AtwellLogo.svelte';
 
@@ -85,7 +85,9 @@
                 onclick={closeMenu}
             />
         </li>
-        <li><NavLink href="/hire" title="Hire Me" onclick={closeMenu} /></li>
+        <li>
+            <NavLink href="/contact/hire" title="Hire Me" onclick={closeMenu} />
+        </li>
         <li>
             <NavLink href="/contact" title="Contact Me" onclick={closeMenu} />
         </li>

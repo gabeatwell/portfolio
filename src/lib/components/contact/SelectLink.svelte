@@ -12,7 +12,7 @@
         <span class="select-trigger">Connect</span>
 
         <div class="select-options">
-            <a href="/hire" class="select-option">
+            <a href="/contact/hire" class="select-option">
                 <span class="option-text">Hire Me</span>
             </a>
 
