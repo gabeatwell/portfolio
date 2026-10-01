@@ -26,7 +26,7 @@
     .card {
         inline-size: fit-content;
         block-size: fit-content;
-        background-color: var(--clr-dark-400);
+        background-color: oklch(from var(--blackest) 0.25 c h / 0.45);
         border-radius: 8px;
         border: 2px solid var(--clr-light-500);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -66,14 +66,14 @@
             line-height: 1.2;
             text-shadow:
                 0 0 1px var(--clr-dark-500),
-                -2px -2px 0 var(--clr-gray-700),
-                2px -2px 0 var(--clr-gray-700),
-                -2px 2px 0 var(--clr-gray-700),
-                2px 2px 0 var(--clr-gray-700),
-                -2px 0 0 var(--clr-gray-700),
-                2px 0 0 var(--clr-gray-700),
-                0 -2px 0 var(--clr-gray-700),
-                0 2px 0 var(--clr-gray-700);
+                -2px -2px 0 var(--clr-light-400),
+                2px -2px 0 var(--clr-light-400),
+                -2px 2px 0 var(--clr-light-400),
+                2px 2px 0 var(--clr-light-400),
+                -2px 0 0 var(--clr-light-400),
+                2px 0 0 var(--clr-light-400),
+                0 -2px 0 var(--clr-light-400),
+                0 2px 0 var(--clr-light-400);
 
             @media (width <= 768px) {
                 margin-bottom: var(--space-md);
@@ -107,7 +107,6 @@
             block-size: 10%;
             outline: none;
             margin: 1rem auto;
-            filter: drop-shadow(0 0 0.75rem var(--clr-gray-700));
             transition: 300ms;
             outline: 3px solid currentColor;
             outline-offset: -7px;
