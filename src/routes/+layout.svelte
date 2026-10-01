@@ -5,7 +5,7 @@
     import { createLoadingContext } from '$lib/data/context/loading.svelte';
     import { createThemeContext } from '$lib/data/context/theme.svelte';
     import NavBar from '$lib/components/navigation/NavBar.svelte';
-    import Footer from '$lib/components/navigation/Footer.svelte';
+    import Footer from '$lib/components/navigation/footer/Footer.svelte';
     import Loading from '$lib/components/layout/loading/Loading.svelte';
     import TestLink from '$lib/components/navigation/TestLink.svelte';
     import SkipLink from '$lib/components/navigation/SkipLink.svelte';

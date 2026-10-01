@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import HireForm from '$lib/components/contact/HireForm.svelte';
+import HireForm from '$lib/components/contact/forms/HireForm.svelte';
 
 interface FieldIssue {
     message: string;

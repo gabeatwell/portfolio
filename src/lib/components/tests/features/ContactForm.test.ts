@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import ContactForm from '$lib/components/contact/ContactForm.svelte';
+import ContactForm from '$lib/components/contact/forms/ContactForm.svelte';
 
 interface FieldIssue {
     message: string;

@@ -17,7 +17,7 @@
         // handle blog posts:: /threejs-blog/3 -> src/content/posts/3.md
         const blogMatch = path.match(/^\/threejs-blog\/(\d+)$/);
         if (blogMatch) {
-            return `${REPO_URL}/tree/main/src/content/posts/${blogMatch[1]}.md`;
+            return `${REPO_URL}/tree/main/src/content/threejs/${blogMatch[1]}.md`;
         }
 
         // handle three.js with selected component

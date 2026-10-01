@@ -4,7 +4,7 @@
     import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
     import Popover from '$lib/components/layout/Popover.svelte';
     import ModalPopover from '$lib/components/contact/ModalPopover.svelte';
-    import MotifPhoto from './MotifPhoto.svelte';
+    import MotifPhoto from '../MotifPhoto.svelte';
 
     let submitStatus = $state<string>('');
 </script>
