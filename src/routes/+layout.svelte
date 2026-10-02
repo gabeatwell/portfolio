@@ -2,20 +2,20 @@
     import '../app.css';
     import '@picocss/pico/css/pico.min.css';
     import type { Snippet } from 'svelte';
-    import { createLoadingContext } from '$lib/data/context/loading.svelte';
-    import { createThemeContext } from '$lib/data/context/theme.svelte';
-    import NavBar from '$lib/components/navigation/NavBar.svelte';
-    import Footer from '$lib/components/navigation/footer/Footer.svelte';
-    import Loading from '$lib/components/layout/loading/Loading.svelte';
-    import TestLink from '$lib/components/navigation/TestLink.svelte';
-    import SkipLink from '$lib/components/navigation/SkipLink.svelte';
-    import ViewTransition from '$lib/components/layout/view-transitions/ViewTransition.svelte';
-    import PullToRefresh from '$lib/data/PullToRefresh.svelte';
+    import { createLoadingContext } from '#lib/data/context/loading.svelte.js';
+    import { createThemeContext } from '#lib/data/context/theme.svelte.js';
+    import NavBar from '#lib/components/navigation/NavBar.svelte';
+    import Footer from '#lib/components/navigation/footer/Footer.svelte';
+    import Loading from '#lib/components/layout/loading/Loading.svelte';
+    import TestLink from '#lib/components/navigation/TestLink.svelte';
+    import SkipLink from '#lib/components/navigation/SkipLink.svelte';
+    import ViewTransition from '#lib/components/layout/view-transitions/ViewTransition.svelte';
+    import PullToRefresh from '#lib/data/PullToRefresh.svelte';
 
     import { afterNavigate } from '$app/navigation';
-    import { createLenis, destroyLenis, resetScroll } from '$lib/data/lenis';
-    import { browser } from '$app/environment';
-    import { gsap, ScrollTrigger } from '$lib/data/gsap';
+    import { createLenis, destroyLenis, resetScroll } from '#lib/data/lenis.js';
+    import { browser } from '$app/env';
+    import { gsap, ScrollTrigger } from '#lib/data/gsap.js';
 
     interface Props {
         children: Snippet;
@@ -127,13 +127,15 @@
             lenis.destroy();
         };
     });
-    afterNavigate(() => resetScroll());
+
+    afterNavigate(({ shallow }) => {
+        if (shallow) return;
+
+        return resetScroll();
+    });
 </script>
 
-<svelte:head>
-    <meta name="color-scheme" content="light dark" />
-</svelte:head>
-
+<svelte:head><meta name="color-scheme" content="light dark" /></svelte:head>
 <PullToRefresh />
 <ViewTransition />
 

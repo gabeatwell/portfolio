@@ -1,15 +1,15 @@
 <script lang="ts">
-    import Project from '$lib/components/projects/Project.svelte';
-    import { fadeInProject } from '$lib/attachments/gsap/fadeInProject';
-    import Testimonial from '$lib/components/projects/Testimonial.svelte';
-    import projects from '$lib/components/projects/projects.json';
-    import testimonials from '$lib/components/projects/testimonials.json';
-    import SEO from '$lib/data/SEO.svelte';
-    import Heading from '$lib/components/layout/titles/Heading.svelte';
+    import Project from '#lib/components/projects/Project.svelte';
+    import { fadeInProject } from '#lib/attachments/gsap/fadeInProject.js';
+    import Testimonial from '#lib/components/projects/Testimonial.svelte';
+    import projects from '#lib/components/projects/projects.json';
+    import testimonials from '#lib/components/projects/testimonials.json';
+    import SEO from '#lib/data/SEO.svelte';
+    import Heading from '#lib/components/layout/titles/Heading.svelte';
 
     import { getContributions } from './contributions.remote';
-    import GithubContributions from '$lib/components/projects/contributions/GithubContributions.svelte';
-    import type { ContributionsData } from '$lib/components/projects/contributions/contributions.svelte';
+    import GithubContributions from '#lib/components/projects/contributions/GithubContributions.svelte';
+    import type { ContributionsData } from '#lib/components/projects/contributions/contributions.svelte.js';
 
     // build time fallback
     const prerendered = await getContributions();

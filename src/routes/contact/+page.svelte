@@ -1,8 +1,8 @@
 <script lang="ts">
-    import SEO from '$lib/data/SEO.svelte';
-    import ContactForm from '$lib/components/contact/forms/ContactForm.svelte';
-    import Title from '$lib/components/layout/titles/Title.svelte';
-    import SkullBg from '$lib/components/contact/SkullBg.svelte';
+    import SEO from '#lib/data/SEO.svelte';
+    import ContactForm from '#lib/components/contact/forms/ContactForm.svelte';
+    import Title from '#lib/components/layout/titles/Title.svelte';
+    import SkullBg from '#lib/components/contact/SkullBg.svelte';
 </script>
 
 <SEO

@@ -16,7 +16,7 @@ A reusable debug logging component for Svelte 5 applications that provides dynam
 
 ```svelte
 <script>
-	import DebugLogger from '$lib/data/DebugLogger.svelte';
+	import DebugLogger from '#lib/data/DebugLogger.svelte';
 
 	// Define debug categories for your component
 	const debugCategories = ['events', 'installation', 'userChoice', 'lifecycle'];
@@ -91,8 +91,8 @@ window.yourcomponentDebug.disable();
 
 ```svelte
 <script>
-	import DebugLogger from '$lib/data/DebugLogger.svelte';
-	import A11yAnnouncer from '$lib/components/layout/A11yAnnouncer.svelte';
+	import DebugLogger from '#lib/data/DebugLogger.svelte';
+	import A11yAnnouncer from '#lib/components/layout/A11yAnnouncer.svelte';
 
 	const debugCategories = ['events', 'installation', 'userChoice', 'lifecycle'];
 

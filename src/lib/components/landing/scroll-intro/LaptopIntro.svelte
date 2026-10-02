@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { laptopScene } from '$lib/components/landing/scroll-intro/laptopReveal';
+    import { laptopScene } from '#lib/components/landing/scroll-intro/laptopReveal.js';
     import type { Attachment } from 'svelte/attachments';
     import { onMount } from 'svelte';
 

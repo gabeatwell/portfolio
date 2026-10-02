@@ -1,17 +1,12 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import Image from '$lib/components/layout/Image.svelte';
-    import skills from '$lib/components/about/skills.json';
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { browser } from '$app/env';
+    import Image from '#lib/components/layout/Image.svelte';
+    import skills from '#lib/components/about/skills.json';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
-    type Skill = {
-        alt: string;
-        href: string;
-        svg?: string;
-        src?: string;
-    };
+    type Skill = { alt: string; href: string; svg?: string; src?: string };
+
     const typedSkills: Skill[] = skills;
-
     let isPaused = $state(false);
 
     const duplicatedSkills = [...typedSkills, ...typedSkills];
@@ -26,8 +21,8 @@
     <div
         class="slider"
         class:paused={isPaused}
-        onmouseenter={() => (isPaused = true)}
-        onmouseleave={() => (isPaused = false)}
+        onmouseenter={() => isPaused = true}
+        onmouseleave={() => isPaused = false}
         role="region"
         aria-label="skills-carousel"
     >

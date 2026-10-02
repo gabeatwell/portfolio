@@ -1,8 +1,8 @@
 <script lang="ts">
-    import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
-    import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
-    import { ThemeToggle } from '$lib/components/navigation/theme-toggle.svelte';
-    import { useTheme } from '$lib/data/context/theme.svelte';
+    import A11yAnnouncer from '#lib/components/utils/A11yAnnouncer.svelte';
+    import { useSound } from '#lib/data/stores/sounds/uiSounds.svelte.js';
+    import { ThemeToggle } from '#lib/components/navigation/theme-toggle.svelte.js';
+    import { useTheme } from '#lib/data/context/theme.svelte.js';
 
     const theme = useTheme();
     let themeStatus = $state<string>('');

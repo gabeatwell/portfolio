@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { panelSlider } from '$lib/attachments/gsap/panelSlider';
+    import { panelSlider } from '#lib/attachments/gsap/panelSlider.js';
 
     let done = $state(false);
 </script>

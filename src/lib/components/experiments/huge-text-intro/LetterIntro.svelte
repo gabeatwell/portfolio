@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { letterIntro } from '$lib/attachments/gsap/letterIntro';
+    import { letterIntro } from '#lib/attachments/gsap/letterIntro.js';
 </script>
 
 <section class="intro" {@attach letterIntro}>

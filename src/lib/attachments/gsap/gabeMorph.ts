@@ -1,4 +1,4 @@
-import { gsap, MorphSVGPlugin } from '$lib/data/gsap';
+import { gsap, MorphSVGPlugin } from '#lib/data/gsap.js';
 import type { Attachment } from 'svelte/attachments';
 
 export function gabeMorph(onComplete?: () => void): Attachment<HTMLElement> {

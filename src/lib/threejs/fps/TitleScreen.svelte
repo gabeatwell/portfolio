@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { attachKillgridTitle } from '$lib/attachments/threejs/attachKillgridTitle';
+    import { attachKillgridTitle } from '#lib/attachments/threejs/attachKillgridTitle.js';
 
     interface Props {
         onStart: () => void;

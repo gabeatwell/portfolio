@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { imageFrame } from '$lib/attachments/gsap/imageFrame';
+    import { imageFrame } from '#lib/attachments/gsap/imageFrame.js';
 
     interface Props {
         src: string;

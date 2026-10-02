@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { gsap, ScrollTrigger } from '$lib/data/gsap';
+    import { gsap, ScrollTrigger } from '#lib/data/gsap.js';
 
     let words = $state([
         { text: 'My', dataText: 'and', active: false, done: false },

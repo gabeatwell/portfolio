@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { screen } from '@testing-library/svelte';
 import { SvelteComponent } from 'svelte';
-import { renderComponent } from '$lib/data/component-tester';
-import Project from '$lib/components/projects/Project.svelte';
+import { renderComponent } from '#lib/data/component-tester.js';
+import Project from '#lib/components/projects/Project.svelte';
 
 const TestedProject = Project as unknown as typeof SvelteComponent;
 

@@ -1,9 +1,10 @@
 /// <reference lib="webworker" />
 
-import { build, files, version } from '$service-worker';
+import { immutable, assets, prerendered } from '$app/manifest';
+import { version } from '$app/env';
 
 const CACHE = `cache-${version}`;
-const ASSETS = [...build, ...files];
+const ASSETS = [...immutable, ...assets, ...prerendered].map((a) => a.path);
 const CACHEABLE_ASSETS = ASSETS.filter(
     (asset) => !asset.endsWith('/.gitkeep') && !asset.endsWith('/.DS_Store'),
 );

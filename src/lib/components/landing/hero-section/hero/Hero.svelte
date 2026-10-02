@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
     import HeroBackground from './HeroBackground.svelte';
     import HeroContent from './HeroContent.svelte';
 

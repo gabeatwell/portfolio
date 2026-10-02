@@ -5,9 +5,9 @@
     import LandscapeMobile from './components/LandscapeMobile.svelte';
     import TitleScreen from './TitleScreen.svelte';
     import type { GameState } from './gameSetup';
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
-    import { attachSlaynetGame } from '$lib/attachments/threejs/attachSlaynet';
-    import { attachSlaynetTitle } from '$lib/attachments/threejs/attachSlaynetTitle';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
+    import { attachSlaynetGame } from '#lib/attachments/threejs/attachSlaynet.js';
+    import { attachSlaynetTitle } from '#lib/attachments/threejs/attachSlaynetTitle.js';
     import type { Attachment } from 'svelte/attachments';
 
     let playerHealth = $state(10);

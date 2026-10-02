@@ -1,4 +1,4 @@
-import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
 const chars = 'Handcrafted Frontend Interfaces';
 

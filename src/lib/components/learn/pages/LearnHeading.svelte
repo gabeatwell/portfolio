@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { animateLearnHeading } from '$lib/attachments/gsap/learnHeading';
+    import { animateLearnHeading } from '#lib/attachments/gsap/learnHeading.js';
 
     interface Props {
         title1: string;

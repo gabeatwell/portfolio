@@ -1,9 +1,9 @@
-import { gsap } from '$lib/data/gsap';
+import { gsap } from '#lib/data/gsap.js';
 import {
     initializeGame,
     cleanupGame,
     type GameState,
-} from '$lib/threejs/shooter/gameSetup';
+} from '#lib/threejs/shooter/gameSetup.js';
 import type { Attachment } from 'svelte/attachments';
 
 export type GameHudCallbacks = {

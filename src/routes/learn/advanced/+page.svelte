@@ -1,20 +1,20 @@
 <script lang="ts">
     import CSS from './css.md';
     import GSAP from './gsap.md';
-    import SEO from '$lib/data/SEO.svelte';
-    import Card from '$lib/components/learn/advanced-page/Card.svelte';
-    // import TableOfContents from '$lib/components/learn/advanced-page/TableOfContents.svelte';
-    import GabeMorph from '$lib/components/learn/advanced-page/GabeMorph.svelte';
-    import BackToTop from '$lib/components/learn/advanced-page/BackToTop.svelte';
-    import ViewTransitionImage from '$lib/components/layout/view-transitions/ViewTransitionImage.svelte';
-    import Popover from '$lib/components/layout/Popover.svelte';
-    import Preloader from '$lib/components/learn/advanced-page/Preloader.svelte';
+    import SEO from '#lib/data/SEO.svelte';
+    import Card from '#lib/components/learn/advanced-page/Card.svelte';
+    // import TableOfContents from '#lib/components/learn/advanced-page/TableOfContents.svelte';
+    import GabeMorph from '#lib/components/learn/advanced-page/GabeMorph.svelte';
+    import BackToTop from '#lib/components/learn/advanced-page/BackToTop.svelte';
+    import ViewTransitionImage from '#lib/components/layout/view-transitions/ViewTransitionImage.svelte';
+    import Popover from '#lib/components/layout/Popover.svelte';
+    import Preloader from '#lib/components/learn/advanced-page/Preloader.svelte';
 
-    import '$lib/components/learn/CopyButton.svelte';
-    import { animateCodeParagraphs } from '$lib/attachments/gsap/animateCodeParagraphs';
-    import { copyButton } from '$lib/attachments/ui/copyButton';
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
-    import { sanitizeAndHighlight } from '$lib/components/utils/highlight';
+    import '#lib/components/learn/CopyButton.svelte';
+    import { animateCodeParagraphs } from '#lib/attachments/gsap/animateCodeParagraphs.js';
+    import { copyButton } from '#lib/attachments/ui/copyButton.js';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
+    import { sanitizeAndHighlight } from '#lib/components/utils/highlight.js';
     import SearchTopics from './SearchTopics.svelte';
 
     let postHtml = $state<string>('');

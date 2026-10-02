@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
     let { sideBar = true } = $props();
     let isOpen = $state(false);

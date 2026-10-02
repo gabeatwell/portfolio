@@ -3,7 +3,7 @@
 ```ts
 // +page.svelte (src/routes/blog/+page.svelte)
 <script lang="ts">
-  import Isle from '$lib/data/island-architecture/Isle.svelte';
+  import Isle from '#lib/data/island-architecture/Isle.svelte';
 </script>
 
 <Isle
@@ -28,7 +28,7 @@ export const csr = false;
 
 ## Remote Functions (server-only logic)
 
-SvelteKit automatically splits server and client code. Any module imported from `$lib/server/*` or a `.server.ts` file **never ships to the browser** — the compiler generates an RPC stub (a `fetch` call), so the code runs on the server but is called from the island as if it were local.
+SvelteKit automatically splits server and client code. Any module imported from `#lib/server/*` or a `.server.ts` file **never ships to the browser** — the compiler generates an RPC stub (a `fetch` call), so the code runs on the server but is called from the island as if it were local.
 
 ### Rules
 
@@ -36,10 +36,10 @@ SvelteKit automatically splits server and client code. Any module imported from 
 
     ```ts
     // ✅ inside the lazily-loaded component
-    import { getPost } from '$lib/server/posts';
+    import { getPost } from '#lib/server/posts';
 
     // ❌ in Isle.svelte — runs on every page load
-    import { getPost } from '$lib/server/posts';
+    import { getPost } from '#lib/server/posts';
     ```
 
 2. **Never pass secrets as `props`.** Props serialize into the client bundle. Fetch data server-side; pass only what's safe to render.
@@ -64,7 +64,7 @@ SvelteKit automatically splits server and client code. Any module imported from 
 ```svelte
 <!-- Comments.svelte — the lazily loaded chunk -->
 <script lang="ts">
-    import { getComments } from '$lib/server/comments';
+    import { getComments } from '#lib/server/comments';
 
     let { postId } = $props();
     let comments = $state<Comment[]>([]);

@@ -2,10 +2,10 @@
     import '../blog.global.css';
     import { marked } from 'marked';
     import DOMPurify from 'isomorphic-dompurify';
-    import Avatar2 from '$lib/components/blog/ProfilePic.svelte';
-    import SEO from '$lib/data/SEO.svelte';
-    import Isle from '$lib/data/island-architecture/Isle.svelte';
-    import type { Post } from '$lib/data/blog/parseMD';
+    import Avatar2 from '#lib/components/blog/ProfilePic.svelte';
+    import SEO from '#lib/data/SEO.svelte';
+    import Isle from '#lib/data/island-architecture/Isle.svelte';
+    import type { Post } from '#lib/data/blog/parseMD.js';
 
     let { data }: { data: { post: Post | null } } = $props();
     let post = $derived(data.post);

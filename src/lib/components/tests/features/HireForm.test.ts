@@ -1,16 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import HireForm from '$lib/components/contact/forms/HireForm.svelte';
+import HireForm from '#lib/components/contact/forms/HireForm.svelte';
 
 interface FieldIssue {
     message: string;
 }
 
 // Mock child components
-vi.mock('$lib/components/contact/SubmitButton.svelte', () => ({
+vi.mock('#lib/components/contact/SubmitButton.svelte', () => ({
     default: vi.fn(),
 }));
-vi.mock('$lib/components/utils/A11yAnnouncer.svelte', () => ({
+vi.mock('#lib/components/utils/A11yAnnouncer.svelte', () => ({
     default: vi.fn(),
 }));
 
@@ -33,7 +33,7 @@ const { mockSubmitHire } = vi.hoisted(() => ({
     },
 }));
 
-vi.mock('$lib/components/contact/contact.remote', () => ({
+vi.mock('#lib/components/contact/contact.remote', () => ({
     submitHire: mockSubmitHire,
 }));
 

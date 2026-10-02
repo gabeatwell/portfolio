@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Image from '$lib/components/layout/Image.svelte';
-    import { animatedImage } from '$lib/attachments/gsap/animatedImage';
+    import Image from '#lib/components/layout/Image.svelte';
+    import { animatedImage } from '#lib/attachments/gsap/animatedImage.js';
 
     interface Props {
         src: string;

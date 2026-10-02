@@ -1,7 +1,7 @@
 <script lang="ts">
     import '@fortawesome/fontawesome-free/css/all.css';
-    import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
-    import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
+    import A11yAnnouncer from '#lib/components/utils/A11yAnnouncer.svelte';
+    import { useSound } from '#lib/data/stores/sounds/uiSounds.svelte.js';
     import { InstallButtonController } from './install-button.svelte';
 
     const install = new InstallButtonController();

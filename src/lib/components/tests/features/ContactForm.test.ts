@@ -1,31 +1,35 @@
 import '@testing-library/jest-dom/vitest';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
-import ContactForm from '$lib/components/contact/forms/ContactForm.svelte';
+import ContactForm from '#lib/components/contact/forms/ContactForm.svelte';
 
 interface FieldIssue {
     message: string;
 }
 
 // Mock child components
-vi.mock('$lib/components/contact/SubmitButton.svelte', () => ({
+vi.mock('#lib/components/contact/SubmitButton.svelte', () => ({
     default: vi.fn(),
 }));
 
-vi.mock('$lib/components/utils/A11yAnnouncer.svelte', () => ({
+vi.mock('#lib/components/utils/A11yAnnouncer.svelte', () => ({
     default: vi.fn(),
 }));
 
-vi.mock('$lib/components/layout/Popover.svelte', () => ({
+vi.mock('#lib/components/layout/Popover.svelte', () => ({
     default: vi.fn(),
 }));
 
-vi.mock('$lib/components/contact/ModalPopover.svelte', () => ({
+vi.mock('#lib/components/contact/ModalPopover.svelte', () => ({
     default: vi.fn(),
 }));
 
-vi.mock('$lib/components/contact/MotifPhoto.svelte', () => ({
+vi.mock('#lib/components/contact/MotifPhoto.svelte', () => ({
     default: vi.fn(),
+}));
+
+vi.mock('#routes/contact.remote', () => ({
+    submitContact: mockSubmitContact,
 }));
 
 // Hoist the mock so it's available when vi.mock runs
@@ -42,9 +46,7 @@ const { mockSubmitContact } = vi.hoisted(() => ({
     },
 }));
 
-vi.mock('$lib/components/contact/contact.remote', () => ({
-    submitContact: mockSubmitContact,
-}));
+
 
 // Stub SvelteKit globals that contact.remote.ts imports
 vi.stubGlobal('__SVELTEKIT_PATHS_BASE__', '');
@@ -75,14 +77,14 @@ describe('ContactForm', () => {
         const { container } = render(ContactForm);
 
         const wrapper = container.querySelector('.popover-icon');
-        expect(wrapper).toBeDefined();
+        expect(wrapper).not.toBeNull();
     });
 
     it('renders the MotifPhoto wrapper', () => {
         const { container } = render(ContactForm);
 
         const wrapper = container.querySelector('.personal-image');
-        expect(wrapper).toBeDefined();
+        expect(wrapper).not.toBeNull();
     });
 
     it('has correct input attributes', () => {

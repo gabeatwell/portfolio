@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { starMorph } from '$lib/attachments/gsap/starMorph';
+    import { starMorph } from '#lib/attachments/gsap/starMorph.js';
 </script>
 
 <div class="overlay" {@attach starMorph()}>

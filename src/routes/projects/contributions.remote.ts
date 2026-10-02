@@ -1,5 +1,5 @@
 import { prerender } from '$app/server';
-import { GITHUB_TOKEN, GITHUB_USERNAME } from '$env/static/private';
+import { GITHUB_TOKEN, GITHUB_USERNAME } from '$app/env/private';
 
 export const getContributions = prerender(async () => {
     try {

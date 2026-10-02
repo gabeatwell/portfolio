@@ -1,6 +1,6 @@
 import type { Attachment } from 'svelte/attachments';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { gsap } from '$lib/data/gsap';
+import { gsap } from '#lib/data/gsap.js';
 import {
     Color,
     DoubleSide,

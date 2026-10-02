@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { animateDoYouNeed } from '$lib/attachments/gsap/doYouNeed';
+    import { animateDoYouNeed } from '#lib/attachments/gsap/doYouNeed.js';
 
     interface Props {
         text: string;

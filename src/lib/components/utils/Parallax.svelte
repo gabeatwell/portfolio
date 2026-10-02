@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { parallax } from '$lib/attachments/gsap/parallax';
+    import { parallax } from '#lib/attachments/gsap/parallax.js';
 </script>
 
 <div class="sticky-wrapper">

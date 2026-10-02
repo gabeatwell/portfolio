@@ -1,4 +1,4 @@
-import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
+import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
 interface BeforeInstallPromptEvent extends Event {
     prompt(): Promise<void>;

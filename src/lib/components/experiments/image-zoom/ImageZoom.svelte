@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { imageZoom } from '$lib/attachments/gsap/imageZoom';
+    import { imageZoom } from '#lib/attachments/gsap/imageZoom.js';
 </script>
 
 <div class="wrapper" {@attach imageZoom}>

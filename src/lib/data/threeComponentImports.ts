@@ -5,36 +5,36 @@ export interface ComponentEntry {
 
 export const componentImportMap: Record<string, ComponentEntry> = {
     PictureParticles: {
-        import: () => import('$lib/threejs/cursor/CursorImage.svelte'),
+        import: () => import('#lib/threejs/cursor/CursorImage.svelte'),
         githubPath: 'src/lib/threejs/cursor/CursorImage.svelte',
     },
     HeroCanvas: {
-        import: () => import('$lib/threejs/hero/HeroCanvas.svelte'),
+        import: () => import('#lib/threejs/hero/HeroCanvas.svelte'),
         githubPath: 'src/lib/threejs/hero/HeroCanvas.svelte',
     },
     Environment: {
-        import: () => import('$lib/threejs/environment/Environment.svelte'),
+        import: () => import('#lib/threejs/environment/Environment.svelte'),
         githubPath: 'src/lib/threejs/environment/Environment.svelte',
     },
     PostProcess: {
-        import: () => import('$lib/threejs/post-processing/PostProcess.svelte'),
+        import: () => import('#lib/threejs/post-processing/PostProcess.svelte'),
         githubPath: 'src/lib/threejs/post-processing/PostProcess.svelte',
     },
     Loader: {
-        import: () => import('$lib/threejs/loader/Loader.svelte'),
+        import: () => import('#lib/threejs/loader/Loader.svelte'),
         githubPath: 'src/lib/threejs/loader/Loader.svelte',
     },
     slaynet: {
-        import: () => import('$lib/threejs/shooter/Slaynet.svelte'),
+        import: () => import('#lib/threejs/shooter/Slaynet.svelte'),
         githubPath: 'src/lib/threejs/shooter/Slaynet.svelte',
     },
     killgrid: {
-        import: () => import('$lib/threejs/fps/Killgrid.svelte'),
+        import: () => import('#lib/threejs/fps/Killgrid.svelte'),
         githubPath: 'src/lib/threejs/fps/Killgrid.svelte',
     },
     Carousel: {
         import: () =>
-            import('$lib/threejs/image-carousel/ImageCarousel.svelte'),
+            import('#lib/threejs/image-carousel/ImageCarousel.svelte'),
         githubPath: 'src/lib/threejs/image-carousel/ImageCarousel.svelte',
     },
 };

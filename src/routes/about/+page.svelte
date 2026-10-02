@@ -1,15 +1,15 @@
 <script lang="ts">
-    import SEO from '$lib/data/SEO.svelte';
-    import bio from '$lib/components/about/bio.json';
-    import Grid from '$lib/components/about/Grid.svelte';
-    import Bento from '$lib/components/about/Bento.svelte';
-    import AboutHero from '$lib/components/about/about-hero/AboutHero.svelte';
-    import Skills from '$lib/components/about/Skills.svelte';
-    import Slider from '$lib/components/about/Slider.svelte';
-    import PWAInstall from '$lib/components/about/pwa-popovers/PWAInstall.svelte';
-    import PWAVideo from '$lib/components/about/pwa-popovers/PWAVideo.svelte';
+    import SEO from '#lib/data/SEO.svelte';
+    import bio from '#lib/components/about/bio.json';
+    import Grid from '#lib/components/about/Grid.svelte';
+    import Bento from '#lib/components/about/Bento.svelte';
+    import AboutHero from '#lib/components/about/about-hero/AboutHero.svelte';
+    import Skills from '#lib/components/about/Skills.svelte';
+    import Slider from '#lib/components/about/Slider.svelte';
+    import PWAInstall from '#lib/components/about/pwa-popovers/PWAInstall.svelte';
+    import PWAVideo from '#lib/components/about/pwa-popovers/PWAVideo.svelte';
 
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
     const breakpoints = getBreakpoints();
 </script>

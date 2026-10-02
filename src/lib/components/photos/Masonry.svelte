@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Heading from '$lib/components/layout/titles/Heading.svelte';
-    import images from '$lib/components/photos/images.json';
+    import Heading from '#lib/components/layout/titles/Heading.svelte';
+    import images from '#lib/components/photos/images.json';
     import {
         masonryState,
         openPopover,

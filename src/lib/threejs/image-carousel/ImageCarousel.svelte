@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { attachMobileLandscape } from '$lib/attachments/threejs/attachMobileLandscape';
+    import { attachMobileLandscape } from '#lib/attachments/threejs/attachMobileLandscape.js';
     import { initCarousel } from './threejs.svelte';
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
     const breakpoints = getBreakpoints();
 </script>

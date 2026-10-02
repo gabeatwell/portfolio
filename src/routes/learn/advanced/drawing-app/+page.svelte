@@ -1,5 +1,5 @@
 <script>
-    import DrawingApp from '$lib/components/learn/draw-canvas/DrawingApp.svelte';
+    import DrawingApp from '#lib/components/learn/draw-canvas/DrawingApp.svelte';
 </script>
 
 <DrawingApp />

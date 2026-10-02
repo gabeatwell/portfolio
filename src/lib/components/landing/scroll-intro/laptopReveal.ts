@@ -1,5 +1,5 @@
-import { gsap } from '$lib/data/gsap';
-import { resetScroll } from '$lib/data/lenis';
+import { gsap } from '#lib/data/gsap.js';
+import { resetScroll } from '#lib/data/lenis.js';
 import {
     AmbientLight,
     Box3,

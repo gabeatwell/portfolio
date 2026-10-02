@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { submitHire } from '$routes/contact.remote';
-    import SubmitButton from '$lib/components/contact/SubmitButton.svelte';
-    import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
+    import { submitHire } from '#routes/contact.remote';
+    import SubmitButton from '#lib/components/contact/SubmitButton.svelte';
+    import A11yAnnouncer from '#lib/components/utils/A11yAnnouncer.svelte';
 
     let submitStatus = $state<string>('');
 

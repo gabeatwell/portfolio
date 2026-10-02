@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { useTheme } from '$lib/data/context/theme.svelte';
+    import { useTheme } from '#lib/data/context/theme.svelte.js';
     import { page } from '$app/state';
-    import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
+    import { useSound } from '#lib/data/stores/sounds/uiSounds.svelte.js';
 
     interface Props {
         href: string;

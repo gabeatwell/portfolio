@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { waitFor } from '@testing-library/svelte';
 import { SvelteComponent } from 'svelte';
-import { renderComponent } from '$lib/data/component-tester';
-import AboutHeroParallax from '$lib/components/about/about-hero/AboutHeroParallax.svelte';
+import { renderComponent } from '#lib/data/component-tester.js';
+import AboutHeroParallax from '#lib/components/about/about-hero/AboutHeroParallax.svelte';
 
 const TestedAboutHeroParallax =
     AboutHeroParallax as unknown as typeof SvelteComponent;

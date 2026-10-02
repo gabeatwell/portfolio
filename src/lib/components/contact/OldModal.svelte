@@ -1,5 +1,5 @@
 <script lang="ts">
-    import A11yAnnouncer from '$lib/components/utils/A11yAnnouncer.svelte';
+    import A11yAnnouncer from '#lib/components/utils/A11yAnnouncer.svelte';
     import '@fortawesome/fontawesome-free/css/all.css';
 
     let isOpen = $state<boolean>(false);

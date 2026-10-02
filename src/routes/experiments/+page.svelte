@@ -1,5 +1,5 @@
 <script lang="ts">
-    import SEO from '$lib/data/SEO.svelte';
+    import SEO from '#lib/data/SEO.svelte';
 
     const componentMap: Record<
         number,
@@ -7,7 +7,7 @@
     > = {
         1: {
             load: () =>
-                import('$lib/components/landing/hero-section/HeadshotHero.svelte'),
+                import('#lib/components/landing/hero-section/HeadshotHero.svelte'),
             props: {
                 title: 'gabe atwell',
                 cta: 'Creations',
@@ -19,7 +19,7 @@
         },
         2: {
             load: () =>
-                import('$lib/components/experiments/hero-video/HeroVideo.svelte'),
+                import('#lib/components/experiments/hero-video/HeroVideo.svelte'),
             props: {
                 videoSrc:
                     'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/videos/Street-Video.mp4',
@@ -31,7 +31,7 @@
         },
         3: {
             load: () =>
-                import('$lib/components/experiments/stretch/VerticalStretch.svelte'),
+                import('#lib/components/experiments/stretch/VerticalStretch.svelte'),
             props: {
                 firstWord: 'testing',
                 titleLetters: ['m', 'a', 'g', 'i', 'c'],
@@ -41,7 +41,7 @@
         },
         4: {
             load: () =>
-                import('$lib/components/experiments/hero-video/MobileVideoFrame.svelte'),
+                import('#lib/components/experiments/hero-video/MobileVideoFrame.svelte'),
             props: {
                 videoSrc:
                     'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/videos/Waves-Crashing.mp4',
@@ -57,26 +57,26 @@
         },
         5: {
             load: () =>
-                import('$lib/components/experiments/navigation/NewNav.svelte'),
+                import('#lib/components/experiments/navigation/NewNav.svelte'),
         },
         6: {
             load: () =>
-                import('$lib/components/experiments/image-zoom/ImageZoom.svelte'),
+                import('#lib/components/experiments/image-zoom/ImageZoom.svelte'),
         },
         7: {
             load: () =>
-                import('$lib/components/experiments/huge-text-intro/HugeTextIntro.svelte'),
+                import('#lib/components/experiments/huge-text-intro/HugeTextIntro.svelte'),
         },
         8: {
             load: () =>
-                import('$lib/components/experiments/huge-text-intro/LetterIntro.svelte'),
+                import('#lib/components/experiments/huge-text-intro/LetterIntro.svelte'),
         },
         9: {
             load: () =>
-                import('$lib/components/experiments/vertical-text/VerticalText.svelte'),
+                import('#lib/components/experiments/vertical-text/VerticalText.svelte'),
         },
         10: {
-            load: () => import('$lib/components/photos/DialogVT.svelte'),
+            load: () => import('#lib/components/photos/DialogVT.svelte'),
         },
     };
 

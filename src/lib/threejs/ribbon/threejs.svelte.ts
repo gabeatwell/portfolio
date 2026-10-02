@@ -15,9 +15,9 @@ import {
     Clock,
     DoubleSide,
 } from 'three';
-import vertexShader from '$lib/threejs/ribbon/shaders/ribbon.vert?raw';
-import fragmentShader from '$lib/threejs/ribbon/shaders/ribbon.frag?raw';
-import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+import vertexShader from '#lib/threejs/ribbon/shaders/ribbon.vert?raw';
+import fragmentShader from '#lib/threejs/ribbon/shaders/ribbon.frag?raw';
+import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
 export const setupRibbons: Attachment<HTMLCanvasElement> = (canvas) => {
     if (!canvas) return;

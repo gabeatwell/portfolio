@@ -5,7 +5,7 @@ import {
     extractSubtitle,
     extractImage,
     buildPost,
-} from '$lib/data/blog/parseMD';
+} from '#lib/data/blog/parseMD.js';
 
 const samplePost = `---
 title: My Three.js Post

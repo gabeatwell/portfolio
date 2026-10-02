@@ -1,4 +1,4 @@
-import { gsap, SplitText } from '$lib/data/gsap';
+import { gsap, SplitText } from '#lib/data/gsap.js';
 import type { Attachment } from 'svelte/attachments';
 
 export const letterIntro: Attachment = (node) => {

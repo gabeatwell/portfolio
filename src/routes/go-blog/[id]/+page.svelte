@@ -2,8 +2,8 @@
     import '../blog.global.css';
     import { marked } from 'marked';
     import DOMPurify from 'isomorphic-dompurify';
-    import Avatar2 from '$lib/components/blog/ProfilePic.svelte';
-    import SEO from '$lib/data/SEO.svelte';
+    import Avatar2 from '#lib/components/blog/ProfilePic.svelte';
+    import SEO from '#lib/data/SEO.svelte';
 
     let { data } = $props();
     let post = $derived(data.post);

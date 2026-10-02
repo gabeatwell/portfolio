@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { gsap, MorphSVGPlugin } from '$lib/data/gsap';
+    import { gsap, MorphSVGPlugin } from '#lib/data/gsap.js';
 
     $effect(() => {
         const morphTween = gsap.to('#website', {

@@ -3,7 +3,9 @@
 
     let { open = $bindable(false), ariaLabel = 'menu' } = $props();
 
-    beforeNavigate(() => {
+    beforeNavigate(({ shallow }) => {
+        if (shallow) return;
+
         open = false;
     });
 

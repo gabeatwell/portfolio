@@ -4,9 +4,9 @@
     import {
         DEFAULT_DURATION,
         DEFAULT_DELAY,
-    } from '$lib/data/context/animationTimings.svelte';
-    import SEO from '$lib/data/SEO.svelte';
-    import Image from '$lib/components/layout/Image.svelte';
+    } from '#lib/data/context/animationTimings.svelte.js';
+    import SEO from '#lib/data/SEO.svelte';
+    import Image from '#lib/components/layout/Image.svelte';
 
     $effect(() => {
         console.log(`There is a ${page.status} error!`);

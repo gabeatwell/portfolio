@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { animateHeadshotTitle } from '$lib/attachments/gsap/headshotHeroTitle';
+    import { animateHeadshotTitle } from '#lib/attachments/gsap/headshotHeroTitle.js';
     import { goto } from '$app/navigation';
 
     interface Props {

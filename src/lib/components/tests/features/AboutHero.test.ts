@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { screen } from '@testing-library/svelte';
 import { SvelteComponent } from 'svelte';
-import { renderComponent } from '$lib/data/component-tester';
-import AboutHero from '$lib/components/about/about-hero/AboutHero.svelte';
+import { renderComponent } from '#lib/data/component-tester.js';
+import AboutHero from '#lib/components/about/about-hero/AboutHero.svelte';
 
 const TestedAboutHero = AboutHero as unknown as typeof SvelteComponent;
 const renderAboutHero = (props: Record<string, unknown> = {}) =>

@@ -2,7 +2,7 @@
 
 ```svelte
 <script lang="ts">
-    import { pixelTransition } from '$lib/attachments/ui/imagePixelTransition';
+    import { pixelTransition } from '#lib/attachments/ui/imagePixelTransition.js';
 </script>
 
 <div class="spacer">scroll ↓</div>

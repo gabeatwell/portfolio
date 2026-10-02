@@ -4,7 +4,7 @@ call the remote function (e.g., in src/lib/components/Example.svelte).
 
 ```svelte
 <script>
-	import { optimizeImages } from '$lib/data/optimize-images.server.js';
+	import { optimizeImages } from '#lib/data/optimize-images.server.js';
 
 	let result = $state(null);
 

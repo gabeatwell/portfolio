@@ -1,6 +1,6 @@
 <script lang="ts">
-    import SEO from '$lib/data/SEO.svelte';
-    import Masonry from '$lib/components/photos/Masonry.svelte';
+    import SEO from '#lib/data/SEO.svelte';
+    import Masonry from '#lib/components/photos/Masonry.svelte';
 </script>
 
 <SEO

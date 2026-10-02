@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import skills from '$lib/components/about/skills.json';
+    import { browser } from '$app/env';
+    import skills from '#lib/components/about/skills.json';
     import DOMPurify from 'dompurify';
 
     function sanitizeSVG(svg: string) {

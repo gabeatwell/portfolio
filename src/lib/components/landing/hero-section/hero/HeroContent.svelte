@@ -1,10 +1,10 @@
 <script lang="ts">
     import HeroButton from '../hero/HeroButton.svelte';
-    import projects from '$lib/components/projects/projects.json';
+    import projects from '#lib/components/projects/projects.json';
     import ProjectsGrid from '../../ProjectsGrid.svelte';
     import HandDrawnUnderline from '../HandDrawnUnderline.svelte';
     import { heroContentState } from './contentFunctions.svelte';
-    import { heroContentStats } from '$lib/attachments/gsap/heroContentStats';
+    import { heroContentStats } from '#lib/attachments/gsap/heroContentStats.js';
 
     let { selectedBg = 0 as number | boolean } = $props();
     let isTunnel = $derived(selectedBg === 1);

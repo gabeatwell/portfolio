@@ -1,8 +1,8 @@
 <script lang="ts">
     import { page } from '$app/state';
-    import { useSound } from '$lib/data/stores/sounds/uiSounds.svelte';
-    import { selectedThreeComponent } from '$lib/data/stores/threejsComponent';
-    import { componentImportMap } from '$lib/data/threeComponentImports';
+    import { useSound } from '#lib/data/stores/sounds/uiSounds.svelte.js';
+    import { selectedThreeComponent } from '#lib/data/stores/threejsComponent.js';
+    import { componentImportMap } from '#lib/data/threeComponentImports.js';
 
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/foley-bubble.wav',

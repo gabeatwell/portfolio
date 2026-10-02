@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Title from '$lib/components/layout/titles/Title.svelte';
-    import Popover from '$lib/components/layout/Popover.svelte';
+    import Title from '#lib/components/layout/titles/Title.svelte';
+    import Popover from '#lib/components/layout/Popover.svelte';
 
     interface Props {
         title: string;

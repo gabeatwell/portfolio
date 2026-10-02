@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
-    import { getPreloaderState } from '$lib/data/stores/preloadStore.svelte';
+    import { browser } from '$app/env';
+    import { getPreloaderState } from '#lib/data/stores/preloadStore.svelte.js';
 
     interface Props {
         src: string;
@@ -36,8 +36,8 @@
 <section class:expanded class:hidden={!ready}>
     <button type="button" onclick={toggleExpand} class="img-button">
         <img
-            {src}
-            {alt}
+            src={src}
+            alt={alt}
             style="view-transition-name: {transitionName};"
             class:svg={isSVG}
             loading="lazy"

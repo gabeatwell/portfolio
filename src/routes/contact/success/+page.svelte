@@ -1,5 +1,5 @@
 <script lang="ts">
-    import SEO from '$lib/data/SEO.svelte';
+    import SEO from '#lib/data/SEO.svelte';
 
     $effect(() => {
         console.log('Success! Your message was sent.');

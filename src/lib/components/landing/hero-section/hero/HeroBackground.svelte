@@ -18,8 +18,8 @@
 
     let { selectedBg, mounted, particles }: Props = $props();
 
-    const Tunnel = () => import('$lib/threejs/tunnel/Tunnel.svelte');
-    const Ribbon = () => import('$lib/threejs/ribbon/Ribbons.svelte');
+    const Tunnel = () => import('#lib/threejs/tunnel/Tunnel.svelte');
+    const Ribbon = () => import('#lib/threejs/ribbon/Ribbons.svelte');
 </script>
 
 <div class="background-wrapper" aria-hidden="true">

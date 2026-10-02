@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { fetchPostMd, API_BASE } from '$lib/data/blog/fetchMD.server';
+import { fetchPostMd, API_BASE } from '#lib/data/blog/fetchMD.server.js';
 
 describe('fetchPostMd', () => {
     beforeEach(() => {

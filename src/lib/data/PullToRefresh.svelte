@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
     interface PullToRefreshModule {
         init: (opts: Record<string, unknown>) => void;

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { tileIntro } from '$lib/attachments/gsap/tileIntro';
+    import { tileIntro } from '#lib/attachments/gsap/tileIntro.js';
 
     let active = $state(true);
     const TILE_COUNT = 16;

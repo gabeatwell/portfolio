@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { env as runtimeEnv } from '$env/dynamic/private';
+import { GITHUB_TOKEN, GITHUB_USERNAME } from '$app/env/private';
 
 const NO_CACHE = {
     'Cache-Control': 'no-store, max-age=0, must-revalidate',
@@ -13,8 +13,9 @@ export const GET: RequestHandler = async ({ platform }) => {
     const cf = platform?.env as
         | { GITHUB_TOKEN?: string; GITHUB_USERNAME?: string }
         | undefined;
-    const token = cf?.GITHUB_TOKEN ?? runtimeEnv?.GITHUB_TOKEN;
-    const username = cf?.GITHUB_USERNAME ?? runtimeEnv?.GITHUB_USERNAME;
+
+    const token = cf?.GITHUB_TOKEN ?? GITHUB_TOKEN;
+    const username = cf?.GITHUB_USERNAME ?? GITHUB_USERNAME;
 
     if (!token || !username) {
         return json(

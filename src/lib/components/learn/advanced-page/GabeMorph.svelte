@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { gabeMorph } from '$lib/attachments/gsap/gabeMorph';
+    import { gabeMorph } from '#lib/attachments/gsap/gabeMorph.js';
 </script>
 
 <section class="morph-title" {@attach gabeMorph()}>

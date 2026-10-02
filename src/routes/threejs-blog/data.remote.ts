@@ -1,6 +1,6 @@
 import { prerender } from '$app/server';
 import * as v from 'valibot';
-import { buildPost, type Post } from '$lib/data/blog/parseMD';
+import { buildPost, type Post } from '#lib/data/blog/parseMD.js';
 
 export const getPosts = prerender(async (): Promise<Post[]> => {
     const modules = import.meta.glob('/src/content/threejs/*.md', {

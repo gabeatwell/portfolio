@@ -1,4 +1,4 @@
-import { gsap } from '$lib/data/gsap';
+import { gsap } from '#lib/data/gsap.js';
 import type { Attachment } from 'svelte/attachments';
 
 export function starMorph(): Attachment<HTMLElement> {

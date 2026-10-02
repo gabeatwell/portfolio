@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
+    import { browser } from '$app/env';
     import { tick, type Component } from 'svelte';
-    import SEO from '$lib/data/SEO.svelte';
-    import Hero from '$lib/components/landing/hero-section/hero/Hero.svelte';
-    import HeroContent from '$lib/components/landing/hero-section/hero/HeroContent.svelte';
+    import SEO from '#lib/data/SEO.svelte';
+    import Hero from '#lib/components/landing/hero-section/hero/Hero.svelte';
+    import HeroContent from '#lib/components/landing/hero-section/hero/HeroContent.svelte';
 
     type SvelteModule = { default: Component };
 
@@ -11,7 +11,7 @@
     let showHero = $state(false);
 
     $effect(() => {
-        import('$lib/components/landing/scroll-intro/LaptopIntro.svelte').then(
+        import('#lib/components/landing/scroll-intro/LaptopIntro.svelte').then(
             (module) => {
                 Intro = (module as SvelteModule).default;
             },

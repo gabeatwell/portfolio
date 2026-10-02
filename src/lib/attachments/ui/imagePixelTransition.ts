@@ -1,5 +1,5 @@
 import type { Attachment } from 'svelte/attachments';
-import { gsap } from '$lib/data/gsap';
+import { gsap } from '#lib/data/gsap.js';
 import { onNavigate } from '$app/navigation';
 
 type ResolveOptions = Required<Omit<PixelTransitionOptions, 'scroll'>> & {
@@ -126,6 +126,7 @@ export function pixelTransition(
                 2,
                 Math.round(opts.cols * ((rect.height * band) / rect.width)),
             );
+
             createPixels(rows);
 
             if (getComputedStyle(host).position === 'static')
@@ -207,14 +208,9 @@ export function pixelTransition(
                 duration: 1,
                 stagger: (i) => delays[i],
             });
-
             tl.to(
                 strokes,
-                {
-                    opacity: 1,
-                    duration: 0.6,
-                    stagger: (i) => delays[i],
-                },
+                { opacity: 1, duration: 0.6, stagger: (i) => delays[i] },
                 0.2,
             );
 
@@ -315,6 +311,7 @@ export function pixelTransition(
 
         let active = true;
         onNavigate(async (navigation) => {
+            if (navigation.shallow) return;
             if (!active) return;
             if (window.matchMedia('(prefers-reduced-motion: reduce)').matches)
                 return;

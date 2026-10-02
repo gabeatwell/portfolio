@@ -1,5 +1,5 @@
 <script lang="ts">
-    import LoadBtn from '$lib/components/learn/pages/LoadBtn.svelte';
+    import LoadBtn from '#lib/components/learn/pages/LoadBtn.svelte';
 </script>
 
 <section class="useful-links" id="useful-links">

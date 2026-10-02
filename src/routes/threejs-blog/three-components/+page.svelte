@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { selectedThreeComponent } from '$lib/data/stores/threejsComponent';
-    import { componentImportMap } from '$lib/data/threeComponentImports';
-    import SEO from '$lib/data/SEO.svelte';
+    import { selectedThreeComponent } from '#lib/data/stores/threejsComponent.js';
+    import { componentImportMap } from '#lib/data/threeComponentImports.js';
+    import SEO from '#lib/data/SEO.svelte';
     import type { Component } from 'svelte';
     import { page } from '$app/state';
     import { onMount } from 'svelte';

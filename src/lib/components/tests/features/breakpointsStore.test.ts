@@ -38,7 +38,7 @@ describe('getBreakpoints', () => {
 
     it('returns "desktop" when no other breakpoint matches', async () => {
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
         const bp = getBreakpoints();
 
         expect(bp.value).toBe('desktop');
@@ -53,7 +53,7 @@ describe('getBreakpoints', () => {
         queryMatches.set('(max-width: 767px)', true);
 
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
         const bp = getBreakpoints();
 
         expect(bp.value).toBe('mobile');
@@ -65,7 +65,7 @@ describe('getBreakpoints', () => {
         queryMatches.set('(min-width: 768px) and (max-width: 1023px)', true);
 
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
         const bp = getBreakpoints();
 
         expect(bp.value).toBe('tablet');
@@ -77,7 +77,7 @@ describe('getBreakpoints', () => {
         queryMatches.set('(min-width: 1024px) and (max-width: 1279px)', true);
 
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
         const bp = getBreakpoints();
 
         expect(bp.value).toBe('laptop');
@@ -91,7 +91,7 @@ describe('getBreakpoints', () => {
         queryMatches.set('(max-width: 767px)', true);
 
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
         const bp = getBreakpoints();
 
         expect(bp.value).toBe('reduced');
@@ -103,7 +103,7 @@ describe('getBreakpoints', () => {
         queryMatches.set('(display-mode: standalone)', true);
 
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
         const bp = getBreakpoints();
 
         expect(bp.isStandalone).toBe(true);
@@ -113,7 +113,7 @@ describe('getBreakpoints', () => {
         queryMatches.set('(orientation: landscape)', true);
 
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
         const bp = getBreakpoints();
 
         expect(bp.isLandscape).toBe(true);
@@ -122,7 +122,7 @@ describe('getBreakpoints', () => {
     it('re-evaluates when a media query change event fires', async () => {
         // Start as desktop
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
         const bp = getBreakpoints();
         expect(bp.value).toBe('desktop');
 
@@ -139,7 +139,7 @@ describe('getBreakpoints', () => {
 
     it('initializes matchMedia only once across multiple getBreakpoints() calls', async () => {
         const { getBreakpoints } =
-            await import('$lib/data/stores/breakpoints.svelte');
+            await import('#lib/data/stores/breakpoints.svelte.js');
 
         // first call — 7 matchMedia calls for the 7 queries
         getBreakpoints();

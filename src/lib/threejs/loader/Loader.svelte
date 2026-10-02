@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { attachMobileLandscape } from '$lib/attachments/threejs/attachMobileLandscape';
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
+    import { attachMobileLandscape } from '#lib/attachments/threejs/attachMobileLandscape.js';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
     import { setupLoader } from './threejs.svelte';
 
     let loadingComplete = $state<boolean>(false);

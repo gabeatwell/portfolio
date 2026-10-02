@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { attachMobileLandscape } from '$lib/attachments/threejs/attachMobileLandscape';
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { attachMobileLandscape } from '#lib/attachments/threejs/attachMobileLandscape.js';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
     import { setupPostProcess } from './threejs.svelte';
 
     const breakpoints = getBreakpoints();

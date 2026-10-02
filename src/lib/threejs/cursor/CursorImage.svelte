@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte.js';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
     import { setupCursorScene } from './threejs.svelte';
-    import { attachMobileLandscape } from '$lib/attachments/threejs/attachMobileLandscape';
+    import { attachMobileLandscape } from '#lib/attachments/threejs/attachMobileLandscape.js';
 
     const breakpoints = getBreakpoints();
 </script>

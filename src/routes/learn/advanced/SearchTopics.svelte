@@ -1,20 +1,18 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import { topics } from './topics';
 
-    let query = $derived(page.url.searchParams.get('q') ?? '');
-    let filteredTopics = $derived(
-        query.trim() === ''
-            ? topics
-            : topics.filter(
-                  (topic) =>
-                      topic.title.toLowerCase().includes(query.toLowerCase()) ||
-                      topic.category
-                          .toLowerCase()
-                          .includes(query.toLowerCase()),
-              ),
-    );
+    let input = $state(page.url.searchParams.get('q') ?? '');
+
+    let filteredTopics = $derived.by(() => {
+        const q = input.trim().toLowerCase();
+        if (q === '') return topics;
+        return topics.filter(
+            (topic) =>
+                topic.title.toLowerCase().includes(q) ||
+                topic.category.toLowerCase().includes(q),
+        );
+    });
     let cssTopics = $derived(
         filteredTopics.filter((t) => t.category.startsWith('CSS')),
     );
@@ -22,39 +20,43 @@
         filteredTopics.filter((t) => t.category.startsWith('GSAP')),
     );
 
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
     // update the url
-    function updateSearch(value: string) {
-        const url = new URL(page.url);
+    function syncUrl(value: string) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            const url = new URL(page.url.href);
+            if (value.trim()) url.searchParams.set('q', value);
+            else url.searchParams.delete('q');
 
-        if (value.trim()) {
-            url.searchParams.set('q', value);
-        } else {
-            url.searchParams.delete('q');
-        }
-
-        goto(url.toString(), {
-            replaceState: true,
-            keepFocus: true,
-            noScroll: true,
-        });
+            history.replaceState(history.state, '', url);
+        }, 150);
     }
+
+    function clear() {
+        input = '';
+        syncUrl('');
+    }
+
+    $effect(() => () => clearTimeout(timer));
 </script>
 
 <div class="search-wrapper">
     <input
         type="search"
         placeholder="Search CSS & GSAP topics..."
-        value={query}
-        oninput={(e) => updateSearch(e.currentTarget.value)}
+        bind:value={input}
+        oninput={(e) => syncUrl(e.currentTarget.value)}
         autocomplete="off"
         spellcheck="false"
     />
 
-    {#if query}
+    {#if input}
         <button
             type="button"
             class="clear"
-            onclick={() => updateSearch('')}
+            onclick={clear}
             aria-label="Clear search"
             ><svg
                 width="800px"

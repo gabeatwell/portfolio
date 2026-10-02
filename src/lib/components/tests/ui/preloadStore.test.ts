@@ -2,14 +2,14 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('getPreloaderState', () => {
     let preloaderState: ReturnType<
-        (typeof import('$lib/data/stores/preloadStore.svelte'))['getPreloaderState']
+        (typeof import('#lib/data/stores/preloadStore.svelte'))['getPreloaderState']
     >;
 
     beforeEach(async () => {
         // fresh import each test so module state resets
         vi.resetModules();
         const { getPreloaderState } =
-            await import('$lib/data/stores/preloadStore.svelte');
+            await import('#lib/data/stores/preloadStore.svelte.js');
         preloaderState = getPreloaderState();
     });
 
@@ -30,7 +30,7 @@ describe('getPreloaderState', () => {
 
     it('shares state across multiple getPreloaderState() calls', async () => {
         const { getPreloaderState } =
-            await import('$lib/data/stores/preloadStore.svelte');
+            await import('#lib/data/stores/preloadStore.svelte.js');
         const anotherRef = getPreloaderState();
 
         preloaderState.done = true;

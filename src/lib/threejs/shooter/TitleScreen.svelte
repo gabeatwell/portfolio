@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { attachSlaynetTitle } from '$lib/attachments/threejs/attachSlaynetTitle';
+    import { attachSlaynetTitle } from '#lib/attachments/threejs/attachSlaynetTitle.js';
 
     interface Props {
         onStart: () => void;

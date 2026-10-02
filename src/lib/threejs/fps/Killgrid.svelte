@@ -4,7 +4,7 @@
     import TitleScreen from './TitleScreen.svelte';
     import GameLandscape from './components/GameLandscape.svelte';
     import FPSMobileControls from './components/FPSMobileControls.svelte';
-    import { attachKillgridGame } from '$lib/attachments/threejs/attachKillgrid';
+    import { attachKillgridGame } from '#lib/attachments/threejs/attachKillgrid.js';
 
     let game: FPSGame | null = $state(null);
     let isLocked = $state(false);

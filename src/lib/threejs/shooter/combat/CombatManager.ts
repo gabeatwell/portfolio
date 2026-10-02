@@ -1,5 +1,5 @@
 import { Object3D, Vector3, Scene } from 'three';
-import { gsap } from '$lib/data/gsap';
+import { gsap } from '#lib/data/gsap.js';
 import { Projectile } from './Projectile';
 import type { Player } from '../players/Player';
 import type { EnemyManager } from '../enemies/EnemyManager';

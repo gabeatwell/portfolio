@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { untrack } from 'svelte';
     import type { Snippet } from 'svelte';
 
     type DebugCategory =
@@ -42,11 +43,12 @@
         children,
     }: Props = $props();
 
-    let debugConfig = $state<DebugConfig>({
-        enabled: false,
-        // eslint-disable-next-line svelte/valid-compile
-        ...categories.reduce((acc, cat) => ({ ...acc, [cat]: false }), {}),
-    });
+    const initial: DebugConfig = { enabled: false };
+    for (const cat of untrack(() => categories)) {
+        initial[cat] = false;
+    }
+
+    let debugConfig = $state<DebugConfig>(initial);
 
     const categoryEmojis: Record<DebugCategory, string> = {
         events: '📡',

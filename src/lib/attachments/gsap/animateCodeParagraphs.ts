@@ -1,6 +1,6 @@
 // src/lib/attachments/gsap/animateCodeParagraphs.ts
 import type { Attachment } from 'svelte/attachments';
-import { gsap } from '$lib/data/gsap';
+import { gsap } from '#lib/data/gsap.js';
 
 export const animateCodeParagraphs: Attachment<HTMLElement> = (root) => {
     const mm = gsap.matchMedia();

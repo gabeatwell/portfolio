@@ -1,5 +1,5 @@
 import type { Attachment } from 'svelte/attachments';
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import {
     CubeTextureLoader,
     Scene,
@@ -73,9 +73,8 @@ export const setupEnvironment: Attachment<HTMLCanvasElement> = (canvas) => {
     controls.target.y = 3.5;
     controls.enableDamping = true;
 
-    const renderer = new WebGLRenderer({
-        canvas: canvas,
-    });
+    const renderer = new WebGLRenderer({ canvas });
+
     renderer.setSize(sizes.width, sizes.height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 

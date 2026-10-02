@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
-    import { useCanvasDrawing } from '$lib/attachments/drawingCanvas/useCanvasDrawing';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
+    import { useCanvasDrawing } from '#lib/attachments/drawingCanvas/useCanvasDrawing.js';
     import {
         draw,
         stopDrawing,

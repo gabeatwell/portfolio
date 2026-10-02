@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { letterDrop } from '$lib/attachments/gsap/letterDrop';
+    import { letterDrop } from '#lib/attachments/gsap/letterDrop.js';
     import { fade } from 'svelte/transition';
 
     let duration = $state<number>(300);

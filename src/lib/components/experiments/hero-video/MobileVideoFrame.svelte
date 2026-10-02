@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
     import { goto } from '$app/navigation';
     import { mobileVideo } from './mobileVideo';
 

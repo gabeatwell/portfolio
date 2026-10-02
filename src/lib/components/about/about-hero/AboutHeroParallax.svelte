@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { aboutHeroParallax } from '$lib/attachments/gsap/aboutHeroParallax';
-    import { getBreakpoints } from '$lib/data/stores/breakpoints.svelte';
+    import { aboutHeroParallax } from '#lib/attachments/gsap/aboutHeroParallax.js';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
     const breakpoints = getBreakpoints();
 </script>

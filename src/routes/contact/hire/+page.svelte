@@ -1,8 +1,8 @@
 <script lang="ts">
-    import HireForm from '$lib/components/contact/forms/HireForm.svelte';
-    import DoYouNeed from '$lib/components/contact/DoYouNeed.svelte';
-    import SEO from '$lib/data/SEO.svelte';
-    import Popover from '$lib/components/layout/Popover.svelte';
+    import HireForm from '#lib/components/contact/forms/HireForm.svelte';
+    import DoYouNeed from '#lib/components/contact/DoYouNeed.svelte';
+    import SEO from '#lib/data/SEO.svelte';
+    import Popover from '#lib/components/layout/Popover.svelte';
 </script>
 
 <SEO

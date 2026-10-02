@@ -2,12 +2,9 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { mdsvex } from 'mdsvex';
-import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 
-const mdsvexOptions = {
-    extensions: ['.md', '.svx'],
-};
+const mdsvexOptions = { extensions: ['.md', '.svx'] };
 
 export default defineConfig({
     plugins: [
@@ -38,22 +35,18 @@ export default defineConfig({
             experimental: {
                 remoteFunctions: true,
             },
+            inspector: {
+                toggleButtonPos: 'bottom-left',
+                toggleKeyCombo: 'alt-x',
+                showToggleButton: 'always',
+            },
             // svelte preprocess config
             extensions: ['.svelte', '.md', '.svx'],
             // mdsvex@0.11 declares `filename: string` (required) while Svelte
             // passes `filename?: string`, so its return type is incompatible.
-            preprocess:
-                /** @type {import('@sveltejs/kit').Config['preprocess']} */ ([
-                    mdsvex(mdsvexOptions),
-                ]),
+            preprocess: [mdsvex(mdsvexOptions)],
             // vite-plugin-svelte options
-            vitePlugin: {
-                inspector: {
-                    toggleButtonPos: 'bottom-left',
-                    toggleKeyCombo: 'alt-x',
-                    showToggleButton: 'always',
-                },
-            },
+
             // kit specific
             prerender: {
                 handleHttpError: ({ status, path, referrer, message }) => {
@@ -85,10 +78,6 @@ export default defineConfig({
                 codeSplitting: {
                     groups: [
                         {
-                            test: /[\\/]node_modules[\\/](svelte|@sveltejs)[\\/]/,
-                            name: 'svelte',
-                        },
-                        {
                             test: /[\\/]node_modules[\\/]three[\\/]/,
                             name: 'three',
                         },
@@ -103,12 +92,6 @@ export default defineConfig({
         minify: 'terser',
         cssCodeSplit: true,
         cssMinify: 'lightningcss',
-    },
-    resolve: {
-        alias: {
-            $lib: fileURLToPath(new URL('./src/lib', import.meta.url)),
-            $routes: fileURLToPath(new URL('./src/routes', import.meta.url)),
-        },
     },
     test: {
         environment: 'jsdom',

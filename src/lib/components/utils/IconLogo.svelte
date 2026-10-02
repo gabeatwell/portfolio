@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Image from '$lib/components/layout/Image.svelte';
+    import Image from '#lib/components/layout/Image.svelte';
 </script>
 
 <div class="iconLogo">
