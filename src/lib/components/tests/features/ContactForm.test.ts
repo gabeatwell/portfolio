@@ -7,84 +7,67 @@ interface FieldIssue {
     message: string;
 }
 
-// Mock child components
-vi.mock('#lib/components/contact/SubmitButton.svelte', () => ({
-    default: vi.fn(),
-}));
-
-vi.mock('#lib/components/utils/A11yAnnouncer.svelte', () => ({
-    default: vi.fn(),
-}));
-
-vi.mock('#lib/components/layout/Popover.svelte', () => ({
-    default: vi.fn(),
-}));
-
-vi.mock('#lib/components/contact/ModalPopover.svelte', () => ({
-    default: vi.fn(),
-}));
-
-vi.mock('#lib/components/contact/MotifPhoto.svelte', () => ({
-    default: vi.fn(),
-}));
-
-vi.mock('#routes/contact.remote', () => ({
-    submitContact: mockSubmitContact,
-}));
-
-// Hoist the mock so it's available when vi.mock runs
+// The object the component reads: `{...submitContact}` spread +
+// `submitContact.fields.<name>.issues()`. Declared via vi.hoisted so it
+// exists when vi.mock's factory runs.
 const { mockSubmitContact } = vi.hoisted(() => ({
     mockSubmitContact: {
-        name: 'submit-contact',
-        action: '?/submitContact',
         method: 'POST',
+        action: '?/submitContact',
+        pending: false,
+        error: null,
         fields: {
-            name: { issues: vi.fn((): FieldIssue[] => []) },
-            email: { issues: vi.fn((): FieldIssue[] => []) },
-            message: { issues: vi.fn((): FieldIssue[] => []) },
+            name: { issues: vi.fn((): FieldIssue[] | undefined => []) },
+            email: { issues: vi.fn((): FieldIssue[] | undefined => []) },
+            message: { issues: vi.fn((): FieldIssue[] | undefined => []) },
         },
     },
 }));
 
+// One mock, for the exact specifier the component imports. The real remote
+// module cannot load under Vitest (vite-plugin-sveltekit-remote throws
+// without a SvelteKit build context), so it must be stubbed.
+vi.mock('#routes/contact.remote', () => ({
+    submitContact: mockSubmitContact,
+}));
 
-
-// Stub SvelteKit globals that contact.remote.ts imports
-vi.stubGlobal('__SVELTEKIT_PATHS_BASE__', '');
-vi.stubGlobal('__SVELTEKIT_APP_DIR__', '_app');
-vi.stubGlobal('__SVELTEKIT_HASH_ROUTING__', false);
-vi.stubGlobal('__SVELTEKIT_PAYLOAD__', null);
+function setIssues(field: 'name' | 'email' | 'message', issues: FieldIssue[]) {
+    mockSubmitContact.fields[field].issues.mockReturnValue(issues);
+}
 
 describe('ContactForm', () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        // explicit defaults every test — vi.clearAllMocks() does NOT reset
+        // mockReturnValue, so without this, issue mocks leak across tests
+        setIssues('name', []);
+        setIssues('email', []);
+        setIssues('message', []);
     });
 
     it('renders the form with all fields', () => {
         render(ContactForm);
 
-        expect(screen.getByLabelText('name')).toBeDefined();
-        expect(screen.getByLabelText('email')).toBeDefined();
-        expect(screen.getByLabelText('message')).toBeDefined();
+        expect(screen.getByLabelText('name')).toBeInTheDocument();
+        expect(screen.getByLabelText('email')).toBeInTheDocument();
+        expect(screen.getByLabelText('message')).toBeInTheDocument();
     });
 
     it('renders the fieldset legend', () => {
         render(ContactForm);
 
-        expect(screen.getByText('reach me')).toBeDefined();
+        expect(screen.getByText('reach me')).toBeInTheDocument();
     });
 
     it('renders the Popover wrapper', () => {
         const { container } = render(ContactForm);
 
-        const wrapper = container.querySelector('.popover-icon');
-        expect(wrapper).not.toBeNull();
+        expect(container.querySelector('.popover-icon')).toBeInTheDocument();
     });
 
     it('renders the MotifPhoto wrapper', () => {
         const { container } = render(ContactForm);
 
-        const wrapper = container.querySelector('.personal-image');
-        expect(wrapper).not.toBeNull();
+        expect(container.querySelector('.personal-image')).toBeInTheDocument();
     });
 
     it('has correct input attributes', () => {
@@ -107,36 +90,28 @@ describe('ContactForm', () => {
     });
 
     it('has novalidate on the form', () => {
-        render(ContactForm);
+        const { container } = render(ContactForm);
 
-        const form = screen.getByRole('form');
+        // the <form> has no accessible name, so getByRole('form') can't
+        // match it — query the element directly
+        const form = container.querySelector('form');
+        expect(form).toBeInTheDocument();
         expect(form).toHaveAttribute('novalidate');
     });
 
     it('does not show error messages when fields are valid', () => {
-        mockSubmitContact.fields.name.issues.mockReturnValue([]);
-        mockSubmitContact.fields.email.issues.mockReturnValue([]);
-        mockSubmitContact.fields.message.issues.mockReturnValue([]);
-
         render(ContactForm);
 
-        // No .field-error elements should be visible
-        const fieldErrors = document.querySelectorAll('.field-error');
-        expect(fieldErrors.length).toBe(0);
+        expect(document.querySelectorAll('.field-error')).toHaveLength(0);
     });
 
     it('shows error messages when fields have issues', () => {
-        mockSubmitContact.fields.name.issues.mockReturnValue([
-            { message: 'Name is required' },
-        ]);
-        mockSubmitContact.fields.email.issues.mockReturnValue([
-            { message: 'Valid email required' },
-        ]);
-        mockSubmitContact.fields.message.issues.mockReturnValue([]);
+        setIssues('name', [{ message: 'Name is required' }]);
+        setIssues('email', [{ message: 'Valid email required' }]);
 
         render(ContactForm);
 
-        expect(screen.getByText('Name is required')).toBeDefined();
-        expect(screen.getByText('Valid email required')).toBeDefined();
+        expect(screen.getByText('Name is required')).toBeInTheDocument();
+        expect(screen.getByText('Valid email required')).toBeInTheDocument();
     });
 });

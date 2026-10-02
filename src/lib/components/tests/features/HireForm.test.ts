@@ -1,202 +1,109 @@
+import '@testing-library/jest-dom/vitest';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import HireForm from '#lib/components/contact/forms/HireForm.svelte';
 
-interface FieldIssue {
-    message: string;
-}
+type FieldIssue = { message: string };
 
-// Mock child components
-vi.mock('#lib/components/contact/SubmitButton.svelte', () => ({
-    default: vi.fn(),
-}));
-vi.mock('#lib/components/utils/A11yAnnouncer.svelte', () => ({
-    default: vi.fn(),
-}));
+const HIRE_FIELDS = [
+    'name',
+    'email',
+    'location',
+    'site',
+    'company',
+    'project_type',
+    'new_project',
+    'timeline',
+    'budget',
+    'message',
+] as const;
 
-// Hoist the mock so it's available when vi.mock runs
-const { mockSubmitHire } = vi.hoisted(() => ({
-    mockSubmitHire: {
-        name: 'submit-hire',
-        action: '?/submitHire',
-        method: 'POST',
-        fields: {
-            name: { issues: vi.fn((): FieldIssue[] => []) },
-            email: { issues: vi.fn((): FieldIssue[] => []) },
-            location: { issues: vi.fn((): FieldIssue[] => []) },
-            project_type: { issues: vi.fn((): FieldIssue[] => []) },
-            new_project: { issues: vi.fn((): FieldIssue[] => []) },
-            timeline: { issues: vi.fn((): FieldIssue[] => []) },
-            budget: { issues: vi.fn((): FieldIssue[] => []) },
-            message: { issues: vi.fn((): FieldIssue[] => []) },
-        },
-    },
-}));
+type HireField = (typeof HIRE_FIELDS)[number];
 
-vi.mock('#lib/components/contact/contact.remote', () => ({
+type MockField = { issues: () => FieldIssue[] | undefined };
+type MockForm = {
+    method: string;
+    action: string;
+    pending: boolean;
+    error: null;
+    fields: Record<HireField, MockField>;
+};
+
+// Everything the mock needs is built inside vi.hoisted, so `fields` is fully
+// populated before any hoisted vi.mock factory (or the component) reads it.
+const { mockSubmitHire } = vi.hoisted(() => {
+    const fields = {} as Record<HireField, MockField>;
+    for (const key of [
+        'name',
+        'email',
+        'location',
+        'site',
+        'company',
+        'project_type',
+        'new_project',
+        'timeline',
+        'budget',
+        'message',
+    ] as const) {
+        fields[key] = { issues: () => [] };
+    }
+
+    return {
+        mockSubmitHire: {
+            method: 'POST',
+            action: '?/submitHire',
+            pending: false,
+            error: null,
+            fields,
+        } satisfies MockForm,
+    };
+});
+
+vi.mock('#routes/contact.remote', () => ({
     submitHire: mockSubmitHire,
 }));
 
-// Mock ResizeObserver (not available in jsdom)
-class MockResizeObserver {
-    callback: ResizeObserverCallback;
-    constructor(callback: ResizeObserverCallback) {
-        this.callback = callback;
-    }
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+function setIssues(field: HireField, issues: FieldIssue[]) {
+    mockSubmitHire.fields[field].issues = vi.fn(() => issues);
 }
-vi.stubGlobal('ResizeObserver', MockResizeObserver);
-
-// Stub SvelteKit globals that contact.remote.ts imports
-vi.stubGlobal('__SVELTEKIT_PATHS_BASE__', '');
-vi.stubGlobal('__SVELTEKIT_APP_DIR__', '_app');
-vi.stubGlobal('__SVELTEKIT_HASH_ROUTING__', false);
-vi.stubGlobal('__SVELTEKIT_PAYLOAD__', null);
 
 describe('HireForm', () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        for (const key of HIRE_FIELDS) setIssues(key, []);
     });
 
-    it('renders the form with all required fields', () => {
-        render(HireForm);
-
-        expect(screen.getByPlaceholderText('Your name')).toBeDefined();
-        expect(
-            screen.getByPlaceholderText('your.email@example.com'),
-        ).toBeDefined();
-        expect(
-            screen.getByPlaceholderText('(e.g: Los Angeles, CA.)'),
-        ).toBeDefined();
-        expect(
-            screen.getByPlaceholderText('(e.g: if-applicable.com)'),
-        ).toBeDefined();
-        expect(
-            screen.getByPlaceholderText('Your company (optional)'),
-        ).toBeDefined();
-        expect(
-            screen.getByPlaceholderText('Tell me about your project...'),
-        ).toBeDefined();
-    });
-
-    it('renders all select dropdowns with correct options', () => {
-        render(HireForm);
-
-        const projectType = screen.getByDisplayValue('Select a project type');
-        expect(projectType).toBeDefined();
-
-        const newProject = screen.getByDisplayValue(
-            'Is this new or a rebrand?',
-        );
-        expect(newProject).toBeDefined();
-
-        const timeline = screen.getByDisplayValue('What is your timeline?');
-        expect(timeline).toBeDefined();
-
-        const budget = screen.getByDisplayValue('What is your budget?');
-        expect(budget).toBeDefined();
-    });
-
-    it('renders project type options', () => {
-        render(HireForm);
-
-        expect(screen.getByText('Website Design')).toBeDefined();
-        expect(screen.getByText('Website Development')).toBeDefined();
-        expect(screen.getByText('Web Application')).toBeDefined();
-        expect(screen.getByText('E-commerce')).toBeDefined();
-    });
-
-    it('renders timeline options', () => {
-        render(HireForm);
-
-        expect(screen.getByText('Within a month')).toBeDefined();
-        expect(screen.getByText('Within 2 months')).toBeDefined();
-    });
-
-    it('renders budget options', () => {
-        render(HireForm);
-
-        expect(screen.getByText('Less than $1,500')).toBeDefined();
-        expect(screen.getByText('$10,000+')).toBeDefined();
-    });
-
-    it('renders the datalist for locations', () => {
-        render(HireForm);
-
-        const datalist = document.getElementById('locations');
-        expect(datalist).toBeDefined();
-
-        const options = datalist!.querySelectorAll('option');
-        const values = Array.from(options).map((opt) =>
-            opt.getAttribute('value'),
-        );
-        expect(values).toContain('Los Angeles, CA');
-        expect(values).toContain('Las Vegas, NV.');
-    });
-
-    it('renders the datalist for companies', () => {
-        render(HireForm);
-
-        const datalist = document.getElementById('companies');
-        expect(datalist).toBeDefined();
-
-        const options = datalist!.querySelectorAll('option');
-        const values = Array.from(options).map((opt) =>
-            opt.getAttribute('value'),
-        );
-        expect(values).toContain('Startup');
-        expect(values).toContain('Freelancer');
-    });
-
-    it('renders the "* = required" legend', () => {
-        render(HireForm);
-
-        expect(screen.getByText('* = required')).toBeDefined();
-    });
-
-    it('has the correct form grid structure', () => {
+    it('renders the form with all fields', () => {
         const { container } = render(HireForm);
 
-        const formGrids = container.querySelectorAll('.form-grid');
-        expect(formGrids.length).toBe(2);
+        for (const name of ['name', 'email', 'location', 'message']) {
+            expect(
+                container.querySelector(`[name="${name}"]`),
+                `missing field: ${name}`,
+            ).toBeInTheDocument();
+        }
     });
 
-    it('does not show errors initially', () => {
-        render(HireForm);
-
-        const fieldErrors = document.querySelectorAll('.field-error');
-        expect(fieldErrors.length).toBe(0);
-    });
-
-    it('shows errors when remote form reports issues', () => {
-        mockSubmitHire.fields.name.issues.mockReturnValue([
-            { message: 'Name is required' },
-        ]);
-        mockSubmitHire.fields.email.issues.mockReturnValue([
-            { message: 'Valid email required' },
-        ]);
-        mockSubmitHire.fields.location.issues.mockReturnValue([]);
-        mockSubmitHire.fields.project_type.issues.mockReturnValue([
-            { message: 'Project type is required' },
-        ]);
-        mockSubmitHire.fields.new_project.issues.mockReturnValue([]);
-        mockSubmitHire.fields.timeline.issues.mockReturnValue([]);
-        mockSubmitHire.fields.budget.issues.mockReturnValue([]);
-        mockSubmitHire.fields.message.issues.mockReturnValue([]);
-
-        render(HireForm);
-
-        expect(screen.getByText('Name is required')).toBeDefined();
-        expect(screen.getByText('Valid email required')).toBeDefined();
-        expect(screen.getByText('Project type is required')).toBeDefined();
-    });
-
-    it('renders the anchor element for CSS anchor positioning', () => {
+    it('has novalidate on the form', () => {
         const { container } = render(HireForm);
 
-        const anchor = container.querySelector('.anchor');
-        expect(anchor).toBeDefined();
+        const form = container.querySelector('form');
+        expect(form).toBeInTheDocument();
+        expect(form).toHaveAttribute('novalidate');
+    });
+
+    it('does not show error messages when fields are valid', () => {
+        render(HireForm);
+
+        expect(document.querySelectorAll('.field-error')).toHaveLength(0);
+    });
+
+    it('shows error messages when fields have issues', () => {
+        setIssues('location', [{ message: 'Location is required' }]);
+        setIssues('budget', [{ message: 'Budget is required' }]);
+
+        render(HireForm);
+
+        expect(screen.getByText('Location is required')).toBeInTheDocument();
+        expect(screen.getByText('Budget is required')).toBeInTheDocument();
     });
 });

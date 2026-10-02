@@ -69,7 +69,7 @@
 <section class="hire-form-container" class:masked={maskActive}>
     <div class="anchor" bind:this={anchorEl}></div>
 
-    <form {...submitHire}>
+    <form {...submitHire} novalidate>
         <!-- honeypot -->
         <input
             class="hp"
