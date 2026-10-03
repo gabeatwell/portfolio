@@ -1,16 +1,69 @@
 <script lang="ts">
-    import Image from '#lib/components/layout/Image.svelte';
+    import { browser } from '$app/env';
+    import { tick } from 'svelte';
+
+    type Slug = 'contact' | 'learn' | 'projects';
+
+    let opened = $state<Slug | null>(null);
+    let active = $state<Slug | null>(null);
+
+    function withTransition(fn: () => void) {
+        if (!browser || !document.startViewTransition) {
+            fn();
+            return;
+        }
+        document.startViewTransition(async () => {
+            fn();
+            await tick(); // let Svelte flush the DOM before the "after" snapshot
+        });
+    }
+    function toggle(slug: Slug) {
+        active = slug;
+        withTransition(() => {
+            opened = opened === slug ? null : slug;
+        });
+    }
+    function onKeydown(event: KeyboardEvent) {
+        if (event.key === 'Escape') opened = null;
+    }
+    function close() {
+        active = null;
+        withTransition(() => {
+            opened = null;
+        });
+    }
+
+    // freeze the page behind an expanded tile
+    $effect(() => {
+        if (!browser || !opened) return;
+        const root = document.documentElement;
+        const previous = root.style.overflow;
+        root.style.overflow = 'hidden';
+        return () => {
+            root.style.overflow = previous;
+        };
+    });
 </script>
+
+<svelte:window onkeydown={onKeydown} />
 
 <div class="bento-wrapper">
     <article data-bento-article>
         <section>
             <div class="bento-grid">
-                <div class="bento-item" data-position-left>
-                    <a
-                        href="/contact"
+                <div
+                    class="bento-item"
+                    data-position-left
+                    class:expanded={opened === 'contact'}
+                    style:view-transition-name={active === 'contact'
+                        ? 'bento-dive'
+                        : undefined}
+                >
+                    <button
+                        type="button"
                         class="bento-link"
-                        aria-label="Navigate to contact page"
+                        aria-expanded={opened === 'contact'}
+                        onclick={() => toggle('contact')}
                     >
                         <div class="bento-icons">
                             <svg
@@ -27,15 +80,41 @@
                         <h2>contact</h2>
 
                         <p>Feel free to contact me about anything!</p>
-                    </a>
+                    </button>
+
+                    {#if opened === 'contact'}
+                        <div class="dive-more">
+                            <p>
+                                Open to freelance work, collaborations and
+                                interesting conversations about the web.
+                            </p>
+                            <a href="/contact" class="dive-cta"
+                                >open contact page</a
+                            >
+                        </div>
+                        <button
+                            type="button"
+                            class="dive-close"
+                            aria-label="Close contact details"
+                            onclick={() => close()}>close</button
+                        >
+                    {/if}
                 </div>
 
-                <div class="bento-item" data-position-right>
+                <div
+                    class="bento-item"
+                    data-position-right
+                    class:expanded={opened === 'learn'}
+                    style:view-transition-name={active === 'learn'
+                        ? 'bento-dive'
+                        : undefined}
+                >
                     <div data-position-center>
-                        <a
-                            href="/learn"
+                        <button
+                            type="button"
                             class="bento-link"
-                            aria-label="Navigate to learn page"
+                            aria-expanded={opened === 'learn'}
+                            onclick={() => toggle('learn')}
                         >
                             <div class="bento-icons">
                                 <svg
@@ -54,15 +133,40 @@
                             <h2>learn</h2>
 
                             <p>If you'd like to learn about web technologies</p>
-                        </a>
+                        </button>
                     </div>
+
+                    {#if opened === 'learn'}
+                        <div class="dive-more">
+                            <p>
+                                Written breakdowns of the techniques behind
+                                every experiment on this site — GSAP, Three.js,
+                                Svelte 5 and more.
+                            </p>
+                            <a href="/learn" class="dive-cta">browse lessons</a>
+                        </div>
+                        <button
+                            type="button"
+                            class="dive-close"
+                            aria-label="Close learn details"
+                            onclick={() => (opened = null)}>close</button
+                        >
+                    {/if}
                 </div>
 
-                <div class="bento-item" data-position-left>
-                    <a
-                        href="/projects"
+                <div
+                    class="bento-item"
+                    data-position-left
+                    class:expanded={opened === 'projects'}
+                    style:view-transition-name={active === 'projects'
+                        ? 'bento-dive'
+                        : undefined}
+                >
+                    <button
+                        type="button"
                         class="bento-link"
-                        aria-label="Navigate to projects page"
+                        aria-expanded={opened === 'projects'}
+                        onclick={() => toggle('projects')}
                     >
                         <h2>projects</h2>
 
@@ -77,7 +181,25 @@
                                 ></path></svg
                             >
                         </div>
-                    </a>
+                    </button>
+
+                    {#if opened === 'projects'}
+                        <div class="dive-more">
+                            <p>
+                                Shipped work and in-progress experiments, each
+                                with a write-up of how it was built.
+                            </p>
+                            <a href="/projects" class="dive-cta"
+                                >see all projects</a
+                            >
+                        </div>
+                        <button
+                            type="button"
+                            class="dive-close"
+                            aria-label="Close project details"
+                            onclick={() => (opened = null)}>close</button
+                        >
+                    {/if}
                 </div>
             </div>
         </section>
@@ -112,6 +234,9 @@
             text-decoration: none;
             color: inherit;
             font-family: inherit;
+            background: transparent;
+            border: 0;
+            text-align: center;
 
             &:focus,
             &:focus-visible {
@@ -285,7 +410,126 @@
                         }
                     }
 
-                    &:hover {
+                    /* --- deep dive: revealed content --- */
+                    & .dive-more {
+                        inline-size: min(42rem, 100%);
+                        block-size: auto;
+                        margin-inline: auto;
+                        margin-block: 1.5rem 0;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 1.25rem;
+                        animation: dive-reveal 0.45s
+                            cubic-bezier(0.22, 1, 0.36, 1) both;
+
+                        & p {
+                            font-size: clamp(var(--sm), 1.4vw, var(--h6));
+                            line-height: 1.7;
+                            max-inline-size: 60ch;
+                            pointer-events: auto;
+                            text-align: left;
+                            color: var(--clr-gray-700);
+                        }
+                    }
+
+                    & .dive-cta {
+                        font-family: var(--bronova-bold);
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        font-size: var(--sm);
+                        color: var(--clr-light-500);
+                        text-decoration: none;
+                        padding: 0.75em 1.5em;
+                        border: 2px solid var(--clr-light-500);
+                        border-radius: var(--radius);
+                        transition:
+                            background-color 0.25s ease-out,
+                            color 0.25s ease-out;
+
+                        &:hover,
+                        &:focus-visible {
+                            background-color: var(--clr-light-500);
+                            color: var(--clr-dark-500);
+                        }
+
+                        &:focus-visible {
+                            outline: 2px solid var(--clr-light-500);
+                            outline-offset: 3px;
+                        }
+                    }
+
+                    & .dive-close {
+                        position: absolute;
+                        inset-block-start: 5em;
+                        inset-inline-end: 1rem;
+                        inline-size: fit-content;
+                        z-index: 2;
+                        font-family: var(--bronova-bold);
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        font-size: var(--sm);
+                        cursor: pointer;
+                        padding: 0.5em 1em;
+                        color: var(--clr-light-500);
+                        background: transparent;
+                        border: 2px solid var(--clr-light-500);
+                        border-radius: var(--radius);
+
+                        @media (width <=768px) {
+                            inset-inline-end: 0.25rem;
+                        }
+
+                        &:active {
+                            scale: 0.95;
+                        }
+
+                        &:hover,
+                        &:focus-visible {
+                            background-color: var(--clr-light-500);
+                            color: var(--clr-dark-500);
+                        }
+
+                        &:focus-visible {
+                            outline: 2px solid var(--clr-light-500);
+                            outline-offset: 2px;
+                        }
+                    }
+
+                    /* --- deep dive: the tile itself grows to fill the screen --- */
+                    &.expanded {
+                        position: fixed;
+                        inset-block: 2vh;
+                        inset-inline: max(2vw, calc(50% - 45rem));
+                        inline-size: min(45rem, calc(100% - 4vw));
+                        margin-inline: auto;
+                        margin-top: 2em;
+                        z-index: 60;
+                        overflow-y: auto;
+                        justify-content: flex-start;
+                        padding-block: 3rem 3rem;
+                        opacity: 1;
+                        transform: none;
+                        border-radius: var(--radius);
+                        box-shadow:
+                            0 0 0 1px var(--clr-light-500),
+                            0 0 0 100vmax oklch(0% 0 0 / 0.7);
+
+                        @media (width <=768px) {
+                            inset-inline: min(2vw, calc(50% - 0rem));
+                        }
+
+                        & .bento-link {
+                            inline-size: fit-content;
+                            cursor: zoom-out;
+                        }
+
+                        & .bento-icons {
+                            scale: 0.85;
+                        }
+                    }
+
+                    &:hover:not(.expanded) {
                         transform: scale(0.99);
                     }
 
@@ -313,6 +557,44 @@
                     }
                 }
             }
+        }
+    }
+
+    @keyframes dive-reveal {
+        from {
+            opacity: 0;
+            transform: translateY(1.5rem);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    :global(::view-transition-group(bento-dive)) {
+        animation-duration: 0.45s;
+        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* content crossfade inside the morphing tile */
+    :global(::view-transition-old(bento-dive)),
+    :global(::view-transition-new(bento-dive)) {
+        animation-duration: 0.45s;
+    }
+
+    /* the rest of the page should NOT crossfade — kills the ghosting */
+    :global(::view-transition-old(root)),
+    :global(::view-transition-new(root)) {
+        animation-duration: 0s;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .bento-item .dive-more {
+            animation: none;
+        }
+
+        :global(::view-transition-group(bento-dive)) {
+            animation: none;
         }
     }
 </style>

@@ -2,25 +2,12 @@
     "extends": "$app/tsconfig",
     "compilerOptions": {
         "paths": {
-            "#lib/*": [
-                "./src/lib/*"
-            ],
-            "#routes/*": [
-                "./src/routes/*"
-            ]
+            "#lib/*": ["./src/lib/*"],
+            "#routes/*": ["./src/routes/*"]
         },
         "strict": true,
-        "lib": [
-            "DOM",
-            "DOM.Iterable",
-            "ES2022"
-        ]
+        "lib": ["DOM", "DOM.Iterable", "ES2022"]
     },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "src/service-worker.ts",
-        "src/service-worker"
-    ]
+    "include": ["src"],
+    "exclude": ["src/service-worker.ts", "src/service-worker"]
 }
