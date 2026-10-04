@@ -4,7 +4,7 @@
     import type { Snippet } from 'svelte';
     import { createLoadingContext } from '#lib/data/context/loading.svelte.js';
     import { createThemeContext } from '#lib/data/context/theme.svelte.js';
-    import NavBar from '#lib/components/navigation/NavBar.svelte';
+    import NavBar from '#lib/components/navigation/bar/NavBar.svelte';
     import Footer from '#lib/components/navigation/footer/Footer.svelte';
     import Loading from '#lib/components/layout/loading/Loading.svelte';
     import TestLink from '#lib/components/navigation/TestLink.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
     import SEO from '#lib/data/SEO.svelte';
     import Title from '#lib/components/layout/titles/Title.svelte';
-    import Button from '#lib/components/layout/Button.svelte';
+    import Button from '#lib/components/layout/buttons/Button.svelte';
     import Iframe from '#lib/components/learn/pages/Iframe.svelte';
     import Learn from '#lib/components/learn/pages/Learn.svelte';
     import Details from '#lib/components/learn/pages/Details.svelte';

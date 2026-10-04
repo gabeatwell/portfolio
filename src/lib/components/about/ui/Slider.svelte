@@ -1,6 +1,6 @@
 <script lang="ts">
     import { browser } from '$app/env';
-    import Image from '#lib/components/layout/Image.svelte';
+    import Image from '#lib/components/layout/images/Image.svelte';
     import skills from '#lib/components/about/skills.json';
     import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
@@ -21,8 +21,8 @@
     <div
         class="slider"
         class:paused={isPaused}
-        onmouseenter={() => isPaused = true}
-        onmouseleave={() => isPaused = false}
+        onmouseenter={() => (isPaused = true)}
+        onmouseleave={() => (isPaused = false)}
         role="region"
         aria-label="skills-carousel"
     >

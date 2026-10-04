@@ -1,11 +1,11 @@
 <script lang="ts">
     import InstallButton from './InstallButton.svelte';
-    import Burger from '#lib/components/navigation/Burger.svelte';
-    import ThemeToggle from '#lib/components/navigation/ThemeToggle.svelte';
-    import NavLink from '#lib/components/navigation/NavLink.svelte';
+    import Burger from '#lib/components/navigation/bar/Burger.svelte';
+    import ThemeToggle from '#lib/components/navigation/bar/ThemeToggle.svelte';
+    import NavLink from '#lib/components/navigation/bar/NavLink.svelte';
     import SelectLink from '#lib/components/contact/SelectLink.svelte';
-    // import AtwellUnderline from './AtwellUnderline.svelte';
-    import AtwellLogo from './AtwellLogo.svelte';
+    // import AtwellUnderline from '../AtwellUnderline.svelte';
+    import AtwellLogo from '../AtwellLogo.svelte';
 
     let open = $state<boolean>(false);
 

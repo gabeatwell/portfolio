@@ -1,6 +1,6 @@
 <script lang="ts">
     import HeroTitle from '#lib/components/landing/hero-section/hero/HeroTitle.svelte';
-    import Button from '#lib/components/layout/Button.svelte';
+    import Button from '#lib/components/layout/buttons/Button.svelte';
 </script>
 
 <section class="intro">
