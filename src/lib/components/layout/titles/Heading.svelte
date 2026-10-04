@@ -22,9 +22,11 @@
 <div class="header">
     <Title {title} {title2} {viewTransitionName} />
 
-    <div class="popover">
-        <Popover title={popoverTitle} text={popoverText} />
-    </div>
+    {#if popoverText}
+        <div class="popover">
+            <Popover title={popoverTitle} text={popoverText} />
+        </div>
+    {/if}
 </div>
 
 <style>

@@ -107,7 +107,8 @@
             padding-top: 5em;
 
             @media (width <= 768px) {
-                padding-top: 2.5em;
+                padding-top: 1em;
+                padding-bottom: 2rem;
             }
         }
 
@@ -116,6 +117,7 @@
             text-align: center;
             margin-top: 5rem;
             view-timeline-name: page-title;
+            hyphens: none;
 
             @media (width >= 740px) {
                 margin: 2rem auto;

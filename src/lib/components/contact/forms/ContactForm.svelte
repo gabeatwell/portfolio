@@ -45,53 +45,61 @@
         <legend>reach me</legend>
 
         <div class="form-group">
-            <label for="name">name</label>
+            <label for="name"
+                >name
 
-            <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                aria-describedby="name-error"
-                autocomplete="name"
-                spellcheck="true"
-                placeholder="Your Name"
-            />
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    aria-describedby="name-error"
+                    autocomplete="name"
+                    spellcheck="true"
+                    placeholder="Your Name"
+                />
+            </label>
+
             {#each submitContact.fields.name?.issues() ?? [] as issue}
                 <p class="field-error">{issue.message}</p>
             {/each}
         </div>
 
         <div class="form-group">
-            <label for="email">email</label>
+            <label for="email"
+                >email
 
-            <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                aria-describedby="email-error"
-                autocomplete="email"
-                spellcheck="true"
-                placeholder="Your Email"
-            />
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    aria-describedby="email-error"
+                    autocomplete="email"
+                    spellcheck="true"
+                    placeholder="Your Email"
+                />
+            </label>
+
             {#each submitContact.fields.email?.issues() ?? [] as issue}
                 <p class="field-error">{issue.message}</p>
             {/each}
         </div>
 
         <div class="form-group">
-            <label for="message">message</label>
+            <label for="message"
+                >message
 
-            <textarea
-                id="message"
-                name="message"
-                rows="5"
-                required
-                aria-describedby="message-error"
-                spellcheck="true"
-                placeholder="Your Message"
-            ></textarea>
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    required
+                    aria-describedby="message-error"
+                    spellcheck="true"
+                    placeholder="Your Message"
+                ></textarea>
+            </label>
 
             {#each submitContact.fields.message?.issues() ?? [] as issue}
                 <p class="field-error">{issue.message}</p>
@@ -211,7 +219,7 @@
             & label {
                 transform: translate(20px, 5px);
                 background-color: transparent;
-                inline-size: fit-content;
+                inline-size: 100%;
                 padding: 0;
                 font-family: var(--bronova);
                 font-size: clamp(var(--h6), 1.75vw, var(--h3));
@@ -224,7 +232,7 @@
                 transition: color 0.3s ease;
 
                 @media (width <= 500px) {
-                    transform: translate(20px, 7px);
+                    transform: translate(0px, 7px);
                 }
 
                 &::before {
@@ -235,6 +243,15 @@
                     transform: translateY(-50%);
                     z-index: -1;
                     border-radius: var(--radius);
+                }
+
+                & textarea {
+                    max-inline-size: 77vw;
+                    inline-size: 100%;
+
+                    @media (width <= 768px) {
+                        max-inline-size: 100vw;
+                    }
                 }
             }
 
@@ -250,7 +267,7 @@
                 color: var(--clr-light-500);
                 font-size: clamp(var(--sm), 1.75vw, var(--h5));
                 outline: none;
-                margin-inline: auto;
+                margin-inline: none;
                 transition:
                     border-color 0.3s ease,
                     box-shadow 0.3s ease,
@@ -324,7 +341,7 @@
         }
 
         & .submit-button {
-            margin-top: 1em;
+            margin-top: 1.5em;
         }
     }
 
