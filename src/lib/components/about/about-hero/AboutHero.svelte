@@ -72,11 +72,13 @@
 <div class="about-hero-image">
     <AboutHeroParallax />
 
-    <h1 id="title">
-        <span
-            style:view-transition-name={viewTransitionName}
-            style:view-transition-class="heading-transition">About</span
-        >
+    <h1
+        id="title"
+        style:view-transition-name={viewTransitionName}
+        style:view-transition-class="heading-transition"
+        aria-label="About Gabe"
+    >
+        <span>About</span>
         {title}
     </h1>
 </div>

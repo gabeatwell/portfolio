@@ -6,34 +6,57 @@
 
     let opened = $state<Slug | null>(null);
     let active = $state<Slug | null>(null);
+    let animating = $state(false);
 
-    function withTransition(fn: () => void) {
+    async function runTransition(update: () => void) {
         if (!browser || !document.startViewTransition) {
-            fn();
+            update();
             return;
         }
-        document.startViewTransition(async () => {
-            fn();
-            await tick(); // let Svelte flush the DOM before the "after" snapshot
-        });
-    }
-    function toggle(slug: Slug) {
-        active = slug;
-        withTransition(() => {
-            opened = opened === slug ? null : slug;
-        });
-    }
-    function onKeydown(event: KeyboardEvent) {
-        if (event.key === 'Escape') opened = null;
-    }
-    function close() {
-        active = null;
-        withTransition(() => {
-            opened = null;
-        });
+
+        animating = true;
+        try {
+            const transition = document.startViewTransition(async () => {
+                update();
+                await tick(); // flush Svelte DOM before new snapshot
+            });
+            await transition.finished;
+        } finally {
+            animating = false;
+        }
     }
 
-    // freeze the page behind an expanded tile
+    async function toggle(slug: Slug) {
+        const isClosing = opened === slug;
+
+        // 1. Put the name on the element
+        active = slug;
+        // 2. Wait until the style is actually in the DOM
+        await tick();
+
+        // 3. Now start the transition (old snapshot will see the name)
+        await runTransition(() => {
+            opened = isClosing ? null : slug;
+        });
+
+        // 4. Clean up only after the animation is fully done
+        if (isClosing) active = null;
+    }
+
+    async function close() {
+        if (!opened) return;
+        active = opened;
+        await tick();
+        await runTransition(() => {
+            opened = null;
+        });
+        active = null;
+    }
+
+    function onKeydown(e: KeyboardEvent) {
+        if (e.key === 'Escape' && opened) close();
+    }
+
     $effect(() => {
         if (!browser || !opened) return;
         const root = document.documentElement;
@@ -43,6 +66,13 @@
             root.style.overflow = previous;
         };
     });
+
+    if (typeof document !== 'undefined') {
+        console.log(
+            'startViewTransition?',
+            typeof document.startViewTransition,
+        );
+    }
 </script>
 
 <svelte:window onkeydown={onKeydown} />
@@ -83,20 +113,38 @@
                     </button>
 
                     {#if opened === 'contact'}
-                        <div class="dive-more">
+                        <div class="bento-menu" class:quiet={animating}>
                             <p>
                                 Open to freelance work, collaborations and
                                 interesting conversations about the web.
                             </p>
-                            <a href="/contact" class="dive-cta"
+                            <a href="/contact" class="menu-cta"
                                 >open contact page</a
                             >
                         </div>
                         <button
                             type="button"
-                            class="dive-close"
+                            class="menu-close"
                             aria-label="Close contact details"
-                            onclick={() => close()}>close</button
+                            onclick={() => close()}
+                            ><svg
+                                width="800px"
+                                height="800px"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M8.00191 9.41621C7.61138 9.02569 7.61138 8.39252 8.00191 8.002C8.39243 7.61147 9.0256 7.61147 9.41612 8.002L12.0057 10.5916L14.5896 8.00771C14.9801 7.61719 15.6133 7.61719 16.0038 8.00771C16.3943 8.39824 16.3943 9.0314 16.0038 9.42193L13.4199 12.0058L16.0039 14.5897C16.3944 14.9803 16.3944 15.6134 16.0039 16.004C15.6133 16.3945 14.9802 16.3945 14.5896 16.004L12.0057 13.42L9.42192 16.0038C9.03139 16.3943 8.39823 16.3943 8.00771 16.0038C7.61718 15.6133 7.61718 14.9801 8.00771 14.5896L10.5915 12.0058L8.00191 9.41621Z"
+                                    fill="var(--clr-fail-500)"
+                                />
+                                <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M23 4C23 2.34315 21.6569 1 20 1H4C2.34315 1 1 2.34315 1 4V20C1 21.6569 2.34315 23 4 23H20C21.6569 23 23 21.6569 23 20V4ZM21 4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21H20C20.5523 21 21 20.5523 21 20V4Z"
+                                    fill="var(--clr-fail-500)"
+                                />
+                            </svg></button
                         >
                     {/if}
                 </div>
@@ -137,19 +185,37 @@
                     </div>
 
                     {#if opened === 'learn'}
-                        <div class="dive-more">
+                        <div class="bento-menu" class:quiet={animating}>
                             <p>
                                 Written breakdowns of the techniques behind
                                 every experiment on this site — GSAP, Three.js,
                                 Svelte 5 and more.
                             </p>
-                            <a href="/learn" class="dive-cta">browse lessons</a>
+                            <a href="/learn" class="menu-cta">browse lessons</a>
                         </div>
                         <button
                             type="button"
-                            class="dive-close"
+                            class="menu-close"
                             aria-label="Close learn details"
-                            onclick={() => (opened = null)}>close</button
+                            onclick={() => close()}
+                            ><svg
+                                width="800px"
+                                height="800px"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M8.00191 9.41621C7.61138 9.02569 7.61138 8.39252 8.00191 8.002C8.39243 7.61147 9.0256 7.61147 9.41612 8.002L12.0057 10.5916L14.5896 8.00771C14.9801 7.61719 15.6133 7.61719 16.0038 8.00771C16.3943 8.39824 16.3943 9.0314 16.0038 9.42193L13.4199 12.0058L16.0039 14.5897C16.3944 14.9803 16.3944 15.6134 16.0039 16.004C15.6133 16.3945 14.9802 16.3945 14.5896 16.004L12.0057 13.42L9.42192 16.0038C9.03139 16.3943 8.39823 16.3943 8.00771 16.0038C7.61718 15.6133 7.61718 14.9801 8.00771 14.5896L10.5915 12.0058L8.00191 9.41621Z"
+                                    fill="var(--clr-fail-500)"
+                                />
+                                <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M23 4C23 2.34315 21.6569 1 20 1H4C2.34315 1 1 2.34315 1 4V20C1 21.6569 2.34315 23 4 23H20C21.6569 23 23 21.6569 23 20V4ZM21 4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21H20C20.5523 21 21 20.5523 21 20V4Z"
+                                    fill="var(--clr-fail-500)"
+                                />
+                            </svg></button
                         >
                     {/if}
                 </div>
@@ -184,20 +250,38 @@
                     </button>
 
                     {#if opened === 'projects'}
-                        <div class="dive-more">
+                        <div class="bento-menu" class:quiet={animating}>
                             <p>
                                 Shipped work and in-progress experiments, each
                                 with a write-up of how it was built.
                             </p>
-                            <a href="/projects" class="dive-cta"
+                            <a href="/projects" class="menu-cta"
                                 >see all projects</a
                             >
                         </div>
                         <button
                             type="button"
-                            class="dive-close"
+                            class="menu-close"
                             aria-label="Close project details"
-                            onclick={() => (opened = null)}>close</button
+                            onclick={() => close()}
+                            ><svg
+                                width="800px"
+                                height="800px"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M8.00191 9.41621C7.61138 9.02569 7.61138 8.39252 8.00191 8.002C8.39243 7.61147 9.0256 7.61147 9.41612 8.002L12.0057 10.5916L14.5896 8.00771C14.9801 7.61719 15.6133 7.61719 16.0038 8.00771C16.3943 8.39824 16.3943 9.0314 16.0038 9.42193L13.4199 12.0058L16.0039 14.5897C16.3944 14.9803 16.3944 15.6134 16.0039 16.004C15.6133 16.3945 14.9802 16.3945 14.5896 16.004L12.0057 13.42L9.42192 16.0038C9.03139 16.3943 8.39823 16.3943 8.00771 16.0038C7.61718 15.6133 7.61718 14.9801 8.00771 14.5896L10.5915 12.0058L8.00191 9.41621Z"
+                                    fill="var(--clr-fail-500)"
+                                />
+                                <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M23 4C23 2.34315 21.6569 1 20 1H4C2.34315 1 1 2.34315 1 4V20C1 21.6569 2.34315 23 4 23H20C21.6569 23 23 21.6569 23 20V4ZM21 4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21H20C20.5523 21 21 20.5523 21 20V4Z"
+                                    fill="var(--clr-fail-500)"
+                                />
+                            </svg></button
                         >
                     {/if}
                 </div>
@@ -307,10 +391,12 @@
                         box-shadow 1s ease-out,
                         transform 0.25s ease-out;
 
+                    &[style*='view-transition-name'] {
+                        transition: none;
+                    }
                     &[data-position-left] {
                         box-shadow: 7px 7px 0 var(--clr-light-500);
                     }
-
                     &[data-position-right] {
                         box-shadow: -7px 7px 0 var(--clr-light-500);
                     }
@@ -410,8 +496,8 @@
                         }
                     }
 
-                    /* --- deep dive: revealed content --- */
-                    & .dive-more {
+                    /* bento-menu & expanded */
+                    & .bento-menu {
                         inline-size: min(42rem, 100%);
                         block-size: auto;
                         margin-inline: auto;
@@ -431,9 +517,13 @@
                             text-align: left;
                             color: var(--clr-gray-700);
                         }
+
+                        &.quiet {
+                            animation: none;
+                        }
                     }
 
-                    & .dive-cta {
+                    & .menu-cta {
                         font-family: var(--bronova-bold);
                         text-transform: uppercase;
                         letter-spacing: 1px;
@@ -459,7 +549,7 @@
                         }
                     }
 
-                    & .dive-close {
+                    & .menu-close {
                         position: absolute;
                         inset-block-start: 5em;
                         inset-inline-end: 1rem;
@@ -467,17 +557,22 @@
                         z-index: 2;
                         font-family: var(--bronova-bold);
                         text-transform: uppercase;
-                        letter-spacing: 1px;
-                        font-size: var(--sm);
-                        cursor: pointer;
-                        padding: 0.5em 1em;
-                        color: var(--clr-light-500);
+
                         background: transparent;
-                        border: 2px solid var(--clr-light-500);
-                        border-radius: var(--radius);
+                        border: none;
+                        color: var(--clr-fail-500);
+                        font-family: var(--bronova-bold);
+                        font-size: clamp(var(--h5), 1.5vw, var(--h3));
+                        font-weight: 700;
+                        cursor: pointer;
 
                         @media (width <=768px) {
                             inset-inline-end: 0.25rem;
+                        }
+
+                        & svg {
+                            inline-size: clamp(1.5em, 3vw, 2.5rem);
+                            block-size: clamp(1.5em, 3vw, 2.5rem);
                         }
 
                         &:active {
@@ -486,17 +581,14 @@
 
                         &:hover,
                         &:focus-visible {
-                            background-color: var(--clr-light-500);
-                            color: var(--clr-dark-500);
+                            opacity: 0.9;
                         }
 
                         &:focus-visible {
                             outline: 2px solid var(--clr-light-500);
-                            outline-offset: 2px;
                         }
                     }
 
-                    /* --- deep dive: the tile itself grows to fill the screen --- */
                     &.expanded {
                         position: fixed;
                         inset-block: 2vh;
@@ -588,8 +680,21 @@
         animation-duration: 0s;
     }
 
+    @keyframes menu-in {
+        from {
+            opacity: 0;
+            translate: 0 1.5rem;
+        }
+    }
+    @keyframes menu-out {
+        to {
+            opacity: 0;
+            translate: 0 1.5rem;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
-        .bento-item .dive-more {
+        .bento-item .bento-menu {
             animation: none;
         }
 
