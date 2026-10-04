@@ -1,6 +1,6 @@
 <script lang="ts">
     import { selectedThreeComponent } from '#lib/data/stores/threejsComponent.js';
-    import { componentImportMap } from '#lib/data/threeComponentImports.js';
+    import { componentImportMap } from '#lib/threejs/threeComponentImports.js';
     import SEO from '#lib/data/SEO.svelte';
     import type { Component } from 'svelte';
     import { page } from '$app/state';

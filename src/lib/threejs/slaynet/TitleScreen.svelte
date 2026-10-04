@@ -34,7 +34,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--clr-dark-400);
+        background: var(--clr-dark-500);
         z-index: 300;
         font-family: var(--bronova);
 

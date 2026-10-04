@@ -25,12 +25,12 @@ export const componentImportMap: Record<string, ComponentEntry> = {
         githubPath: 'src/lib/threejs/loader/Loader.svelte',
     },
     slaynet: {
-        import: () => import('#lib/threejs/shooter/Slaynet.svelte'),
-        githubPath: 'src/lib/threejs/shooter/Slaynet.svelte',
+        import: () => import('#lib/threejs/slaynet/Slaynet.svelte'),
+        githubPath: 'src/lib/threejs/slaynet/Slaynet.svelte',
     },
     killgrid: {
-        import: () => import('#lib/threejs/fps/Killgrid.svelte'),
-        githubPath: 'src/lib/threejs/fps/Killgrid.svelte',
+        import: () => import('#lib/threejs/killgrid/Killgrid.svelte'),
+        githubPath: 'src/lib/threejs/killgrid/Killgrid.svelte',
     },
     Carousel: {
         import: () =>

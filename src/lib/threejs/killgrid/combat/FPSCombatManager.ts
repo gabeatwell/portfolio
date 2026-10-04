@@ -11,10 +11,10 @@
  * Designed to replace the shooter's CombatManager in the FPS game mode.
  */
 import { Object3D, Vector3, Scene, Raycaster, Sphere } from 'three';
-import { Projectile } from '../../shooter/combat/Projectile';
+import { Projectile } from '../../slaynet/combat/Projectile';
 import type { FPSEnemyManager } from '../enemy/FPSEnemyManager';
 import type { FPSPlayer } from '../player/FPSPlayer';
-import { AudioManager } from '../../shooter/actions/AudioManager';
+import { AudioManager } from '../../slaynet/actions/AudioManager';
 import { FPSAmmoBrick } from './FPSAmmoBricks';
 
 export class FPSCombatManager extends Object3D {

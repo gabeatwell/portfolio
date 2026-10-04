@@ -1,5 +1,5 @@
 import type { Attachment } from 'svelte/attachments';
-import { FPSGame } from '#lib/threejs/fps/FPSGameSetup.js';
+import { FPSGame } from '#lib/threejs/killgrid/FPSGameSetup.js';
 
 export type FPSHudCallbacks = {
     onGame: (game: FPSGame | null) => void;

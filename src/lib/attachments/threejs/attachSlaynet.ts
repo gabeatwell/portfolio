@@ -3,7 +3,7 @@ import {
     initializeGame,
     cleanupGame,
     type GameState,
-} from '#lib/threejs/shooter/gameSetup.js';
+} from '#lib/threejs/slaynet/gameSetup.js';
 import type { Attachment } from 'svelte/attachments';
 
 export type GameHudCallbacks = {

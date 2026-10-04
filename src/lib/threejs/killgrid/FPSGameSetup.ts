@@ -17,7 +17,7 @@ import {
     Object3D,
     DoubleSide,
 } from 'three';
-import { World } from '../shooter/world';
+import { World } from '../slaynet/world';
 import { FPSPlayer } from './player/FPSPlayer';
 import { FPSEnemyManager } from './enemy/FPSEnemyManager';
 // import { FPSBuilding } from './buildings/FPSBuilding';
