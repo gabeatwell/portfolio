@@ -302,6 +302,8 @@
                 padding: var(--padding-button);
                 resize: vertical;
                 min-block-size: 120px;
+                field-sizing: content;
+                line-height: 1.2;
 
                 &:placeholder-shown {
                     letter-spacing: 0px;

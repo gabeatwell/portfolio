@@ -84,7 +84,7 @@
 
         <div class="form-grid">
             <label class="form-group">
-                <span class="label-text">Name*</span>
+                Name*
 
                 <input
                     type="text"
@@ -100,7 +100,7 @@
             </label>
 
             <label class="form-group">
-                <span class="label-text">Email*</span>
+                Email*
 
                 <input
                     type="email"
@@ -116,7 +116,7 @@
             </label>
 
             <label class="form-group">
-                <span class="label-text">Location*</span>
+                Location*
 
                 <input
                     type="text"
@@ -152,7 +152,7 @@
 
         <div class="form-grid">
             <label class="form-group">
-                <span class="label-text">Website*</span>
+                Website*
 
                 <input
                     type="text"
@@ -163,7 +163,7 @@
             </label>
 
             <label class="form-group">
-                <span class="label-text">Company*</span>
+                Company*
 
                 <input
                     type="text"
@@ -181,7 +181,7 @@
             </label>
 
             <label class="form-group">
-                <span class="label-text">Project Type*</span>
+                Project Type*
 
                 <select name="project_type" required>
                     <option value="">Select a project type</option>
@@ -197,7 +197,7 @@
             </label>
 
             <label class="form-group">
-                <span class="label-text">New Project?*</span>
+                New Project?*
 
                 <select name="new_project" required>
                     <option value="">Is this new or a rebrand?</option>
@@ -210,7 +210,7 @@
             </label>
 
             <label class="form-group">
-                <span class="label-text">Timeline*</span>
+                Timeline
 
                 <select name="timeline" required>
                     <option value="">What is your timeline?</option>
@@ -224,7 +224,7 @@
             </label>
 
             <label class="form-group">
-                <span class="label-text">Budget*</span>
+                Budget*
 
                 <select name="budget" required>
                     <option value="">What is your budget?</option>
@@ -243,7 +243,7 @@
         </div>
 
         <label class="form-group full-width">
-            <span class="label-text center-text">Message*</span>
+            Message*
 
             <textarea
                 name="message"
@@ -373,6 +373,9 @@
         & .form-group {
             display: flex;
             flex-direction: column;
+            color: var(--clr-light-400);
+            font-family: var(--bronova-bold);
+            font-size: clamp(var(--sm), 1.25vw, var(--h4));
 
             & select {
                 appearance: none;
@@ -384,7 +387,9 @@
                 border: 1px solid var(--clr-gray-700);
                 color: var(--clr-light-500);
                 font-family: inherit;
-                font-size: clamp(var(--sm), 1vw, var(--h4));
+                font-size: clamp(var(--sm), 1.1vw, var(--h5));
+                font-weight: 500;
+                opacity: 0.95;
                 cursor: pointer;
                 line-height: inherit;
                 outline: none;
@@ -417,36 +422,11 @@
                     padding: calc(var(--space-md) - 0.7rem);
                 }
             }
-
-            &:has(input:user-valid) .label-text,
-            &:has(select:user-valid) .label-text,
-            &:has(textarea:user-valid) .label-text {
-                color: var(--clr-success-500);
-                font-weight: 700;
-            }
-
-            &:has(input:user-invalid:not(:placeholder-shown)) .label-text,
-            &:has(select:user-invalid) .label-text,
-            &:has(textarea:user-invalid:not(:placeholder-shown)) .label-text {
-                color: var(--clr-fail-500);
-                font-weight: 700;
-            }
         }
     }
 
     .full-width {
         grid-column: 1 / -1;
-    }
-
-    .label-text {
-        font-family: var(--bronova-bold);
-        font-size: clamp(var(--sm), 1vw, var(--h4));
-        color: var(--clr-blue-500);
-        transition: color 0.1s ease;
-    }
-
-    .center-text {
-        text-align: center;
     }
 
     input,
@@ -466,9 +446,10 @@
 
         &::placeholder {
             color: var(--clr-light-500);
-            opacity: 0.7;
-            font-size: clamp(0.8rem, 1vw, 1.75rem);
-            font-weight: 300;
+            opacity: 0.95;
+            font-family: var(--bronova);
+            font-size: clamp(var(--sm), 1.1vw, var(--h5));
+            font-weight: 500;
         }
 
         &:focus {
@@ -496,6 +477,13 @@
                 animation: none;
             }
         }
+    }
+
+    textarea {
+        field-sizing: content;
+        line-height: 1.2;
+        min-block-size: 120px;
+        font-size: clamp(var(--sm), 1.5vw, var(--h5));
     }
 
     @keyframes wiggle {
