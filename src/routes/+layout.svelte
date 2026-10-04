@@ -1,6 +1,6 @@
 <script lang="ts">
     import '../app.css';
-    import '@picocss/pico/css/pico.min.css';
+    import '@anyblades/blades';
     import type { Snippet } from 'svelte';
     import { createLoadingContext } from '#lib/data/context/loading.svelte.js';
     import { createThemeContext } from '#lib/data/context/theme.svelte.js';

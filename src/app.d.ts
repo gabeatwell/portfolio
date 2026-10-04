@@ -11,3 +11,5 @@ declare namespace App {
         };
     }
 }
+
+declare module '@anyblades/blades';

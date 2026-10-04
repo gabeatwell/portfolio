@@ -20,7 +20,7 @@ a **Three.js blog** — and tutorials for **CSS** and **GSAP**.
 - **Offline-ready** — the service worker caches the app shell so the portfolio loads without a connection.
 - **Responsive & mobile-first** — fluid layouts and touch-friendly interactions on every screen size.
 
-### 🧪 Frontend Experiments
+### Frontend Experiments
 
 A sandbox of interactive demos I've built to explore and push the limits of the web:
 
@@ -49,7 +49,7 @@ A sandbox of interactive demos I've built to explore and push the limits of the 
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer        | Technology                        |
 | ------------ | --------------------------------- |

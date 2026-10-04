@@ -1,3 +1,4 @@
+/* @import '@anyblades/blades'; */
 @layer root, reset, theming, base, typography, components, utilities;
 
 @font-face {
@@ -699,6 +700,19 @@
             );
         }
     }
+}
+
+/* blades css */
+a:not(#_):not(#_),
+[role='link']:not(#_):not(#_) {
+    --pico-text-decoration: none;
+    --pico-underline: transparent;
+}
+
+p a:not(#_):not(#_),
+.prose a:not(#_):not(#_) {
+    --pico-text-decoration: underline;
+    --pico-underline: currentcolor;
 }
 
 /* ================= view transitions ================= */

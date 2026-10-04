@@ -1,7 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
     "name": "portfolio",
-    "version": "6.1.5",
+    "version": "6.1.6",
     "private": true,
     "packageManager": "pnpm@11.17.0",
     "engines": {
@@ -62,8 +62,8 @@
     },
     "type": "module",
     "dependencies": {
+        "@anyblades/blades": "^3.0.0",
         "@fortawesome/fontawesome-free": "^6.6.0",
-        "@picocss/pico": "^1.5.13",
         "copy-to-clipboard": "^3.3.3",
         "highlight.js": "^11.11.1",
         "isomorphic-dompurify": "^4.4.0",
