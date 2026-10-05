@@ -241,6 +241,7 @@
                     <g role="group" aria-label="Daily contributions grid">
                         {#each weeks as week, weekIndex}
                             {#each week.contributionDays as day, dayIndex}
+                                <!-- svelte-ignore a11y_no_static_element_interactions -->
                                 <rect
                                     x={dimensions.dayLabelWidth +
                                         weekIndex *
@@ -270,8 +271,6 @@
                                             weekIndex,
                                             dayIndex,
                                         )}
-                                    role="button"
-                                    tabindex="0"
                                     aria-label="{day.contributionCount} {getContributionText(
                                         day.contributionCount,
                                     )} on {formatDate(day.date)}"
@@ -349,7 +348,6 @@
         max-inline-size: 900px;
         margin: 0;
         margin-inline: auto;
-        /* padding: 2rem 1rem; */
         padding: var(--padding-section);
         font-family: var(--bronova);
         display: flex;
