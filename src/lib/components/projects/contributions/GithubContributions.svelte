@@ -117,6 +117,16 @@
         el?.focus();
     }
 
+    function handleDayHoverIn(event: PointerEvent, day: ContributionDay) {
+        if (event.pointerType !== 'mouse') return; // taps already handled
+        handleDayTouch(event, day);
+    }
+
+    function handleDayHoverOut(event: PointerEvent) {
+        if (event.pointerType !== 'mouse') return;
+        mobileTooltip = { ...mobileTooltip, visible: false };
+    }
+
     const dayTooltip = (day: ContributionDay) =>
         `${day.contributionCount} ${getContributionText(day.contributionCount)} on ${formatDate(day.date)}`;
 
@@ -262,6 +272,9 @@
                                     data-week={weekIndex}
                                     data-day={dayIndex}
                                     onclick={(e) => handleDayTouch(e, day)}
+                                    onpointerenter={(e) =>
+                                        handleDayHoverIn(e, day)}
+                                    onpointerleave={handleDayHoverOut}
                                     onpointerdown={(e) =>
                                         handleDayTouch(e, day)}
                                     onkeydown={(e) =>
@@ -419,6 +432,8 @@
 
             & .mobile-tooltip {
                 position: absolute;
+                max-inline-size: min(280px, calc(100vw - 2rem));
+                inline-size: max-content;
                 background: var(--clr-light-500);
                 color: var(--clr-contribution-bg);
                 padding: var(--padding-nav);
@@ -479,7 +494,7 @@
                     min-width: max-content;
                     font-family: var(--bronova);
                     max-inline-size: 100%;
-                    height: auto;
+                    block-size: auto;
 
                     @container github-contributions (width <= 800px) {
                         transform: scale(0.9);
