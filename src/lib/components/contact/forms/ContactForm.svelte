@@ -32,15 +32,14 @@
 <form {...submitContact} novalidate>
     <!-- honeypot -->
     <input
+        {...submitContact.fields._gotcha.as('text')}
         class="hp"
-        type="text"
-        name="_gotcha"
         tabindex="-1"
         autocomplete="off"
         aria-hidden="true"
         inert
     />
-    <input type="hidden" name="ts" value={formOpenedAt} />
+    <input {...submitContact.fields.ts.as('hidden', String(formOpenedAt))} />
 
     <fieldset>
         <legend>reach me</legend>
@@ -50,9 +49,8 @@
                 >name
 
                 <input
-                    type="text"
+                    {...submitContact.fields.name.as('text')}
                     id="name"
-                    name="name"
                     required
                     aria-describedby="name-error"
                     autocomplete="name"
@@ -71,9 +69,8 @@
                 >email
 
                 <input
-                    type="email"
+                    {...submitContact.fields.email.as('email')}
                     id="email"
-                    name="email"
                     required
                     aria-describedby="email-error"
                     autocomplete="email"
@@ -92,8 +89,8 @@
                 >message
 
                 <textarea
+                    {...submitContact.fields.message.as('text')}
                     id="message"
-                    name="message"
                     rows="5"
                     required
                     aria-describedby="message-error"

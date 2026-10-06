@@ -73,23 +73,21 @@
     <form {...submitHire} novalidate>
         <!-- honeypot -->
         <input
+            {...submitHire.fields._gotcha.as('text')}
             class="hp"
-            type="text"
-            name="_gotcha"
             tabindex="-1"
             autocomplete="off"
             aria-hidden="true"
             inert
         />
-        <input type="hidden" name="ts" value={formOpenedAt} />
+        <input {...submitHire.fields.ts.as('hidden', String(formOpenedAt))} />
 
         <div class="form-grid">
             <label class="form-group">
                 Name*
 
                 <input
-                    type="text"
-                    name="name"
+                    {...submitHire.fields.name.as('text')}
                     placeholder="Your name"
                     required
                     autocomplete="name"
@@ -104,8 +102,7 @@
                 Email*
 
                 <input
-                    type="email"
-                    name="email"
+                    {...submitHire.fields.email.as('email')}
                     placeholder="your.email@example.com"
                     required
                     autocomplete="email"
@@ -120,8 +117,7 @@
                 Location*
 
                 <input
-                    type="text"
-                    name="location"
+                    {...submitHire.fields.location.as('text')}
                     list="locations"
                     placeholder="(e.g: Los Angeles, CA.)"
                     required
@@ -156,8 +152,7 @@
                 Website*
 
                 <input
-                    type="text"
-                    name="site"
+                    {...submitHire.fields.site.as('text')}
                     placeholder="(e.g: if-applicable.com)"
                     spellcheck="true"
                 />
@@ -167,8 +162,7 @@
                 Company*
 
                 <input
-                    type="text"
-                    name="company"
+                    {...submitHire.fields.company.as('text')}
                     list="companies"
                     placeholder="Your company (optional)"
                 />
@@ -184,7 +178,10 @@
             <label class="form-group">
                 Project Type*
 
-                <select name="project_type" required>
+                <select
+                    {...submitHire.fields.project_type.as('select')}
+                    required
+                >
                     <option value="">Select a project type</option>
                     <option value="website">Website Design</option>
                     <option value="website">Website Development</option>
@@ -200,7 +197,10 @@
             <label class="form-group">
                 New Project?*
 
-                <select name="new_project" required>
+                <select
+                    {...submitHire.fields.new_project.as('select')}
+                    required
+                >
                     <option value="">Is this new or a rebrand?</option>
                     <option value="yes">New</option>
                     <option value="no">Rebrand</option>
@@ -213,7 +213,7 @@
             <label class="form-group">
                 Timeline
 
-                <select name="timeline" required>
+                <select {...submitHire.fields.timeline.as('select')} required>
                     <option value="">What is your timeline?</option>
                     <option value="1month">Within a month</option>
                     <option value="2month">Within 2 months</option>
@@ -227,7 +227,7 @@
             <label class="form-group">
                 Budget*
 
-                <select name="budget" required>
+                <select {...submitHire.fields.budget.as('select')} required>
                     <option value="">What is your budget?</option>
                     <option value="<1500">Less than $1,500</option>
                     <option value="1500-2500">$1,500 - $2,500</option>
@@ -247,7 +247,7 @@
             Message*
 
             <textarea
-                name="message"
+                {...submitHire.fields.message.as('text')}
                 required
                 placeholder="Tell me about your project..."
                 rows="5"
