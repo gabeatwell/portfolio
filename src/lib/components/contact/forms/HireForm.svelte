@@ -4,6 +4,7 @@
     import A11yAnnouncer from '#lib/components/utils/A11yAnnouncer.svelte';
 
     let submitStatus = $state<string>('');
+    const formOpenedAt = Date.now();
 
     // android anchor positioning fallback
     let anchorEl: HTMLElement | null = null;
@@ -80,7 +81,7 @@
             aria-hidden="true"
             inert
         />
-        <input type="hidden" name="ts" value={Date.now()} />
+        <input type="hidden" name="ts" value={formOpenedAt} />
 
         <div class="form-grid">
             <label class="form-group">

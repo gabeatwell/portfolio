@@ -7,6 +7,7 @@
     import MotifPhoto from '../MotifPhoto.svelte';
 
     let submitStatus = $state<string>('');
+    const formOpenedAt = Date.now();
 </script>
 
 <div class="contact-icons">
@@ -39,7 +40,7 @@
         aria-hidden="true"
         inert
     />
-    <input type="hidden" name="ts" value={Date.now()} />
+    <input type="hidden" name="ts" value={formOpenedAt} />
 
     <fieldset>
         <legend>reach me</legend>
