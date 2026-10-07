@@ -95,6 +95,11 @@
         inline-size: 100%;
         line-height: 1.7;
 
+        & :global(pre) {
+            background: transparent;
+            inline-size: fit-content;
+        }
+
         & :global(pre code) {
             background: var(--clr-dark-500);
             border: 1px solid var(--clr-light-350);

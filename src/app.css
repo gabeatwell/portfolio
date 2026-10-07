@@ -107,6 +107,7 @@
         --padding-section: var(--space-xl) var(--space-md);
         --padding-nav: var(--space-sm) var(--space-md);
         --padding-modal: var(--space-lg);
+        --padding-popover: var(--sm) var(--sm) var(--sm) 0.25rem;
 
         /* margin tokens */
         --margin-xxs: var(--space-xxs);

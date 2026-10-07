@@ -60,7 +60,12 @@
         anchor-name: --instruction-popover;
 
         & [data-content] {
-            text-align: start;
+            text-align: left;
+            font-size: clamp(var(--sm), 1.25vw, var(--h4));
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         & button {
@@ -88,7 +93,6 @@
             &:focus {
                 outline: 1px solid var(--clr-light-500);
                 background: transparent;
-                /* padding: 0.1em 0.2em; */
             }
 
             & .pwa-title {
@@ -146,7 +150,7 @@
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 5vw, var(--h3));
             letter-spacing: 2px;
-            padding: var(--padding-button-lg);
+            padding: var(--padding-popover);
             color: var(--clr-light-500);
             width: 80%;
             overflow-y: auto;
