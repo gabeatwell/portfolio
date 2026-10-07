@@ -1,8 +1,8 @@
 import { Object3D, Vector3, Scene } from 'three';
 import { FPSEnemy } from './FPSEnemy';
 import { EnemyArchetype, getRandomArchetype } from './EnemyArchetypes';
-import type { Projectile } from '../../shooter/combat/Projectile';
-import type { World } from '../../shooter/world';
+import type { Projectile } from '../../slaynet/combat/Projectile';
+import type { World } from '../../slaynet/world';
 import type { ModelSize } from '../FPSModelLoader';
 
 /**

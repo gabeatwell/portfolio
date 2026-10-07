@@ -8,7 +8,7 @@ import {
     Color,
 } from 'three';
 import type { ModelSize } from '../FPSModelLoader';
-import type { World } from '../../shooter/world';
+import type { World } from '../../slaynet/world';
 import { EnemyFSM, EnemyState } from './EnemyStateMachine';
 import { AIPerception } from './AIPerception';
 import {
