@@ -12,7 +12,9 @@ describe('AboutHero Component', () => {
     it('renders the About heading with accessible name', () => {
         renderAboutHero();
 
-        const heading = screen.getByRole('heading', { name: 'About' });
+        // the h1 carries aria-label="About Gabe", which wins over its text
+        // content for the accessible name
+        const heading = screen.getByRole('heading', { name: 'About Gabe' });
         expect(heading).not.toBeNull();
         expect(heading.getAttribute('id')).toBe('title');
     });

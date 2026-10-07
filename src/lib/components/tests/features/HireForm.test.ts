@@ -6,6 +6,8 @@ import HireForm from '#lib/components/contact/forms/HireForm.svelte';
 type FieldIssue = { message: string };
 
 const HIRE_FIELDS = [
+    '_gotcha',
+    'ts',
     'name',
     'email',
     'location',
@@ -20,7 +22,10 @@ const HIRE_FIELDS = [
 
 type HireField = (typeof HIRE_FIELDS)[number];
 
-type MockField = { issues: () => FieldIssue[] | undefined };
+type MockField = {
+    as: (type: string, value?: string) => Record<string, string | boolean>;
+    issues: () => FieldIssue[] | undefined;
+};
 type MockForm = {
     method: string;
     action: string;
@@ -31,9 +36,21 @@ type MockForm = {
 
 // Everything the mock needs is built inside vi.hoisted, so `fields` is fully
 // populated before any hoisted vi.mock factory (or the component) reads it.
+// `as()` mirrors superForm's helper: returns the props spread onto the input.
 const { mockSubmitHire } = vi.hoisted(() => {
+    const mkField = (name: string): MockField => ({
+        as: (type: string, value?: string) => ({
+            name,
+            type,
+            ...(value !== undefined ? { value } : {}),
+        }),
+        issues: () => [],
+    });
+
     const fields = {} as Record<HireField, MockField>;
     for (const key of [
+        '_gotcha',
+        'ts',
         'name',
         'email',
         'location',
@@ -45,7 +62,7 @@ const { mockSubmitHire } = vi.hoisted(() => {
         'budget',
         'message',
     ] as const) {
-        fields[key] = { issues: () => [] };
+        fields[key] = mkField(key);
     }
 
     return {

@@ -8,21 +8,37 @@ interface FieldIssue {
 }
 
 // The object the component reads: `{...submitContact}` spread +
-// `submitContact.fields.<name>.issues()`. Declared via vi.hoisted so it
-// exists when vi.mock's factory runs.
-const { mockSubmitContact } = vi.hoisted(() => ({
-    mockSubmitContact: {
-        method: 'POST',
-        action: '?/submitContact',
-        pending: false,
-        error: null,
-        fields: {
-            name: { issues: vi.fn((): FieldIssue[] | undefined => []) },
-            email: { issues: vi.fn((): FieldIssue[] | undefined => []) },
-            message: { issues: vi.fn((): FieldIssue[] | undefined => []) },
+// `submitContact.fields.<name>.as(type, value?)` (spread onto inputs) and
+// `.issues()`. Declared via vi.hoisted so it exists when vi.mock's factory
+// runs. `as()` returns the props the real superForm helper would spread:
+// name/value/required.
+const { mockSubmitContact } = vi.hoisted(() => {
+    const mkField = (name: string, required = false) => ({
+        as: (type: string, value?: string) => ({
+            name,
+            type,
+            ...(value !== undefined ? { value } : {}),
+            ...(required ? { required: true } : {}),
+        }),
+        issues: vi.fn((): FieldIssue[] | undefined => []),
+    });
+
+    return {
+        mockSubmitContact: {
+            method: 'POST',
+            action: '?/submitContact',
+            pending: false,
+            error: null,
+            fields: {
+                _gotcha: mkField('_gotcha'),
+                ts: mkField('ts'),
+                name: mkField('name', true),
+                email: mkField('email', true),
+                message: mkField('message', true),
+            },
         },
-    },
-}));
+    };
+});
 
 // One mock, for the exact specifier the component imports. The real remote
 // module cannot load under Vitest (vite-plugin-sveltekit-remote throws
