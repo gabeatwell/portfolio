@@ -140,6 +140,15 @@
                     margin-bottom: -5rem;
                 }
 
+                & :global(.bio-link) {
+                    font-weight: 900;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+
                 & .indent {
                     text-indent: 2em;
                 }
