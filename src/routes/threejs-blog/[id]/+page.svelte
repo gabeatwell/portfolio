@@ -2,7 +2,7 @@
     import '../blog.global.css';
     import { marked } from 'marked';
     import DOMPurify from 'isomorphic-dompurify';
-    import Avatar2 from '#lib/components/blog/ProfilePic.svelte';
+    import HeadshotPic from '#lib/components/blog/ProfilePic.svelte';
     import SEO from '#lib/data/SEO.svelte';
     import Isle from '#lib/data/island-architecture/Isle.svelte';
     import type { Post } from '#lib/data/blog/parseMD.js';
@@ -49,7 +49,9 @@
 {#if post}
     <section class="blog-post">
         <div class="author-row">
-            <Avatar2 />
+            <div class="headshot">
+                <HeadshotPic />
+            </div>
 
             <div class="post-description">
                 <p class="name">gabe atwell</p>
@@ -161,23 +163,31 @@
         justify-content: center;
         align-items: center;
         gap: 0.75em;
-        margin-bottom: 3em;
+        margin-bottom: 5em;
+
+        @media (width <= 768px) {
+        }
+
+        & .headshot {
+            transform: translateX(-10em);
+
+            @media (width <= 768px) {
+                transform: translateX(-3em);
+            }
+        }
 
         & .post-description {
             display: flex;
             gap: 1em;
-            margin-top: 5em;
-            margin-left: 1em;
 
-            @media (width <= 990px) {
-                margin-top: 7em;
-            }
+            position: absolute;
+            position-anchor: --headshot;
+            top: calc(anchor(center) + 2.75em);
+            left: calc(anchor(left) + 7em);
 
             @media (width <= 768px) {
+                left: calc(anchor(left) + 1.5em);
                 flex-direction: column;
-                align-items: center;
-                gap: 0;
-                margin-top: 2em;
             }
 
             & .name {
@@ -194,11 +204,13 @@
                 color: var(--clr-light-400);
                 font-family: var(--mono);
                 font-size: clamp(var(--xs), 1.25vw, var(--h4));
+                font-weight: 500;
                 opacity: 0.7;
                 white-space: nowrap;
 
                 @media (width <= 768px) {
-                    margin-top: -1.5em;
+                    margin-top: -2.5em;
+                    font-weight: 700;
                 }
             }
         }

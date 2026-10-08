@@ -34,6 +34,8 @@
         inline-size: fit-content;
         block-size: fit-content;
 
+        anchor-name: --headshot;
+
         & .avatar {
             --avatar-size: 3.5rem;
 
@@ -54,10 +56,6 @@
                 block-size: 100%;
                 object-fit: contain;
                 display: block;
-
-                @media (width <= 768px) {
-                    margin-top: -2.5em;
-                }
             }
         }
     }
