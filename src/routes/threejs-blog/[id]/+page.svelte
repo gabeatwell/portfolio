@@ -92,12 +92,14 @@
     }
 
     .post-content {
-        inline-size: 100%;
         line-height: 1.7;
 
         & :global(pre) {
             background: transparent;
+            max-inline-size: 100%;
             inline-size: fit-content;
+            overflow-x: auto;
+            overscroll-behavior-x: contain;
         }
 
         & :global(pre code) {
@@ -105,7 +107,7 @@
             border: 1px solid var(--clr-light-350);
             color: var(--clr-light-500);
             font-family: var(--mono);
-            font-size: 0.8rem;
+            font-size: clamp(var(--sm), 1vw, 1.1rem);
             inline-size: fit-content;
         }
 
@@ -113,8 +115,6 @@
             background: var(--clr-dark-500);
             color: var(--clr-light-500);
             font-family: var(--mono);
-            font-size: 0.8rem;
-            inline-size: fit-content;
         }
 
         & :global(h3) {

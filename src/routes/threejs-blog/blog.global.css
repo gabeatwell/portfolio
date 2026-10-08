@@ -4,11 +4,6 @@ h2 {
     font-weight: 800;
 }
 
-pre,
-code {
-    --code-background-color: var(--clr-dark-500);
-}
-
 .geometry-grid {
     column-count: 3;
     column-gap: 1.5em;
@@ -17,6 +12,10 @@ code {
     @media (max-width: 768px) {
         column-count: 1;
     }
+}
+
+code {
+    font-size: var(--h6);
 }
 
 a {
