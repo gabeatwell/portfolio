@@ -55,12 +55,12 @@
         padding: calc(var(--space-md) + 0.8rem);
         position: relative;
         box-shadow: 0 0 12px var(--clr-light-500);
-        margin-top: -6rem;
+        margin-top: -4.5rem;
         margin-bottom: 2rem;
         max-inline-size: 50em;
         width: 95%;
         margin-inline: auto;
-        padding-bottom: 5em;
+        padding-bottom: 4em;
         opacity: 0;
         animation: fadeIn 0.8s ease-out forwards;
         animation-delay: var(--stagger-delay, 0s);
@@ -71,9 +71,9 @@
             transform 0.2s,
             box-shadow 0.2s;
 
-        @media (width <= 500px) {
+        @media (width <= 768px) {
             scale: 0.95;
-            margin-top: -2rem;
+            margin-top: -1rem;
         }
 
         &:hover {
@@ -100,6 +100,10 @@
                 font-weight: 400;
                 opacity: 0.5;
                 letter-spacing: -1px;
+
+                @media (width <= 768px) {
+                    text-align: center;
+                }
             }
         }
 
@@ -137,8 +141,11 @@
             align-items: center;
             padding: calc(var(--space-md) + 0.7rem);
 
-            @media (width <= 500px) {
-                padding-bottom: 0.15rem;
+            @media (width <= 768px) {
+                padding-bottom: 0.75rem;
+
+                display: flex;
+                flex-direction: column;
             }
 
             & .avatar {
