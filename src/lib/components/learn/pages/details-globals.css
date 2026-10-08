@@ -12,7 +12,7 @@
     }
 }
 
-/* Styles for elements inside .text (injected HTML) */
+/* (injected HTML) */
 .text a {
     color: var(--clr-blue-350);
     font-size: clamp(var(--h6), 1vw, var(--h5));
@@ -20,9 +20,10 @@
 }
 
 .text code {
+    display: inline;
     background-color: var(--clr-light-500);
     color: var(--clr-dark-500);
-    padding: 0.125rem 0.25rem;
+    padding: 0.1rem;
     border-radius: 0.25rem;
     font-family: var(--mono);
     font-size: clamp(var(--sm), 1vw, var(--h4));
@@ -43,6 +44,7 @@
     margin-bottom: 0.2rem;
     color: var(--clr-light-500);
     font-weight: 500;
+    padding-top: 1rem;
 }
 
 .text,
