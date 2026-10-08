@@ -27,6 +27,7 @@
         gap: 0.5em;
         justify-content: center;
         user-select: none;
+        padding-top: 1em;
 
         &:focus,
         &:focus-visible {

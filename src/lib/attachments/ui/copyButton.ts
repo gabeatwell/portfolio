@@ -9,6 +9,7 @@ export const copyButton: Attachment<HTMLElement> = (root) => {
 
         const wrapper = document.createElement('div');
         wrapper.style.position = 'relative';
+        wrapper.className = 'code-block-wrapper';
 
         const parent = pre.parentNode;
         parent?.insertBefore(wrapper, pre);

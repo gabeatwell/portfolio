@@ -1,8 +1,7 @@
 <style>
     :global(.copy-button) {
         position: absolute;
-        position: absolute;
-        top: 0.5em;
+        top: -0.25em;
         right: 0.5em;
 
         inline-size: fit-content;
@@ -19,7 +18,7 @@
         transition: font-weight 0.2s ease-out;
 
         @media (width <= 768px) {
-            right: calc(anchor(right) - 0.2em);
+            top: -0.5em;
         }
 
         &:hover {
