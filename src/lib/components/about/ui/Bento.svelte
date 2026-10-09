@@ -29,12 +29,9 @@
     async function toggle(slug: Slug) {
         const isClosing = opened === slug;
 
-        // 1. Put the name on the element
         active = slug;
-        // 2. Wait until the style is actually in the DOM
         await tick();
 
-        // 3. Now start the transition (old snapshot will see the name)
         await runTransition(() => {
             opened = isClosing ? null : slug;
         });
@@ -337,6 +334,7 @@
         & article[data-bento-article] {
             line-height: 1.4;
             margin: 0;
+
             padding-inline: var(--space);
             background-color: transparent;
             box-shadow: none;

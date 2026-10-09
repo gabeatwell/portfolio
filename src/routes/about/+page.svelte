@@ -81,9 +81,11 @@
                 <Skills />
             {/if}
 
-            <Grid leftTitle="Frontend" rightTitle="Design Based" />
+            <div class="ui-components">
+                <Grid leftTitle="Frontend" rightTitle="Design Based" />
 
-            <Bento />
+                <Bento />
+            </div>
         </article>
     </section>
 </div>
@@ -235,6 +237,16 @@
                             padding-top: 2rem;
                         }
                     }
+                }
+            }
+
+            & .ui-components {
+                display: flex;
+                flex-direction: column;
+                gap: 2em;
+
+                @media (width <= 768px) {
+                    gap: 0;
                 }
             }
         }
