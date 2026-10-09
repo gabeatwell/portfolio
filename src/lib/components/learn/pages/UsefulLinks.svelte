@@ -128,6 +128,7 @@
                 margin-top: 2rem;
                 line-height: 1.5;
                 letter-spacing: 0px;
+                opacity: 0.5;
 
                 & span {
                     font-style: normal;

@@ -490,6 +490,8 @@
             --clr-fail-500-dark: oklch(0.2931 0.151 24.57);
             --clr-warning-500-light: oklch(0.7126 0.1451 94.89);
             --clr-warning-500-dark: oklch(0.5622 0.0838 88.85);
+            --clr-warning-400-light: oklch(0.7126 0.1451 94.89);
+            --clr-warning-400-dark: oklch(74.832% 0.12571 87.57);
 
             /* theme aware */
             --clr-contribution-bg: light-dark(var(--white), var(--blackest));
@@ -572,6 +574,10 @@
             --clr-warning-500: light-dark(
                 var(--clr-warning-500-dark),
                 var(--clr-warning-500-light)
+            );
+            --clr-warning-450: light-dark(
+                var(--clr-warning-400-dark),
+                oklch(0.7126 0.1451 94.89)
             );
             --clr-warning-400: light-dark(
                 var(--clr-warning-500-dark),
