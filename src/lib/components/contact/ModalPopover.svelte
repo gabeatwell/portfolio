@@ -34,7 +34,7 @@
     </svg>
 </button>
 
-<div id="modal" class="contact-modal" aria-labelledby="modal-title" popover>
+<div id="modal" class="general-modal" aria-labelledby="modal-title" popover>
     <article class="modal-inner">
         <header>
             <h4 class="modal-title" id="modal-title">
@@ -98,9 +98,9 @@
             transform 1.5s ease-out;
     }
 
-    .contact-modal {
+    .general-modal {
         inline-size: 100vw;
-        block-size: 70vh;
+        block-size: 100%;
         position: fixed;
         inset: 0;
         display: flex;
@@ -132,17 +132,14 @@
 
         @media (width >= 320px) {
             inline-size: 93%;
-            block-size: 85%;
             margin-inline: auto;
         }
 
         @media (width <= 768px) {
             max-inline-size: 95vw;
-            display: block;
             inline-size: 100%;
             padding: 1rem;
             transition: var(--modal-transition-mobile);
-            margin-top: 2em;
         }
 
         & .modal-inner {
@@ -150,10 +147,10 @@
             max-inline-size: 50vw;
             block-size: 76vh;
             border: 2px solid var(--clr-gray-700);
-            border-radius: 1rem;
+            border-radius: 0.1rem;
             background: var(--clr-dark-500);
-            margin-top: 10em;
             overflow: clip;
+            padding: 2em 1em;
 
             anchor-name: --inner-anchor;
 
@@ -164,7 +161,6 @@
             @media (width <= 768px) {
                 max-inline-size: 90vh;
                 min-block-size: 40vh;
-                padding: 2em 1em;
             }
 
             @media (width <= 500px) {
@@ -183,7 +179,7 @@
                     font-weight: 800;
                     line-height: 1;
                     color: var(--clr-blue-500);
-                    margin: -0.5rem 0 -2rem 0;
+                    margin: -0.5rem 0 0 0;
                     letter-spacing: -1px;
                     text-wrap: pretty;
 
@@ -192,7 +188,7 @@
                     }
 
                     @media (width >= 1100px) {
-                        padding: 0.5rem;
+                        padding: 1rem 1rem 0 1rem;
                     }
 
                     @media (width <= 768px) {
