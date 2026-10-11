@@ -7,7 +7,7 @@
     import GabeMorph from '#lib/components/learn/advanced-page/GabeMorph.svelte';
     import BackToTop from '#lib/components/learn/advanced-page/BackToTop.svelte';
     import ViewTransitionImage from '#lib/components/layout/view-transitions/ViewTransitionImage.svelte';
-    import Popover from '#lib/components/layout/Popover.svelte';
+    import Popover from '#lib/components/layout/css/Popover.svelte';
     import Preloader from '#lib/components/learn/advanced-page/Preloader.svelte';
 
     import '#lib/components/learn/CopyButton.svelte';

@@ -2,7 +2,7 @@
     import HireForm from '#lib/components/contact/forms/HireForm.svelte';
     import DoYouNeed from '#lib/components/contact/DoYouNeed.svelte';
     import SEO from '#lib/data/SEO.svelte';
-    import Popover from '#lib/components/layout/Popover.svelte';
+    import Popover from '#lib/components/layout/css/Popover.svelte';
 </script>
 
 <SEO

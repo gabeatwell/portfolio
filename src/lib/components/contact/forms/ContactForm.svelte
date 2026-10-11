@@ -2,7 +2,7 @@
     import { submitContact } from '#routes/contact.remote';
     import SubmitButton from '#lib/components/layout/buttons/SubmitButton.svelte';
     import A11yAnnouncer from '#lib/components/utils/A11yAnnouncer.svelte';
-    import Popover from '#lib/components/layout/Popover.svelte';
+    import Popover from '#lib/components/layout/css/Popover.svelte';
     import ModalPopover from '#lib/components/contact/ModalPopover.svelte';
     import MotifPhoto from '../MotifPhoto.svelte';
 
