@@ -64,6 +64,7 @@
                 3px 0 0 var(--clr-light-500),
                 0 -3px 0 var(--clr-light-500),
                 0 3px 0 var(--clr-light-500);
+            margin-bottom: 2rem;
 
             @media (max-width: 768px) {
                 font-weight: 600;

@@ -1,19 +1,40 @@
 <script lang="ts">
+    type Segment = { text: string; link?: string };
+
     interface Props {
-        mainTitle: string;
+        mainTitle?: string;
         mainSubTitle?: string;
         subtitle?: string[];
-        text?: string[];
+        text?: (string | Segment[])[];
+        indent?: boolean;
     }
 
-    let { mainTitle, mainSubTitle, subtitle = [], text = [] }: Props = $props();
+    let {
+        mainTitle,
+        mainSubTitle,
+        subtitle = [],
+        text = [],
+        indent = false,
+    }: Props = $props();
+
+    const paragraphs = $derived(
+        text.map((p) => (typeof p === 'string' ? [{ text: p }] : p)),
+    );
+    const words = (s: string) => s.trim().split(/\s+/).filter(Boolean);
 </script>
 
 <div class="titles">
-    <header class="intro">
-        <h2>{mainTitle}</h2>
-        <p>{mainSubTitle}</p>
-    </header>
+    {#if mainTitle || mainSubTitle}
+        <header class="intro">
+            {#if mainTitle}
+                <h2>{mainTitle}</h2>
+            {/if}
+
+            {#if mainSubTitle}
+                <p>{mainSubTitle}</p>
+            {/if}
+        </header>
+    {/if}
 
     <p class="fallback-note">
         Your browser doesn't yet support CSS scroll-driven animations (<code
@@ -22,12 +43,28 @@
         effect. Try the current version of Chrome, Edge or Safari.
     </p>
 
-    {#each text as passage, i (i)}
+    {#each paragraphs as passage, i (i)}
         <section class="passage">
             <p class="desc">{subtitle[i] ?? ''}</p>
-            <p class="split">
-                {#each passage.trim().split(/\s+/) as word}
-                    <span class="word">{word}</span>{' '}
+
+            <p class="split" class:indent>
+                {#each passage as seg, si (si)}
+                    {#if seg.link}
+                        <a
+                            href={seg.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="bio-link"
+                        >
+                            {#each words(seg.text) as word, wi (wi)}
+                                <span class="word">{word}</span>
+                            {/each}
+                        </a>{' '}
+                    {:else}
+                        {#each words(seg.text) as word, wi (wi)}
+                            <span class="word">{word}</span>{' '}
+                        {/each}
+                    {/if}
                 {/each}
             </p>
         </section>
@@ -42,19 +79,9 @@
         --text: var(--clr-light-500);
     }
 
-    @keyframes fill-progress {
-        from {
-            transform: scaleY(0);
-        }
-        to {
-            transform: scaleY(1);
-        }
-    }
-
     .titles {
         margin-inline: auto;
-        max-inline-size: 95vw;
-        padding: 5em clamp(1.5rem, 7vw, 12rem);
+        max-inline-size: 100vw;
         overflow-x: clip;
     }
 
@@ -132,62 +159,48 @@
     }
 
     section.passage {
-        margin-bottom: 16vh;
+        margin-bottom: 3vh;
         user-select: none;
+        padding-inline: 1rem;
 
-        & .desc {
+        & p.desc {
             --muted: var(--clr-blue-500);
-            border-top: 3px solid var(--clr-light-300);
             color: var(--muted);
             font-family: var(--serif);
             font-size: clamp(var(--h5), 3.2vw, var(--h2));
             font-weight: 800;
             letter-spacing: -1px;
-            margin: 0 0 1.4rem;
-            padding-top: 0.8rem;
+            margin: 0;
+            padding: 0;
             text-transform: uppercase;
         }
 
-        & p {
-            font-family: var(--bronova);
+        & p.split {
+            max-inline-size: 100%;
+            margin-inline: auto;
             font-size: clamp(var(--h6), 1.5vw, var(--h4));
-            font-weight: 200;
-            line-height: 1.35;
-            margin: 0 0 1.6em;
+            font-weight: 500;
+            line-height: 1.5;
+            z-index: 7;
+            color: var(--clr-light-500);
+            text-align: start;
+            margin-bottom: 0;
 
-            max-inline-size: min(60ch, 100%);
-            margin-inline: 0;
-        }
-    }
+            transform: translateY(30px) skewX(-3deg);
+            opacity: 0;
+            animation: fadeInUp linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 50%;
 
-    .word {
-        display: inline-block;
+            @media (width >= 990px) {
+                max-inline-size: 100%;
+                line-height: 1.75;
+            }
 
-        --entry: 0%;
-        --cover: 32%;
-
-        animation: focus-word;
-        animation-duration: 1ms;
-        animation-timing-function: linear;
-        animation-fill-mode: both;
-        animation-timeline: view();
-        animation-range: entry var(--entry) cover var(--cover);
-
-        &:nth-child(5n + 2) {
-            --entry: 6%;
-            --cover: 40%;
-        }
-        &:nth-child(5n + 3) {
-            --entry: 12%;
-            --cover: 48%;
-        }
-        &:nth-child(5n + 4) {
-            --entry: 18%;
-            --cover: 36%;
-        }
-        &:nth-child(5n + 5) {
-            --entry: 29%;
-            --cover: 44%;
+            &.indent {
+                text-indent: 2em;
+                max-inline-size: calc(100% - 2em);
+            }
         }
     }
 
@@ -211,6 +224,13 @@
                 'WONK' 0;
             opacity: 1;
             transform: skewX(0deg) translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0) skewX(0);
         }
     }
 

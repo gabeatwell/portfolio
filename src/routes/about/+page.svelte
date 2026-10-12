@@ -10,6 +10,7 @@
     import PWAVideo from '#lib/components/about/pwa-popovers/PWAVideo.svelte';
 
     import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
+    import Biography from '#lib/components/about/Biography.svelte';
 
     const breakpoints = getBreakpoints();
 </script>
@@ -32,10 +33,7 @@
                 aria-label="bio"
                 // {@attach fadeInBio(breakpoints.isMobile)}
             >
-                {#each bio as paragraph}
-                    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-                    <p class="bio-paragraph indent">{@html paragraph.text}</p>
-                {/each}
+                <Biography text={bio.map((p) => p.segments)} indent />
 
                 <article
                     class="three-article"
@@ -105,7 +103,6 @@
             margin-inline: auto;
             text-align: center;
             inline-size: var(--100);
-            /* color: var(--clr-light-500); */
             margin-top: 0;
 
             @media (width >= 990px) {
@@ -142,6 +139,9 @@
                     margin-bottom: -5rem;
                 }
 
+                & ::global(.titles) {
+                    padding-inline: 0;
+                }
                 & :global(.bio-link) {
                     font-weight: 900;
                     text-decoration: none;
@@ -193,7 +193,7 @@
                     text-align: start;
                     margin-bottom: 0;
 
-                    transform: translateY(30px);
+                    transform: translateY(30px) skewX(-3deg);
                     animation: fadeInUp linear both;
                     animation-timeline: view();
                     animation-range: entry 0% cover 50%;
@@ -201,6 +201,10 @@
                     @media (width >= 990px) {
                         max-inline-size: 98%;
                         line-height: 1.75;
+                    }
+
+                    &:nth-child(3) {
+                        padding-inline: 1.5rem;
                     }
 
                     & span {
@@ -269,7 +273,7 @@
     @keyframes fadeInUp {
         to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) skewX(0);
         }
     }
 </style>

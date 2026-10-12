@@ -1,10 +1,25 @@
 [
     {
         "type": "paragraph",
-        "text": "My name is Gabriel Atwell and I am a frontend web developer based out of Las Vegas, Nevada. I started out with the basics: HTML, CSS, and JavaScript. I then moved on to more advanced topics such as Svelte/Sveltekit, Node.js, GSAP, and a little bit of three.js but I have begun to teach myself the backend of web development on my spare time with backend languages like <a href=\"https://go.dev\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"bio-link\">Go</a> to become more of a fullstack developer."
+        "segments": [
+            {
+                "text": "My name is Gabriel Atwell and I am a frontend web developer based out of Las Vegas, Nevada. I started out with the basics: HTML, CSS, and JavaScript. I then moved on to more advanced topics such as Svelte/Sveltekit, Node.js, GSAP, and a little bit of three.js but I have begun to teach myself the backend of web development on my spare time with backend languages like "
+            },
+            {
+                "text": "Go",
+                "link": "https://go.dev"
+            },
+            {
+                "text": " to become more of a fullstack developer."
+            }
+        ]
     },
     {
         "type": "paragraph",
-        "text": "I have a passion for creating websites that are clean, crisp, and completely functional. I enjoy seeing a physical change when I edit or create code. I also enjoy creating animations for the web! I mainly enjoy animating the web because I believe that it makes the website look more professional and more appealing to the eye. In the world of web development, creating engaging and visually appealing animations is essential to grab the attention of users. I'm a natural problem-solver who thrives on turning complex problems into simple, beautiful solutions. I believe in the power of collaboration and continuous learning."
+        "segments": [
+            {
+                "text": "I have a passion for creating websites that are clean, crisp, and completely functional. I enjoy seeing a physical change when I edit or create code. I also enjoy creating animations for the web! I mainly enjoy animating the web because I believe that it makes the website look more professional and more appealing to the eye. In the world of web development, creating engaging and visually appealing animations is essential to grab the attention of users. I'm a natural problem-solver who thrives on turning complex problems into simple, beautiful solutions. I believe in the power of collaboration and continuous learning."
+            }
+        ]
     }
 ]
