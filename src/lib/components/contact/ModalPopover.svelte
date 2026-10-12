@@ -4,6 +4,7 @@
     import '@fortawesome/fontawesome-free/css/all.css';
 
     let statusMessage = $state<string>('');
+    let inner: HTMLElement;
 </script>
 
 <A11yAnnouncer message={statusMessage} />
@@ -98,6 +99,10 @@
             transform 1.5s ease-out;
     }
 
+    /* :global(body:has(#modal:popover-open)) {
+        overflow: clip;
+    } */
+
     .general-modal {
         inline-size: 100vw;
         block-size: 100%;
@@ -149,14 +154,12 @@
             border: 2px solid var(--clr-gray-700);
             border-radius: 0.1rem;
             background: var(--clr-dark-500);
-            overflow: clip;
+            overflow-x: clip;
+            overflow-y: auto;
+            /* overscroll-behavior: contain; */
             padding: 2em 1em;
 
             anchor-name: --inner-anchor;
-
-            @media (width <= 1500px) {
-                overflow-y: auto;
-            }
 
             @media (width <= 768px) {
                 max-inline-size: 90vh;
