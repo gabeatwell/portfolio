@@ -105,7 +105,7 @@
         }
 
         & #title {
-            margin-top: -1.2em;
+            margin: -1.2em 0 0.5em 0;
             text-shadow: 0 0 5px var(--smoke);
             font-family: var(--ultra);
             font-size: clamp(var(--h2), 8vw, var(--xxxl));
