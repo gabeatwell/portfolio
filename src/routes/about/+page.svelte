@@ -10,7 +10,7 @@
     import PWAVideo from '#lib/components/about/pwa-popovers/PWAVideo.svelte';
 
     import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
-    import Biography from '#lib/components/about/Biography.svelte';
+    import Biography from '#lib/components/about/ui/Biography.svelte';
 
     const breakpoints = getBreakpoints();
 </script>
