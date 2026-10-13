@@ -203,6 +203,12 @@
                         line-height: 1.75;
                     }
 
+                    @media (prefers-reduced-motion: reduce) {
+                        animation: none;
+                        opacity: 1;
+                        transform: none;
+                    }
+
                     &:nth-child(3) {
                         padding-inline: 1.5rem;
 

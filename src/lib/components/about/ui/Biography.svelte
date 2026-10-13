@@ -23,7 +23,7 @@
     const words = (s: string) => s.trim().split(/\s+/).filter(Boolean);
 </script>
 
-<div class="titles">
+<div class="biography-wrapper">
     {#if mainTitle || mainSubTitle}
         <header class="intro">
             {#if mainTitle}
@@ -79,7 +79,7 @@
         --text: var(--clr-light-500);
     }
 
-    .titles {
+    .biography-wrapper {
         margin-inline: auto;
         max-inline-size: 95vw;
         overflow-x: clip;
@@ -210,15 +210,11 @@
                 margin-inline: 0;
             }
 
-            /* &.indent {
-                text-indent: 2em;
-                max-inline-size: calc(100% - 2em);
-                max-inline-size: 100%;
-
-                @media (width <= 768px) {
-                    text-indent: 0.5rem;
-                }
-            } */
+            @media (prefers-reduced-motion: reduce) {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
         }
     }
 
@@ -249,20 +245,6 @@
         to {
             opacity: 1;
             transform: translateY(0) skewX(0);
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .word {
-            animation: none;
-            color: var(--text);
-            font-variation-settings:
-                'wght' 500,
-                'opsz' 30,
-                'SOFT' 20,
-                'WONK' 0;
-            opacity: 1;
-            transform: none;
         }
     }
 </style>
