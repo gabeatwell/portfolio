@@ -152,7 +152,7 @@
                 }
 
                 & .indent {
-                    text-indent: 2em;
+                    text-indent: 1rem;
                 }
 
                 & .three-article {
@@ -205,6 +205,12 @@
 
                     &:nth-child(3) {
                         padding-inline: 1.5rem;
+
+                        @media (width <= 768px) {
+                            padding-inline: 0;
+                            min-inline-size: 95vw;
+                            margin-top: -2em;
+                        }
                     }
 
                     & span {

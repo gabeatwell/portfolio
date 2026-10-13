@@ -47,7 +47,7 @@
         <section class="passage">
             <p class="desc">{subtitle[i] ?? ''}</p>
 
-            <p class="split" class:indent>
+            <p class="split">
                 {#each passage as seg, si (si)}
                     {#if seg.link}
                         <a
@@ -81,7 +81,7 @@
 
     .titles {
         margin-inline: auto;
-        max-inline-size: 100vw;
+        max-inline-size: 95vw;
         overflow-x: clip;
     }
 
@@ -163,6 +163,14 @@
         user-select: none;
         padding-inline: 1rem;
 
+        @media (width <= 768px) {
+            padding-inline: 0;
+        }
+
+        &:first-of-type p.split {
+            text-indent: 1rem;
+        }
+
         & p.desc {
             --muted: var(--clr-blue-500);
             color: var(--muted);
@@ -197,10 +205,20 @@
                 line-height: 1.75;
             }
 
-            &.indent {
+            @media (width <= 768px) {
+                min-inline-size: 96vw;
+                margin-inline: 0;
+            }
+
+            /* &.indent {
                 text-indent: 2em;
                 max-inline-size: calc(100% - 2em);
-            }
+                max-inline-size: 100%;
+
+                @media (width <= 768px) {
+                    text-indent: 0.5rem;
+                }
+            } */
         }
     }
 
