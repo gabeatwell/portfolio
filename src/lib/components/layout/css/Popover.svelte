@@ -37,7 +37,7 @@
 <style>
     .popover-button {
         align-content: center;
-        margin: 0;
+        margin: 1rem 0 0 0;
 
         &:focus-visible {
             outline: 1px solid var(--clr-light-500);

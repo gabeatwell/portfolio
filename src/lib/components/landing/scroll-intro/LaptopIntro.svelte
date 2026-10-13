@@ -12,7 +12,9 @@
     const intro: Attachment<HTMLElement> = (node) =>
         laptopScene(node, onComplete, image);
 
-    onMount(() => {
+    $effect(() => {
+        if (reduce()) return;
+
         document.documentElement.classList.add('dark-intro-page');
         return () =>
             document.documentElement.classList.remove('dark-intro-page');

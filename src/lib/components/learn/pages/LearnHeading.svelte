@@ -1,5 +1,6 @@
 <script lang="ts">
     import { animateLearnHeading } from '#lib/attachments/gsap/learnHeading.js';
+    import { prefersReducedMotion } from '#lib/data/reduced-motion.svelte.ts';
 
     interface Props {
         title1: string;
@@ -13,19 +14,22 @@
         $props();
 
     let transitionName = $derived(viewTransitionName || '');
+    const reduce = prefersReducedMotion();
 </script>
 
-<section class="animated-title" {@attach animateLearnHeading}>
-    <h1 class="left-word">{title1}</h1>
-    <span class="middle-word">{span}</span>
-    <h2
-        class="right-word"
-        style:view-transition-name={transitionName}
-        style:view-transition-class="learn-heading"
-    >
-        {title2}
-    </h2>
-</section>
+{#if !reduce()}
+    <section class="animated-title" {@attach animateLearnHeading}>
+        <h1 class="left-word">{title1}</h1>
+        <span class="middle-word">{span}</span>
+        <h2
+            class="right-word"
+            style:view-transition-name={transitionName}
+            style:view-transition-class="learn-heading"
+        >
+            {title2}
+        </h2>
+    </section>
+{/if}
 
 <style>
     .animated-title {
