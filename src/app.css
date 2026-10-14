@@ -535,7 +535,7 @@
 
             --clr-purple-500: light-dark(var(--light-purple), var(--purple));
             --clr-blue-300: light-dark(var(--sky), var(--sky));
-            --clr-blue-350: light-dark(var(--blue), var(--sky));
+            --clr-blue-350: light-dark(var(--dark-blue), var(--sky));
             --clr-blue-400: light-dark(var(--dark-blue), var(--blue));
             --clr-blue-500: light-dark(var(--dark-blue), var(--sky));
             --clr-light-300: light-dark(var(--blackest), var(--white-gray));
@@ -587,6 +587,8 @@
                 oklch(0.9126 0.1451 94.89),
                 oklch(0.7126 0.1451 94.89)
             );
+
+            --details-summary: light-dark(var(--blacker), var(--blue));
         }
 
         /* no js fallback */

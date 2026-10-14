@@ -31,7 +31,7 @@
                 aria-expanded={detailsAccordion.openStates[index]}
                 aria-controls="content-{index}"
             >
-                <span class="margin"><b>{item.summary}</b></span>
+                <span class="summary-text"><b>{item.summary}</b></span>
 
                 <span
                     class="arrow"
@@ -69,6 +69,15 @@
         interpolate-size: allow-keywords;
     }
 
+    :global(.details-link) {
+        text-decoration: none;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .animate-in {
         animation: fadeInUp 1s ease forwards;
         animation-delay: var(--anim-delay, 0s);
@@ -86,9 +95,7 @@
         z-index: 10;
 
         & .summary-custom {
-            color: var(--clr-blue-350);
             cursor: pointer;
-            font-weight: 600;
             background: var(--clr-dark-500);
             inline-size: 100%;
             text-align: start;
@@ -101,6 +108,12 @@
             &:focus-visible {
                 outline: none;
                 box-shadow: none;
+            }
+
+            & .summary-text {
+                color: var(--details-summary);
+                font-family: var(--bronova-bold);
+                font-size: clamp(var(--sm), 1.75vw, var(--h2));
             }
 
             & .arrow {
@@ -130,6 +143,9 @@
         }
 
         & .text {
+            font-family: var(--bronova);
+            font-size: clamp(var(--sm), 1.2vw, var(--h4));
+            font-weight: 500;
             line-height: 1.6;
             opacity: 0;
             block-size: 0;
