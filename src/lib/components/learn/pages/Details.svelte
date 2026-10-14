@@ -83,6 +83,7 @@
         overflow: clip;
         padding: calc(var(--space-md) - 0.2rem);
         inline-size: 100ch;
+        z-index: 10;
 
         & .summary-custom {
             color: var(--clr-blue-350);

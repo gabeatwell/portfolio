@@ -33,6 +33,7 @@
 
 <style>
     .grid-card {
+        --radius: 0.15rem;
         display: inline-block;
         margin: 0;
         padding: var(--padding-button-lg);
@@ -98,11 +99,11 @@
         }
 
         &.left {
-            box-shadow: -7px 7px 0 var(--clr-light-500);
+            box-shadow: -4px 4px 0 var(--clr-light-500);
         }
 
         &.right {
-            box-shadow: 7px 7px 0 var(--clr-light-500);
+            box-shadow: 4px 4px 0 var(--clr-light-500);
         }
     }
 

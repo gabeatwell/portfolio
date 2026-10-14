@@ -373,6 +373,7 @@
                 }
 
                 & .bento-item {
+                    --radius: 0.15rem;
                     inline-size: 100%;
                     background-color: var(--surface-2);
                     background-image: var(--gradient);
@@ -393,10 +394,10 @@
                         transition: none;
                     }
                     &[data-position-left] {
-                        box-shadow: 7px 7px 0 var(--clr-light-500);
+                        box-shadow: 4px 4px 0 var(--clr-light-500);
                     }
                     &[data-position-right] {
-                        box-shadow: -7px 7px 0 var(--clr-light-500);
+                        box-shadow: -4px 4px 0 var(--clr-light-500);
                     }
 
                     &:not(:hover) {

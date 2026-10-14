@@ -197,6 +197,9 @@
                 margin-bottom: -4em;
             }
         }
+        #image-title {
+            z-index: 5;
+        }
 
         #title {
             font-kerning: none;

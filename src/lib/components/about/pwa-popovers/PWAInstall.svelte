@@ -163,8 +163,9 @@
     }
 
     [popover] {
+        --radius: 0.2rem;
         border: 3px solid var(--clr-gray-700);
-        border-radius: 0.5rem;
+        border-radius: var(--radius);
         box-shadow: var(--blackest) 0px 20px 25px -5px;
         padding: var(--padding-button-lg);
         transform-origin: top center;
