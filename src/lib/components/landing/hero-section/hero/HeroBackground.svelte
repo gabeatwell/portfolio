@@ -173,6 +173,19 @@
 
     @media (prefers-reduced-motion: reduce) {
         .background-wrapper {
+            background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/tunnel.webp');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+
+            position: absolute;
+            inset: 0;
+            inline-size: 100%;
+            block-size: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.8;
+
             & .gradient-bg {
                 animation: none;
             }
