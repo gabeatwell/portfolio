@@ -311,6 +311,7 @@
         }
 
         & .legend {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.45);
             color: var(--clr-light-500-fade);
             font-family: var(--bronova);
             font-size: clamp(var(--xs), 0.8vw, var(--h5));
@@ -423,6 +424,12 @@
                     padding: calc(var(--space-md) - 0.7rem);
                 }
             }
+        }
+
+        & .form-grid,
+        & .form-group {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.65);
+            color: var(--clr-light-500-fade);
         }
     }
 
