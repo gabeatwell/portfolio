@@ -396,7 +396,7 @@
 
         & .total-contributions {
             font-size: clamp(var(--xs), 1.25vw, var(--sm));
-            color: var(--clr-gray-700);
+            color: var(--clr-gray-500-fade);
             opacity: 0.7;
             margin: 0;
             font-weight: 400;
@@ -557,7 +557,7 @@
                         }
 
                         &.none {
-                            fill: var(--clr-gray-700);
+                            fill: var(--clr-gray-500-fade);
                         }
 
                         &.low {
@@ -609,7 +609,7 @@
                         border: none;
 
                         &.none {
-                            background-color: var(--clr-gray-700, #ebedf0);
+                            background-color: var(--clr-gray-500-fade, #ebedf0);
                         }
 
                         &.low {

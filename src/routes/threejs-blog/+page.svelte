@@ -82,7 +82,7 @@
         & .title {
             font-family: var(--bronova-bold);
             font-weight: 800;
-            color: var(--clr-gray-700);
+            color: var(--clr-gray-500-fade);
         }
 
         & .subtitle {
@@ -110,7 +110,7 @@
         font-size: clamp(var(--h3), 5vw, var(--lg));
         font-weight: 700;
         letter-spacing: -0.0075em;
-        color: var(--clr-gray-700);
+        color: var(--clr-gray-500-fade);
         margin-top: 1.75em;
         padding: 0;
 

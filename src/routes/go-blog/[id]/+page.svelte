@@ -108,7 +108,7 @@
         }
 
         & :global(h3) {
-            color: var(--clr-gray-700);
+            color: var(--clr-gray-500-fade);
         }
     }
 

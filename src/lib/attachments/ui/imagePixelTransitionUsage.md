@@ -29,7 +29,10 @@
 <div
     class="flat"
     {@attach pixelTransition({
-        scroll: { color: 'var(--clr-gray-700)', stroke: 'var(--clr-dark-500)' },
+        scroll: {
+            color: 'var(--clr-gray-500-fade)',
+            stroke: 'var(--clr-dark-500)',
+        },
     })}
 ></div>
 

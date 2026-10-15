@@ -103,6 +103,7 @@
             padding: var(--padding-modal);
             color: var(--clr-light-500);
             background-color: var(--clr-dark-500);
+            border: 3px solid var(--clr-light-500-fade);
 
             @media (width < 500px) {
                 letter-spacing: 1px;
@@ -118,7 +119,6 @@
         margin-inline: auto;
         inline-size: fit-content;
 
-        border: 3px solid var(--clr-gray-700);
         border-radius: 0.5rem;
         box-shadow: var(--blackest) 0px 20px 25px -5px;
         padding: var(--padding-modal);

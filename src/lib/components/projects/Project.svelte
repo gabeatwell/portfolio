@@ -73,7 +73,7 @@
 
     .project-card {
         block-size: auto;
-        border: 2px solid var(--clr-gray-700);
+        border: 2px solid var(--clr-gray-500-fade);
         border-radius: 1em 1em var(--radius) var(--radius);
         will-change: opacity, transform;
         display: flex;

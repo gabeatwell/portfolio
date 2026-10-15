@@ -112,11 +112,9 @@
 
                 :global(summary) {
                     color: var(--clr-blue-500);
-                    border-color: var(--clr-gray-700);
 
                     @media (width <= 768px) {
                         color: var(--clr-blue-500);
-                        border-color: var(--clr-gray-700);
                     }
                 }
 

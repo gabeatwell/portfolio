@@ -72,7 +72,7 @@
                     font-size: clamp(var(--xs), 1.2vw, var(--h6));
                     font-weight: 200;
                     margin: 0.5em 0 -0.5rem 0;
-                    color: var(--clr-gray-700);
+                    color: var(--clr-gray-500-fade);
                 }
             }
         }

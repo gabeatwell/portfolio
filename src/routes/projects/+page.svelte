@@ -177,7 +177,7 @@
     .projects {
         background: linear-gradient(
             to bottom,
-            oklch(from var(--clr-gray-700) 0.35 c h) 0%,
+            oklch(from var(--clr-light-500-fade) 0.35 c h) 0%,
             var(--clr-dark-500) 12%,
             var(--clr-dark-500) 100%
         );
@@ -199,7 +199,7 @@
                 content: '';
                 position: absolute;
                 inset: 0;
-                background: var(--clr-gray-700);
+                background: var(--clr-gray-500-fade);
                 clip-path: polygon(
                     0 40px,
                     40px 0,

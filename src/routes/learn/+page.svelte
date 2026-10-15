@@ -18,7 +18,7 @@
 />
 
 <TileIntro />
-<BgCircles stroke="var(--clr-gray-700)" />
+<BgCircles stroke="var(--clr-gray-500-fade)" />
 
 <div class="learn-wrapper">
     <section class="learn-header">
@@ -88,7 +88,7 @@
         min-block-size: 100svh;
         background: linear-gradient(
             to bottom,
-            oklch(from var(--clr-gray-700) 0.35 c h) 0%,
+            oklch(from var(--clr-light-500-fade) 0.35 c h) 0%,
             var(--clr-dark-500) 30%,
             var(--clr-dark-500) var(--100)
         );

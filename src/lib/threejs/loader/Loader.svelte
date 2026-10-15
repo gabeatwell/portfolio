@@ -111,7 +111,7 @@
                 block-size: fit-content;
                 border-radius: var(--radius);
                 background-color: var(--clr-dark-500);
-                color: var(--clr-gray-700);
+                color: var(--clr-gray-500-fade);
                 font-family: var(--bronova);
                 font-size: clamp(var(--xs), 1.2vw, var(--h4));
                 font-weight: 100;

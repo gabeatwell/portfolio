@@ -59,7 +59,7 @@
     font-family: var(--bronova-bold);
     font-size: clamp(2rem, 5vw, 8rem);
     font-weight: 900;
-    color: var(--clr-gray-700);
+    color: var(--clr-gray-500-fade);
     letter-spacing: -1px;
     margin-block: 2rem;
     text-shadow: 0 0 3px var(--dark-gray);
@@ -200,7 +200,7 @@ div[id] {
     font-size: clamp(var(--xs), 1.5vw, var(--h6));
     font-weight: 500;
     line-height: 1.4;
-    box-shadow: 0 4px 1px var(--clr-gray-700);
+    box-shadow: 0 4px 1px var(--clr-gray-500-fade);
 
     box-sizing: border-box;
     max-inline-size: 100%;
@@ -209,7 +209,7 @@ div[id] {
     overflow-wrap: normal;
 
     @media (max-width: 768px) {
-        box-shadow: 0 2px 1px var(--clr-gray-700);
+        box-shadow: 0 2px 1px var(--clr-gray-500-fade);
         white-space: pre-wrap;
         word-break: break-word;
         padding: 0.75rem;

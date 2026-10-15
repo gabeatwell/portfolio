@@ -191,7 +191,7 @@
 
     [popover] {
         --radius: 0.2rem;
-        border: 3px solid var(--clr-gray-700);
+        border: 3px solid var(--clr-gray-500-fade);
         border-radius: var(--radius);
         box-shadow: var(--blackest) 0px 20px 25px -5px;
         display: none;

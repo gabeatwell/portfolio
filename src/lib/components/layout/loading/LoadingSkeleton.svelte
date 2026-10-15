@@ -31,7 +31,7 @@
             <!-- First stop - leading edge -->
             <stop
                 offset="0.599964"
-                stop-color="var(--clr-gray-700)"
+                stop-color="var(--clr-gray-500-fade)"
                 stop-opacity="1"
             >
                 <animate
@@ -61,7 +61,7 @@
             <!-- Final stop - trailing edge -->
             <stop
                 offset="2.59996"
-                stop-color="var(--clr-gray-700)"
+                stop-color="var(--clr-gray-500-fade)"
                 stop-opacity="1"
             >
                 <animate

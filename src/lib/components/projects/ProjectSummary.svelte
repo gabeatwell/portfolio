@@ -194,7 +194,7 @@
             color: var(--clr-light-500);
             max-inline-size: 40%;
             overflow-y: auto;
-            border: 1px solid var(--clr-gray-700);
+            border: 1px solid var(--clr-gray-500-fade);
 
             @media (width < 768px) {
                 letter-spacing: 1px;

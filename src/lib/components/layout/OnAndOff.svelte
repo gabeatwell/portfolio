@@ -69,7 +69,7 @@
             cursor: not-allowed;
 
             &.checked {
-                color: var(--clr-gray-700, #ccc);
+                color: var(--clr-gray-500-fade, #ccc);
             }
         }
     }
@@ -81,7 +81,7 @@
         cursor: pointer;
         padding: 0;
         border-radius: 50px;
-        background-color: var(--clr-gray-700, #ccc);
+        background-color: var(--clr-gray-500-fade, #ccc);
         transition: background-color 0.3s ease;
         outline: none;
 

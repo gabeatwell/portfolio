@@ -86,10 +86,10 @@
                 transition: background 0.15s ease-out;
 
                 &:focus {
-                    --clr-dark-500-fade: oklch(
-                        from var(--clr-dark-500) l c h / 0.67
+                    --clr-light-500-fade: oklch(
+                        from var(--clr-dark-500) l c h / 0.25
                     );
-                    outline: 2px solid var(--clr-dark-500-fade);
+                    outline: 2px solid var(--clr-light-500);
                     background: transparent;
                     box-shadow: none;
                 }

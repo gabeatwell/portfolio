@@ -240,7 +240,7 @@
                 background: rgba(0, 0, 0, 0.71);
                 background: var(--clr-dark-500);
                 padding: var(--padding-button);
-                border: 1px solid var(--clr-gray-700);
+                border: 1px solid var(--clr-gray-500-fade);
                 border-radius: var(--radius);
 
                 @media (width >= 990px) {
@@ -255,7 +255,7 @@
                     background: rgba(0, 0, 0, 0.71);
                     background: var(--clr-dark-500);
                     padding: var(--padding-button-lg);
-                    border: 1px solid var(--clr-gray-700);
+                    border: 1px solid var(--clr-gray-500-fade);
                     border-radius: var(--radius);
                     color: var(--clr-light-500);
                 }
@@ -290,7 +290,7 @@
                         background: var(--clr-dark-500-fade);
                         border-radius: 12px;
                         backdrop-filter: blur(10px);
-                        border: 2px solid var(--clr-gray-700);
+                        border: 2px solid var(--clr-gray-500-fade);
                         transition: all 0.3s ease;
 
                         &.a {

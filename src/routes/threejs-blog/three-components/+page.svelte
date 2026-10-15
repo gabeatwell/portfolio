@@ -145,7 +145,7 @@
             }
 
             & p {
-                color: var(--clr-gray-700);
+                color: var(--clr-gray-500-fade);
                 font-family: var(--bronova);
                 font-size: clamp(var(--sm), 1.25vw, var(--h5));
                 font-weight: 600;

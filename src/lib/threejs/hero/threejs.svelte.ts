@@ -84,7 +84,9 @@ export const setupHeroCanvas: Attachment<HTMLCanvasElement> = (canvas) => {
         const newStarColor = bodyStyles
             .getPropertyValue('--clr-pale-900')
             .trim();
-        const grayColor = bodyStyles.getPropertyValue('--clr-gray-700').trim();
+        const grayColor = bodyStyles
+            .getPropertyValue('--clr-gray-500-fade')
+            .trim();
 
         // detect light mode
         const colorScheme =

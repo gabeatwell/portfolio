@@ -35,7 +35,7 @@
             position: relative;
 
             & span {
-                color: var(--clr-gray-700);
+                color: var(--clr-gray-500-fade);
                 animation: moveLetters 2.5s infinite ease-out;
                 transform: translateX(0);
                 position: relative;
@@ -51,7 +51,7 @@
             position: absolute;
             width: 0%;
             height: 6px;
-            background-color: var(--clr-gray-700);
+            background-color: var(--clr-gray-500-fade);
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
