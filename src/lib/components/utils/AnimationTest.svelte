@@ -194,7 +194,7 @@
             align-items: center;
             justify-content: center;
             margin-top: 15em;
-            border: 1px solid var(--clr-gray-700);
+            border: 1px solid var(--clr-gray-500-fade);
 
             @media (width <= 768px) {
                 margin-top: 0;

@@ -148,10 +148,11 @@
         }
 
         & .modal-inner {
+            --clr-gray-500-fade: oklch(from var(--clr-gray-500) l c h / 0.7);
             inline-size: 100%;
             max-inline-size: 50vw;
             block-size: 76vh;
-            border: 2px solid var(--clr-gray-700);
+            border: 2px solid var(--clr-gray-500-fade);
             border-radius: 0.1rem;
             background: var(--clr-dark-500);
             overflow-x: clip;
@@ -226,10 +227,10 @@
             inline-size: fit-content;
             margin-inline: auto;
             filter: drop-shadow(
-                    -3px -3px 0px oklch(from var(--clr-gray-700) 0.45 c h)
+                    -3px -3px 0px oklch(from var(--clr-gray-500-fade) 0.45 c h)
                 )
                 drop-shadow(
-                    3px 3px 0px oklch(from var(--clr-gray-700) 0.45 c h)
+                    3px 3px 0px oklch(from var(--clr-gray-500-fade) 0.45 c h)
                 );
 
             @media (width >= 1024px) {
@@ -333,7 +334,7 @@
             }
 
             & path {
-                stroke: var(--clr-blue-350);
+                stroke: var(--clr-blue-500-fade);
                 stroke-width: 1.5;
             }
         }

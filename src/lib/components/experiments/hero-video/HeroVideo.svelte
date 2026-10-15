@@ -100,7 +100,7 @@
                 font-size: clamp(var(--h4), 3vw, var(--lg));
                 font-weight: 800;
                 grid-area: title;
-                color: var(--clr-blue-350);
+                color: var(--clr-blue-500-fade);
                 line-height: 1.2;
 
                 transform: scaleX(1.25);

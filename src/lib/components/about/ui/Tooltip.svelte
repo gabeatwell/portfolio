@@ -78,7 +78,7 @@
             }
 
             &:hover {
-                filter: drop-shadow(0 0 25px var(--clr-blue-350));
+                filter: drop-shadow(0 0 25px var(--clr-blue-500-fade));
             }
         }
 
@@ -120,7 +120,7 @@
                 top: 100%;
                 left: 50%;
                 margin-left: -5px;
-                border-color: var(--clr-gray-700) transparent transparent
+                border-color: var(--clr-gray-500-fade) transparent transparent
                     transparent;
 
                 @media (width <= 768px) {

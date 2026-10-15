@@ -161,7 +161,7 @@ div[id] {
     background-color: transparent;
     color: inherit;
     padding: 0.2em 0.4em;
-    border: 1px solid var(--clr-gray-600);
+    border: 1px solid var(--clr-gray-500-fade);
     border-radius: var(--radius);
     font-family: var(--mono);
     font-size: clamp(var(--xs), 1.5vw, var(--h6));

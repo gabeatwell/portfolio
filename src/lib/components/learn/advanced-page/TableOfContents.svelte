@@ -179,7 +179,7 @@
 
         & dt {
             display: block;
-            color: var(--clr-gray-600);
+            color: var(--clr-gray-500-fade);
             font-family: var(--bronova-bold);
             font-size: clamp(var(--h6), 3vw, var(--h4));
             letter-spacing: 3px;
@@ -202,10 +202,10 @@
                     text-wrap: balance;
 
                     & a {
-                        color: var(--clr-blue-350);
+                        color: var(--clr-blue-500-fade);
 
                         &:visited {
-                            color: var(--clr-gray-700);
+                            color: var(--clr-gray-500-fade);
                         }
                     }
                 }
@@ -281,7 +281,7 @@
         inline-size: clamp(200px, 20vw, 300px);
         background: linear-gradient(
             to right,
-            var(--clr-gray-900) 95%,
+            var(--clr-gray-500-fade) 95%,
             transparent
         );
         z-index: 99;

@@ -75,7 +75,7 @@
     :root {
         --accent: var(--clr-warning-500);
         --bg: var(--clr-dark-500);
-        --muted: var(--clr-gray-700);
+        --muted: var(--clr-gray-500-fade);
         --text: var(--clr-light-500);
     }
 
@@ -124,7 +124,7 @@
         }
 
         & p {
-            color: var(--clr-gray-700);
+            color: var(--clr-gray-500-fade);
             display: none;
             font-family: var(--thunder);
             font-size: clamp(var(--sm), 1.7vw, var(--h4));

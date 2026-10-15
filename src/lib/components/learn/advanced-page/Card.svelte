@@ -37,7 +37,7 @@
         margin: 0;
 
         &:hover {
-            box-shadow: 0 0 2em var(--clr-gray-700);
+            box-shadow: 0 0 2em var(--clr-gray-500-fade);
         }
 
         .card-image {

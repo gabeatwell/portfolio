@@ -85,7 +85,7 @@
                     opacity 0.4s ease;
 
                 & p {
-                    color: var(--clr-blue-350);
+                    color: var(--clr-blue-500-fade);
                     font-family: var(--bronova);
                     font-size: clamp(var(--h6), 1.1vw, var(--h4));
                     font-weight: 700;

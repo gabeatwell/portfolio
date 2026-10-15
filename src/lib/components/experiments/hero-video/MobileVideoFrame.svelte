@@ -256,14 +256,14 @@
             color: var(--clr-dark-500);
             text-shadow:
                 0 0 1px var(--clr-dark-500),
-                -1px -1px 0 var(--clr-blue-350),
-                1px -1px 0 var(--clr-blue-350),
-                -1px 1px 0 var(--clr-blue-350),
-                1px 1px 0 var(--clr-blue-350),
-                -1px 0 0 var(--clr-blue-350),
-                1px 0 0 var(--clr-blue-350),
-                0 -1px 0 var(--clr-blue-350),
-                0 1px 0 var(--clr-blue-350);
+                -1px -1px 0 var(--clr-blue-500-fade),
+                1px -1px 0 var(--clr-blue-500-fade),
+                -1px 1px 0 var(--clr-blue-500-fade),
+                1px 1px 0 var(--clr-blue-500-fade),
+                -1px 0 0 var(--clr-blue-500-fade),
+                1px 0 0 var(--clr-blue-500-fade),
+                0 -1px 0 var(--clr-blue-500-fade),
+                0 1px 0 var(--clr-blue-500-fade);
 
             @media (width <= 768px) {
                 letter-spacing: 1px;
@@ -278,7 +278,7 @@
         }
 
         & .subtitle {
-            color: var(--clr-blue-400);
+            color: var(--clr-blue-500-fade);
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 1.2vw, var(--h4));
             font-weight: 300;
@@ -309,9 +309,9 @@
         & .cta {
             font-family: var(--mono);
             font-size: clamp(var(--sm), 1.25vw, var(--h2));
-            border: 1px solid var(--clr-blue-350);
+            border: 1px solid var(--clr-blue-500-fade);
             background: transparent;
-            color: var(--clr-blue-350);
+            color: var(--clr-blue-500-fade);
             border-radius: var(--radius);
             cursor: pointer;
             margin: 0;

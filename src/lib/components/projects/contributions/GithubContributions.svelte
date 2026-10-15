@@ -387,7 +387,7 @@
                 font-family: var(--bronova);
                 font-size: clamp(var(--sm), 1.25vw, var(--h5));
                 font-weight: 600;
-                color: var(--clr-gray-600);
+                color: var(--clr-gray-500-fade);
                 margin-bottom: 0.5rem;
                 text-transform: lowercase;
                 letter-spacing: 0.5px;

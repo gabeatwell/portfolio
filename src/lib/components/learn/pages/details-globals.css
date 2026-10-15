@@ -14,7 +14,7 @@
 
 /* (injected HTML) */
 .text a {
-    color: var(--clr-blue-350);
+    color: var(--clr-blue-500-fade);
     font-size: clamp(var(--h6), 1vw, var(--h5));
     font-weight: 700;
 }
@@ -57,7 +57,7 @@
 .text dl,
 .text figure,
 .text form {
-    color: var(--clr-gray-600);
+    color: var(--clr-gray-500-fade);
 }
 
 .text strong {

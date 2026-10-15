@@ -131,7 +131,7 @@
             position: relative;
 
             & h2 {
-                color: var(--clr-blue-350);
+                color: var(--clr-blue-500-fade);
                 font-family: var(--bronova-bold);
                 font-size: clamp(var(--h4), 5vw, var(--xl));
                 text-align: center;

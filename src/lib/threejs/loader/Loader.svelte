@@ -53,7 +53,7 @@
             top: 50%;
             width: 100%;
             height: 1.5em;
-            background-color: var(--clr-gray-600);
+            background-color: var(--clr-gray-500-fade);
             transform: scaleX(0);
             transition: transform 0.5s ease;
             transform-origin: top left;
@@ -87,7 +87,7 @@
                 border-radius: var(--radius);
                 background-color: var(--clr-dark-500);
                 border: 1px solid var(--clr-light-500);
-                color: var(--clr-gray-600);
+                color: var(--clr-gray-500-fade);
                 font-family: var(--bronova-bold);
                 font-size: clamp(var(--sm), 2vw, var(--h2));
                 text-align: center;

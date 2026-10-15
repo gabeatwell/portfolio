@@ -8,8 +8,8 @@
         block-size: fit-content;
         padding: var(--padding-button);
         background: var(--clr-dark-500);
-        border: 2px solid var(--clr-gray-700);
-        color: var(--clr-gray-700);
+        border: 2px solid var(--clr-gray-500-fade);
+        color: var(--clr-gray-500-fade);
         border-radius: var(--radius);
         cursor: pointer;
         font-size: clamp(var(--sm), 0.875rem, var(--h5));

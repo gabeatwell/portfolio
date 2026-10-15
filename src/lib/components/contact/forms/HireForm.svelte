@@ -343,10 +343,11 @@
         }
 
         & .form-grid {
+            --clr-gray-500-fade: oklch(from var(--clr-gray-500) l c h / 0.7);
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            border: 2px solid var(--clr-gray-700);
+            border: 2px solid var(--clr-gray-500-fade);
             padding: var(--padding-button);
             margin-bottom: 1rem;
             border-radius: var(--radius);
@@ -386,7 +387,7 @@
                 background-repeat: no-repeat;
                 background-position: right 0.75rem center;
                 padding-right: 2.5rem;
-                border: 1px solid var(--clr-gray-700);
+                border: 1px solid var(--clr-gray-500-fade);
                 color: var(--clr-light-500);
                 font-family: inherit;
                 font-size: clamp(var(--sm), 1.1vw, var(--h5));
@@ -479,7 +480,7 @@
             animation: wiggle 0.5s ease-out;
 
             &:placeholder-shown {
-                border-color: var(--clr-gray-700);
+                border-color: var(--clr-gray-500-fade);
                 box-shadow: none;
                 background-color: transparent;
                 animation: none;

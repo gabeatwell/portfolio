@@ -183,7 +183,7 @@
         & .modal-inner {
             @media (width >= 320px) {
                 width: 100%;
-                border: 2px solid var(--clr-gray-700);
+                border: 2px solid var(--clr-gray-500-fade);
                 border-radius: 1rem;
                 background: var(--blackest);
 

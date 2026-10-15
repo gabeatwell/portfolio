@@ -124,7 +124,7 @@
                     color: var(--clr-light-500);
 
                     :global(a) {
-                        color: var(--clr-blue-350);
+                        color: var(--clr-blue-500-fade);
                     }
                 }
 

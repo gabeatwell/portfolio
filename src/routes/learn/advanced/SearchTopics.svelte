@@ -133,7 +133,7 @@
             font-size: clamp(1em, 2vw, 1.5rem);
             color: var(--clr-light-500);
             background-color: var(--clr-dark-500);
-            border: 3px solid var(--clr-gray-600);
+            border: 3px solid var(--clr-gray-500-fade);
 
             anchor-name: --search-input;
 
@@ -186,7 +186,7 @@
         & .no-results {
             text-align: center;
             font-size: clamp(1em, 2vw, 1.5rem);
-            color: var(--clr-gray-900);
+            color: var(--clr-gray-500-fade);
         }
 
         & ul {

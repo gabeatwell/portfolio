@@ -53,7 +53,7 @@
                 id="content-{index}"
                 class="text indent"
                 class:open={detailsAccordion.openStates[index]}
-                style="color: var(--clr-gray-600);"
+                style="color: var(--clr-gray-500-fade);"
             >
                 {@html sanitize(item.content)}
             </div>
@@ -102,7 +102,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 2px solid var(--clr-gray-700);
+            border: 2px solid var(--clr-gray-500-fade);
             padding: var(--padding-button);
 
             &:focus-visible {

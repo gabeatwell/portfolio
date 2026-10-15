@@ -133,7 +133,7 @@
                     text-align: left;
                     font-family: var(--bronova);
                     font-size: clamp(var(--sm), 1.5vw, var(--h4));
-                    color: var(--clr-gray-600);
+                    color: var(--clr-gray-500-fade);
                     padding-inline-end: 4.75em;
                     margin-top: 1em;
                     margin-left: 2em;

@@ -101,7 +101,7 @@
         & .content-title {
             anchor-name: --title;
             font-family: var(--ultra);
-            color: var(--clr-blue-400);
+            color: var(--clr-blue-500-fade);
         }
 
         & .content-message {

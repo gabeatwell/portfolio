@@ -292,7 +292,7 @@
         --space: 1rem;
         --surface-1: transparent;
         --surface-2: var(--clr-dark-500);
-        --gradient: radial-gradient(var(--clr-gray-700), var(--dark) 88%);
+        --gradient: radial-gradient(var(--clr-gray-500-fade), var(--dark) 88%);
     }
 
     * {
@@ -514,7 +514,7 @@
                             max-inline-size: 60ch;
                             pointer-events: auto;
                             text-align: left;
-                            color: var(--clr-gray-700);
+                            color: var(--clr-gray-500-fade);
                         }
 
                         &.quiet {

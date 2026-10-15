@@ -51,7 +51,7 @@
             font-family: var(--ultra);
             font-size: clamp(var(--h3), 4.5vw, var(--xxl));
             font-weight: 400;
-            text-shadow: 0 0 5px 3px var(--clr-gray-700);
+            text-shadow: 0 0 5px 3px var(--clr-gray-500-fade);
             mix-blend-mode: difference;
             letter-spacing: -1px;
             color: var(--clr-dark-500);

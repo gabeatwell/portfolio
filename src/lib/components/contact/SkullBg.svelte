@@ -14,7 +14,7 @@
     </metadata>
     <g
         transform="translate(0.000000,1234.000000) scale(0.100000,-0.100000)"
-        fill="var(--clr-gray-700)"
+        fill="var(--clr-gray-500-fade)"
         stroke="none"
     >
         <path

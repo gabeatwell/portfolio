@@ -31,7 +31,7 @@
         & .learn-title {
             text-align: center;
             font-family: var(--anta);
-            color: var(--clr-blue-350);
+            color: var(--clr-blue-500-fade);
             font-size: clamp(var(--h6), 2vw, var(--h3));
             padding: 0;
             margin: 0;

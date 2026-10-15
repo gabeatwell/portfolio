@@ -28,7 +28,7 @@
                 cx="140"
                 cy="40"
                 r="40"
-                fill="var(--clr-gray-700)"
+                fill="var(--clr-gray-500-fade)"
                 stroke="var(--clr-light-500)"
                 stroke-width="2"
             />
