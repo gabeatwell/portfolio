@@ -95,6 +95,7 @@
         z-index: 10;
 
         & .summary-custom {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.25);
             cursor: pointer;
             background: var(--clr-dark-500);
             inline-size: 100%;
@@ -102,7 +103,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 2px solid var(--clr-gray-500-fade);
+            border: 2px solid var(--clr-light-500-fade);
             padding: var(--padding-button);
 
             &:focus-visible {

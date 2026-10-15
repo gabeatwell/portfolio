@@ -94,6 +94,8 @@
         }
 
         #popover {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.35);
+            border: 2px solid var(--clr-light-500-fade);
             margin-inline: auto;
             margin-block: 5em;
             font-family: var(--bronova);
@@ -103,7 +105,6 @@
             padding: var(--padding-modal);
             color: var(--clr-light-500);
             background-color: var(--clr-dark-500);
-            border: 3px solid var(--clr-light-500-fade);
 
             @media (width < 500px) {
                 letter-spacing: 1px;

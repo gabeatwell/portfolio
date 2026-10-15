@@ -99,10 +99,6 @@
             transform 1.5s ease-out;
     }
 
-    /* :global(body:has(#modal:popover-open)) {
-        overflow: clip;
-    } */
-
     .general-modal {
         inline-size: 100vw;
         block-size: 100%;
@@ -157,7 +153,6 @@
             background: var(--clr-dark-500);
             overflow-x: clip;
             overflow-y: auto;
-            /* overscroll-behavior: contain; */
             padding: 2em 1em;
 
             anchor-name: --inner-anchor;
@@ -334,6 +329,9 @@
             }
 
             & path {
+                --clr-blue-500-fade: oklch(
+                    from var(--clr-blue-500) l c h / 0.65
+                );
                 stroke: var(--clr-blue-500-fade);
                 stroke-width: 1.5;
             }

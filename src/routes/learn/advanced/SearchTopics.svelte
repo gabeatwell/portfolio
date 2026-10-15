@@ -123,6 +123,8 @@
         gap: 2em;
 
         & input {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.25);
+            border: 3px solid var(--clr-light-500-fade);
             max-inline-size: 45vw;
             inline-size: 100%;
             margin-inline: auto;
@@ -133,7 +135,6 @@
             font-size: clamp(1em, 2vw, 1.5rem);
             color: var(--clr-light-500);
             background-color: var(--clr-dark-500);
-            border: 3px solid var(--clr-gray-500-fade);
 
             anchor-name: --search-input;
 
@@ -147,6 +148,9 @@
             }
 
             &::placeholder {
+                --clr-light-500-fade: oklch(
+                    from var(--clr-light-500) l c h / 0.45
+                );
                 color: var(--clr-light-500-fade);
             }
         }
