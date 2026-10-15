@@ -41,7 +41,7 @@
             font-family: var(--ultra);
             font-size: clamp(var(--h4), 10vw, var(--xxxxl));
             font-weight: bold;
-            color: var(--clr-dark-400);
+            color: var(--clr-dark-500-fade);
             text-shadow:
                 0 0 1px var(--clr-dark-500),
                 -1px -1px 0 var(--clr-blue-500),

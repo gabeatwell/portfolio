@@ -147,7 +147,7 @@
             }
 
             &::placeholder {
-                color: var(--clr-light-400);
+                color: var(--clr-light-500-fade);
             }
         }
 
@@ -230,7 +230,7 @@
                     inline-size: fit-content;
 
                     &:hover {
-                        background-color: var(--clr-dark-400);
+                        background-color: var(--clr-dark-500-fade);
                     }
                 }
             }

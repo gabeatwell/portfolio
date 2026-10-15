@@ -105,9 +105,10 @@
         }
 
         & :global(pre code) {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.95);
             background: var(--clr-dark-500);
-            border: 1px solid var(--clr-light-350);
-            color: var(--clr-light-500);
+            border: 1px solid var(--clr-light-500-fade);
+            color: var(--clr-light-500-fade);
             font-family: var(--mono);
             font-size: clamp(var(--sm), 1vw, 1.1rem);
             inline-size: fit-content;
@@ -201,7 +202,7 @@
             }
 
             & .date {
-                color: var(--clr-light-400);
+                color: var(--clr-light-500-fade);
                 font-family: var(--mono);
                 font-size: clamp(var(--xs), 1.25vw, var(--h4));
                 font-weight: 500;

@@ -56,7 +56,7 @@
                 padding: 0;
 
                 &:visited {
-                    color: var(--clr-light-400);
+                    color: var(--clr-light-500-fade);
                 }
 
                 &:focus-visible,

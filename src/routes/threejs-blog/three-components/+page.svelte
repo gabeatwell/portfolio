@@ -90,7 +90,7 @@
         bottom: 1.5em;
         left: 25%;
         transform: translateX(-50%);
-        color: var(--clr-light-400);
+        color: var(--clr-light-500-fade);
         font-weight: 700;
         z-index: 999;
         touch-action: auto;

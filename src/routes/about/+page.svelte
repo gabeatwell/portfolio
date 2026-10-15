@@ -220,9 +220,12 @@
                     }
 
                     & span {
+                        --clr-light-500-fade: oklch(
+                            from var(--clr-light-500) l c h / 0.63
+                        );
                         font-weight: 800;
                         letter-spacing: 1px;
-                        color: var(--clr-light-350);
+                        color: var(--clr-light-500-fade);
                     }
 
                     &[data-desktop] {

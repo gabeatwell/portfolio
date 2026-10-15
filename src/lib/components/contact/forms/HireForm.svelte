@@ -311,7 +311,7 @@
         }
 
         & .legend {
-            color: var(--clr-light-400);
+            color: var(--clr-light-500-fade);
             font-family: var(--bronova);
             font-size: clamp(var(--xs), 0.8vw, var(--h5));
             font-style: italic;
@@ -374,7 +374,7 @@
         & .form-group {
             display: flex;
             flex-direction: column;
-            color: var(--clr-light-400);
+            color: var(--clr-light-500-fade);
             font-family: var(--bronova-bold);
             font-size: clamp(var(--sm), 1.25vw, var(--h4));
 

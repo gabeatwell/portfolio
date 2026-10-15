@@ -160,7 +160,7 @@
         aspect-ratio: 9 / 16;
         margin: auto;
         margin-top: 10em;
-        border: clamp(8px, 4vw, 16px) solid var(--clr-light-400);
+        border: clamp(8px, 4vw, 16px) solid var(--clr-light-500-fade);
         border-top-width: clamp(30px, 8vh, 60px);
         border-bottom-width: clamp(30px, 8vh, 60px);
         border-radius: clamp(20px, 5vw, 36px);
@@ -293,7 +293,7 @@
         }
 
         & .directions {
-            color: var(--clr-light-400);
+            color: var(--clr-light-500-fade);
             font-family: var(--bronova);
             font-size: clamp(var(--xs), 1vw, var(--h5));
             font-weight: 400;

@@ -83,7 +83,7 @@
 
         & .game-over-container {
             background: var(--clr-dark-500);
-            border: 3px solid var(--clr-dark-400);
+            border: 3px solid var(--clr-dark-500-fade);
             border-radius: 1rem;
             padding: 3rem;
             text-align: center;

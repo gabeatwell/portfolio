@@ -56,7 +56,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: oklch(from var(--clr-dark-400) 1 c h);
+        background-color: oklch(from var(--clr-dark-500-fade) 1 c h);
         border-radius: var(--radius);
         user-select: none;
 
@@ -116,7 +116,7 @@
                 font-size: clamp(var(--h6), 1.5vw, var(--h2));
                 font-weight: 400;
                 grid-area: subtitle;
-                color: var(--clr-light-400);
+                color: var(--clr-light-500-fade);
                 line-height: 1.1;
             }
 
@@ -126,8 +126,8 @@
                 font-size: clamp(var(--h6), 1.5vw, var(--h3));
                 font-weight: 800;
                 background-color: transparent;
-                border: 4px solid var(--clr-light-400);
-                color: var(--clr-light-400);
+                border: 4px solid var(--clr-light-500-fade);
+                color: var(--clr-light-500-fade);
                 grid-area: cta;
                 line-height: 1;
                 padding: 0.25em 0.5em;

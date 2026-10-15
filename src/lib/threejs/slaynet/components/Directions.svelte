@@ -42,13 +42,13 @@
 <style>
     .directions-toggle {
         position: fixed;
-        bottom: 0;
+        bottom: 2.5rem;
         right: 1rem;
         inline-size: fit-content;
         block-size: fit-content;
         border-radius: var(--radius);
-        background: var(--clr-dark-400);
-        color: var(--clr-light-500);
+        background: var(--clr-dark-500-fade);
+        color: var(--clr-dark-500);
         font-family: var(--bronova-bold);
         font-size: clamp(var(--xs), 1.2vw, var(--h5));
         opacity: 0.8;
@@ -73,10 +73,11 @@
     }
 
     .game-directions {
+        --clr-dark-500-fade: oklch(from var(--clr-dark-500) l c h / 0.45);
         position: fixed;
         bottom: 1em;
         right: 1em;
-        background: var(--clr-dark-400);
+        background: var(--clr-dark-500-fade);
         padding: 0.5rem 1rem;
         border: 1px solid var(--clr-dark-500);
         border-radius: var(--radius);
@@ -94,7 +95,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: var(--clr-dark-400);
+            background: var(--clr-dark-500-fade);
             border: 1px solid var(--clr-dark-500);
             border-radius: var(--radius);
             padding: 0.2rem 0.75rem;
@@ -105,7 +106,7 @@
         }
 
         & h2 {
-            color: var(--clr-light-500);
+            color: var(--clr-dark-500);
             font-family: var(--bronova);
             font-size: clamp(var(--xs), 1.2vw, var(--h5));
             font-weight: 500;

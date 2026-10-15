@@ -53,7 +53,7 @@
     }
     .flat {
         block-size: 80vh;
-        background: var(--clr-light-400);
+        background: var(--clr-light-500-fade);
     }
 </style>
 ```

@@ -109,8 +109,11 @@
             margin-right: clamp(1rem, 1.5vw, 5rem);
 
             & .word-inner {
+                --clr-dark-500-fade: oklch(
+                    from var(--clr-dark-500) l c h / 0.65
+                );
                 display: inline-block;
-                color: var(--clr-dark-200);
+                color: var(--clr-dark-500-fade);
                 text-shadow:
                     0 0 1px var(--clr-light-500),
                     -3px -3px 0 var(--clr-success-500),
@@ -124,7 +127,7 @@
             }
 
             & .sub-word {
-                -webkit-text-stroke: 2px var(--clr-light-350);
+                -webkit-text-stroke: 2px var(--clr-light-500-fade);
                 position: absolute;
                 inset: 0;
                 display: grid;

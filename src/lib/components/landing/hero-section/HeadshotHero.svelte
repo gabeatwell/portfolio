@@ -159,14 +159,14 @@
                 color: var(--clr-dark-500);
                 text-shadow:
                     0 0 1px var(--clr-light-500),
-                    -2px -2px 0 var(--clr-light-350),
-                    2px -2px 0 var(--clr-light-350),
-                    -2px 2px 0 var(--clr-light-350),
-                    2px 2px 0 var(--clr-light-350),
-                    -2px 0 0 var(--clr-light-350),
-                    2px 0 0 var(--clr-light-350),
-                    0 -2px 0 var(--clr-light-350),
-                    0 2px 0 var(--clr-light-350);
+                    -2px -2px 0 var(--clr-light-500-fade),
+                    2px -2px 0 var(--clr-light-500-fade),
+                    -2px 2px 0 var(--clr-light-500-fade),
+                    2px 2px 0 var(--clr-light-500-fade),
+                    -2px 0 0 var(--clr-light-500-fade),
+                    2px 0 0 var(--clr-light-500-fade),
+                    0 -2px 0 var(--clr-light-500-fade),
+                    0 2px 0 var(--clr-light-500-fade);
                 border: 1px solid var(--clr-light-500);
                 outline: 3px solid var(--clr-light-500);
                 outline-offset: -7px;

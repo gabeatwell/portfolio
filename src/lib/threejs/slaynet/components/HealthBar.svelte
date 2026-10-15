@@ -50,7 +50,7 @@
             block-size: 100%;
             background: linear-gradient(
                 90deg,
-                var(--clr-dark-400),
+                var(--clr-dark-500-fade),
                 var(--clr-fail-500)
             );
             transition: inline-size 0.1s ease;

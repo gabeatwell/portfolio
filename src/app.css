@@ -376,14 +376,8 @@
         --clr-warning-500-dark: #d7b24a;
 
         --clr-contribution-bg: #111;
-        --clr-light-300: #e5e5e5;
-        --clr-light-400: rgba(0, 0, 0, 0.15);
         --clr-light-500: #fff;
         --clr-dark-500: #242424;
-        --clr-dark-400: rgba(0, 0, 0, 0.2);
-        --clr-dark-450: rgba(40, 40, 40, 0.92);
-
-        --clr-dark-200: #555;
         --clr-gray-600: #5f5f5f;
         --clr-gray-700: #808080;
         --clr-gray-500: rgba(95, 95, 95, 0.1);
@@ -435,26 +429,26 @@
         html[data-theme='dark'],
         html:has(#manual-theme:checked) {
             --clr-dark-500: #111111;
+            --clr-dark-500-fade: --clr-dark-500-fade: rgba(17, 17, 17, 0.8);
             --clr-light-500: #f7f7f7;
-            --clr-light-300: #e5e5e5;
-            --clr-dark-400: rgba(255, 255, 255, 0.06);
-            --clr-dark-450: rgba(0, 0, 0, 0.85);
+            --clr-light-500-fade: rgba(247, 247, 247, 0.8);
             --clr-hero-text: #cccccc;
             --clr-blue-350: #4a90e2;
             --clr-blue-500: #4a90e2;
             --clr-btn-900: #ffffff;
+            --clr-light-500-fade: rgba(247, 247, 247, 0.8);
         }
         html[data-theme='light'],
         html:has(#manual-theme):not(:has(#manual-theme:checked)) {
             --clr-dark-500: #f7f7f7;
+            --clr-dark-500-fade: rgba(247, 247, 247, 0.8);
             --clr-light-500: #111111;
-            --clr-light-300: #111111;
-            --clr-dark-400: rgba(0, 0, 0, 0.2);
-            --clr-dark-450: rgba(175, 175, 175, 0.75);
+            --clr-light-500-fade: oklch(0.1 0 0 / 0.8);
             --clr-hero-text: #c6c6c6;
             --clr-blue-350: #172b59;
             --clr-blue-500: #0f2246;
             --clr-btn-900: #111111;
+            --clr-light-500-fade: rgba(17, 17, 17, 0.8);
         }
     }
 
@@ -495,13 +489,10 @@
 
             /* theme aware */
             --clr-contribution-bg: light-dark(var(--white), var(--blackest));
-            --clr-light-350: light-dark(
-                oklch(from var(--blackest) 0.2 c h),
-                oklch(from var(--white) 0.8 c h)
-            );
-            --clr-light-400: light-dark(
-                oklch(from var(--blackest) 0.1 c h),
-                oklch(from var(--white) 0.65 c h)
+            --clr-light-500-fade: color-mix(
+                in oklch,
+                var(--clr-light-500) 80%,
+                transparent 20%
             );
             --clr-light-500: light-dark(
                 oklch(from var(--blackest) 0.1 c h),
@@ -511,23 +502,11 @@
                 oklch(from var(--white) 0.9 c h),
                 oklch(from var(--blackest) 0.1 c h)
             );
-            --clr-dark-450: light-dark(
-                oklch(from var(--white) 0.5 c h / 0.92),
-                oklch(from var(--blackest) 0.72 c h / 0.92)
+            --clr-dark-500-fade: color-mix(
+                in oklch,
+                var(--clr-dark-500) 80%,
+                transparent 20%
             );
-            --clr-dark-400: light-dark(
-                oklch(from var(--white) 0.5 c h),
-                oklch(from var(--blackest) 0.72 c h)
-            );
-            --clr-dark-350: light-dark(
-                oklch(from var(--white-gray) 0.75 c h),
-                oklch(from var(--blackest) 0.72 c h)
-            );
-            --clr-dark-300: light-dark(
-                oklch(from var(--dark-gray) 0.75 c h),
-                oklch(from var(--blackest) 0.72 c h)
-            );
-
             --clr-hero-text: light-dark(
                 oklch(from var(--light-gray) 0.45 c h),
                 var(--white)
@@ -538,8 +517,6 @@
             --clr-blue-350: light-dark(var(--dark-blue), var(--sky));
             --clr-blue-400: light-dark(var(--dark-blue), var(--blue));
             --clr-blue-500: light-dark(var(--dark-blue), var(--sky));
-            --clr-light-300: light-dark(var(--blackest), var(--white-gray));
-            --clr-dark-200: light-dark(var(--white-gray), var(--blacker));
             --clr-gray-600: light-dark(var(--dark-gray), var(--darker-gray));
             --clr-gray-700: light-dark(var(--dark-gray), var(--gray));
             --clr-gray-500: light-dark(
@@ -594,22 +571,17 @@
         /* no js fallback */
         html:has(#manual-theme:not(:checked)) {
             --clr-contribution-bg: var(--white);
-            --clr-light-350: oklch(0.2 0 0);
-            --clr-light-400: oklch(0.1 0 0);
+            --clr-light-500-fade: oklch(0.1 0 0 / 0.8);
             --clr-light-500: oklch(0.1 0 0);
             --clr-dark-500: oklch(0.9 0 0);
-            --clr-dark-450: oklch(0.5 0 0 / 0.92);
-            --clr-dark-400: oklch(0.5 0 0);
-            --clr-dark-350: oklch(0.75 0 0);
-            --clr-dark-300: oklch(0.75 0 0);
+            --clr-dark-500-fade: oklch(0.5 0 0 / 0.92);
+
             --clr-hero-text: oklch(0.45 0 17.26);
             --clr-purple-500: var(--light-purple);
             --clr-blue-300: var(--sky);
             --clr-blue-350: var(--blue);
             --clr-blue-400: var(--dark-blue);
             --clr-blue-500: var(--dark-blue);
-            --clr-light-300: var(--blackest);
-            --clr-dark-200: var(--white-gray);
             --clr-gray-600: var(--dark-gray);
             --clr-gray-700: var(--dark-gray);
             --clr-gray-500: var(--dark-faint-gray);
@@ -631,22 +603,16 @@
 
         html:has(#manual-theme:checked) {
             --clr-contribution-bg: var(--blackest);
-            --clr-light-350: oklch(0.8 0 0);
-            --clr-light-400: oklch(0.65 0 0);
             --clr-light-500: oklch(0.98 0 0);
+            --clr-light-500-fade: oklch(0.98 0 0 / 0.8);
             --clr-dark-500: oklch(0.1 0 0);
-            --clr-dark-450: oklch(0.72 0 0 / 0.92);
-            --clr-dark-400: oklch(0.72 0 0);
-            --clr-dark-350: oklch(0.72 0 0);
-            --clr-dark-300: oklch(0.72 0 0);
+            --clr-dark-500-fade: oklch(0.72 0 0 / 0.92);
             --clr-hero-text: var(--white);
             --clr-purple-500: var(--purple);
             --clr-blue-300: var(--sky);
             --clr-blue-350: var(--sky);
             --clr-blue-400: var(--blue);
             --clr-blue-500: var(--sky);
-            --clr-light-300: var(--white-gray);
-            --clr-dark-200: var(--blacker);
             --clr-gray-600: var(--darker-gray);
             --clr-gray-700: var(--gray);
             --clr-gray-500: var(--faint-gray);
@@ -675,34 +641,14 @@
                 oklch(from var(--white) 0.9 c h),
                 oklch(from var(--blackest) 0.1 c h)
             );
+            --clr-dark-500-fade: light-dark(
+                oklch(from var(--clr-dark-500) l c h / 0.8)
+            );
             --clr-light-500: light-dark(
                 oklch(from var(--blackest) 0.1 c h),
                 oklch(from var(--white) 0.98 c h)
             );
-            --clr-light-350: light-dark(
-                oklch(from var(--blackest) 0.2 c h),
-                oklch(from var(--white) 0.8 c h)
-            );
-            --clr-light-400: light-dark(
-                oklch(from var(--blackest) 0.1 c h),
-                oklch(from var(--white) 0.65 c h)
-            );
-            --clr-dark-450: light-dark(
-                oklch(from var(--white) 0.5 c h / 0.92),
-                oklch(from var(--blackest) 0.72 c h / 0.92)
-            );
-            --clr-dark-400: light-dark(
-                oklch(from var(--white) 0.5 c h),
-                oklch(from var(--blackest) 0.72 c h)
-            );
-            --clr-dark-350: light-dark(
-                oklch(from var(--white-gray) 0.75 c h),
-                oklch(from var(--blackest) 0.72 c h)
-            );
-            --clr-dark-300: light-dark(
-                oklch(from var(--dark-gray) 0.75 c h),
-                oklch(from var(--blackest) 0.72 c h)
-            );
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.5);
             --clr-hero-text: light-dark(
                 oklch(from var(--light-gray) 0.45 c h),
                 var(--white)
@@ -783,7 +729,6 @@ html.theme-transitioning body {
 .dark-intro-page nav.navigation {
     --fg: oklch(0.8853 0 0 / 90.2%);
     --clr-light-400: oklch(0.8297 0 0 / 90.2%);
-    --clr-dark-400: oklch(0.72 0 0 / 0.72);
     --bg: oklch(11% 0 0);
 }
 
@@ -794,12 +739,11 @@ html[data-theme='light'].tunnel-active .teeth-intro {
 
     nav.navigation {
         --fg: #ffffff;
-        --clr-light-400: rgba(255, 255, 255, 0.9);
-        --clr-dark-400: rgba(255, 255, 255, 0.72);
+        --clr-light-500-fade: rgba(255, 255, 255, 0.9);
         --bg: #0a0a0a;
 
         & .nav-link {
-            --clr-light-300: #ccc;
+            --clr-light-500-fade: #ccc;
 
             &.mobile {
                 --fg: #121212;
@@ -813,7 +757,7 @@ html[data-theme='light'].tunnel-active nav.navigation {
         --clr-light-500: #f2f2f2;
 
         /* NavLink text color */
-        --clr-light-300: #ccc;
+        --clr-light-500-fade: #ccc;
 
         /* .mobile menu */
         --clr-dark-500: #1a1a1a;

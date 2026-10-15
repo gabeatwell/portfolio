@@ -219,15 +219,15 @@
 
         & input,
         & button {
-            outline: 1px solid var(--clr-light-400);
+            outline: 1px solid var(--clr-light-500-fade);
         }
     }
 
     #canvas-container {
         background: transparent;
-        border: 3px solid var(--clr-light-400);
+        border: 3px solid var(--clr-light-500-fade);
         border-radius: var(--radius);
-        outline: 1px solid var(--clr-light-400);
+        outline: 1px solid var(--clr-light-500-fade);
         outline-offset: 5px;
         overflow: hidden;
         z-index: 5;
@@ -246,7 +246,7 @@
 
         @media (width <= 768px) {
             margin-top: 4em;
-            border: 1px solid var(--clr-light-400);
+            border: 1px solid var(--clr-light-500-fade);
         }
 
         & #canvas-background {

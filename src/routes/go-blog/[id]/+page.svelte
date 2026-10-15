@@ -92,7 +92,7 @@
 
         & :global(pre code) {
             background: var(--clr-dark-500);
-            border: 1px solid var(--clr-light-350);
+            border: 1px solid var(--clr-light-500-fade);
             color: var(--clr-light-500);
             font-family: var(--mono);
             font-size: 0.8rem;
@@ -172,7 +172,7 @@
             }
 
             & .date {
-                color: var(--clr-light-400);
+                color: var(--clr-light-500-fade);
                 font-family: var(--mono);
                 font-size: clamp(var(--xs), 1.25vw, var(--h4));
                 opacity: 0.7;

@@ -28,10 +28,11 @@
         overflow: hidden;
 
         & .tile {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.69);
             inline-size: 25vw;
             block-size: 25vh;
             backdrop-filter: blur(10px);
-            background: var(--clr-dark-200);
+            background: var(--clr-light-500-fade);
             box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.7);
             opacity: 1;
             will-change: opacity;

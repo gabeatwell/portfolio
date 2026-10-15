@@ -58,7 +58,7 @@
             font-family: var(--bronova-bold);
             font-size: 7vw;
             font-weight: 900;
-            color: var(--clr-light-400);
+            color: var(--clr-light-500-fade);
             text-transform: uppercase;
             letter-spacing: 1px;
             line-height: 0.6;
@@ -81,7 +81,7 @@
                 margin: 0;
                 font-family: var(--mono);
                 transform: scaleX(2.75) scaleY(11.75);
-                text-shadow: 13px -1px 0 var(--clr-dark-400);
+                text-shadow: 13px -1px 0 var(--clr-dark-500-fade);
 
                 &:first-of-type {
                     margin-right: 1em;

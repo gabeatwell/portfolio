@@ -49,11 +49,12 @@
 
 <style>
     .nav-link {
+        --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.85);
         font-family: var(--bronova);
         font-size: clamp(var(--h6), 1.25vw, var(--h4));
         font-weight: 900;
         letter-spacing: 1px;
-        color: var(--clr-light-300);
+        color: var(--clr-light-500-fade);
         background-color: transparent;
         transition: opacity 0.15s ease-out;
         pointer-events: auto;
@@ -112,7 +113,7 @@
         &:focus-visible,
         &:focus {
             background: transparent;
-            outline: 2px solid var(--clr-dark-300);
+            outline: 2px solid var(--clr-dark-500-fade);
             outline-offset: 1px 2px;
         }
 

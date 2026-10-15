@@ -49,12 +49,13 @@
 
         transform: translateZ(0);
         isolation: isolate;
-        background: var(--clr-dark-500, #fff);
+        background: var(--clr-dark-500);
 
         & .preloader-line {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.82);
             flex: 1;
             height: 100vh;
-            background-color: var(--clr-dark-400);
+            background-color: var(--clr-light-500-fade);
             transform-origin: right;
         }
     }

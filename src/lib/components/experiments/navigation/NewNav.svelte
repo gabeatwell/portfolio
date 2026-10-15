@@ -25,7 +25,7 @@
                 y1="160"
                 x2="480"
                 y2="480"
-                stroke="var(--clr-light-400)"
+                stroke="var(--clr-light-500-fade)"
                 stroke-width="75"
                 stroke-linecap="round"
             />
@@ -34,7 +34,7 @@
                 y1="160"
                 x2="160"
                 y2="480"
-                stroke="var(--clr-light-400)"
+                stroke="var(--clr-light-500-fade)"
                 stroke-width="75"
                 stroke-linecap="round"
             />

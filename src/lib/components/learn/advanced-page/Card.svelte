@@ -66,14 +66,14 @@
             line-height: 1.2;
             text-shadow:
                 0 0 1px var(--clr-dark-500),
-                -2px -2px 0 var(--clr-light-400),
-                2px -2px 0 var(--clr-light-400),
-                -2px 2px 0 var(--clr-light-400),
-                2px 2px 0 var(--clr-light-400),
-                -2px 0 0 var(--clr-light-400),
-                2px 0 0 var(--clr-light-400),
-                0 -2px 0 var(--clr-light-400),
-                0 2px 0 var(--clr-light-400);
+                -2px -2px 0 var(--clr-light-500-fade),
+                2px -2px 0 var(--clr-light-500-fade),
+                -2px 2px 0 var(--clr-light-500-fade),
+                2px 2px 0 var(--clr-light-500-fade),
+                -2px 0 0 var(--clr-light-500-fade),
+                2px 0 0 var(--clr-light-500-fade),
+                0 -2px 0 var(--clr-light-500-fade),
+                0 2px 0 var(--clr-light-500-fade);
 
             @media (width <= 768px) {
                 margin-bottom: var(--space-md);

@@ -89,7 +89,7 @@
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 1.15vw, var(--h5));
             font-weight: 400;
-            color: var(--clr-light-400);
+            color: var(--clr-light-500-fade);
             padding-bottom: calc(var(--space-md) - 0.2em);
 
             &:empty {

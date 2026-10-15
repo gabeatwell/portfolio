@@ -224,7 +224,7 @@
         cursor: pointer;
         inline-size: 2em;
         block-size: 2em;
-        color: var(--clr-light-400);
+        color: var(--clr-light-500-fade);
         font-size: clamp(var(--h5), 4.5vw, var(--h1));
         transition: transform 0.3s ease-out;
         rotate: 180deg;

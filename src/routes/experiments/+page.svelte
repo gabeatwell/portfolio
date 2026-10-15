@@ -245,7 +245,7 @@
                 stroke-width: 30;
 
                 &:hover {
-                    stroke: var(--clr-light-400);
+                    stroke: var(--clr-light-500-fade);
                 }
             }
         }

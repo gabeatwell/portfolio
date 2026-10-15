@@ -287,7 +287,7 @@
                         flex-direction: column;
                         align-items: center;
                         padding: calc(var(--space-md) - 0.2rem);
-                        background: var(--clr-dark-400);
+                        background: var(--clr-dark-500-fade);
                         border-radius: 12px;
                         backdrop-filter: blur(10px);
                         border: 2px solid var(--clr-gray-700);

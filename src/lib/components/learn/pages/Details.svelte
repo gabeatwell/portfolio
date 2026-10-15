@@ -151,7 +151,7 @@
             block-size: 0;
             overflow-y: clip;
             padding: 0 var(--space-md);
-            color: var(--clr-light-400);
+            color: var(--clr-light-500-fade);
             transition:
                 opacity 1s,
                 block-size 1s;

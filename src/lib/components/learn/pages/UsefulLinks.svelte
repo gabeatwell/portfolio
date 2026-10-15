@@ -120,7 +120,7 @@
             }
 
             & .explanation {
-                color: var(--clr-light-400);
+                color: var(--clr-light-500-fade);
                 font-family: var(--bronova);
                 font-size: clamp(var(--sm), 1.25rem, var(--h4));
                 font-style: italic;
