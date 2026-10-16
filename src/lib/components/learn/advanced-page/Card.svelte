@@ -36,8 +36,12 @@
         padding-inline: calc(var(--space-md) + 0.8rem);
         margin: 0;
 
+        @media (width <= 768px) {
+            background-color: oklch(from var(--blackest) 0.35 c h / 0.65);
+        }
+
         &:hover {
-            box-shadow: 0 0 2em var(--clr-gray-500-fade);
+            box-shadow: 0 0 2em var(--clr-dark-500-fade);
         }
 
         .card-image {
@@ -66,14 +70,14 @@
             line-height: 1.2;
             text-shadow:
                 0 0 1px var(--clr-dark-500),
-                -2px -2px 0 var(--clr-light-500-fade),
-                2px -2px 0 var(--clr-light-500-fade),
-                -2px 2px 0 var(--clr-light-500-fade),
-                2px 2px 0 var(--clr-light-500-fade),
-                -2px 0 0 var(--clr-light-500-fade),
-                2px 0 0 var(--clr-light-500-fade),
-                0 -2px 0 var(--clr-light-500-fade),
-                0 2px 0 var(--clr-light-500-fade);
+                -2px -2px 0 var(--clr-blue-500),
+                2px -2px 0 var(--clr-blue-500),
+                -2px 2px 0 var(--clr-blue-500),
+                2px 2px 0 var(--clr-blue-500),
+                -2px 0 0 var(--clr-blue-500),
+                2px 0 0 var(--clr-blue-500),
+                0 -2px 0 var(--clr-blue-500),
+                0 2px 0 var(--clr-blue-500);
 
             @media (width <= 768px) {
                 margin-bottom: var(--space-md);
@@ -81,11 +85,10 @@
         }
 
         .card-description {
-            color: var(--clr-light-500);
+            color: var(--clr-light-500-fade);
             font-size: clamp(var(--xs), 1.5vw, var(--h4));
             font-weight: 300;
             margin-bottom: 1rem;
-            text-indent: 1rem;
             display: flex;
             justify-content: center;
             letter-spacing: 0px;
@@ -96,8 +99,8 @@
             justify-content: center;
             align-items: center;
             background-color: transparent;
-            color: var(--clr-light-500);
-            border: 1px solid var(--clr-light-500);
+            color: var(--clr-warning-500);
+            border: 1px solid var(--clr-warning-500);
             border-radius: var(--radius);
             font-family: var(--ultra);
             font-size: clamp(var(--sm), 1.2vw, var(--h5));

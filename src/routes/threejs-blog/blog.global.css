@@ -4,6 +4,28 @@ h2 {
     font-weight: 800;
 }
 
+.post-content h1 {
+    margin-top: 1.5em;
+    font-family: var(--ultra);
+    font-size: clamp(var(--h3), 4vw, var(--lg));
+
+    color: var(--clr-dark-500);
+    text-shadow:
+        0 0 1px var(--clr-dark-500),
+        -2px -2px 0 var(--clr-success-500),
+        2px -2px 0 var(--clr-success-500),
+        -2px 2px 0 var(--clr-success-500),
+        2px 2px 0 var(--clr-success-500),
+        -2px 0 0 var(--clr-success-500),
+        2px 0 0 var(--clr-success-500),
+        0 -2px 0 var(--clr-success-500),
+        0 2px 0 var(--clr-success-500);
+
+    @media (width <= 768px) {
+        margin-top: 3em;
+    }
+}
+
 .geometry-grid {
     column-count: 3;
     column-gap: 1.5em;

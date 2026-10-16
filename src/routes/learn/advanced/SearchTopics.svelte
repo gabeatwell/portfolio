@@ -226,7 +226,7 @@
                     font-family: var(--bronova-bold);
                     font-size: clamp(var(--sm), 0.8vw, var(--h5));
                     text-decoration: none;
-                    color: var(--clr-light-500);
+                    color: var(--clr-light-500-fade);
                     display: block;
                     padding: 0.5em 1em;
                     border-radius: 0.5em;

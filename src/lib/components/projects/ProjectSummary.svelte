@@ -141,7 +141,7 @@
             font-weight: 600;
 
             & .pwa-title {
-                color: var(--clr-blue-500-fade);
+                color: var(--clr-blue-500);
                 font-family: var(--bronova-bold);
                 font-size: clamp(var(--h6), 2.5vw, var(--h3));
 
@@ -162,7 +162,7 @@
 
         & button {
             background-color: transparent;
-            color: var(--clr-blue-500-fade);
+            color: var(--clr-blue-500);
             filter: brightness(1);
             inline-size: fit-content;
             font-family: var(--bronova);

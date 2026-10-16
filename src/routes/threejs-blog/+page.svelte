@@ -53,7 +53,7 @@
 
 <style>
     .complete-post {
-        border: 1px solid var(--clr-light-500);
+        border: 2px solid var(--clr-light-500-fade);
         border-radius: var(--radius);
         padding: 0 0.05em;
 

@@ -8,10 +8,11 @@
         block-size: fit-content;
         padding: var(--padding-button);
         background: var(--clr-dark-500);
-        border: 2px solid var(--clr-gray-500-fade);
-        color: var(--clr-gray-500-fade);
+        border: 2px solid var(--clr-warning-500);
+        color: var(--clr-warning-500);
         border-radius: var(--radius);
         cursor: pointer;
+        font-family: var(--bronova);
         font-size: clamp(var(--sm), 0.875rem, var(--h5));
         font-weight: 400;
         z-index: 10;
@@ -19,6 +20,7 @@
 
         @media (width <= 768px) {
             top: -0.5em;
+            font-weight: 900;
         }
 
         &:hover {

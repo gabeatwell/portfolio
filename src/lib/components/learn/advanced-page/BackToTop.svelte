@@ -19,7 +19,8 @@
     .to-top {
         position: relative;
         text-decoration: none;
-        color: var(--clr-light-500);
+        opacity: 0.8;
+        color: var(--clr-light-500-fade);
         font-size: clamp(var(--sm), 1.5vw, var(--h6));
         font-weight: 600;
         display: flex;
@@ -27,19 +28,16 @@
         gap: 0.5em;
         justify-content: center;
         user-select: none;
-        padding-top: 1em;
+        padding: var(--padding-button);
 
         &:focus,
         &:focus-visible {
             outline: 1px solid var(--clr-light-500);
             box-shadow: none;
-            background: transparent;
-            color: var(--clr-light-500);
         }
 
         &:active {
-            color: var(--clr-light-500);
-            background: transparent;
+            color: var(--clr-warning-500);
         }
     }
 </style>
