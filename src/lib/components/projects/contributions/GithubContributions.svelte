@@ -387,7 +387,7 @@
                 font-family: var(--bronova);
                 font-size: clamp(var(--sm), 1.25vw, var(--h5));
                 font-weight: 600;
-                color: var(--clr-gray-500-fade);
+                color: var(--clr-dark-500-fade);
                 margin-bottom: 0.5rem;
                 text-transform: lowercase;
                 letter-spacing: 0.5px;
@@ -396,7 +396,7 @@
 
         & .total-contributions {
             font-size: clamp(var(--xs), 1.25vw, var(--sm));
-            color: var(--clr-gray-500-fade);
+            color: var(--clr-dark-500-fade);
             opacity: 0.7;
             margin: 0;
             font-weight: 400;
@@ -527,7 +527,7 @@
                     }
 
                     & .month-label {
-                        font-size: 1.1rem;
+                        font-size: 1.05rem;
                         fill: var(--clr-light-500);
                         opacity: 0.7;
                         font-weight: 400;
@@ -557,7 +557,7 @@
                         }
 
                         &.none {
-                            fill: var(--clr-gray-500-fade);
+                            fill: var(--clr-dark-500-fade);
                         }
 
                         &.low {
@@ -609,7 +609,7 @@
                         border: none;
 
                         &.none {
-                            background-color: var(--clr-gray-500-fade, #ebedf0);
+                            background-color: var(--clr-dark-500-fade, #ebedf0);
                         }
 
                         &.low {

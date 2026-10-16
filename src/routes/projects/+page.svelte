@@ -243,7 +243,7 @@
 
         & :global(.popover-icon svg path) {
             @media (width <= 768px) {
-                stroke: var(--clr-warning-300);
+                stroke: var(--clr-warning-500);
             }
         }
     }
