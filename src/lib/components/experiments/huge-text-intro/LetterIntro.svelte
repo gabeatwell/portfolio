@@ -37,15 +37,15 @@
 
             color: var(--clr-dark-500);
             text-shadow:
-                0 0 5px var(--clr-pale-700),
-                -5px -5px 0 var(--clr-pale-700),
-                5px -5px 0 var(--clr-pale-700),
-                -5px 5px 0 var(--clr-pale-700),
-                5px 5px 0 var(--clr-pale-700),
-                -5px 0 0 var(--clr-pale-700),
-                5px 0 0 var(--clr-pale-700),
-                0 -5px 0 var(--clr-pale-700),
-                0 5px 0 var(--clr-pale-700);
+                0 0 5px var(--clr-warning-500),
+                -5px -5px 0 var(--clr-warning-500),
+                5px -5px 0 var(--clr-warning-500),
+                -5px 5px 0 var(--clr-warning-500),
+                5px 5px 0 var(--clr-warning-500),
+                -5px 0 0 var(--clr-warning-500),
+                5px 0 0 var(--clr-warning-500),
+                0 -5px 0 var(--clr-warning-500),
+                0 5px 0 var(--clr-warning-500);
         }
 
         & .full-image {

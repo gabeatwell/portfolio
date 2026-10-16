@@ -82,7 +82,7 @@ export const setupHeroCanvas: Attachment<HTMLCanvasElement> = (canvas) => {
         const bodyStyles = getComputedStyle(document.body);
         const htmlStyles = getComputedStyle(document.documentElement);
         const newStarColor = bodyStyles
-            .getPropertyValue('--clr-pale-900')
+            .getPropertyValue('--clr-warning-500')
             .trim();
         const grayColor = bodyStyles
             .getPropertyValue('--clr-gray-500-fade')

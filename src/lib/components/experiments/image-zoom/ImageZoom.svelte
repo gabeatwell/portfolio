@@ -101,16 +101,16 @@
 
             & .title-start,
             & .title-end {
-                color: var(--clr-pale-700);
+                color: var(--clr-warning-500);
                 font-family: var(--mono);
                 font-size: clamp(var(--h4), 7vw, var(--xl));
                 font-weight: 700;
                 line-height: 1.1;
                 text-shadow:
-                    0 0 10px var(--clr-dark-500),
-                    0 0 20px var(--clr-dark-500),
-                    0 0 30px var(--clr-dark-500),
-                    0 0 40px var(--clr-dark-500);
+                    0 0 10px var(--clr-light-500-fade),
+                    0 0 20px var(--clr-light-500-fade),
+                    0 0 30px var(--clr-light-500-fade),
+                    0 0 40px var(--clr-light-500-fade);
             }
         }
 

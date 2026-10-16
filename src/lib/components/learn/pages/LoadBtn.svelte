@@ -93,12 +93,12 @@
     a.loading-button {
         position: relative;
         width: fit-content;
-        border: 1px solid var(--clr-light-500);
+        border: 1px solid var(--clr-warning-500);
         border-radius: var(--radius);
-        outline: 2px solid var(--clr-light-500);
+        outline: 2px solid var(--clr-warning-500);
         outline-offset: -7px;
         padding: var(--padding-button);
-        color: var(--clr-light-500);
+        color: var(--clr-warning-500);
         background-color: var(--clr-dark-500);
         font-family: var(--bronova);
         font-size: clamp(var(--h6), 1.5vw, var(--h3));

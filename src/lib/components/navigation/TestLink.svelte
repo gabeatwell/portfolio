@@ -13,7 +13,7 @@
         right: 1em;
         border-radius: 5px;
         background-color: transparent;
-        color: var(--clr-pale-700);
+        color: var(--clr-warning-500);
         padding: 0.5rem 0.75rem;
         z-index: 100;
         text-decoration: none;

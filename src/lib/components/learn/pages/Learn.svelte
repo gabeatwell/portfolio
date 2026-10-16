@@ -47,7 +47,7 @@
 
             & .link {
                 text-decoration: none;
-                color: var(--clr-pale-700);
+                color: var(--clr-warning-500);
                 font-family: var(--mono);
                 font-size: clamp(var(--h6), 1.5vw, var(--h3));
                 font-weight: 900;

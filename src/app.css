@@ -361,8 +361,8 @@
         --dark-blue: #1f3b6f;
         --darker-blue: #172b59;
         --darkest-blue: #0f2246;
-        --pale: #fff3c4;
-        --dark-pale: #e8d9a8;
+        --pale: #cebb71;
+        --dark-pale: #af9231;
         --light-gray: #979797;
         --gray: #808080;
         --faint-gray: rgba(128, 128, 128, 0.1);
@@ -383,8 +383,6 @@
         --clr-hero-text: #666666;
         --clr-blue-500: #0f2246;
         --clr-blue-500-fade: #203152;
-        --clr-pale-700: #ffd66b;
-        --clr-pale-900: #fff3c4;
         --clr-green-500: #2b8b5a;
         --clr-btn-900: #111111;
         --clr-sun-500: #ffd66b;
@@ -427,25 +425,25 @@
             --clr-dark-500-fade: --clr-dark-500-fade: rgba(17, 17, 17, 0.8);
             --clr-light-500: #f7f7f7;
             --clr-light-500-fade: rgba(247, 247, 247, 0.8);
+
             --clr-hero-text: #cccccc;
             --clr-blue-500: #4a90e2;
             --clr-blue-500-fade: rgba(74, 144, 226, 0.8);
             --clr-gray-500-fade: rgba(130, 130, 130, 0.08);
             --clr-btn-900: #ffffff;
-            --clr-light-500-fade: rgba(247, 247, 247, 0.8);
         }
         html[data-theme='light'],
         html:has(#manual-theme):not(:has(#manual-theme:checked)) {
             --clr-dark-500: #f7f7f7;
             --clr-dark-500-fade: rgba(247, 247, 247, 0.8);
             --clr-light-500: #111111;
-            --clr-light-500-fade: oklch(0.1 0 0 / 0.8);
+            --clr-light-500-fade: rgba(17, 17, 17, 0.8);
+
             --clr-hero-text: #c6c6c6;
             --clr-blue-500: #172b59;
             --clr-blue-500-fade: rgba(15, 34, 70, 0.8);
             --clr-gray-500-fade: rgba(94, 94, 94, 0.08);
             --clr-btn-900: #111111;
-            --clr-light-500-fade: rgba(17, 17, 17, 0.8);
         }
     }
 
@@ -504,11 +502,11 @@
                 var(--clr-dark-500) 80%,
                 transparent 20%
             );
+
             --clr-hero-text: light-dark(
                 oklch(from var(--light-gray) 0.45 c h),
                 var(--white)
             );
-
             --clr-purple-500: light-dark(var(--light-purple), var(--purple));
             --clr-blue-500-fade: color-mix(
                 in oklch,
@@ -520,8 +518,6 @@
                 var(--clr-gray-500) 80%,
                 transparent 20%
             );
-            --clr-pale-700: light-dark(var(--dark-yellow), var(--pale));
-            --clr-pale-900: light-dark(var(--pale), var(--dark-pale));
             --clr-green-500: light-dark(
                 var(--clr-success-500-dark),
                 var(--clr-success-500-light)
@@ -567,6 +563,7 @@
             --clr-light-500: oklch(0.1 0 0);
             --clr-dark-500: oklch(0.9 0 0);
             --clr-dark-500-fade: oklch(0.5 0 0 / 0.92);
+
             --clr-hero-text: oklch(0.45 0 17.26);
             --clr-purple-500: var(--light-purple);
             --clr-blue-500: var(--dark-blue);
@@ -581,8 +578,6 @@
                 var(--dark-faint-gray) 80%,
                 transparent 20%
             );
-            --clr-pale-700: var(--dark-yellow);
-            --clr-pale-900: var(--pale);
             --clr-green-500: var(--clr-success-500-dark);
             --clr-btn-900: var(--blackest);
             --clr-btn-600: var(--yellow);
@@ -602,9 +597,9 @@
             --clr-light-500-fade: oklch(0.98 0 0 / 0.8);
             --clr-dark-500: oklch(0.1 0 0);
             --clr-dark-500-fade: oklch(0.72 0 0 / 0.92);
+
             --clr-hero-text: var(--white);
             --clr-purple-500: var(--purple);
-
             --clr-blue-500: var(--sky);
             --clr-blue-500-fade: color-mix(
                 in oklch,
@@ -617,8 +612,6 @@
                 var(--dark-faint-gray) 80%,
                 transparent 20%
             );
-            --clr-pale-700: var(--pale);
-            --clr-pale-900: var(--dark-pale);
             --clr-green-500: var(--clr-success-500-light);
             --clr-btn-900: var(--white);
             --clr-btn-600: var(--purple);
