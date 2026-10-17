@@ -1,0 +1,15 @@
+# Gabe Atwell
+
+> Portfolio of Gabe Atwell — custom web interfaces, fluid animations, and 3D experiences. I design, build, and maintain digital projects that feel intentional and tell a clear story.
+
+## Main Pages
+- [Home](https://atwell.dev/): Handcrafted frontend experiences built with SvelteKit, GSAP, and Three.js
+- [Projects](https://atwell.dev/projects): Websites and interactive builds I've created and maintained
+- [About](https://atwell.dev/about): Background, approach, and how I work
+
+## Learning Resources
+- [Three.js Blog](https://atwell.dev/threejs-blog): Practical guides and experiments covering scenes, lighting, models, animation, and more
+- [Web Animations & CSS](https://atwell.dev/learn): Tutorials on modern CSS techniques and web animation
+
+## Experiments
+- [Frontend Experiments](https://atwell.dev/experiments): Interactive demos and technical explorations (also accessible by pressing Tab twice on any page)

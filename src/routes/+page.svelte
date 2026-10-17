@@ -21,7 +21,7 @@
 
 <SEO
     title="Handcrafted Frontend Experiences"
-    description="Gabriel Atwell's Portfolio"
+    description="Gabriel Atwell's Portfolio - it shows his skills in building interfaces, making 3d animations, and telling stories."
     keywords="gabriel atwell, gabe atwell, atwell, atwell dev, atwell.dev, atwell ui, atwell ui design, gabeatwell, Las Vegas web design, Las Vegas UI designer, Las Vegas frontend developer, website designer Las Vegas, web designer Las Vegas, custom web design Las Vegas, Svelte developer Las Vegas, GSAP developer Las Vegas, Three.js developer Las Vegas, frontend developer Las Vegas, GSAP animation developer Las Vegas, custom animated websites Las Vegas, Handcrafted frontend experiences"
 />
 
