@@ -17,7 +17,7 @@
 
 <SEO
     title="About Gabe"
-    description="All about Gabriel Atwell"
+    description="All about Gabriel Atwell and his web development journey"
     keywords="about gabe, about gabriel, gabe's bio"
 />
 

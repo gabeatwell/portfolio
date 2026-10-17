@@ -147,7 +147,7 @@
 
 <SEO
     title="Frontend Experiments"
-    description="Explore Gabriel Atwell's interactive web experiments"
+    description="Explore Gabe Atwell's interactive web experiments"
     keywords="three.js experiments, web development experiments, creative coding, gabe atwell, gabe experiments"
 />
 

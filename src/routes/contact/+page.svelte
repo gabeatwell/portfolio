@@ -7,7 +7,7 @@
 
 <SEO
     title="Contact Me"
-    description="Contact Gabe"
+    description="You can contact Gabe if you have any questions or if you find bugs on any of his sites"
     keywords="contact gabe atwell, contact gabriel atwell, contact gabe, message me"
 />
 

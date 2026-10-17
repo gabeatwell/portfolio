@@ -7,7 +7,7 @@
 
 <SEO
     title="Blog - Learn Three.js"
-    description="Learn Three.js Techniques"
+    description="Learn Three.js Techniques - Learn the basics of 3d design on the web with three.js"
     keywords="three.js blog, three.js tutorial, web development, gabe atwell blog, gabe three.js blog"
 />
 

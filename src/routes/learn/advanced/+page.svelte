@@ -53,7 +53,7 @@
 
 <SEO
     title="Web Animation Techniques"
-    description="Web techniques"
+    description="Advanced animation and web techniques"
     keywords="animation techniques, web techniques for animation"
     type="article"
 />

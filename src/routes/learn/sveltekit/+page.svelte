@@ -22,7 +22,7 @@
 
 <SEO
     title="Sveltekit Framework"
-    description="Build rich user interfaces with Svelte"
+    description="Build rich user interfaces with Svelte/Sveltekit"
     keywords="svelte, sveltekit, svelte how to, sveltekit how to"
 />
 

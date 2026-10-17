@@ -22,7 +22,7 @@
 
 <SEO
     title="Web animations with GSAP"
-    description="web animations"
+    description="Learn the basics of Greensock Animation Platform"
     keywords="GSAP, greensock animation platform, web animation, greensock how to"
 />
 

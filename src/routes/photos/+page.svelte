@@ -5,7 +5,7 @@
 
 <SEO
     title="Photos of Me"
-    description="Gabriel Atwell's Photos"
+    description="A masonry layout of photos"
     keywords="photos of gabe, photos of gabriel, images"
 />
 
