@@ -482,14 +482,14 @@
 
             /* theme aware */
             --clr-contribution-bg: light-dark(var(--white), var(--blackest));
+            --clr-light-500: light-dark(
+                oklch(from var(--blackest) 0.1 c h),
+                oklch(from var(--white) 0.98 c h)
+            );
             --clr-light-500-fade: color-mix(
                 in oklch,
                 var(--clr-light-500) 80%,
                 transparent 20%
-            );
-            --clr-light-500: light-dark(
-                oklch(from var(--blackest) 0.1 c h),
-                oklch(from var(--white) 0.98 c h)
             );
             --clr-dark-500: light-dark(
                 oklch(from var(--white) 0.9 c h),

@@ -57,8 +57,8 @@
     </div>
 
     <p class="explanation">
-        <span>🛠️</span> All of these links are resources that I used to learn frontend
-        and design for the web
+        All of these links are resources that I used to learn frontend and
+        design for the web
     </p>
 </section>
 
@@ -120,20 +120,19 @@
             }
 
             & .explanation {
+                --clr-light-500-fade: oklch(
+                    from var(--clr-light-500) l c h / 0.82
+                );
                 color: var(--clr-light-500-fade);
                 font-family: var(--bronova);
                 font-size: clamp(var(--sm), 1.25rem, var(--h4));
+                font-weight: 300;
                 font-style: italic;
                 text-align: center;
                 margin-top: 2rem;
                 line-height: 1.5;
                 letter-spacing: 0px;
                 opacity: 0.5;
-
-                & span {
-                    font-style: normal;
-                    font-size: clamp(var(--sm), 3vw, var(--h5));
-                }
             }
         }
     }

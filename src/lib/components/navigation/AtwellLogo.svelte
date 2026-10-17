@@ -66,27 +66,28 @@
                 color: var(--clr-dark-500);
                 text-shadow:
                     0 0 1px var(--clr-dark-500),
-                    -3px -3px 0 var(--clr-light-500),
-                    3px -3px 0 var(--clr-light-500),
-                    -3px 3px 0 var(--clr-light-500),
-                    3px 3px 0 var(--clr-light-500),
-                    -3px 0 0 var(--clr-light-500),
-                    3px 0 0 var(--clr-light-500),
-                    0 -3px 0 var(--clr-light-500),
-                    0 3px 0 var(--clr-light-500);
+                    -3px -3px 0 var(--clr-light-500-fade),
+                    3px -3px 0 var(--clr-light-500-fade),
+                    -3px 3px 0 var(--clr-light-500-fade),
+                    3px 3px 0 var(--clr-light-500-fade),
+                    -3px 0 0 var(--clr-light-500-fade),
+                    3px 0 0 var(--clr-light-500-fade),
+                    0 -3px 0 var(--clr-light-500-fade),
+                    0 3px 0 var(--clr-light-500-fade);
                 display: grid;
 
                 @media (width <= 768px) {
                     text-shadow:
                         0 0 1px var(--clr-dark-500),
-                        -1px -1px 0 var(--clr-light-500),
-                        1px -1px 0 var(--clr-light-500),
-                        -1px 1px 0 var(--clr-light-500),
-                        1px 1px 0 var(--clr-light-500),
-                        -1px 0 0 var(--clr-light-500),
-                        1px 0 0 var(--clr-light-500),
-                        0 -1px 0 var(--clr-light-500),
-                        0 1px 0 var(--clr-light-500);
+                        -2px -2px 0 var(--clr-light-500-fade),
+                        2px -2px 0 var(--clr-light-500-fade),
+                        -2px 2px 0 var(--clr-light-500-fade),
+                        2px 2px 0 var(--clr-light-500-fade),
+                        -2px 0 0 var(--clr-light-500-fade),
+                        2px 0 0 var(--clr-light-500-fade),
+                        0 -2px 0 var(--clr-light-500-fade),
+                        0 2px 0 var(--clr-light-500-fade);
+                    margin-right: 0.3em;
                 }
 
                 & .atwell-top {
