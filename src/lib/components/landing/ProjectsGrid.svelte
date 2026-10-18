@@ -62,6 +62,7 @@
                 object-fit: cover;
                 display: block;
                 border: 1px solid var(--clr-light-500);
+                filter: var(--screenshot-filter, none);
                 transition:
                     filter 0.3s ease,
                     scale 0.3s ease;

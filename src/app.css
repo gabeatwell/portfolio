@@ -409,11 +409,13 @@
     /* theme fallbacks */
     html[data-theme='dark'],
     html:has(#manual-theme:checked) {
+        --screenshot-filter: none;
         color-scheme: dark;
     }
 
     html[data-theme='light'],
     html:has(#manual-theme):not(:has(#manual-theme:checked)) {
+        --screenshot-filter: invert(1) hue-rotate(180deg);
         color-scheme: light;
     }
 

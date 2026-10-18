@@ -216,6 +216,7 @@
                 position: relative;
                 margin: 0;
                 object-fit: cover;
+                filter: var(--screenshot-filter, none);
 
                 anchor-name: --project-image;
 
