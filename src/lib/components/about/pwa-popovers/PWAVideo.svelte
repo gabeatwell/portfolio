@@ -76,9 +76,8 @@
             filter: brightness(1);
             color: var(--clr-green-500);
             inline-size: fit-content;
-            font-family: var(--bronova);
+            font-family: var(--bronova-bold);
             font-size: clamp(var(--h6), 1.5vw, var(--h4));
-            font-weight: 600;
             margin: 0;
             padding: 0.1em 0.2em;
             border: none;

@@ -53,6 +53,7 @@
 
 <style>
     .complete-post {
+        --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.4);
         border: 2px solid var(--clr-light-500-fade);
         border-radius: var(--radius);
         padding: 0 0.05em;
@@ -215,13 +216,21 @@
         top: 9em;
         right: 1em;
 
+        @media (width <= 1350px) {
+            top: 8.5em;
+        }
+
+        @media (width <= 1200px) {
+            top: 6em;
+        }
+
         @media (width <= 1100px) {
-            top: 7em;
+            top: 6.6em;
         }
 
         @media (width <= 950px) {
             top: 7em;
-            right: 0;
+            right: -1em;
         }
 
         @media (width <= 768px) {
@@ -239,7 +248,7 @@
 
         & .examples {
             font-family: var(--thunder);
-            font-size: clamp(var(--lg), 12vw, var(--xl));
+            font-size: clamp(var(--h1), 12vw, var(--lg));
             font-weight: 700;
             transform: rotate(15deg);
             letter-spacing: -0.025em;

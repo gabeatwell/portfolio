@@ -47,7 +47,7 @@
         .left-word,
         .right-word {
             color: var(--clr-light-500);
-            font-family: var(--bronova);
+            font-family: var(--serif);
             font-size: clamp(var(--h6), 8vw, var(--xl));
             font-weight: 900;
             margin-top: 2.5%;
