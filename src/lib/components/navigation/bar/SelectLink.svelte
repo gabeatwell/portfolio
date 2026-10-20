@@ -85,11 +85,12 @@
                 white-space: nowrap;
                 transition: background 0.15s ease-out;
 
-                &:focus {
-                    --clr-light-500-fade: oklch(
-                        from var(--clr-dark-500) l c h / 0.25
+                &:focus,
+                &:focus-visible {
+                    --clr-gray-500-fade: oklch(
+                        from var(--clr-gray-500) l c h / 0.75
                     );
-                    outline: 2px solid var(--clr-light-500);
+                    outline: 2px solid var(--clr-gray-500-fade);
                     background: transparent;
                     box-shadow: none;
                 }
