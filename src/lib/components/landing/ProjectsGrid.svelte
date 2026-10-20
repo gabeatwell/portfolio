@@ -4,6 +4,7 @@
             url: string;
             img: { src: string; srcset?: string; sizes?: string };
             title: string;
+            fit?: string;
         }[];
     }
 
@@ -14,6 +15,7 @@
     {#each projects as project}
         <a href={project.url} class="project-card">
             <img
+                class:contain={project.fit === 'contain'}
                 src={project.img.src}
                 srcset={project.img.srcset}
                 sizes={project.img.sizes}
@@ -66,6 +68,11 @@
                 transition:
                     filter 0.3s ease,
                     scale 0.3s ease;
+
+                &.contain {
+                    object-fit: contain;
+                    transform: scaleX(1.35) scaleY(2.3);
+                }
             }
 
             & .overlay {

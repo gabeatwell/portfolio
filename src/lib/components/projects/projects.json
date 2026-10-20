@@ -16,14 +16,13 @@
         "id": "pixipalette",
         "description": "sveltekit",
         "img": {
-            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/pixipalette.webp",
-            "srcset": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/pixipalette-400w.webp 400w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/pixipalette-800w.webp 800w, https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/pixipalette.webp 470w",
-            "sizes": "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 403px"
+            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/projects/pixipalette.webp"
         },
         "index": 1,
         "summary": "A color palette generator that tells users the hex, rgb, and hsl colors of images.. so if you want to know the colors an image is using, use this tool! I tried making the app as user-friendly as possible.",
         "title": "pixipalette",
-        "url": "https://pixipalette.vercel.app"
+        "url": "https://pixipalette.vercel.app",
+        "fit": "contain"
     },
     {
         "id": "grocery-list",
@@ -53,12 +52,13 @@
         "id": "passcraft",
         "description": "sveltekit",
         "img": {
-            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/passcraft3.webp"
+            "src": "https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/projects/passcraft-new.webp"
         },
         "index": 4,
         "summary": "If you're like me and have a hard time creating passwords, PassCraft is for you! It generates random passwords based on user input.",
         "title": "passcraft",
-        "url": "https://make-a-password.vercel.app/"
+        "url": "https://make-a-password.vercel.app/",
+        "fit": "contain"
     },
     {
         "id": "ecommerce",
