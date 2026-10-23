@@ -208,7 +208,7 @@
         /* close state */
         display: none;
         opacity: 0;
-        transform: scale(0);
+        transform: scale(0.95);
         overlay: none;
 
         transition:
@@ -230,7 +230,7 @@
     @starting-style {
         [popover]:popover-open {
             opacity: 0;
-            transform: scale(0);
+            transform: scale(1.1);
         }
     }
 

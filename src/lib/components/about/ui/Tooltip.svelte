@@ -38,6 +38,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        inline-size: fit-content;
 
         &:hover .tooltip {
             opacity: 1;
@@ -64,8 +65,11 @@
             -webkit-tap-highlight-color: transparent;
 
             & svg {
-                fill: var(--clr-blue-500);
-                stroke: var(--clr-light-500);
+                --clr-dark-500-fade: oklch(
+                    from var(--clr-dark-500) 0.65 c h / 0.6
+                );
+                fill: var(--clr-warning-500);
+                /* stroke: var(--clr-dark-500-fade); */
                 stroke-width: calc(5px + 1vw);
                 width: clamp(1.2em, 5vw, 3em);
                 height: clamp(1.2em, 5vw, 3em);
@@ -85,10 +89,10 @@
         & .tooltip {
             position: absolute;
             background-color: var(--clr-dark-500);
-            color: var(-clr-main);
+            color: var(-clr-light-500);
             font-size: clamp(var(--sm), 1.5vw, var(--h6));
             padding: calc(var(--space-md) - 0.7rem);
-            box-shadow: 0 0 3px var(--clr-blue-500);
+            box-shadow: 0 0 3px var(--clr-warning-500);
             border-radius: 16px;
             max-inline-size: 200px;
             width: fit-content;
