@@ -45,6 +45,7 @@
         }
 
         .popover-icon {
+            anchor-name: --popover-anchor;
             background-color: transparent;
             color: var(--clr-light-500);
             inline-size: fit-content;
@@ -96,8 +97,6 @@
         #popover {
             --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.35);
             border: 2px solid var(--clr-light-500-fade);
-            margin-inline: auto;
-            margin-block: 5em;
             font-family: var(--bronova);
             font-size: clamp(var(--xs), 1.25vw, var(--h5));
             font-weight: 400;
@@ -105,6 +104,7 @@
             padding: var(--padding-modal);
             color: var(--clr-light-500);
             background-color: var(--clr-dark-500);
+            inline-size: 50vw;
 
             @media (width < 500px) {
                 letter-spacing: 1px;
@@ -114,24 +114,30 @@
 
     [popover] {
         position: fixed;
-        top: 10%;
-        left: 0;
-        right: 0;
-        margin-inline: auto;
+        position-anchor: --popover-anchor;
+        position-area: top center;
+        position-try-fallbacks: --below, flip-inline;
+        position-try-order: most-block-size;
+        margin: 0;
+        margin-block-end: 0.75rem;
+        max-inline-size: 90vw;
         inline-size: fit-content;
 
-        border-radius: 0.5rem;
+        border-radius: 0.25rem;
         box-shadow: var(--blackest) 0px 20px 25px -5px;
         padding: var(--padding-modal);
 
-        opacity: 0;
-        transform: translateY(2rem);
-        transition:
-            opacity 0.4s ease-in,
-            transform 0.4s ease-in,
-            display 0.4s allow-discrete;
+        /* grows out of the button edge it's tethered to */
+        transform-origin: center bottom;
 
-        max-inline-size: 65vw;
+        opacity: 0;
+        scale: 0.9;
+        transition:
+            opacity 0.3s ease-in,
+            scale 0.3s ease-in,
+            overlay 0.3s allow-discrete,
+            display 0.3s allow-discrete;
+
         @media (width <= 1100px) {
             max-inline-size: 75vw;
         }
@@ -143,19 +149,25 @@
         }
     }
 
+    /* fallback: sits below the button -> grows from its top edge */
+    @position-try --below {
+        position-area: bottom center;
+        margin-block: 0.75rem 0;
+        transform-origin: center top;
+    }
+
     [popover]:popover-open {
         opacity: 1;
-        transform: translateY(0);
+        scale: 1;
         transition:
-            opacity 0.4s ease-out,
-            transform 0.4s ease-out;
+            opacity 0.3s ease-out,
+            scale 0.3s ease-out;
     }
 
     @starting-style {
         [popover]:popover-open {
-            display: block;
             opacity: 0;
-            transform: translateY(2rem);
+            scale: 0.9;
         }
     }
 
