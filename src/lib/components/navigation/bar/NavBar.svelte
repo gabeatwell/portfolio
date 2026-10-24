@@ -6,7 +6,12 @@
     import NavLink from '#lib/components/navigation/bar/NavLink.svelte';
     import SelectLink from '#lib/components/navigation/bar/SelectLink.svelte';
     import AtwellLogo from '../AtwellLogo.svelte';
+    import projects from '#lib/components/projects/projects.json';
 
+    type Project = (typeof projects)[number];
+
+    const withImage = projects.filter((p) => p.img && p.title);
+    let featured = $state<Project | null>(null);
     let open = $state<boolean>(false);
 
     function closeMenu() {
@@ -15,8 +20,13 @@
         }
     }
 
+    $effect(() => {
+        if (withImage.length === 0) return;
+        featured = withImage[Math.floor(Math.random() * withImage.length)];
+    });
+
     // nav items
-    const desktopItems = [
+    const desktopItems = $derived([
         {
             type: 'link' as const,
             href: '/about',
@@ -32,7 +42,6 @@
             dropdownType: 'links' as const,
             links: [
                 { label: 'My Projects', href: '/projects' },
-                { label: 'Web Apps', href: '/projects?filter=web' },
                 { label: 'Experiments', href: '/experiments' },
             ],
         },
@@ -53,7 +62,7 @@
                 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/threejs-svgloader.webp',
             imageAlt: 'Three.js work',
         },
-    ];
+    ]);
 </script>
 
 <InstallButton />
