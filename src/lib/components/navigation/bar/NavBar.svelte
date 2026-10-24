@@ -2,9 +2,9 @@
     import InstallButton from './InstallButton.svelte';
     import Burger from '#lib/components/navigation/bar/Burger.svelte';
     import ThemeToggle from '#lib/components/navigation/bar/ThemeToggle.svelte';
+    import NavDropdown from '#lib/components/navigation/bar/NavDropdown.svelte';
     import NavLink from '#lib/components/navigation/bar/NavLink.svelte';
     import SelectLink from '#lib/components/navigation/bar/SelectLink.svelte';
-    // import AtwellUnderline from '../AtwellUnderline.svelte';
     import AtwellLogo from '../AtwellLogo.svelte';
 
     let open = $state<boolean>(false);
@@ -14,6 +14,46 @@
             open = false;
         }
     }
+
+    // nav items
+    const desktopItems = [
+        {
+            type: 'link' as const,
+            href: '/about',
+            title: 'About',
+            index: 0,
+            viewTransitionName: 'about-heading',
+        },
+        {
+            type: 'dropdown' as const,
+            title: 'Builds',
+            href: '/projects',
+            index: 1,
+            dropdownType: 'links' as const,
+            links: [
+                { label: 'My Projects', href: '/projects' },
+                { label: 'Web Apps', href: '/projects?filter=web' },
+                { label: 'Experiments', href: '/experiments' },
+            ],
+        },
+        {
+            type: 'link' as const,
+            href: '/learn',
+            title: 'Learn',
+            index: 2,
+            viewTransitionName: 'learn-heading',
+        },
+        {
+            type: 'dropdown' as const,
+            title: 'Three.js',
+            href: '/threejs-blog',
+            index: 3,
+            dropdownType: 'image' as const, // or 'iframe'
+            imageSrc:
+                'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/threejs-svgloader.webp',
+            imageAlt: 'Three.js work',
+        },
+    ];
 </script>
 
 <InstallButton />
@@ -22,45 +62,33 @@
     <div class="nav-main">
         <Burger bind:open ariaLabel="Toggle menu" />
 
-        <!-- <AtwellUnderline /> -->
         <AtwellLogo title="atwell" />
 
         <ThemeToggle />
     </div>
 
-    <ul class="desktop" aria-label="Desktop navigation menu">
-        <li>
-            <NavLink
-                href="/about"
-                title="About"
-                index={0}
-                viewTransitionName="about-heading"
-            />
-        </li>
-        <li>
-            <NavLink
-                href="/projects"
-                title="Builds"
-                index={1}
-                viewTransitionName="build-heading"
-            />
-        </li>
-        <li>
-            <NavLink
-                href="/learn"
-                title="Learn"
-                index={2}
-                viewTransitionName="learn-heading"
-            />
-        </li>
-        <li>
-            <NavLink
-                href="/threejs-blog"
-                title="Three.js"
-                index={3}
-                viewTransitionName="three-heading"
-            />
-        </li>
+    <ul class="desktop" aria-label="desktop navigation menu">
+        {#each desktopItems as item}
+            {#if item.type === 'dropdown'}
+                <NavDropdown
+                    title={item.title}
+                    href={item.href}
+                    index={item.index}
+                    type={item.dropdownType}
+                    links={item.links}
+                    imageSrc={item.imageSrc}
+                    imageAlt={item.imageAlt}
+                />
+            {:else}
+                <NavLink
+                    href={item.href}
+                    title={item.title}
+                    index={item.index}
+                    viewTransitionName={item.viewTransitionName}
+                />
+            {/if}
+        {/each}
+
         <SelectLink />
     </ul>
 
