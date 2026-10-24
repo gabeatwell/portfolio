@@ -15,6 +15,7 @@
         imageSrc?: string;
         imageAlt?: string;
         iframeSrc?: string;
+        panelOffset?: string;
     }
 
     let {
@@ -26,6 +27,7 @@
         imageSrc,
         imageAlt = '',
         iframeSrc,
+        panelOffset = '1em',
     }: Props = $props();
 
     const { playSoundAsync: playHoverSound } = useSound(
@@ -47,7 +49,12 @@
         <span>{title}</span>
     </a>
 
-    <div class="dropdown-panel" style:--anchor={anchorName} data-type={type}>
+    <div
+        class="dropdown-panel"
+        style:--anchor={anchorName}
+        style:--panel-offset={panelOffset}
+        data-type={type}
+    >
         {#if type === 'links' && links.length}
             <ul class="dropdown-links">
                 {#each links as link}
@@ -243,7 +250,7 @@
                 flip-inline,
                 flip-block flip-inline;
 
-            margin-block-start: 4em;
+            margin-block-start: var(--panel-offset, 1em);
         }
     }
 </style>

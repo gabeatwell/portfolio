@@ -40,6 +40,7 @@
             href: '/projects',
             index: 1,
             dropdownType: 'links' as const,
+            panelOffset: '4em',
             links: [
                 { label: 'My Projects', href: '/projects' },
                 { label: 'Experiments', href: '/experiments' },
@@ -87,6 +88,7 @@
                     links={item.links}
                     imageSrc={item.imageSrc}
                     imageAlt={item.imageAlt}
+                    panelOffset={item.panelOffset}
                 />
             {:else}
                 <NavLink
