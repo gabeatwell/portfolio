@@ -147,7 +147,6 @@
                 var(--clr-light-500) 15%,
                 transparent
             );
-            transform: translateY(-110%) skewY(2deg);
             transform-origin: bottom;
             transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
             will-change: transform;
@@ -177,25 +176,12 @@
             outline: 2px solid var(--clr-dark-500-fade);
             outline-offset: 1px 2px;
         }
-
-        @media (hover: hover) and (pointer: fine) {
-            &:hover::before,
-            &:focus-visible::before {
-                transform: translateY(0) skewY(0deg);
-            }
-
-            &:hover::after,
-            &:focus-visible::after {
-                transform: scaleX(1);
-            }
-        }
     }
 
     .dropdown-panel {
         position: absolute;
         top: 100%;
         left: 0;
-        /* min-inline-size: 220px; */
         margin-block-start: 0.5rem;
         padding: 0.75rem;
         background: var(--clr-dark-500);
@@ -307,8 +293,23 @@
                 & img {
                     inline-size: 100%;
                     block-size: 100%;
-                    object-fit: cover;
-                    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+                    object-fit: contain;
+                    translate: 0 0;
+                    transform: translateY(0) scaleY(1.6);
+                    transition:
+                        translate 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+                    padding-bottom: 4.5em;
+                    transition: filter 0.3s ease;
+
+                    &:hover {
+                        filter: invert(1.3);
+                    }
+
+                    /* &:nth-of-type(2),
+                    &:nth-of-type(4) {
+                        transform: scaleY(2.9);
+                    } */
                 }
             }
 
@@ -327,15 +328,6 @@
                 -webkit-box-orient: vertical;
                 overflow: hidden;
             }
-        }
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-        .project-card:hover {
-            transform: translateY(-3px);
-        }
-        .project-card:hover .project-img-wrap img {
-            transform: scale(1.06);
         }
     }
 
