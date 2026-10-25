@@ -39,12 +39,8 @@
             title: 'Builds',
             href: '/projects',
             index: 1,
-            dropdownType: 'links' as const,
+            dropdownType: 'projects' as const,
             panelOffset: '4em',
-            links: [
-                { label: 'My Projects', href: '/projects' },
-                { label: 'Experiments', href: '/experiments' },
-            ],
         },
         {
             type: 'link' as const,
@@ -85,7 +81,6 @@
                     href={item.href}
                     index={item.index}
                     type={item.dropdownType}
-                    links={item.links}
                     imageSrc={item.imageSrc}
                     imageAlt={item.imageAlt}
                     panelOffset={item.panelOffset}

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { useSound } from '#lib/data/stores/sounds/uiSounds.svelte.js';
+    import projects from '#lib/components/projects/projects.json';
 
     interface DropdownLink {
         label: string;
@@ -10,8 +11,8 @@
         title: string;
         href?: string;
         index?: number;
-        type?: 'links' | 'image' | 'iframe';
-        links?: DropdownLink[];
+        type?: 'links' | 'image' | 'iframe' | 'projects';
+        links?: { label: string; href: string }[];
         imageSrc?: string;
         imageAlt?: string;
         iframeSrc?: string;
@@ -55,7 +56,29 @@
         style:--panel-offset={panelOffset}
         data-type={type}
     >
-        {#if type === 'links' && links.length}
+        {#if type === 'projects'}
+            <div class="projects-grid">
+                {#each projects as project}
+                    <a
+                        href={project.url}
+                        class="project-card"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        <div class="project-img-wrap">
+                            <img
+                                src={project.img.src}
+                                srcset={project.img.srcset}
+                                sizes={project.img.sizes ?? '180px'}
+                                alt={project.title}
+                                loading="lazy"
+                            />
+                        </div>
+                        <span class="project-title">{project.title}</span>
+                    </a>
+                {/each}
+            </div>
+        {:else if type === 'links' && links.length}
             <ul class="dropdown-links">
                 {#each links as link}
                     <li>
@@ -225,10 +248,69 @@
         }
 
         .dropdown-iframe {
-            width: 320px;
-            height: 200px;
+            inline-size: 320px;
+            block-size: 200px;
             border: none;
             border-radius: calc(var(--radius) - 2px);
+        }
+    }
+
+    .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 0.85rem;
+        min-inline-size: min(500px, 80vw);
+        max-inline-size: 400px;
+
+        & .project-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            text-decoration: none;
+            color: var(--clr-light-500);
+            border-radius: calc(var(--radius) - 2px);
+            overflow: hidden;
+            transition:
+                transform 0.25s ease,
+                opacity 0.25s ease;
+
+            & .project-img-wrap {
+                aspect-ratio: 5 / 4;
+                overflow: hidden;
+                border-radius: calc(var(--radius) - 2px);
+                max-inline-size: 7em;
+                background: color-mix(
+                    in oklch,
+                    var(--clr-light-500) 8%,
+                    transparent
+                );
+
+                & img {
+                    inline-size: 100%;
+                    block-size: 100%;
+                    object-fit: cover;
+                    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+                }
+            }
+
+            & .project-title {
+                font-family: var(--bronova);
+                font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+                font-weight: 700;
+                letter-spacing: 0.02em;
+                text-transform: lowercase;
+                padding-inline: 0.15rem;
+                line-height: 1.25;
+            }
+        }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .project-card:hover {
+            transform: translateY(-3px);
+        }
+        .project-card:hover .project-img-wrap img {
+            transform: scale(1.06);
         }
     }
 
