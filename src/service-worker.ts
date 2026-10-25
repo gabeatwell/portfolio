@@ -6,9 +6,25 @@ import { version } from '$app/env';
 const CACHE = `cache-${version}`;
 // Manifest paths arrive without a leading slash (`_app/immutable/...`), while
 // `new URL(request.url).pathname` always has one — normalize so both compare.
+/**
+ * Routes with `prerender = false` have no HTML in the build, so the manifest
+ * can't precache them. `cache.add` fetches them from the live server at
+ * install time and stores an offline snapshot instead — the shell renders
+ * offline; genuinely server-only content (form submits, live API data) still
+ * needs a connection and degrades to the error UI.
+ */
+const EXTRA_ROUTES = [
+    '/learn/advanced',
+    '/contact',
+    '/contact/success',
+    '/contact/hire',
+    '/threejs-blog/three-components',
+];
+
 const ASSETS = [
     '/',
     '/index.html',
+    ...EXTRA_ROUTES,
     ...[...immutable, ...assets, ...prerendered].map((a) =>
         a.path.startsWith('/') ? a.path : `/${a.path}`,
     ),
@@ -206,8 +222,14 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
         // Always try the cache for navigations so cold-start offline works on iOS,
         // even if the JS heartbeat is missing or stale.
         if (isNavigation) {
-            // Try exact match first
-            const cached = await cache.match(event.request);
+            // Try exact match first. `ignoreVary` is required: build assets
+            // are stored with `Vary: Origin` (from precache fetches that send
+            // no Origin header), while the browser's CORS-mode stylesheet/
+            // script requests do send one — without this those lookups
+            // silently miss and offline navigations 404 their own CSS/JS.
+            const cached = await cache.match(event.request, {
+                ignoreVary: true,
+            });
 
             if (jsActive) {
                 // Stale-while-revalidate when we know JS is alive
@@ -310,14 +332,18 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
 
                 return response;
             } catch {
-                const cachedResponse = await cache.match(event.request);
+                const cachedResponse = await cache.match(event.request, {
+                    ignoreVary: true,
+                });
                 if (cachedResponse) return cachedResponse;
             }
         }
 
         // other build files from cache first (images, fonts, etc.) for performance
         if (ASSETS.includes(url.pathname)) {
-            const cachedResponse = await cache.match(event.request);
+            const cachedResponse = await cache.match(event.request, {
+                ignoreVary: true,
+            });
             if (cachedResponse) {
                 return cachedResponse;
             }
@@ -327,7 +353,9 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
         // network. Opaque `no-cors` responses have status 0, so the
         // generic `status === 200` check below would never store them.
         if (isCrossOrigin && CACHEABLE_CROSS_ORIGIN.test(url.pathname)) {
-            const cachedResponse = await cache.match(event.request);
+            const cachedResponse = await cache.match(event.request, {
+                ignoreVary: true,
+            });
             if (cachedResponse) return cachedResponse;
 
             try {
@@ -339,7 +367,9 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
                 }
                 return response;
             } catch {
-                const late = await cache.match(event.request);
+                const late = await cache.match(event.request, {
+                    ignoreVary: true,
+                });
                 if (late) return late;
             }
         }
@@ -357,7 +387,9 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
 
             return response;
         } catch {
-            const cachedResponse = await cache.match(event.request);
+            const cachedResponse = await cache.match(event.request, {
+                ignoreVary: true,
+            });
             if (cachedResponse) {
                 return cachedResponse;
             }
