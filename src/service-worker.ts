@@ -4,7 +4,22 @@ import { immutable, assets, prerendered } from '$app/manifest';
 import { version } from '$app/env';
 
 const CACHE = `cache-${version}`;
-const ASSETS = [...immutable, ...assets, ...prerendered].map((a) => a.path);
+// Manifest paths arrive without a leading slash (`_app/immutable/...`), while
+// `new URL(request.url).pathname` always has one — normalize so both compare.
+const ASSETS = [
+    '/',
+    '/index.html',
+    ...[...immutable, ...assets, ...prerendered].map((a) =>
+        a.path.startsWith('/') ? a.path : `/${a.path}`,
+    ),
+];
+
+/**
+ * Cross-origin media/fonts (the jsdelivr `portfolio-assets` CDN) are worth
+ * runtime-caching: the site's imagery is off-origin, so without this, an
+ * offline visit shows a text-only page. Analytics beacons stay untouched.
+ */
+const CACHEABLE_CROSS_ORIGIN = /\.(?:png|jpe?g|webp|avif|gif|svg|woff2?)$/i;
 const CACHEABLE_ASSETS = ASSETS.filter(
     (asset) => !asset.endsWith('/.gitkeep') && !asset.endsWith('/.DS_Store'),
 );
@@ -163,12 +178,18 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
         return;
     }
 
+    // Cacheable cross-origin media/fonts (jsdelivr imagery) still need to
+    // reach the handler below; only beacons/other cross-origin traffic bypasses.
     const isCloudflareAnalytics =
         url.hostname.endsWith('cloudflareinsights.com') ||
         url.pathname.includes('beacon.min.js') ||
         url.pathname.startsWith('/cdn-cgi/');
 
-    if (isCrossOrigin || isCloudflareAnalytics) {
+    if (isCloudflareAnalytics) {
+        return;
+    }
+
+    if (isCrossOrigin && !CACHEABLE_CROSS_ORIGIN.test(url.pathname)) {
         return;
     }
 
@@ -299,6 +320,27 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
             const cachedResponse = await cache.match(event.request);
             if (cachedResponse) {
                 return cachedResponse;
+            }
+        }
+
+        // cross-origin media (jsdelivr images/fonts): cache-first, then
+        // network. Opaque `no-cors` responses have status 0, so the
+        // generic `status === 200` check below would never store them.
+        if (isCrossOrigin && CACHEABLE_CROSS_ORIGIN.test(url.pathname)) {
+            const cachedResponse = await cache.match(event.request);
+            if (cachedResponse) return cachedResponse;
+
+            try {
+                const response = await fetch(event.request);
+                if (response.ok || response.type === 'opaque') {
+                    cache.put(event.request, response.clone()).catch(
+                        () => {},
+                    );
+                }
+                return response;
+            } catch {
+                const late = await cache.match(event.request);
+                if (late) return late;
             }
         }
 

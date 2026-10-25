@@ -1,7 +1,6 @@
 <script lang="ts">
     import { laptopScene } from '#lib/components/landing/scroll-intro/laptopReveal.js';
     import type { Attachment } from 'svelte/attachments';
-    import { onMount } from 'svelte';
     import { prefersReducedMotion } from '#lib/data/reduced-motion.svelte.ts';
     import Hero from '#lib/components/landing/hero-section/hero/Hero.svelte';
 
