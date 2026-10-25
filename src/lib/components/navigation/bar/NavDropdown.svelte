@@ -147,6 +147,7 @@
                 var(--clr-light-500) 15%,
                 transparent
             );
+            transform: translateY(100%);
             transform-origin: bottom;
             transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
             will-change: transform;
@@ -175,6 +176,18 @@
             background: transparent;
             outline: 2px solid var(--clr-dark-500-fade);
             outline-offset: 1px 2px;
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover::before,
+            &:focus-visible::before {
+                transform: translateY(0) skewY(0deg);
+            }
+
+            &:hover::after,
+            &:focus-visible::after {
+                transform: scaleX(1);
+            }
         }
     }
 
