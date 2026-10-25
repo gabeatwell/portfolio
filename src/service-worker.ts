@@ -32,6 +32,9 @@ const sw = self as unknown as ServiceWorkerGlobalScope;
  * JavaScript was switched off — the stamp goes stale within `ACTIVE_TTL` and
  * the worker passes every request straight to the network, behaving exactly as
  * if it were not installed: no precaching, no cache reads, no cache writes.
+ *
+ * Exception: navigation requests always try the cache first so offline
+ * cold-starts (especially on iOS) work correctly.
  */
 const ACTIVE_TTL = 5 * 60 * 1000;
 const STATE_CACHE = 'sw-js-state';
@@ -159,6 +162,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
     if (url.pathname.startsWith('/api/')) {
         return;
     }
+
     const isCloudflareAnalytics =
         url.hostname.endsWith('cloudflareinsights.com') ||
         url.pathname.includes('beacon.min.js') ||
@@ -169,24 +173,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
     }
 
     async function respond(): Promise<Response> {
-        // Dormant: no page has reported a live JS session, so this request goes
-        // to the network untouched — no cache read, no cache write, no
-        // precached bulk download. A no-JS visitor is served exactly as if no
-        // worker were installed at all.
-        if (!(await isJsActive())) {
-            // Navigations are where we learn the client is really JS-free, so
-            // that is when the worker considers retiring itself.
-            const accept = event.request.headers.get('accept') || '';
-            if (
-                event.request.mode === 'navigate' ||
-                accept.includes('text/html')
-            ) {
-                event.waitUntil(retireIfAbandoned());
-            }
-
-            return fetch(event.request);
-        }
-
+        const jsActive = await isJsActive();
         const cache = await caches.open(CACHE);
 
         const acceptHeader = event.request.headers.get('accept') || '';
@@ -194,33 +181,98 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
             event.request.mode === 'navigate' ||
             acceptHeader.includes('text/html');
 
-        // navigation stale while revalidate
-        // serve cache page instantly - refresh in bg
+        // ---------- Navigation requests (offline-first priority) ----------
+        // Always try the cache for navigations so cold-start offline works on iOS,
+        // even if the JS heartbeat is missing or stale.
         if (isNavigation) {
+            // Try exact match first
             const cached = await cache.match(event.request);
-            const freshening = fetch(event.request)
-                .then((response) => {
-                    if (response && response.status === 200) {
-                        cache.put(event.request, response.clone());
-                    }
-                    return response;
-                })
-                .catch(() => null);
 
-            if (cached) return cached;
+            if (jsActive) {
+                // Stale-while-revalidate when we know JS is alive
+                const freshening = fetch(event.request)
+                    .then((response) => {
+                        if (response && response.status === 200) {
+                            cache.put(event.request, response.clone());
+                        }
+                        return response;
+                    })
+                    .catch(() => null);
 
-            try {
-                const response = await freshening;
-                if (response) return response;
-            } catch {
-                // fall through
+                if (cached) return cached;
+
+                try {
+                    const response = await freshening;
+                    if (response) return response;
+                } catch {
+                    // fall through to fallbacks
+                }
+            } else if (cached) {
+                // Offline + no recent heartbeat → still serve the cached page
+                return cached;
             }
 
+            // Fallbacks
             const fallback =
                 (await cache.match('/')) || (await cache.match('/index.html'));
+
             if (fallback) return fallback;
 
-            return new Response('Offline', { status: 503 });
+            // Last-resort offline page (keeps Safari from showing its native error)
+            return new Response(
+                `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Offline</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      text-align: center;
+      background: #0a0a0a;
+      color: #f5f5f5;
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    p { opacity: 0.7; margin-bottom: 1.5rem; }
+    button {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>You’re offline</h1>
+  <p>This page isn’t available right now.</p>
+  <button onclick="location.reload()">Try again</button>
+</body>
+</html>`,
+                {
+                    status: 503,
+                    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+                },
+            );
+        }
+
+        // ---------- Non-navigation requests ----------
+        // keep the original dormant behavior when JS is inactive
+        if (!jsActive) {
+            // Consider retiring the worker if the JS heartbeat has been gone long enough.
+            // (Navigations are already handled above, so we no longer need the mode check.)
+            event.waitUntil(retireIfAbandoned());
+            return fetch(event.request);
         }
 
         // static JS/CSS: prefer network (keep styles/scripts fresh), fallback to cache
