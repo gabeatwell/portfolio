@@ -46,6 +46,7 @@
         data-reverse={isReverse}
         style:--anchor={anchorName}
         onmouseenter={playHoverSound}
+        aria-haspopup="true"
     >
         <span>{title}</span>
     </a>
@@ -241,6 +242,8 @@
 
                 &:hover,
                 &:focus-visible {
+                    outline: 2px solid var(--clr-light-500);
+                    outline-offset: 2px;
                     background: color-mix(
                         in oklch,
                         var(--clr-light-500) 12%,
@@ -291,6 +294,13 @@
                 transform 0.25s ease,
                 opacity 0.25s ease;
             min-inline-size: 0;
+
+            &:focus-visible,
+            &:focus {
+                background: transparent;
+                outline: 2px solid var(--clr-dark-500-fade);
+                outline-offset: 1px 2px;
+            }
 
             & .project-img-wrap {
                 aspect-ratio: 5 / 4;

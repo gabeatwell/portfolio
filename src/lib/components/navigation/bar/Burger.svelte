@@ -1,7 +1,7 @@
 <script lang="ts">
     import { beforeNavigate } from '$app/navigation';
 
-    let { open = $bindable(false), ariaLabel = 'menu' } = $props();
+    let { open = $bindable(false), ariaLabel = 'toggle menu' } = $props();
 
     beforeNavigate(({ shallow }) => {
         if (shallow) return;
@@ -21,72 +21,32 @@
     }
 </script>
 
-<input
-    type="checkbox"
-    id="nav-toggle"
-    class="nav-toggle"
-    bind:checked={open}
-    aria-label={ariaLabel}
-    aria-controls="mobile-menu"
-    {@attach trapEscape}
-/>
-<label for="nav-toggle" class="hamburger" aria-hidden="true">
-    <span class="bars">
+<label class="hamburger" class:open>
+    <input
+        type="checkbox"
+        class="nav-toggle"
+        bind:checked={open}
+        aria-label={ariaLabel}
+        aria-controls="mobile-menu"
+        {@attach trapEscape}
+    />
+
+    <span class="bars" aria-hidden="true">
         <span class="bar bar-1"></span>
         <span class="bar bar-2"></span>
     </span>
 </label>
 
 <style>
-    .nav-toggle {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 1px;
-        height: 1px;
-        margin: 0;
-        appearance: none;
-        opacity: 0;
-        pointer-events: none;
-
-        &:not(:checked) + .hamburger:hover .bar {
-            background: var(--clr-light-500);
-        }
-
-        &:checked + .hamburger {
-            padding-bottom: 0.5rem;
-
-            & .bar-1 {
-                width: 2.2em;
-                transform: translateY(0) rotate(45deg);
-            }
-
-            & .bar-2 {
-                width: 2.2em;
-                transform: translateY(0) rotate(-45deg);
-            }
-        }
-    }
-
     .hamburger {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        z-index: 10;
-        margin-bottom: 2em;
-        margin-left: 1em;
-        position: relative;
-        padding: 0;
-        pointer-events: auto;
-
-        @media (width >= 755px) {
+        @media (width >= 769px) {
             display: none;
+        }
+
+        &:has(.nav-toggle:focus-visible) {
+            outline: 2px solid var(--clr-light-500);
+            outline-offset: 4px;
+            border-radius: 4px;
         }
 
         & .bars {
@@ -118,6 +78,34 @@
                 width: 2em;
                 transform: translateY(0.35rem);
             }
+        }
+
+        /* Open state */
+        &:has(.nav-toggle:checked) {
+            padding-bottom: 0.5rem;
+
+            & .bar-1 {
+                width: 2.2em;
+                transform: translateY(0) rotate(45deg);
+            }
+
+            & .bar-2 {
+                width: 2.2em;
+                transform: translateY(0) rotate(-45deg);
+            }
+        }
+
+        & .nav-toggle {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+            opacity: 0;
         }
     }
 </style>

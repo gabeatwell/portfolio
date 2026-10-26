@@ -25,6 +25,17 @@
         featured = withImage[Math.floor(Math.random() * withImage.length)];
     });
 
+    $effect(() => {
+        if (open) {
+            if (!open) return;
+            const id = requestAnimationFrame(() => {
+                const firstLink = document.querySelector('#mobile-menu a');
+                (firstLink as HTMLElement)?.focus();
+            });
+            return () => cancelAnimationFrame(id);
+        }
+    });
+
     // nav items
     const desktopItems = $derived([
         {
@@ -64,7 +75,7 @@
 
 <InstallButton />
 
-<nav class="navigation">
+<nav class="navigation" aria-label="main">
     <div class="nav-main">
         <Burger bind:open ariaLabel="Toggle menu" />
 
@@ -73,7 +84,7 @@
         <ThemeToggle />
     </div>
 
-    <ul class="desktop" aria-label="desktop navigation menu">
+    <ul class="desktop" aria-label="desktop navigation">
         {#each desktopItems as item}
             {#if item.type === 'dropdown'}
                 <NavDropdown
@@ -98,7 +109,12 @@
         <SelectLink />
     </ul>
 
-    <ul class="mobile" id="mobile-menu" aria-label="Main navigation menu">
+    <ul
+        class="mobile"
+        id="mobile-menu"
+        aria-label="Main navigation"
+        hidden={!open}
+    >
         <li>
             <NavLink href="/about" title="About Gabe" onclick={closeMenu} />
         </li>
@@ -236,5 +252,15 @@
         @media (width >= 750px) {
             display: none;
         }
+    }
+
+    .navigation:has(:global(.nav-toggle:checked)) .mobile {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+        pointer-events: auto;
+        transition:
+            opacity 0.3s ease-out,
+            transform 0.15s ease-out;
     }
 </style>

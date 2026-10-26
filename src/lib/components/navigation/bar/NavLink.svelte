@@ -10,6 +10,7 @@
         onclick?: (event: MouseEvent) => void;
         viewTransitionName?: string;
     }
+
     let {
         href,
         title,
@@ -21,7 +22,10 @@
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/foley-bubble.wav',
     );
-
+    const isCurrent = $derived(
+        page.url.pathname === href ||
+            (href !== '/' && page.url.pathname.startsWith(href + '/')),
+    );
     const theme = useTheme();
 
     let shouldTransition = $derived(
@@ -37,7 +41,13 @@
     }
 </script>
 
-<a class="nav-link" {href} onclick={handleClick} data-reverse={isReverse}>
+<a
+    class="nav-link"
+    {href}
+    onclick={handleClick}
+    data-reverse={isReverse}
+    aria-current={isCurrent ? 'page' : undefined}
+>
     <span
         style:view-transition-name={shouldTransition
             ? viewTransitionName

@@ -4,14 +4,38 @@
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/foley-bubble.wav',
     );
+
+    let open = $state(false);
 </script>
 
 <li class="connect-select">
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="select-wrapper" onmouseenter={playHoverSound}>
-        <span class="select-trigger">Connect</span>
+    <div
+        class="select-wrapper"
+        class:open
+        onmouseenter={() => {
+            playHoverSound();
+            open = true;
+        }}
+        onmouseleave={() => (open = false)}
+        onfocusin={() => (open = true)}
+        onfocusout={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                open = false;
+            }
+        }}
+    >
+        <button
+            type="button"
+            class="select-trigger"
+            aria-haspopup="true"
+            aria-expanded={open}
+            aria-controls="connect-options"
+        >
+            Connect
+        </button>
 
-        <div class="select-options">
+        <div class="select-options" id="connect-options" hidden={!open}>
             <a href="/contact/hire" class="select-option">
                 <span class="option-text">Hire Me</span>
             </a>
@@ -58,7 +82,20 @@
         }
 
         & .select-trigger {
-            pointer-events: none;
+            all: unset;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: inherit;
+            font: inherit;
+            color: inherit;
+            letter-spacing: inherit;
+
+            &:focus-visible {
+                outline: 2px solid var(--clr-light-500);
+                outline-offset: 3px;
+                border-radius: 2px;
+            }
         }
 
         & .select-options {
