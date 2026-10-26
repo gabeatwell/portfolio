@@ -39,7 +39,7 @@
     <div class="overlay"></div>
 
     <div class="content">
-        <h1 class="title">{title}</h1>
+        <h2 class="title">{title}</h2>
         <h3 class="subtitle">{subtitle}</h3>
         <button class="cta" onclick={handleCTAClick}>{ctaText}</button>
     </div>

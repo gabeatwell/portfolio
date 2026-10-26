@@ -11,9 +11,9 @@
     keywords="go blog, go tutorial, go-lang blog, gabe atwell blog, gabe go blog"
 />
 
-<h1 class="blog-title">
+<h2 class="blog-title">
     Learn <span>Go</span>
-</h1>
+</h2>
 
 <aside class="toc">
     <ul>

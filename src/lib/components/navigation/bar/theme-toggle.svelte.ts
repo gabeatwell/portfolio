@@ -21,9 +21,7 @@ export function ThemeToggle({
 }: ThemeToggleOptions) {
     return (node: HTMLElement) => {
         const input = node as HTMLInputElement;
-        const label = document.querySelector<HTMLLabelElement>(
-            `label[for="${input.id}"]`,
-        );
+        const label = input.closest<HTMLLabelElement>('label.theme-toggle');
         const root = document.documentElement;
 
         const paintCheckbox = () => {
@@ -89,9 +87,19 @@ export function ThemeToggle({
         });
         node.addEventListener('click', onclick);
 
+        function onkeydown(e: KeyboardEvent) {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            input.click(); // reuse the same activation path as mouse/Space
+        }
+
+        node.addEventListener('click', onclick);
+        node.addEventListener('keydown', onkeydown);
+
         return () => {
             observer.disconnect();
             node.removeEventListener('click', onclick);
+            node.removeEventListener('keydown', onkeydown);
         };
     };
 }

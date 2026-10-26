@@ -72,7 +72,7 @@
 <div class="about-hero-image">
     <AboutHeroParallax />
 
-    <h1
+    <h2
         id="title"
         style:view-transition-name={viewTransitionName}
         style:view-transition-class="heading-transition"
@@ -80,7 +80,7 @@
     >
         <span>About</span>
         {title}
-    </h1>
+    </h2>
 </div>
 
 <style>

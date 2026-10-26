@@ -37,7 +37,7 @@
 
 <article aria-label="go to the hero page">
     <section>
-        <h1 class="h1">{title}</h1>
+        <h2 class="h2">{title}</h2>
 
         <div class="img">
             <a href="/threejs-blog" onclick={handleTransitionClick}>
@@ -57,7 +57,7 @@
         overflow: clip;
 
         & section {
-            & .h1 {
+            & .h2 {
                 color: var(--blue);
                 font-family: var(--ultra);
                 font-size: clamp(3rem, 7vw, 6rem);

@@ -3,27 +3,29 @@
 
     interface Props {
         title: string;
+        current?: boolean;
     }
 
-    let { title }: Props = $props();
+    let { title, current = false }: Props = $props();
 
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/ui_bubble.wav',
     );
 
-    async function handleMouseEnter() {
-        await playHoverSound();
+    function handlePointerEnter() {
+        void playHoverSound();
     }
 </script>
 
 <a
     href="/"
-    aria-label="Go to homepage"
+    aria-label="atwell - Go to homepage"
+    aria-current={current ? 'page' : undefined}
     data-navigation-logo
-    onclick={handleMouseEnter}
+    onclick={handlePointerEnter}
 >
     <div class="atwell-logo">
-        <div class="atwell">
+        <div class="atwell" aria-hidden="true">
             <div class="atwell-top">{title}</div>
             <div class="atwell-bottom">{title}</div>
         </div>
@@ -34,10 +36,20 @@
     [data-navigation-logo] {
         user-select: none;
 
+        display: inline-flex;
+        align-items: center;
+        border-radius: 0.25rem;
+
+        &:focus-visible,
         &:focus {
-            outline: 1px solid var(--clr-light-500);
+            outline: 2px solid var(--clr-light-500-fade);
+            outline-offset: 3px;
             background: transparent;
             box-shadow: none;
+        }
+
+        &:focus:not(:focus-visible) {
+            outline: none;
         }
 
         & .atwell-logo {
@@ -120,6 +132,15 @@
     @keyframes slideRight {
         to {
             translate: 10px 0;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        [data-navigation-logo] .atwell-logo {
+            transition: none;
+        }
+        [data-navigation-logo] .atwell-logo:active {
+            scale: 1;
         }
     }
 </style>

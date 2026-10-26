@@ -10,7 +10,7 @@
 
 <div class="title-screen" {@attach attachKillgridTitle}>
     <div class="content">
-        <h1 class="title">KILLGRID</h1>
+        <h2 class="title">KILLGRID</h2>
 
         <div class="tagline">Survive the grid</div>
 

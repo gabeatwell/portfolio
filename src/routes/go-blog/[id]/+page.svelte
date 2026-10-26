@@ -36,8 +36,8 @@
         );
 
         result = result.replace(
-            'h1',
-            `h1 style="view-transition-name: go-title-${postId};"`,
+            'h2',
+            `h2 style="view-transition-name: go-title-${postId};"`,
         );
         return result;
     }

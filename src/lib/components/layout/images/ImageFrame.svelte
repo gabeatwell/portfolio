@@ -13,7 +13,7 @@
 <div class="image-container" {@attach imageFrame}>
     <img {src} {alt} loading="lazy" />
 
-    <h1>{text}</h1>
+    <h2>{text}</h2>
 </div>
 
 <style>
@@ -34,7 +34,7 @@
             border-radius: 10px;
         }
 
-        h1 {
+        h2 {
             position: absolute;
             top: 96%;
             left: 50%;
@@ -55,7 +55,7 @@
             margin-top: 20%;
             margin-bottom: -5%;
 
-            h1 {
+            h2 {
                 letter-spacing: 0;
                 text-align: center;
             }

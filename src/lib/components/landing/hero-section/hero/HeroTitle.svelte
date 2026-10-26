@@ -7,13 +7,13 @@
 </script>
 
 <section>
-    <h1>{title}</h1>
+    <h2>{title}</h2>
 </section>
 
 <style>
     section {
         @supports (background-clip: text) or (-webkit-background-clip: text) {
-            & h1 {
+            & h2 {
                 --bgSize: 200%;
                 margin: 2rem auto;
                 margin-top: 5%;

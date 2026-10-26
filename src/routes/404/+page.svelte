@@ -23,7 +23,7 @@
 
         <h2 class="subtitle">You have encountered an error</h2>
 
-        <h1 class="status">404</h1>
+        <h2 class="status">404</h2>
 
         <p class="message">Page Not Found</p>
     </div>

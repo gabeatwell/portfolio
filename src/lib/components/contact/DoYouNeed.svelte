@@ -19,7 +19,7 @@
     aria-label={dynamicAriaLabel}
     {@attach animateDoYouNeed}
 >
-    <h1 class="sentence">
+    <h2 class="sentence">
         <span class="subtitle" bind:this={subtitleElement}>{text}</span>
 
         <span class="bigWord">
@@ -27,7 +27,7 @@
                 <span class="char" bind:this={charElements[i]}>{char}</span>
             {/each}
         </span>
-    </h1>
+    </h2>
 </section>
 
 <style>

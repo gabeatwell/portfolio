@@ -49,7 +49,7 @@
         <div class="game-over-container" class:closing={isClosing}>
             {#if won}
                 <div class="won">
-                    <h1>VICTORY!</h1>
+                    <h2>VICTORY!</h2>
                     <p>You have killed the computer men!</p>
                     <button class="restart-button" onclick={handleRestart}
                         >Play Again</button
@@ -57,7 +57,7 @@
                 </div>
             {:else}
                 <div class="lost">
-                    <h1>GAME OVER</h1>
+                    <h2>GAME OVER</h2>
                     <p>You were defeated...</p>
                     <button class="restart-button" onclick={handleRestart}
                         >Restart</button
@@ -132,7 +132,7 @@
             }
 
             & .won {
-                h1 {
+                h2 {
                     font-family: var(--bronova-bold);
                     font-size: clamp(var(--h4), 5vw, var(--h2));
                     margin: 0 0 1rem 0;
@@ -154,7 +154,7 @@
             }
 
             & .lost {
-                & h1 {
+                & h2 {
                     font-family: var(--bronova-bold);
                     font-size: clamp(var(--h4), 5vw, var(--h2));
                     margin: 0 0 1rem 0;

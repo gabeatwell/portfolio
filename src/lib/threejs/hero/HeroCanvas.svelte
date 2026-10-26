@@ -72,7 +72,7 @@
             contain: layout;
         }
 
-        & :global(h1) {
+        & :global(h2) {
             min-height: 3rem;
         }
 

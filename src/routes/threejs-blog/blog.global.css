@@ -4,7 +4,7 @@ h2 {
     font-weight: 800;
 }
 
-.post-content h1 {
+.post-content h2 {
     margin-top: 1.5em;
     font-family: var(--ultra);
     font-size: clamp(var(--h3), 4vw, var(--lg));

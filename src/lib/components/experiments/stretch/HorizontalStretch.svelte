@@ -16,7 +16,7 @@
 </script>
 
 <div class="stretch-text">
-    <h1>
+    <h2>
         {#each letters as letter, index}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <span
@@ -27,7 +27,7 @@
         {:else}
             {letters}
         {/each}
-    </h1>
+    </h2>
 </div>
 
 <style>
@@ -37,7 +37,7 @@
         z-index: 200;
         user-select: none;
 
-        & h1 {
+        & h2 {
             font-family: var(--ultra);
             font-size: clamp(var(--h4), 10vw, var(--xxxxl));
             font-weight: bold;

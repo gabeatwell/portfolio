@@ -10,7 +10,7 @@
 </script>
 
 <section>
-    <h1 class="title" id="title" aria-label={title}>
+    <h2 class="title" id="title" aria-label={title}>
         {#each letters as letter, i}
             <span
                 class="letter"
@@ -20,7 +20,7 @@
                 {letter === ' ' ? '\u00A0' : letter}
             </span>
         {/each}
-    </h1>
+    </h2>
 </section>
 
 <style>

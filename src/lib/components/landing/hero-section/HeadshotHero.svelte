@@ -36,9 +36,9 @@
 
     <section class="hero-content" aria-label="hero content">
         <header class="title-wrapper">
-            <h1 class="hero-title" {@attach animateHeadshotTitle}>
+            <h2 class="hero-title" {@attach animateHeadshotTitle}>
                 {title}
-            </h1>
+            </h2>
 
             <p
                 class="hero-text"

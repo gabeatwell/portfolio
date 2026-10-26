@@ -17,11 +17,11 @@
         <div class="game-over-container">
             {#if won}
                 <div class="won">
-                    <h1>VICTORY!</h1>
+                    <h2>VICTORY!</h2>
                 </div>
             {:else}
                 <div class="lost">
-                    <h1>GAME OVER</h1>
+                    <h2>GAME OVER</h2>
                     <p>You were defeated...</p>
                 </div>
             {/if}
@@ -72,7 +72,7 @@
                 );
 
             & .won {
-                & h1 {
+                & h2 {
                     font-family: var(--bronova-bold);
                     font-size: clamp(var(--h4), 5vw, var(--h2));
                     margin: 0 0 0.5rem 0;
@@ -94,7 +94,7 @@
             }
 
             & .lost {
-                & h1 {
+                & h2 {
                     font-family: var(--bronova-bold);
                     font-size: clamp(var(--h4), 5vw, var(--h2));
                     margin: 0 0 0.5rem 0;

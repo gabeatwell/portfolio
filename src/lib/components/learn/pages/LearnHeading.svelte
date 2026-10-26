@@ -19,7 +19,7 @@
 
 {#if !reduce()}
     <section class="animated-title" {@attach animateLearnHeading}>
-        <h1 class="left-word">{title1}</h1>
+        <h2 class="left-word">{title1}</h2>
         <span class="middle-word">{span}</span>
         <h2
             class="right-word"

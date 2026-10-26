@@ -78,20 +78,20 @@
             style="view-transition-name: {transitionName};
             style:view-transition-class: {viewTransitionClass};"
         >
-            <h1
+            <h2
                 class="text-title title-main exclude-transition"
                 id="title"
                 aria-label={title}
             >
                 {title}
-            </h1>
+            </h2>
             {#if title2}
-                <h1
+                <h2
                     class="text-title title-overlay exclude-transition"
                     aria-label={title2}
                 >
                     {title2}
-                </h1>
+                </h2>
             {/if}
         </div>
     {/if}

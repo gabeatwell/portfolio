@@ -5,7 +5,7 @@
     let duration = $state<number>(300);
 </script>
 
-<h1
+<h2
     class="animated-text"
     {@attach letterDrop()}
     transition:fade={{ duration: duration }}
@@ -22,7 +22,7 @@
 
     <span class="animated-letter">m</span>
     <span class="animated-letter">e</span>
-</h1>
+</h2>
 
 <style>
     .animated-text {

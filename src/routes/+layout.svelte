@@ -16,6 +16,8 @@
     import { createLenis, destroyLenis, resetScroll } from '#lib/data/lenis.js';
     import { browser } from '$app/env';
     import { gsap, ScrollTrigger } from '#lib/data/gsap.js';
+    import { headingFor } from '#lib/data/routeHeadings.js';
+    import { page } from '$app/state';
 
     interface Props {
         children: Snippet;
@@ -25,6 +27,7 @@
     const loading = createLoadingContext();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const theme = createThemeContext();
+    const heading = $derived(headingFor(page.url.pathname) ?? 'atwell');
 
     let mounted = $state(false);
 
@@ -136,9 +139,9 @@
 </script>
 
 <svelte:head><meta name="color-scheme" content="light dark" /></svelte:head>
+
 <PullToRefresh />
 <ViewTransition />
-
 <SkipLink />
 <TestLink title="experiments" />
 
@@ -149,6 +152,8 @@
 
 <NavBar />
 <main tabindex="-1">
+    <h1 class="visually-hidden">{heading}</h1>
+
     <div id="main-content" tabindex="-1">
         {@render children()}
     </div>

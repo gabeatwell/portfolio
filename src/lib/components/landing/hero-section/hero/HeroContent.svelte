@@ -17,7 +17,7 @@
 
 <section aria-label="Introduction and portfolio overview" class="hero-content">
     <header class="title-container">
-        <h1 class="hero-title glitch">
+        <h2 class="hero-title glitch">
             {#each heroContentState.titleWords as _, wordIndex}
                 {@const wordData = heroContentState.getWordChars(wordIndex)}
 
@@ -37,7 +37,7 @@
                     {/if}
                 </span>
             {/each}
-        </h1>
+        </h2>
     </header>
 
     <div

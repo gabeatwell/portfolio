@@ -3,7 +3,7 @@
 </script>
 
 <section class="intro" {@attach letterIntro}>
-    <h1>atwell</h1>
+    <h2>atwell</h2>
 
     <div class="full-image">
         <img
@@ -28,7 +28,7 @@
         justify-content: center;
         align-items: center;
 
-        & h1 {
+        & h2 {
             font-family: var(--ultra);
             font-size: clamp(5em, 70vw, 35em);
             margin-bottom: 1rem;

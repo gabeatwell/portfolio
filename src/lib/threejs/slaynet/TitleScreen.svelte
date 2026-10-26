@@ -10,7 +10,7 @@
 
 <div class="title-screen" {@attach attachSlaynetTitle}>
     <div class="content">
-        <h1 class="title">SLAYNET</h1>
+        <h2 class="title">SLAYNET</h2>
         <div class="tagline">Kill the putahmen</div>
         <button class="start-button" onclick={onStart} ontouchstart={onStart}>
             Start

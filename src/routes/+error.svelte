@@ -35,7 +35,7 @@
 
         <h2 class="subtitle">You have encountered an error</h2>
 
-        <h1 class="status">{page.status}</h1>
+        <h2 class="status">{page.status}</h2>
 
         <p class="message">{page.error?.message}</p>
     </div>

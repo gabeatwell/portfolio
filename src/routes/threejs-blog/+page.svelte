@@ -11,9 +11,9 @@
     keywords="three.js blog, three.js tutorial, web development, gabe atwell blog, gabe three.js blog"
 />
 
-<h1 class="blog-title">
+<h2 class="blog-title">
     Learn <span style="view-transition-name: three-heading;">Three.js</span>
-</h1>
+</h2>
 
 <aside class="examples-link">
     <a href="/threejs-blog/three-components">

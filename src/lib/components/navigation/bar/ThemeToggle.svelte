@@ -16,22 +16,22 @@
 
 <A11yAnnouncer message={themeStatus} />
 
-<input
-    type="checkbox"
-    id="manual-theme"
-    class="sr-only"
-    aria-label="Toggle between light and dark theme"
-    {@attach ThemeToggle({
-        isDark: () => theme.isDark,
-        onChange: (t) => theme.set(t),
-        onBegin: () => theme.beginTransition(),
-        onEnd: () => theme.endTransition(),
-        onAnnounce: announce,
-        onSound: () => void playSoundAsync(),
-    })}
-/>
+<label class="theme-toggle">
+    <input
+        type="checkbox"
+        id="manual-theme"
+        class="sr-only"
+        aria-label="Toggle between light and dark theme"
+        {@attach ThemeToggle({
+            isDark: () => theme.isDark,
+            onChange: (t) => theme.set(t),
+            onBegin: () => theme.beginTransition(),
+            onEnd: () => theme.endTransition(),
+            onAnnounce: announce,
+            onSound: () => void playSoundAsync(),
+        })}
+    />
 
-<label class="theme-toggle" for="manual-theme">
     <svg
         class="icon moon"
         viewBox="0 0 24 24"
@@ -74,16 +74,12 @@
         clip-path: inset(50%);
         white-space: nowrap;
 
-        &:checked ~ .theme-toggle .sun {
+        &:checked ~ .sun {
             display: block;
         }
 
-        &:checked ~ .theme-toggle .moon {
+        &:checked ~ .moon {
             display: none;
-        }
-
-        &:focus-visible ~ .theme-toggle {
-            outline: 1px solid var(--clr-light-500);
         }
     }
 
@@ -110,6 +106,11 @@
 
         &:hover {
             text-shadow: 0 0 1px var(--smoke);
+        }
+
+        &:has(> .sr-only:focus-visible) {
+            outline: 2px solid var(--clr-light-500);
+            outline-offset: 2px;
         }
 
         &:active {

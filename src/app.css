@@ -304,6 +304,9 @@
         inline-size: 1px;
         block-size: 1px;
         white-space: nowrap;
+        margin: -1px;
+        padding: 0;
+        border: 0;
     }
 
     .indent {
