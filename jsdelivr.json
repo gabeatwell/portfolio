@@ -1,0 +1,10 @@
+{
+	"type": "gh",
+	"name": "gabeatwell/portfolio-assets",
+	"version": "main",
+	"status": 403,
+	"message": "Package size exceeded the configured limit of 50 MB.",
+	"links": {
+		"stats": "https://data.jsdelivr.com/v1/stats/packages/gh/gabeatwell/portfolio-assets@main"
+	}
+}

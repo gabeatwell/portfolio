@@ -36,6 +36,51 @@ const ASSETS = [
  * offline visit shows a text-only page. Analytics beacons stay untouched.
  */
 const CACHEABLE_CROSS_ORIGIN = /\.(?:png|jpe?g|webp|avif|gif|svg|woff2?)$/i;
+
+/**
+ * CDN images referenced anywhere in the app, precached up-front so the first
+ *-ever offline visit still shows imagery. The multi-megabyte textures
+ * (asphalt-texture, random-stock, concrete-hole) are deliberately left out —
+ * same policy as HEAVY_ASSET — and get runtime-cached after first view.
+ * (`cache.add` with `no-cors` stores the opaque response the browser's `<img>`
+ * requests will later hit in the cross-origin branch below.)
+ */
+const CDN_BASE = 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/';
+const CDN_IMAGES = [
+    'CSS-Purple.webp',
+    'GSAP-Dark.svg',
+    'Svelte-Dark.svg',
+    'abstract-bg3a.webp',
+    'advanced-web.webp',
+    'atwellUI.webp',
+    'atwellUI_social-media.webp',
+    'blueTriangle.webp',
+    'dots.svg',
+    'error.webp',
+    'gabe-face.webp',
+    'gabe-sketch.webp',
+    'headshot-noBG_a.webp',
+    'interfaceNormalMap.webp',
+    'mobile-hands.webp',
+    'newspaper.webp',
+    'pause.webp',
+    'play.webp',
+    'pointer.svg',
+    'shieldy.webp',
+    'skully.webp',
+    'star.webp',
+    'stop.webp',
+    'success.webp',
+    'svelte-magick_background.webp',
+    'svelte-magick_foreground.webp',
+    'svelte-magick_middle.webp',
+    'threejs-svgloader.webp',
+    'threejs_background.webp',
+    'threejs_skybox.webp',
+    'tunnel.webp',
+    'volume.webp',
+    'wavy-lines.webp',
+].map((file) => `${CDN_BASE}${file}`);
 const CACHEABLE_ASSETS = ASSETS.filter(
     (asset) => !asset.endsWith('/.gitkeep') && !asset.endsWith('/.DS_Store'),
 );
@@ -113,6 +158,25 @@ async function precache(): Promise<void> {
                 console.warn(
                     '[service-worker] failed to cache asset',
                     asset,
+                    error,
+                );
+            }
+        }),
+    );
+
+    // CDN images: jsdelivr sends `Access-Control-Allow-Origin: *`, so
+    // `cache.add` (a cors-mode fetch) succeeds and stores a *basic* response.
+    // That matters: opaque (no-cors) entries are rejected for cors-mode
+    // consumers like three.js TextureLoader, even when the network is up.
+    await Promise.allSettled(
+        CDN_IMAGES.map(async (url) => {
+            try {
+                if (await cache.match(url)) return;
+                await cache.add(url);
+            } catch (error) {
+                console.warn(
+                    '[service-worker] failed to cache CDN image',
+                    url,
                     error,
                 );
             }
