@@ -59,6 +59,8 @@
     {/if}
 {/if}
 
+<h2>test</h2>
+
 <style>
     .ssr-hero-wrapper {
         position: relative;
