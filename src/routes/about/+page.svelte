@@ -11,6 +11,7 @@
 
     import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
     import Biography from '#lib/components/about/ui/Biography.svelte';
+    // import BentoMagnetic from '#lib/components/about/ui/BentoMagnetic.svelte';
 
     const breakpoints = getBreakpoints();
 </script>
@@ -83,6 +84,8 @@
                 <Grid leftTitle="Frontend" rightTitle="Design Based" />
 
                 <Bento />
+
+                <!-- <BentoMagnetic /> -->
             </div>
         </article>
     </section>
