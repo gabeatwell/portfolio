@@ -14,7 +14,7 @@
 
     import { afterNavigate } from '$app/navigation';
     import { createLenis, destroyLenis, resetScroll } from '#lib/data/lenis.js';
-    import { browser } from '$app/env';
+    import { browser, dev } from '$app/env';
     import { gsap, ScrollTrigger } from '#lib/data/gsap.js';
     import { headingFor } from '#lib/data/routeHeadings.js';
     import { page } from '$app/state';
@@ -34,6 +34,7 @@
     // service worker
     $effect(() => {
         if (typeof window === 'undefined') return;
+        if (dev) return;
 
         const abortController = new AbortController();
         let heartbeat: ReturnType<typeof setInterval> | undefined;
