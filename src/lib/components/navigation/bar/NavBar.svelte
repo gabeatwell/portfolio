@@ -52,6 +52,7 @@
             index: 1,
             dropdownType: 'projects' as const,
             panelOffset: '4em',
+            viewTransitionName: 'build-heading',
         },
         {
             type: 'link' as const,
@@ -69,6 +70,7 @@
             imageSrc:
                 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/threejs-svgloader.webp',
             imageAlt: 'Three.js work',
+            viewTransitionName: 'three-heading',
         },
     ]);
 </script>
@@ -95,6 +97,7 @@
                     imageSrc={item.imageSrc}
                     imageAlt={item.imageAlt}
                     panelOffset={item.panelOffset}
+                    viewTransitionName={item.viewTransitionName}
                 />
             {:else}
                 <NavLink

@@ -1,6 +1,8 @@
 <script lang="ts">
     import { useSound } from '#lib/data/stores/sounds/uiSounds.svelte.js';
     import projects from '#lib/components/projects/projects.json';
+    import { page } from '$app/state';
+    import { useTheme } from '#lib/data/context/theme.svelte.ts';
 
     interface DropdownLink {
         label: string;
@@ -17,6 +19,7 @@
         imageAlt?: string;
         iframeSrc?: string;
         panelOffset?: string;
+        viewTransitionName?: string;
     }
 
     let {
@@ -29,6 +32,7 @@
         imageAlt = '',
         iframeSrc,
         panelOffset = '1em',
+        viewTransitionName = undefined,
     }: Props = $props();
 
     const { playSoundAsync: playHoverSound } = useSound(
@@ -37,6 +41,13 @@
     let isReverse = $derived(index % 2 === 1);
     // svelte-ignore state_referenced_locally
     const anchorName = `--nav-dropdown-${title.toLowerCase().replace(/\s+/g, '-')}`;
+
+    const theme = useTheme();
+    let shouldTransition = $derived(
+        viewTransitionName &&
+            page.url.pathname !== href &&
+            !theme.isTransitioning,
+    );
 </script>
 
 <li class="nav-dropdown-item">
@@ -48,7 +59,11 @@
         onmouseenter={playHoverSound}
         aria-haspopup="true"
     >
-        <span>{title}</span>
+        <span
+            style:view-transition-name={shouldTransition
+                ? viewTransitionName
+                : undefined}>{title}</span
+        >
     </a>
 
     <div
