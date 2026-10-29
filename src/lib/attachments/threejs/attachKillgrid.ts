@@ -32,7 +32,9 @@ export function attachKillgridGame(
         void opts.restartTrigger;
 
         const isMobile =
-            'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            window.matchMedia('(pointer: coarse)').matches &&
+            !window.matchMedia('(pointer: fine)').matches;
+
         cb.onMobile(isMobile);
 
         // hide chrome while playing

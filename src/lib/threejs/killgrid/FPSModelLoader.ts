@@ -20,8 +20,7 @@ export interface ModelCache {
     buildingSizes: ModelSize[];
 }
 
-const CDN_BASE =
-    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/models';
+const CDN_BASE = '/threejayess/models';
 
 /**
  * Create a GLTFLoader with Draco decoder support.

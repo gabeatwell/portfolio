@@ -146,10 +146,7 @@
     </div>
 
     {#key game}
-        <FPSMobileControls
-            {game}
-            enabled={isMobile && isLocked && !isGameOver}
-        />
+        <FPSMobileControls {game} enabled={isMobile && !isGameOver} />
     {/key}
 
     <Confetti active={isGameOver} color={won ? 'green' : 'red'} />

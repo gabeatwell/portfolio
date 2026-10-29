@@ -10,7 +10,7 @@ import {
     TextureLoader,
     Object3D,
 } from 'three';
-import { Building } from './objects/Building';
+// import { Building } from './objects/Building';
 
 export const GROUND_TEXTURE_URL = import.meta.env.DEV
     ? 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/asphalt-texture.webp'
@@ -152,13 +152,13 @@ export class World extends Mesh {
             this.remove(this.buildings);
         }
 
-        this.buildings = await Building.createBuildings(
-            this.width,
-            this.height,
-            this.buildingCount,
-            this.buildingCells,
-        );
-        this.add(this.buildings);
+        // this.buildings = await Building.createBuildings(
+        //     this.width,
+        //     this.height,
+        //     this.buildingCount,
+        //     this.buildingCells,
+        // );
+        // this.add(this.buildings);
     }
 
     createWalls(parent: Object3D) {

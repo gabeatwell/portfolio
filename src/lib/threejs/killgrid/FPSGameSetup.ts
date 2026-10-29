@@ -17,7 +17,7 @@ import {
     Object3D,
     DoubleSide,
 } from 'three';
-import { World } from '../slaynet/world';
+import { World } from './world';
 import { FPSPlayer } from './player/FPSPlayer';
 import { FPSEnemyManager } from './enemy/FPSEnemyManager';
 // import { FPSBuilding } from './buildings/FPSBuilding';
@@ -447,70 +447,63 @@ export class FPSGame {
 
         const dt = 1 / 60;
 
-        if (this.mobileMode) {
-            // Camera rotation via yaw/pitch
-            const euler = new Vector3(this.lookPitch, this.lookYaw, 0);
+        // ─── Camera orientation ──────────────────────────────────────
+        // Touch: right-thumb drag drives lookYaw/lookPitch.
+        // Desktop: pointer lock drives the camera quaternion.
+        // Touch-look only applies when pointer lock is NOT holding the
+        // camera, otherwise the two fight each other.
+        if (this.mobileMode && !this.controls.isLocked) {
             this.camera.rotation.order = 'YXZ';
-            this.camera.rotation.set(euler.x, euler.y, 0);
+            this.camera.rotation.set(this.lookPitch, this.lookYaw, 0);
+        }
 
-            // Movement from touch joystick (camera-relative)
-            const camForward = new Vector3();
-            this.camera.getWorldDirection(camForward);
-            camForward.y = 0;
-            camForward.normalize();
-            const camRight = new Vector3();
-            camRight.crossVectors(camForward, this.camera.up).normalize();
+        // ─── Camera-relative movement basis ──────────────────────────
+        // Shared by both input methods, so WASD and the joystick compose.
+        const forward = new Vector3();
+        this.camera.getWorldDirection(forward);
+        forward.y = 0;
+        forward.normalize();
 
-            this.direction.set(0, 0, 0);
+        const right = new Vector3();
+        right.crossVectors(forward, this.camera.up).normalize();
+
+        // ─── Accumulate input ────────────────────────────────────────
+        this.direction.set(0, 0, 0);
+
+        // Keyboard (WASD) — binary
+        if (this.moveForward) this.direction.add(forward);
+        if (this.moveBackward) this.direction.sub(forward);
+        if (this.moveLeft) this.direction.sub(right);
+        if (this.moveRight) this.direction.add(right);
+
+        // Touch joystick — analog, additive on top of the keyboard
+        if (this.mobileMode) {
             if (this.moveY < -0.2)
-                this.direction.add(
-                    camForward.clone().multiplyScalar(-this.moveY),
-                );
+                this.direction.add(forward.clone().multiplyScalar(-this.moveY));
             if (this.moveY > 0.2)
-                this.direction.sub(
-                    camForward.clone().multiplyScalar(this.moveY),
-                );
+                this.direction.sub(forward.clone().multiplyScalar(this.moveY));
             if (this.moveX > 0.2)
-                this.direction.add(camRight.clone().multiplyScalar(this.moveX));
+                this.direction.add(right.clone().multiplyScalar(this.moveX));
             if (this.moveX < -0.2)
-                this.direction.sub(
-                    camRight.clone().multiplyScalar(-this.moveX),
-                );
-            this.direction.normalize();
+                this.direction.sub(right.clone().multiplyScalar(-this.moveX));
+        }
 
-            const speed = 5;
-            this.movePlayerWithCollision(
-                this.direction.x * speed * dt,
-                this.direction.z * speed * dt,
-            );
+        this.direction.normalize();
 
-            // Auto-shoot when crosshair is on an enemy
+        // ─── Move ────────────────────────────────────────────────────
+        const speed = this.isRunning ? 8 : 5;
+        this.movePlayerWithCollision(
+            this.direction.x * speed * dt,
+            this.direction.z * speed * dt,
+        );
+
+        // Auto-shoot when the crosshair rests on an enemy (touch only)
+        if (this.mobileMode) {
             this.autoShootCooldown -= dt;
             if (this.autoShootCooldown <= 0 && this.checkAutoShoot()) {
                 this.shoot();
                 this.autoShootCooldown = 0.3;
             }
-        } else {
-            const forward = new Vector3();
-            this.camera.getWorldDirection(forward);
-            forward.y = 0;
-            forward.normalize();
-
-            const right = new Vector3();
-            right.crossVectors(forward, this.camera.up).normalize();
-
-            this.direction.set(0, 0, 0);
-            if (this.moveForward) this.direction.add(forward);
-            if (this.moveBackward) this.direction.sub(forward);
-            if (this.moveLeft) this.direction.sub(right);
-            if (this.moveRight) this.direction.add(right);
-            this.direction.normalize();
-
-            const speed = this.isRunning ? 8 : 5;
-            this.movePlayerWithCollision(
-                this.direction.x * speed * dt,
-                this.direction.z * speed * dt,
-            );
         }
 
         // Clamp to world bounds
