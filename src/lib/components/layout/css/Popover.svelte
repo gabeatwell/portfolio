@@ -106,7 +106,9 @@
             background-color: var(--clr-dark-500);
             inline-size: 50vw;
 
-            @media (width < 500px) {
+            @media (width <= 768px) {
+                min-inline-size: 70vw;
+                margin-right: 1em;
                 letter-spacing: 1px;
             }
         }
@@ -142,7 +144,7 @@
             max-inline-size: 75vw;
         }
         @media (width <= 768px) {
-            max-inline-size: 85vw;
+            min-inline-size: 85vw;
         }
         @media (width <= 500px) {
             max-inline-size: 95vw;

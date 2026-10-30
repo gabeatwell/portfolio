@@ -1,3 +1,16 @@
+<script lang='ts'>
+  const story = { camZ: 8, rot: 0, color: 0x44aaff }
+
+  function frame() {
+      const r = scrollyEl.getBoundingClientRect()
+      const p = Math.min(Math.max(-r.top / (r.height - innerHeight), 0), 1) // 0→1 across story
+      // interpolate keyframes from p (2 stops = mix, N stops = segment lookup)
+      camera.position.z += (lerpPath(p) - camera.position.z) * 0.08   // lerp ≈ GSAP scrub smoothing
+      // ...rotation, material color from p the same way
+      renderer.render(scene, camera)
+  }
+</script>
+
 <section class="scrolly">
 	<div class="stage">{@attach render}</div>
 
@@ -34,4 +47,10 @@
   @media (prefers-reduced-motion: reduce) {
     .chapter {animation: none;}
   }
+
+  /*@property --p { syntax: '<number>'; initial-value: 0; inherits: true; }
+  .scrolly { animation: track linear; animation-timeline: --story; }*/
+  /*@keyframes track { to { --p: 1; } }*/
+  /* e.g. .progress-bar { scale: var(--p) 1; } */
+
 </style>
