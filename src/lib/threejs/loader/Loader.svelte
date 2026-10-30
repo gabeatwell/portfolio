@@ -53,7 +53,7 @@
             top: 50%;
             width: 100%;
             height: 1.5em;
-            background-color: var(--clr-gray-500-fade);
+            background-color: var(--clr-light-500-fade);
             transform: scaleX(0);
             transition: transform 0.5s ease;
             transform-origin: top left;
