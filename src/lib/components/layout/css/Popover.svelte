@@ -110,6 +110,8 @@
                 min-inline-size: 70vw;
                 margin-right: 1em;
                 letter-spacing: 1px;
+
+                padding-inline-end: 0.5rem;
             }
         }
     }
@@ -139,16 +141,6 @@
             scale 0.3s ease-in,
             overlay 0.3s allow-discrete,
             display 0.3s allow-discrete;
-
-        @media (width <= 1100px) {
-            max-inline-size: 75vw;
-        }
-        @media (width <= 768px) {
-            min-inline-size: 85vw;
-        }
-        @media (width <= 500px) {
-            max-inline-size: 95vw;
-        }
     }
 
     /* fallback: sits below the button -> grows from its top edge */
