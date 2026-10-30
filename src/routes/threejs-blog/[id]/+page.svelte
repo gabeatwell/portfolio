@@ -166,9 +166,6 @@
         gap: 0.75em;
         margin-bottom: 5em;
 
-        @media (width <= 768px) {
-        }
-
         & .headshot {
             transform: translateX(-10em);
 
@@ -187,7 +184,8 @@
             left: calc(anchor(left) + 7em);
 
             @media (width <= 768px) {
-                left: calc(anchor(left) + 1.5em);
+                top: calc(anchor(center) + 3em);
+                left: calc(anchor(left) + 4.5em);
                 flex-direction: column;
             }
 
