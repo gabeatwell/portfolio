@@ -25,17 +25,6 @@
         featured = withImage[Math.floor(Math.random() * withImage.length)];
     });
 
-    $effect(() => {
-        if (open) {
-            if (!open) return;
-            const id = requestAnimationFrame(() => {
-                const firstLink = document.querySelector('#mobile-menu a');
-                // (firstLink as HTMLElement)?.focus();
-            });
-            return () => cancelAnimationFrame(id);
-        }
-    });
-
     // nav items
     const desktopItems = $derived([
         {

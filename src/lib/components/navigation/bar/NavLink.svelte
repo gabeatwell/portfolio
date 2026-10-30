@@ -121,8 +121,7 @@
         }
 
         &:focus-visible,
-        &:focus {
-            background: transparent;
+        &:active {
             outline: 2px solid var(--clr-dark-500-fade);
             outline-offset: 1px 2px;
         }
