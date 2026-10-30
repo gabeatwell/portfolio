@@ -107,7 +107,7 @@
             inline-size: 50vw;
 
             @media (width <= 768px) {
-                min-inline-size: 70vw;
+                min-inline-size: 90vw;
                 margin-right: 1em;
                 letter-spacing: 1px;
 

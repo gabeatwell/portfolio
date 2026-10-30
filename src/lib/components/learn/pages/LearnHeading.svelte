@@ -43,6 +43,7 @@
             var(--space-lg)
         );
         z-index: 1;
+        opacity: 0.4;
 
         .left-word,
         .right-word {
