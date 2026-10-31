@@ -4,6 +4,7 @@
     import type { Component } from 'svelte';
     import { page } from '$app/state';
     import { onMount } from 'svelte';
+    import ExamplesTitle from './ExamplesTitle.svelte';
 
     type ComponentType = Component<Record<string, never>>;
 
@@ -54,7 +55,7 @@
         {#if SelectedComponent}
             <SelectedComponent />
         {:else if selectedComponent === 'Select'}
-            <h2>select a component to view</h2>
+            <ExamplesTitle text="Examples" />
 
             <p>
                 *be advised that these components will still work even if you
@@ -123,22 +124,8 @@
             min-block-size: 100svh;
             position: relative;
 
-            & h2 {
-                color: var(--clr-blue-500-fade);
-                font-family: var(--bronova-bold);
-                font-size: clamp(var(--h4), 5vw, var(--xl));
-                text-align: center;
-                -webkit-text-stroke: 1px var(--clr-light-500);
-                text-shadow: 3px 3px 0 var(--clr-light-500);
-
-                @media (width <= 768px) {
-                    text-shadow: 1px 1px 0 var(--clr-light-500);
-                    margin-top: 3em;
-                }
-            }
-
             & p {
-                color: var(--clr-gray-500-fade);
+                color: var(--clr-light-500-fade);
                 font-family: var(--bronova);
                 font-size: clamp(var(--sm), 1.25vw, var(--h5));
                 font-weight: 600;

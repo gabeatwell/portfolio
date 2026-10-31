@@ -1,6 +1,7 @@
 <script lang="ts">
     import SEO from '#lib/data/SEO.svelte';
     import ExamplesLayout from './ExamplesLayout.svelte';
+    // import ScrollyIntro from './ScrollyIntro.svelte';
 </script>
 
 <SEO
@@ -9,4 +10,5 @@
     keywords="three.js experiments, three.js projects, three.js examples, three.js learning, three.js environment mapping, three.js hand particles, three.js hero canvas, three.js post-processing, three.js loader"
 />
 
+<!-- <ScrollyIntro /> -->
 <ExamplesLayout />
