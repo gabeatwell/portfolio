@@ -55,7 +55,7 @@
         {#if SelectedComponent}
             <SelectedComponent />
         {:else if selectedComponent === 'Select'}
-            <ExamplesTitle text="Examples" />
+            <ExamplesTitle text="examples" />
 
             <p>
                 *be advised that these components will still work even if you
