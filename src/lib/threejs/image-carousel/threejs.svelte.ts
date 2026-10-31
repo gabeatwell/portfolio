@@ -27,12 +27,12 @@ const parameters = {
     RADIUS: 8,
     CURVATURE: 0.07,
     IMAGES: [
-        'https://images.pexels.com/photos/38069595/pexels-photo-38069595.jpeg',
-        'https://images.pexels.com/photos/38237785/pexels-photo-38237785.jpeg',
-        'https://images.pexels.com/photos/38135743/pexels-photo-38135743.jpeg',
-        'https://images.pexels.com/photos/38245149/pexels-photo-38245149.jpeg',
-        'https://images.pexels.com/photos/37883327/pexels-photo-37883327.jpeg',
-        'https://images.pexels.com/photos/38062747/pexels-photo-38062747.jpeg',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/steer.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/butterfly.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/magazine-face.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/mountains.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/woman-model.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/chairs.avif',
         // ... add more images
     ],
     INITIAL_ANIMATION: true,
