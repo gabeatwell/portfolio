@@ -240,6 +240,7 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         inline-size: 100%;
+        block-size: auto;
         min-block-size: 100svh;
     }
 

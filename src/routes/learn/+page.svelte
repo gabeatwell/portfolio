@@ -92,6 +92,7 @@
             var(--clr-dark-500) 30%,
             var(--clr-dark-500) var(--100)
         );
+        transform: translateY(-1.1rem);
 
         @media (width <= 768px) {
             padding-top: 5em;
