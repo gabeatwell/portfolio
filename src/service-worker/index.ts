@@ -1,5 +1,3 @@
-/// <reference lib="webworker" />
-
 import { immutable, assets, prerendered } from '$app/manifest';
 import { version } from '$app/env';
 
@@ -45,7 +43,8 @@ const CACHEABLE_CROSS_ORIGIN = /\.(?:png|jpe?g|webp|avif|gif|svg|woff2?)$/i;
  * (`cache.add` with `no-cors` stores the opaque response the browser's `<img>`
  * requests will later hit in the cross-origin branch below.)
  */
-const CDN_BASE = 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/';
+const CDN_BASE =
+    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/';
 const CDN_IMAGES = [
     'CSS-Purple.webp',
     'GSAP-Dark.svg',
@@ -425,9 +424,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
             try {
                 const response = await fetch(event.request);
                 if (response.ok || response.type === 'opaque') {
-                    cache.put(event.request, response.clone()).catch(
-                        () => {},
-                    );
+                    cache.put(event.request, response.clone()).catch(() => {});
                 }
                 return response;
             } catch {
