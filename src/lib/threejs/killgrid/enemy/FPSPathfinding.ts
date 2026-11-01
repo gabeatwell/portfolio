@@ -2,7 +2,7 @@
  * A* pathfinding for the FPS game mode.
  * Uses buildingCells as obstacles instead of the shooter's tree/rock/bush cells.
  */
-import type { World } from '../../slaynet/world';
+import type { World } from '../world';
 
 export interface Cell {
     x: number;

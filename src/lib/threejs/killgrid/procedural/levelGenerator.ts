@@ -1,4 +1,4 @@
-import type { World } from '../../slaynet/world';
+import type { World } from '../world';
 import { createRng, range } from './seededRng';
 import { Group, Object3D } from 'three';
 import { FPSBuilding } from '../buildings/FPSBuilding';

@@ -34,7 +34,40 @@
     // service worker
     $effect(() => {
         if (typeof window === 'undefined') return;
-        if (dev) return;
+        if (dev) {
+            if ('serviceWorker' in navigator) {
+                void (async () => {
+                    const registrations =
+                        await navigator.serviceWorker.getRegistrations();
+                    if (registrations.length === 0) return;
+
+                    await Promise.all(
+                        registrations.map((registration) =>
+                            registration.unregister(),
+                        ),
+                    );
+
+                    if ('caches' in window) {
+                        const keys = await caches.keys();
+                        await Promise.all(
+                            keys.map((key) => caches.delete(key)),
+                        );
+                    }
+
+                    // An unregistered worker keeps controlling this document
+                    // until the next navigation.
+                    const guard = 'dev:sw-unregistered';
+                    if (
+                        navigator.serviceWorker.controller &&
+                        !sessionStorage.getItem(guard)
+                    ) {
+                        sessionStorage.setItem(guard, '1');
+                        location.reload();
+                    }
+                })();
+            }
+            return;
+        }
 
         const abortController = new AbortController();
         let heartbeat: ReturnType<typeof setInterval> | undefined;
