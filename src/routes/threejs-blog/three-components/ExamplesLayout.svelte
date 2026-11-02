@@ -5,10 +5,13 @@
     import { page } from '$app/state';
     import { onMount } from 'svelte';
     import ExamplesTitle from './ExamplesTitle.svelte';
+    import OfflineAssetGuard from '#lib/components/offline/OfflineAssetGuard.svelte';
 
     type ComponentType = Component<Record<string, never>>;
 
-    // let selectedComponent = $state<string>('Select');
+    // stable identity - the guard effect doesn't rerun on every render
+    const NO_ASSETS: readonly string[] = [];
+
     let selectedComponent = $state(
         page.url.searchParams.get('component') ?? 'Select',
     );
@@ -18,6 +21,9 @@
             : 'none',
     );
     let SelectedComponent: ComponentType | null = $state(null);
+    let requiredAssets = $derived(
+        componentImportMap[selectedComponent]?.assets ?? NO_ASSETS,
+    );
 
     $effect(() => {
         const entry = componentImportMap[selectedComponent];
@@ -53,7 +59,11 @@
 <div class="wholeScreen" style:background-image={backgroundImage}>
     <div class="content">
         {#if SelectedComponent}
-            <SelectedComponent />
+            {#key selectedComponent}
+                <OfflineAssetGuard assets={requiredAssets}>
+                    <SelectedComponent />
+                </OfflineAssetGuard>
+            {/key}
         {:else if selectedComponent === 'Select'}
             <ExamplesTitle text="examples" />
 

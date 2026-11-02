@@ -51,6 +51,7 @@ const CDN_IMAGES = [
     'Svelte-Dark.svg',
     'abstract-bg3a.webp',
     'advanced-web.webp',
+    'asphault-texture.webp',
     'atwellUI.webp',
     'atwellUI_social-media.webp',
     'blueTriangle.webp',
@@ -83,6 +84,22 @@ const CDN_IMAGES = [
 const CACHEABLE_ASSETS = ASSETS.filter(
     (asset) => !asset.endsWith('/.gitkeep') && !asset.endsWith('/.DS_Store'),
 );
+
+/**
+ * `killgrid`'s DRACOLoader pulls its decoder from a versioned, immutable
+ * gstatic path. It isn't media, but caching it is what lets a scene that has
+ * already been visited decompress its `.glb` models while offline.
+ */
+const DRACO_DECODER =
+    /^https:\/\/www\.gstatic\.com\/draco\/versioned\/decoders\//;
+
+/** Cross-origin requests the runtime cache is allowed to keep. */
+function isCacheableCrossOrigin(url: URL): boolean {
+    return (
+        CACHEABLE_CROSS_ORIGIN.test(url.pathname) ||
+        DRACO_DECODER.test(url.href)
+    );
+}
 
 /**
  * Heavy payloads (3D models, HDR/EXR environment maps) are never precached —
@@ -204,13 +221,7 @@ async function retireIfAbandoned(): Promise<void> {
     const last = await readStamp();
     if (!last || Date.now() - last < RETIRE_AFTER) return;
 
-    // `getRegistration()` exists on the worker scope but is missing from the
-    // installed webworker lib typing, so declare just that member.
-    const scope = sw as ServiceWorkerGlobalScope & {
-        getRegistration(): Promise<ServiceWorkerRegistration | undefined>;
-    };
-    const registration = await scope.getRegistration();
-    if (!registration) return;
+    const registration = sw.registration;
 
     // Drop the cached bytes too, then detach and unregister.
     for (const key of await caches.keys()) {
@@ -268,7 +279,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
         return;
     }
 
-    if (isCrossOrigin && !CACHEABLE_CROSS_ORIGIN.test(url.pathname)) {
+    if (isCrossOrigin && !isCacheableCrossOrigin(url)) {
         return;
     }
 
@@ -377,7 +388,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
         if (!jsActive) {
             // Consider retiring the worker if the JS heartbeat has been gone long enough.
             // (Navigations are already handled above, so we no longer need the mode check.)
-            event.waitUntil(retireIfAbandoned());
+            event.waitUntil(retireIfAbandoned().catch(() => {}));
             return fetch(event.request);
         }
 
@@ -415,7 +426,7 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
         // cross-origin media (jsdelivr images/fonts): cache-first, then
         // network. Opaque `no-cors` responses have status 0, so the
         // generic `status === 200` check below would never store them.
-        if (isCrossOrigin && CACHEABLE_CROSS_ORIGIN.test(url.pathname)) {
+        if (isCrossOrigin && isCacheableCrossOrigin(url)) {
             const cachedResponse = await cache.match(event.request, {
                 ignoreVary: true,
             });
