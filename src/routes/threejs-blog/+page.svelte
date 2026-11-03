@@ -106,12 +106,29 @@
     }
 
     .blog-title {
+        --clr-dark-500-fade: oklch(71.484% 0.00136 15.538 / 0.92);
+        --clr-blue-500-fade: color-mix(
+            in oklch,
+            var(--darkest-blue) 99%,
+            transparent 1%
+        );
         margin-top: 2em;
-        font-family: var(--bronova-bold);
+        font-family: var(--ultra);
         font-size: clamp(var(--h3), 5vw, var(--lg));
         font-weight: 700;
         letter-spacing: -0.0075em;
-        color: var(--clr-dark-500-fade);
+        color: var(--clr-dark-500);
+        color: var(--clr-blue-500-fade);
+        text-shadow:
+            0 0 1px var(--clr-light-500),
+            -3px -3px 0 var(--clr-dark-500-fade),
+            3px -3px 0 var(--clr-dark-500-fade),
+            -3px 3px 0 var(--clr-dark-500-fade),
+            3px 3px 0 var(--clr-dark-500-fade),
+            -3px 0 0 var(--clr-dark-500-fade),
+            3px 0 0 var(--clr-dark-500-fade),
+            0 -3px 0 var(--clr-dark-500-fade),
+            0 3px 0 var(--clr-dark-500-fade);
         margin-top: 1.75em;
         padding: 0;
 
