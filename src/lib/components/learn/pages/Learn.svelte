@@ -29,6 +29,9 @@
         padding: 0;
 
         & .learn-title {
+            --clr-blue-500-fade: oklch(
+                from var(--clr-success-500) l c h / 0.97
+            );
             text-align: center;
             font-family: var(--anta);
             color: var(--clr-blue-500-fade);

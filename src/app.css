@@ -408,6 +408,19 @@
         --bg: var(--clr-dark-500);
         --fg: var(--clr-light-500);
         --accent: var(--clr-warning-500);
+        --random: var(--clr-warning-500);
+    }
+
+    @supports (color: random-item(--pick, red, blue)) {
+        :root {
+            --random: random-item(
+                --random-pick,
+                var(--clr-blue-500),
+                var(--clr-fail-500),
+                var(--clr-warning-500),
+                var(--clr-blue-500-fade)
+            );
+        }
     }
 
     /* theme fallbacks */

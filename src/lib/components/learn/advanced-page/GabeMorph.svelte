@@ -20,7 +20,7 @@
                 width="80"
                 height="80"
                 fill="var(--clr-dark-500)"
-                stroke="var(--clr-light-500)"
+                stroke="var(--clr-light-500-fade)"
                 stroke-width="2"
             />
             <circle
@@ -28,15 +28,17 @@
                 cx="140"
                 cy="40"
                 r="40"
-                fill="var(--clr-gray-500-fade)"
-                stroke="var(--clr-light-500)"
+                fill="var(--clr-dark-500)"
+                stroke="oklch(
+                    from var(--clr-blue-500) l c h / 0.95
+                )"
                 stroke-width="2"
             />
             <polygon
                 id="triangle"
                 points="200,80 280,80 240,0"
                 fill="var(--clr-dark-500)"
-                stroke="var(--clr-light-500)"
+                stroke="var(--clr-light-500-fade)"
                 stroke-width="2"
             />
             <rect
@@ -46,7 +48,7 @@
                 width="80"
                 height="80"
                 fill="var(--clr-dark-500)"
-                stroke="var(--clr-light-500)"
+                stroke="var(--clr-light-500-fade)"
                 stroke-width="2"
             />
         </svg>
@@ -61,7 +63,6 @@
             <path
                 id="G"
                 d="M0.375 47.1875C0.375 32.8125 4.125 21.3958 11.625 12.9375C19.125 4.47917 29.75 0.25 43.5 0.25C51.7917 0.25 58.2917 1.3125 63 3.4375C67.75 5.5625 71.9167 8.85417 75.5 13.3125C77.6667 16.0208 77.6042 18.125 75.3125 19.625L68.1875 24.25C66.1042 25.625 63.875 25.0208 61.5 22.4375C59.5417 20.3125 57.0625 18.5417 54.0625 17.125C51.0625 15.7083 47.75 15 44.125 15C35.375 15 29.1458 17.7708 25.4375 23.3125C21.7292 28.8125 19.875 36.7708 19.875 47.1875C19.875 57.6042 21.7292 65.5833 25.4375 71.125C29.1458 76.625 35.375 79.375 44.125 79.375C48.375 79.375 52.0417 78.9583 55.125 78.125C58.2083 77.25 61.125 75.6875 63.875 73.4375V62.25H50.3125C47.1875 62.25 45.625 60.8958 45.625 58.1875V50.8125C45.625 48.1042 47.1875 46.75 50.3125 46.75H77.4375C80.5625 46.75 82.125 48.1042 82.125 50.8125V82.5625C76.2917 86.8542 70.3958 89.8542 64.4375 91.5625C58.5208 93.2708 51.5417 94.125 43.5 94.125C29.9583 94.125 19.375 89.8958 11.75 81.4375C4.16667 72.9792 0.375 61.5625 0.375 47.1875Z"
-            />
             />
             <!-- Letter A positioned with better spacing (110-189 area) -->
             <path
@@ -100,6 +101,7 @@
         }
 
         & svg {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.65);
             inline-size: 100%;
             block-size: auto;
             max-inline-size: min(90vw, 25em);
@@ -107,6 +109,21 @@
             margin: 0;
             padding: 0;
             fill: var(--clr-light-500);
+
+            & path {
+                &:nth-child(1) {
+                    stroke: var(--clr-blue-500-fade);
+                }
+                &:nth-child(2) {
+                    stroke: oklch(from var(--clr-blue-500) l c h / 0.95);
+                }
+                &:nth-child(3) {
+                    stroke: var(--clr-warning-500);
+                }
+                &:nth-child(4) {
+                    stroke: var(--clr-fail-500);
+                }
+            }
 
             @media (width >= 1200px) {
                 max-inline-size: 30em;

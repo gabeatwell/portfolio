@@ -223,6 +223,9 @@
                 margin: 0;
 
                 & a {
+                    --clr-light-500-fade: oklch(
+                        from var(--clr-light-500) l c h / 0.55
+                    );
                     font-family: var(--bronova-bold);
                     font-size: clamp(var(--sm), 0.8vw, var(--h5));
                     text-decoration: none;
