@@ -23,7 +23,7 @@
 
 <div class="personal-image">
     <MotifPhoto
-        content="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/gabe-sketch.webp"
+        content="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/gabe-sketch.webp"
     />
 </div>
 

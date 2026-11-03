@@ -4,7 +4,7 @@
 
 <div class="iconLogo">
     <Image
-        src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/shieldy.webp"
+        src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/shieldy.webp"
         alt="atwell logo"
         width="600"
         class="logo-image"

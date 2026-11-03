@@ -26,7 +26,7 @@
     <div class="error">
         <div class="image">
             <Image
-                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/error.webp"
+                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/error.webp"
                 alt="an error has occurred"
                 width="300"
                 aspectRatio="1/1"

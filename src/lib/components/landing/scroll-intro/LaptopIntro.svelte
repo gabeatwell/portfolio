@@ -42,7 +42,7 @@
         height: 100dvh;
         overflow: hidden;
 
-        background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/abstract-bg3a.webp');
+        background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/abstract-bg3a.webp');
         background-repeat: no-repeat;
         background-size: cover;
 

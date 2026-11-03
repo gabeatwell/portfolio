@@ -13,7 +13,7 @@
         <div class="image">
             <!-- svelte-ignore a11y-img-redundant-alt -->
             <img
-                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/error.webp"
+                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/error.webp"
                 alt="an error has occurred"
                 width="300"
                 height="300"

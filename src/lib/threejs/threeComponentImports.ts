@@ -1,5 +1,5 @@
 const CDN_IMAGES =
-    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images';
+    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images';
 const MODEL_BASE = '/threejayess/models';
 
 /** Cube-map faces for the environment-mapping demos. */

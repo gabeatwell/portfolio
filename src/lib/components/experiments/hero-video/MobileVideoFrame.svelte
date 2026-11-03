@@ -82,7 +82,7 @@
 
 <div class="background-image">
     <img
-        src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/mobile-hands.webp"
+        src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/mobile-hands.webp"
         alt=""
     />
 </div>

@@ -44,14 +44,14 @@ const CACHEABLE_CROSS_ORIGIN = /\.(?:png|jpe?g|webp|avif|gif|svg|woff2?)$/i;
  * requests will later hit in the cross-origin branch below.)
  */
 const CDN_BASE =
-    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/';
+    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/';
 const CDN_IMAGES = [
     'CSS-Purple.webp',
     'GSAP-Dark.svg',
     'Svelte-Dark.svg',
     'abstract-bg3a.webp',
     'advanced-web.webp',
-    'asphault-texture.webp',
+    'asphalt-texture.webp',
     'atwellUI.webp',
     'atwellUI_social-media.webp',
     'blueTriangle.webp',
@@ -60,7 +60,6 @@ const CDN_IMAGES = [
     'gabe-face.webp',
     'gabe-sketch.webp',
     'headshot-noBG_a.webp',
-    'interfaceNormalMap.webp',
     'mobile-hands.webp',
     'newspaper.webp',
     'pause.webp',

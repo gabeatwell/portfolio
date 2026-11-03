@@ -27,12 +27,12 @@ const parameters = {
     RADIUS: 8,
     CURVATURE: 0.07,
     IMAGES: [
-        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/steer.avif',
-        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/butterfly.avif',
-        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/magazine-face.avif',
-        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/mountains.avif',
-        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/woman-model.avif',
-        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/chairs.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/steer.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/butterfly.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/magazine-face.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/mountains.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/woman-model.avif',
+        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/chairs.avif',
         // ... add more images
     ],
     INITIAL_ANIMATION: true,

@@ -104,7 +104,7 @@
                 onclick={playVidHandler}
             >
                 <img
-                    src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/play.webp"
+                    src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/play.webp"
                     alt=""
                     loading="lazy"
                 />
@@ -116,7 +116,7 @@
                 onclick={pauseVidHandler}
             >
                 <img
-                    src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/pause.webp"
+                    src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/pause.webp"
                     alt=""
                     loading="lazy"
                 />
@@ -128,7 +128,7 @@
                 onclick={stopVidHandler}
             >
                 <img
-                    src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/stop.webp"
+                    src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/stop.webp"
                     alt=""
                     loading="lazy"
                 />
@@ -136,7 +136,7 @@
 
             <div class="volume">
                 <img
-                    src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/volume.webp"
+                    src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/volume.webp"
                     alt="volume"
                 />
 

@@ -140,7 +140,7 @@ export const setupHeroCanvas: Attachment<HTMLCanvasElement> = (canvas) => {
         } else {
             const textureLoader = new TextureLoader();
             star = textureLoader.load(
-                'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/star.webp',
+                'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/star.webp',
             );
             particlesMaterial.map = star!;
             particlesMaterial.alphaMap = null;

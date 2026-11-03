@@ -30,7 +30,7 @@
     <div class="content">
         <div class="title-spacing">
             <Title
-                img="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/GSAP-Dark.svg"
+                img="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/GSAP-Dark.svg"
                 width="50vw"
                 title="Greensock Animation Platform"
                 scaleY={2.8}

@@ -6,7 +6,7 @@
     }
 
     let {
-        src = 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/gabe-face.webp',
+        src = 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/gabe-face.webp',
         alt = 'gabe atwell',
         priority = false,
     }: Props = $props();

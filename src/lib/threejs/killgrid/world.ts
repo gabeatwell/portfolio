@@ -13,8 +13,8 @@ import {
 // import { Building } from './objects/Building';
 
 export const GROUND_TEXTURE_URL = import.meta.env.DEV
-    ? 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/asphalt-texture.webp'
-    : 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/asphalt-texture.webp';
+    ? 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/asphalt-texture.webp'
+    : 'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/asphalt-texture.webp';
 
 function loadBrickGroundsTexture(): Texture | null {
     if (typeof document === 'undefined') return null;

@@ -57,7 +57,7 @@
             index: 3,
             dropdownType: 'image' as const, // or 'iframe'
             imageSrc:
-                'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/threejs-svgloader.webp',
+                'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/threejs-svgloader.webp',
             imageAlt: 'Three.js work',
             viewTransitionName: 'three-heading',
         },

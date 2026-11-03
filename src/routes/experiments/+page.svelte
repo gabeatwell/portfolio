@@ -12,7 +12,7 @@
                 title: 'gabe atwell',
                 cta: 'Creations',
                 bgImage:
-                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/headshot-noBG_a.webp',
+                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/headshot-noBG_a.webp',
                 text: 'I am a frontend developer who loves to create beautiful and functional websites. This website showcases my skills with some projects that I created. If you have any questions, feel free to contact me.. I look forward to hearing from you so we can discuss your goals for your online needs!',
                 link: '/contact',
             },
@@ -21,8 +21,7 @@
             load: () =>
                 import('#lib/components/experiments/hero-video/HeroVideo.svelte'),
             props: {
-                videoSrc:
-                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/videos/Street-Video.mp4',
+                videoSrc: '/videos/Street-Video.mp4',
                 title: 'component test',
                 subtitle:
                     'This is a subtitle for the hero section. It can be a bit longer to provide more context about the content.',
@@ -43,13 +42,12 @@
             load: () =>
                 import('#lib/components/experiments/hero-video/MobileVideoFrame.svelte'),
             props: {
-                videoSrc:
-                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/videos/Waves-Crashing.mp4',
+                videoSrc: '/videos/Waves-Crashing.mp4',
                 videos: [
-                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/videos/Waves-Crashing.mp4',
-                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/videos/Street-Video.mp4',
-                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/videos/Web-Code.mp4',
-                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/videos/Html-Code.mp4',
+                    '/videos/Waves-Crashing.mp4',
+                    '/videos/Street-Video.mp4',
+                    '/videos/Web-Code.mp4',
+                    '/videos/Html-Code.mp4',
                 ],
                 firstTitle: 'mobile',
                 secondTitle: 'video',

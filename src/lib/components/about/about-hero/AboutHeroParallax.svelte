@@ -11,17 +11,17 @@
 >
     <div
         class="layer background"
-        style="background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/svelte-magick_background.webp');"
+        style="background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/svelte-magick_background.webp');"
     ></div>
 
     <div
         class="layer middle"
-        style="background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/svelte-magick_middle.webp');"
+        style="background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/svelte-magick_middle.webp');"
     ></div>
 
     <div
         class="layer foreground"
-        style="background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/svelte-magick_foreground.webp');"
+        style="background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/svelte-magick_foreground.webp');"
     ></div>
 </section>
 

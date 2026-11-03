@@ -238,7 +238,7 @@ export const setupPostProcess: Attachment<HTMLCanvasElement> = (canvas) => {
     };
     const displacementPass = new ShaderPass(DisplacementShader);
     displacementPass.material.uniforms.uNormalMap.value = textureLoader.load(
-        'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/interfaceNormalMap.webp',
+        '/threejayess/interfaceNormalMap.webp',
     );
     effectComposer.addPass(displacementPass);
     displacementPass.enabled = false;

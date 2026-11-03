@@ -15,7 +15,7 @@
 <article class="success-wrapper">
     <section class="success-content">
         <img
-            src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/success.webp"
+            src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/success.webp"
             alt="Atwell"
             loading="lazy"
         />

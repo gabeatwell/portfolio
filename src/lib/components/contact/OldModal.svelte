@@ -108,7 +108,7 @@
 
         <div class="modal-image">
             <img
-                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/newspaper.webp"
+                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/newspaper.webp"
                 alt="newspaper clipping for a frontend developer"
                 width="500px"
             />

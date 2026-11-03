@@ -6,7 +6,7 @@
     <section class="hero-logo">
         <a href="/about/hero">
             <Image
-                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/atwellUI.webp"
+                src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/atwellUI.webp"
                 alt="atwell user interface"
                 width="800"
                 aspectRatio="16/9"

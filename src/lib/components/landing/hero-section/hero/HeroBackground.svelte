@@ -173,7 +173,7 @@
 
     @media (prefers-reduced-motion: reduce) {
         .background-wrapper {
-            background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/tunnel.webp');
+            background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/tunnel.webp');
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;

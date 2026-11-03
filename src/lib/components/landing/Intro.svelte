@@ -5,7 +5,7 @@
 
 <section class="intro">
     <img
-        src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/skully.webp"
+        src="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/skully.webp"
         alt="a skull"
         class="intro-video"
         loading="lazy"

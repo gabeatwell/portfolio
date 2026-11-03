@@ -69,7 +69,7 @@
 
                 .char {
                     display: inline-block;
-                    background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@main/images/wavy-lines.webp');
+                    background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/wavy-lines.webp');
                     background-size: cover;
                     background-position: center;
                     background-attachment: fixed;
