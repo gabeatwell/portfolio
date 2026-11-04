@@ -12,6 +12,8 @@
     {@attach attachMobileLandscape({
         isLandscapeMobile: breakpoints.isLandscape && breakpoints.isMobile,
     })}
+    aria-label="3d environment"
+    tabindex="0"
 ></canvas>
 
 <style>

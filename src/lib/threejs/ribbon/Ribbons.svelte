@@ -2,7 +2,13 @@
     import { setupRibbons } from './threejs.svelte';
 </script>
 
-<canvas class="ribbons" {@attach setupRibbons} aria-hidden="true"></canvas>
+<canvas
+    class="ribbons"
+    {@attach setupRibbons}
+    aria-hidden="true"
+    aria-label="Interactive 3D backgroud. Click to move model"
+    tabindex="0"
+></canvas>
 
 <style>
     .ribbons {

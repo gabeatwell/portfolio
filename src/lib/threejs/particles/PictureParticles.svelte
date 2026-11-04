@@ -13,6 +13,8 @@
         hideFooterAlways: true,
     })}
     class="webgl"
+    aria-label="Picture with particles"
+    tabindex="0"
 ></canvas>
 
 <style>

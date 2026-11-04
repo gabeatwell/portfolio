@@ -26,8 +26,8 @@ export interface ComponentEntry {
 
 export const componentImportMap: Record<string, ComponentEntry> = {
     PictureParticles: {
-        import: () => import('#lib/threejs/cursor/CursorImage.svelte'),
-        githubPath: 'src/lib/threejs/cursor/CursorImage.svelte',
+        import: () => import('#lib/threejs/particles/PictureParticles.svelte'),
+        githubPath: 'src/lib/threejs/particles/PictureParticles.svelte',
         assets: ['/threejayess/glow.webp', '/threejayess/gabe2.webp'],
     },
     HeroCanvas: {

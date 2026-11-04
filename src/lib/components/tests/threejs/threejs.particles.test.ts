@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { setupCursorScene } from '../../../threejs/cursor/threejs.svelte';
+import { setupCursorScene } from '../../../threejs/particles/threejs.svelte';
 
 describe('CursorScene setup', () => {
     let canvas: HTMLCanvasElement;

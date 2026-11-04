@@ -92,7 +92,12 @@
     <GameLandscape active={!showTitle} />
 
     <div class="wrapper">
-        <canvas {@attach gameAttach} class="webgl"></canvas>
+        <canvas
+            {@attach gameAttach}
+            class="webgl"
+            aria-label="A first person shooter game"
+            tabindex="0"
+        ></canvas>
 
         <!-- crosshair -->
         <div class="crosshair" class:visible={isLocked}>

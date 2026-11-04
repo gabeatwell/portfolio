@@ -13,6 +13,8 @@
         isLandscapeMobile: breakpoints.isLandscape && breakpoints.isMobile,
     })}
     class="canvas"
+    aria-label="A 3d image carousel"
+    tabindex="0"
 ></canvas>
 
 <style>

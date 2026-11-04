@@ -13,6 +13,8 @@
     {@attach attachMobileLandscape({
         isLandscapeMobile: breakpoints.isLandscape && breakpoints.isMobile,
     })}
+    aria-label="Interactive 3D model"
+    tabindex="0"
 ></canvas>
 
 <div class="loading-overlay">

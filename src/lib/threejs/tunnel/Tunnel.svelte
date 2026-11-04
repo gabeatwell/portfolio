@@ -2,7 +2,12 @@
     import { setupTunnel } from './threejs.svelte';
 </script>
 
-<canvas class="webgl" {@attach setupTunnel}></canvas>
+<canvas
+    class="webgl"
+    {@attach setupTunnel}
+    aria-label="Interactive 3D background"
+    tabindex="0"
+></canvas>
 
 <style>
     .webgl {
