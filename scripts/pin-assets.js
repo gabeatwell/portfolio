@@ -1,3 +1,5 @@
+// rewrite the CDN ref in every source file - Walks every .svelte/.ts/.js/.md/.css/.html/.json file under src/ and replaces the ref part of cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@<ref>/… with the argument you pass. That’s the bulk @main → @assets-1 migration you ran.. Only touches src/ — not static/, docs/, or the scripts themselves
+
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 

@@ -1,3 +1,5 @@
+// see if jsdelivr URL fails with 404.
+
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 

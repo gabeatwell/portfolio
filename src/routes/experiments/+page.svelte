@@ -63,18 +63,10 @@
         },
         7: {
             load: () =>
-                import('#lib/components/experiments/huge-text-intro/HugeTextIntro.svelte'),
-        },
-        8: {
-            load: () =>
-                import('#lib/components/experiments/huge-text-intro/LetterIntro.svelte'),
-        },
-        9: {
-            load: () =>
                 import('#lib/components/experiments/vertical-text/VerticalText.svelte'),
         },
-        10: {
-            load: () => import('#lib/components/photos/DialogVT.svelte'),
+        8: {
+            load: () => import('#lib/components/experiments/DialogVT.svelte'),
         },
     };
 

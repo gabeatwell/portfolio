@@ -1,3 +1,5 @@
+// one off image transforming - Produces an inverted/hue-shifted “dark” variant of one specific image.
+
 import sharp from 'sharp';
 
 await sharp('busybatleopard.webp')

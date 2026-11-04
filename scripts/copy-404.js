@@ -1,3 +1,5 @@
+// hand the prerendered 404 to the Cloudflare adapter
+
 import { copyFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';

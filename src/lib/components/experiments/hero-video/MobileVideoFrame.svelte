@@ -197,7 +197,7 @@
         inline-size: clamp(25px, 6vw, 35px);
         block-size: clamp(25px, 6vw, 35px);
         position: absolute;
-        bottom: -85px;
+        bottom: -70px;
         left: 50%;
         transform: translate(-50%, -50%);
         background: #333;
