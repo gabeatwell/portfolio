@@ -181,7 +181,6 @@
             var(--clr-dark-500) 12%,
             var(--clr-dark-500) 100%
         );
-        transform: translateY(-1.1rem);
 
         & .bevel-border {
             position: relative;

@@ -7,6 +7,13 @@
     let { image, onComplete }: { image: string; onComplete: () => void } =
         $props();
     let reduce = prefersReducedMotion();
+    let skipped = false;
+
+    function skip() {
+        if (skipped) return;
+        skipped = true;
+        onComplete();
+    }
 
     const intro: Attachment<HTMLElement> = (node) =>
         laptopScene(node, onComplete, image);
@@ -18,6 +25,18 @@
         return () =>
             document.documentElement.classList.remove('dark-intro-page');
     });
+
+    // esc skips intro
+    $effect(() => {
+        if (reduce()) return;
+
+        const onKeydown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') skip();
+        };
+
+        window.addEventListener('keydown', onKeydown);
+        return () => window.removeEventListener('keydown', onKeydown);
+    });
 </script>
 
 {#if reduce()}
@@ -25,7 +44,7 @@
 {:else}
     <section class="intro" {@attach intro}>
         <div class="welcome-title">
-            <!-- <h2></h2> -->
+            <h2>press 'esc' to skip</h2>
         </div>
     </section>
 {/if}
@@ -58,6 +77,14 @@
             align-items: center;
 
             anchor-name: --welcome-title;
+
+            & h2 {
+                color: var(--clr-dark-500);
+                font-family: var(--thunder);
+                font-size: clamp(var(--h5), 2.3vw, var(--h4));
+                font-weight: 200;
+                text-transform: uppercase;
+            }
         }
     }
 
