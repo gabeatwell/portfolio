@@ -1,10 +1,15 @@
 <script lang="ts">
     import { setupScrollyIntro } from './scrollyIntro';
+
+    let { oncomplete }: { oncomplete?: () => void } = $props();
 </script>
 
 <section class="scrolly">
     <div class="stage">
-        <canvas class="webgl" aria-hidden="true" {@attach setupScrollyIntro}
+        <canvas
+            class="webgl"
+            aria-hidden="true"
+            {@attach setupScrollyIntro({ oncomplete })}
         ></canvas>
     </div>
 

@@ -17,10 +17,20 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import type { Attachment } from 'svelte/attachments';
 import { gsap } from '#lib/data/gsap';
 
+type ScrollyIntroOptions = { oncomplete?: () => void };
+
 const FONT_URL =
     'https://cdn.jsdelivr.net/npm/three@0.167.1/examples/fonts/helvetiker_bold.typeface.json';
 
-export const setupScrollyIntro: Attachment<HTMLCanvasElement> = (canvas) => {
+export const setupScrollyIntro =
+    (options: ScrollyIntroOptions = {}): Attachment<HTMLCanvasElement> =>
+    (canvas) =>
+        initScrollyIntro(canvas, options);
+
+function initScrollyIntro(
+    canvas: HTMLCanvasElement,
+    { oncomplete }: ScrollyIntroOptions,
+) {
     const section = canvas.closest('.scrolly');
     if (!section) return () => {};
 
@@ -94,6 +104,7 @@ export const setupScrollyIntro: Attachment<HTMLCanvasElement> = (canvas) => {
             start: 'top top',
             end: 'bottom bottom',
             scrub: 0.6,
+            onLeave: () => oncomplete?.(),
         },
     });
 
@@ -121,7 +132,15 @@ export const setupScrollyIntro: Attachment<HTMLCanvasElement> = (canvas) => {
     mm.add('(prefers-reduced-motion: reduce)', () => {
         tween.scrollTrigger?.disable(false, false);
         Object.assign(state, { camZ: 4, royY: 0, mix: 0.5 });
-        return () => tween.scrollTrigger?.enable(false, false);
+
+        const skip = requestAnimationFrame(() => {
+            if (!disposed) oncomplete?.();
+        });
+
+        return () => {
+            cancelAnimationFrame(skip);
+            tween.scrollTrigger?.enable(false, false);
+        };
     });
 
     // cleanup
@@ -137,4 +156,4 @@ export const setupScrollyIntro: Attachment<HTMLCanvasElement> = (canvas) => {
         material?.dispose();
         renderer.dispose();
     };
-};
+}
