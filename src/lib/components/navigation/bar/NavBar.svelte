@@ -149,6 +149,7 @@
         pointer-events: auto;
         position: fixed;
         top: 0;
+        padding-block-start: env(safe-area-inset-top, 0px);
         border-radius: var(--radius);
         box-shadow: 0 0 2px oklch(from var(--clr-light-500) 0.5 c h);
         background: oklch(from var(--bg) l c h / 0.6);

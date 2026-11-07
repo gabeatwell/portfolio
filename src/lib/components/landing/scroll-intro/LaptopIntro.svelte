@@ -121,7 +121,7 @@
             position: absolute;
             z-index: 3;
             inset-inline: 0;
-            inset-block-start: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+            inset-block-start: calc(1.25em + env(safe-area-inset-top, 0px));
             margin-inline: auto;
             inline-size: fit-content;
 
@@ -134,8 +134,6 @@
 
             border: 1px solid var(--clr-dark-500);
             background: var(--clr-light-500-fade);
-            backdrop-filter: blur(10px);
-            color: var(--clr-dark-500);
             font: inherit;
             font-size: clamp(var(--sm), 0.9vw, var(--h6));
             font-weight: 500;
