@@ -3,11 +3,17 @@
     import type { Attachment } from 'svelte/attachments';
     import { prefersReducedMotion } from '#lib/data/reduced-motion.svelte.ts';
     import Hero from '#lib/components/landing/hero-section/hero/Hero.svelte';
+    import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.ts';
 
     let { image, onComplete }: { image: string; onComplete: () => void } =
         $props();
     let reduce = prefersReducedMotion();
     let skipped = false;
+
+    const breakpoints = getBreakpoints();
+    const showSkipButton = $derived(
+        breakpoints.isMobile || breakpoints.isTablet,
+    );
 
     function skip() {
         if (skipped) return;
@@ -26,7 +32,7 @@
             document.documentElement.classList.remove('dark-intro-page');
     });
 
-    // esc skips intro
+    // skip intro
     $effect(() => {
         if (reduce()) return;
 
@@ -43,9 +49,13 @@
     <Hero />
 {:else}
     <section class="intro" {@attach intro}>
-        <div class="welcome-title">
-            <h2>press 'esc' to skip</h2>
-        </div>
+        {#if showSkipButton}
+            <button class="skip-button" onclick={skip}>Skip intro</button>
+        {:else}
+            <div class="welcome-title">
+                <p class="skip-hint">Press <kbd>Esc</kbd> to skip</p>
+            </div>
+        {/if}
     </section>
 {/if}
 
@@ -56,9 +66,9 @@
 
     .intro {
         position: relative;
-        width: 100%;
-        height: 100vh;
-        height: 100dvh;
+        inline-size: 100%;
+        block-size: 100vh;
+        block-size: 100dvh;
         overflow: hidden;
 
         background-image: url('https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/abstract-bg3a.webp');
@@ -78,12 +88,69 @@
 
             anchor-name: --welcome-title;
 
-            & h2 {
+            & .skip-hint {
                 color: var(--clr-dark-500);
                 font-family: var(--thunder);
                 font-size: clamp(var(--h5), 2.3vw, var(--h4));
                 font-weight: 200;
                 text-transform: uppercase;
+
+                display: inline-flex;
+                align-items: center;
+                gap: 0.45em;
+                margin: 0;
+
+                & kbd {
+                    font: inherit;
+                    text-transform: none;
+                    padding: 0.15em 0.25em;
+                    border: 1px solid oklch(1 0 0 / 90%);
+                    border-block-end-width: 2px;
+                    border-radius: 0.35em;
+                    background-color: oklch(1 0 0 / 30%);
+                    color: inherit;
+                }
+            }
+        }
+
+        & .skip-button {
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.6);
+            position: absolute;
+            z-index: 3;
+            inset-inline: 0;
+            inset-block-start: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+            margin-inline: auto;
+            inline-size: fit-content;
+
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-inline-size: 2.75rem;
+            min-block-size: 2.75rem;
+            padding: var(--padding-button);
+
+            border: 1px solid var(--clr-dark-500);
+            background: var(--clr-light-500-fade);
+            backdrop-filter: blur(10px);
+            color: var(--clr-dark-500);
+            font: inherit;
+            font-size: clamp(var(--sm), 0.9vw, var(--h6));
+            font-weight: 500;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition:
+                background-color 180ms ease,
+                border-color 180ms ease,
+                transform 120ms ease;
+
+            &:active {
+                transform: scale(0.97);
+                text-decoration: underline;
+            }
+
+            &:focus-visible {
+                outline: 2px solid var(--clr-light-500);
+                outline-offset: 3px;
             }
         }
     }
