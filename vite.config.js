@@ -22,7 +22,6 @@ export default defineConfig({
                         '/robots.txt',
                         '/service-worker.js',
                         '/sitemap.xml',
-                        '/threejs-blog/*',
                         '/threejayess/*',
                     ],
                 },

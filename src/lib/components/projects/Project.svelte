@@ -1,8 +1,6 @@
 <script lang="ts">
     import ProjectSummary from './ProjectSummary.svelte';
 
-    export const prerender = false;
-
     interface Props {
         title: string;
         img: {
