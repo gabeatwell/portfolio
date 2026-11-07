@@ -13,15 +13,10 @@
         ></canvas>
     </div>
 
-    <article class="chapter">
-        <h2>once upon a time</h2>
-    </article>
-    <article class="chapter">
-        <h2>there was a blog</h2>
-    </article>
-    <article class="chapter">
-        <h2>that taught three.js</h2>
-    </article>
+    <div class="chapters">
+        <p class="chapter">scroll down to see</p>
+        <p class="chapter">examples i made</p>
+    </div>
 </section>
 
 <style>
@@ -32,6 +27,11 @@
             position: sticky;
             inset-block-start: 0;
             block-size: 100svh;
+            background: radial-gradient(
+                ellipse at 50% 45%,
+                color-mix(in oklab, var(--accent) 10%, transparent),
+                transparent 70%
+            );
 
             & .webgl {
                 display: block;
@@ -40,27 +40,66 @@
             }
         }
 
-        .chapter {
-            display: grid;
-            place-content: center;
-            block-size: 100svh;
-            padding-inline: 1.5rem;
-            text-align: center;
+        .chapters {
+            position: relative;
+            margin-block-start: -100svh;
+            pointer-events: none;
 
-            animation: reveal 1ms linear;
-            animation-timeline: view();
-            animation-range: entry 20% cover 55%;
+            .chapter {
+                --chapter-shift: 0svh;
+                --chapter-skew: 0deg display: grid;
+                place-content: center;
+                block-size: 100svh;
+                margin: 0;
+                padding-inline: 1.5rem;
+                font-family: var(--ultra);
+                font-size: clamp(1.75rem, 6vw, 4rem);
+                font-weight: 700;
+                line-height: 1.05;
+                text-align: center;
+                text-wrap: balance;
+                color: var(--clr-dark-500);
+                text-shadow:
+                    0 0 1px var(--clr-light-500),
+                    -3px -3px 0 var(--clr-btn-700),
+                    3px -3px 0 var(--clr-btn-700),
+                    -3px 3px 0 var(--clr-btn-700),
+                    3px 3px 0 var(--clr-btn-700),
+                    -3px 0 0 var(--clr-btn-700),
+                    3px 0 0 var(--clr-btn-700),
+                    0 -3px 0 var(--clr-btn-700),
+                    0 3px 0 var(--clr-btn-700);
+
+                translate: 0 var(--chapter-shift);
+                transform: skewY(var(--chapter-skew));
+
+                animation: reveal 1ms linear both;
+                animation-timeline: view();
+                animation-range: entry 10% entry 100%;
+
+                &:nth-child(1) {
+                    --chapter-shift: -20svh;
+                    --chapter-skew: -6deg;
+                }
+
+                &:nth-child(2) {
+                    --chapter-shift: 10svh;
+                    --chapter-skew: 5deg;
+                }
+            }
         }
     }
 
     @keyframes reveal {
         from {
             opacity: 0;
-            transform: translateY(3rem);
+            translate: 0 calc(var(--chapter-shift) + 3rem);
+            transform: skewY(var(--chapter-skew));
         }
         to {
             opacity: 1;
-            transform: none;
+            translate: 0 var(--chapter-shift);
+            transform: skewY(var(--chapter-skew));
         }
     }
 
@@ -68,7 +107,8 @@
         .chapter {
             animation: none;
             opacity: 1;
-            transform: none;
+            translate: 0 var(--chapter-shift);
+            transform: skewY(var(--chapter-skew));
         }
     }
     @media (prefers-reduced-motion: reduce) {
