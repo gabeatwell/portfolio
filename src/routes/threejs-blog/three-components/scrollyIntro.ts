@@ -37,37 +37,37 @@ interface OrbitSpec {
 // one primitive per "example" - factories so every mount owns its geometry
 const ORBITS: OrbitSpec[] = [
     {
-        geometry: () => new IcosahedronGeometry(0.34, 0),
+        geometry: () => new IcosahedronGeometry(1.64, 0),
         color: PALETTE[0],
         radius: 1.5,
         height: 0.48,
     },
     {
-        geometry: () => new BoxGeometry(0.46, 0.46, 0.46),
+        geometry: () => new BoxGeometry(1.46, 0.46, 0.46),
         color: PALETTE[1],
         radius: 1.8,
         height: -0.02,
     },
     {
-        geometry: () => new TorusGeometry(0.26, 0.09, 12, 40),
+        geometry: () => new TorusGeometry(1.56, 0.09, 12, 40),
         color: PALETTE[2],
         radius: 2.1,
         height: 0.34,
     },
     {
-        geometry: () => new OctahedronGeometry(0.36, 0),
+        geometry: () => new OctahedronGeometry(1.76, 0),
         color: PALETTE[3],
         radius: 2.4,
         height: -0.13,
     },
     {
-        geometry: () => new ConeGeometry(0.28, 0.54, 5),
+        geometry: () => new ConeGeometry(0.728, 0.54, 5),
         color: PALETTE[4],
         radius: 2.7,
         height: 0.64,
     },
     {
-        geometry: () => new SphereGeometry(0.3, 24, 16),
+        geometry: () => new SphereGeometry(3, 24, 16),
         color: PALETTE[5],
         radius: 3.0,
         height: -0.008,
