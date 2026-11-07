@@ -5,7 +5,13 @@
     import HeroContent from '#lib/components/landing/hero-section/hero/HeroContent.svelte';
     import { browser } from '$app/env';
 
-    type SvelteModule = { default: Component };
+    type IntroProps = {
+        image: string;
+        onComplete: () => void;
+        title?: string;
+    };
+
+    type IntroModule = { default: Component<IntroProps> };
 
     let Intro = $state<Component<any> | null>(null);
     let showHero = $state(false);
@@ -14,7 +20,7 @@
     $effect(() => {
         import('#lib/components/landing/scroll-intro/LaptopIntro.svelte')
             .then((module) => {
-                Intro = (module as SvelteModule).default;
+                Intro = (module as IntroModule).default;
             })
             .catch(() => {
                 /* isOffline branch already shows the hero */
@@ -50,6 +56,7 @@
     {:else if Intro}
         <Intro
             image="/images/website.webp"
+            title="Enter Site"
             onComplete={async () => {
                 showHero = true;
                 await tick();

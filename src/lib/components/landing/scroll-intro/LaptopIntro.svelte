@@ -5,8 +5,11 @@
     import Hero from '#lib/components/landing/hero-section/hero/Hero.svelte';
     import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.ts';
 
-    let { image, onComplete }: { image: string; onComplete: () => void } =
-        $props();
+    let {
+        image,
+        onComplete,
+        title,
+    }: { image: string; onComplete: () => void; title: string } = $props();
     let reduce = prefersReducedMotion();
     let skipped = false;
 
@@ -50,7 +53,7 @@
 {:else}
     <section class="intro" {@attach intro}>
         {#if showSkipButton}
-            <button class="skip-button" onclick={skip}>Skip intro</button>
+            <button class="skip-button" onclick={skip}>{title}</button>
         {:else}
             <div class="welcome-title">
                 <p class="skip-hint">Press <kbd>Esc</kbd> to skip</p>
@@ -114,7 +117,7 @@
         }
 
         & .skip-button {
-            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.6);
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.43);
             position: absolute;
             z-index: 3;
             inset-inline: 0;
