@@ -166,9 +166,10 @@
         @media (width > 768px) and (width < 1098px) {
             inline-size: 100%;
             border-radius: var(--radius);
-            padding: 1.2rem 0.75em 0.4rem 0.25em;
-            block-size: 3.75rem;
-            min-block-size: 5rem;
+            padding: calc(1.2rem + env(safe-area-inset-top, 0px)) 0.75em 0.4rem
+                0.25em;
+            block-size: auto;
+            min-block-size: calc(5rem + env(safe-area-inset-top, 0px));
             justify-content: space-between;
             flex: 1;
         }
@@ -176,9 +177,9 @@
         @media (width > 300px) and (width < 750px) {
             inline-size: 100%;
             border-radius: var(--radius);
-            padding: 1.2rem 0 0.4rem 0;
-            block-size: 3.75rem;
-            min-block-size: 3.75rem;
+            padding: calc(1.2rem + env(safe-area-inset-top, 0px)) 0 0.4rem 0;
+            block-size: auto;
+            min-block-size: calc(3.75rem + env(safe-area-inset-top, 0px));
             justify-content: space-between;
             flex: 1;
         }
