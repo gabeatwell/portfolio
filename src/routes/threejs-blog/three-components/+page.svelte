@@ -1,7 +1,7 @@
 <script lang="ts">
     import SEO from '#lib/data/SEO.svelte';
-    import ExamplesLayout from './ExamplesLayout.svelte';
-    import ScrollyIntro from './ScrollyIntro.svelte';
+    import ExamplesLayout from '#lib/components/threejs-blog/ExamplesLayout.svelte';
+    import ScrollyIntro from '#lib/components/threejs-blog/ScrollyIntro.svelte';
 
     let scrollyIntro = $state(true);
 
