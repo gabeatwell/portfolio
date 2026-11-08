@@ -37,25 +37,25 @@ interface OrbitSpec {
 // one primitive per "example" - factories so every mount owns its geometry
 const ORBITS: OrbitSpec[] = [
     {
-        geometry: () => new IcosahedronGeometry(1.64, 0),
+        geometry: () => new IcosahedronGeometry(0.94, 0),
         color: PALETTE[0],
         radius: 1.5,
         height: 0.48,
     },
     {
-        geometry: () => new BoxGeometry(1.46, 0.46, 0.46),
+        geometry: () => new BoxGeometry(1.16, 0.46, 0.46),
         color: PALETTE[1],
         radius: 1.8,
         height: -0.02,
     },
     {
-        geometry: () => new TorusGeometry(1.56, 0.09, 12, 40),
+        geometry: () => new TorusGeometry(0.87, 0.24, 12, 40),
         color: PALETTE[2],
         radius: 2.1,
         height: 0.34,
     },
     {
-        geometry: () => new OctahedronGeometry(1.76, 0),
+        geometry: () => new OctahedronGeometry(0.726, 0),
         color: PALETTE[3],
         radius: 2.4,
         height: -0.13,
@@ -67,7 +67,7 @@ const ORBITS: OrbitSpec[] = [
         height: 0.64,
     },
     {
-        geometry: () => new SphereGeometry(3, 24, 16),
+        geometry: () => new SphereGeometry(1.25, 24, 16),
         color: PALETTE[5],
         radius: 3.0,
         height: -0.008,
@@ -112,7 +112,7 @@ function initScrollyIntro(
     scene.add(rim);
 
     // the thing everything orbits
-    const coreGeometry = new IcosahedronGeometry(0.5, 1);
+    const coreGeometry = new IcosahedronGeometry(0.45, 1);
     const coreMaterial = new MeshStandardMaterial({
         color: 0xffffff,
         emissive: new Color(PALETTE[0]),
@@ -125,6 +125,7 @@ function initScrollyIntro(
     scene.add(core);
 
     // orbiting primitives
+    const spacing = 1.0;
     const orbit = new Group();
     scene.add(orbit);
 
@@ -138,10 +139,13 @@ function initScrollyIntro(
         });
         const mesh = new Mesh(geometry, material);
         const angle = (i / ORBITS.length) * Math.PI * 2;
+        const core_gap = 0.2;
+        const radius = spec.radius * (spacing + core_gap);
+
         mesh.position.set(
-            Math.cos(angle) * spec.radius,
-            spec.height,
-            Math.sin(angle) * spec.radius,
+            Math.cos(angle) * radius,
+            spec.height * spacing,
+            Math.sin(angle) * radius,
         );
         mesh.scale.setScalar(0);
         orbit.add(mesh);
@@ -152,7 +156,7 @@ function initScrollyIntro(
     const starCount = 320;
     const starPositions = new Float32Array(starCount * 3);
     for (let i = 0; i < starCount; i++) {
-        const r = 7 + Math.random() * 9;
+        const r = (7 + Math.random() * 9) * spacing;
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
         starPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
@@ -174,7 +178,7 @@ function initScrollyIntro(
     scene.add(new Points(starGeometry, starMaterial));
 
     // the only thing gsap touches for the camera; `fit` is applied per frame
-    const view = { z: 9.5, y: 0.5 };
+    const view = { z: 9.5 * spacing, y: 0.5 * spacing };
 
     const tl = gsap.timeline({
         defaults: { ease: 'power2.out' },
@@ -188,7 +192,11 @@ function initScrollyIntro(
     });
 
     // camera drifts in over the whole sequence
-    tl.to(view, { z: 6.4, y: 1.4, duration: 1, ease: 'none' }, 0);
+    tl.to(
+        view,
+        { z: 6.4 * spacing, y: 1.4 * spacing, duration: 1, ease: 'none' },
+        0,
+    );
 
     // core settles, then keeps turning
     tl.fromTo(
