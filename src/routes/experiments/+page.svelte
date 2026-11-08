@@ -68,6 +68,10 @@
         8: {
             load: () => import('#lib/components/experiments/DialogVT.svelte'),
         },
+        9: {
+            load: () =>
+                import('#lib/components/experiments/expanding-bottom-nav/ExpandingBottomNav.svelte'),
+        },
     };
 
     const sortedKeys = Object.keys(componentMap)
