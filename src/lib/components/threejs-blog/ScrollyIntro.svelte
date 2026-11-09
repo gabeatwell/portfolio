@@ -47,7 +47,8 @@
 
             .chapter {
                 --chapter-shift: 0svh;
-                --chapter-skew: 0deg display: grid;
+                --chapter-skew: 0deg;
+                display: grid;
                 place-content: center;
                 block-size: 100svh;
                 margin: 0;

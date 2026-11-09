@@ -121,9 +121,8 @@
         background-color: var(--clr-dark-500);
 
         @media (width <= 500px) {
-            position: relative;
-            block-size: auto;
-            min-block-size: 110vh;
+            overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         & .content {

@@ -2,11 +2,16 @@
     import SEO from '#lib/data/SEO.svelte';
     import ExamplesLayout from '#lib/components/threejs-blog/ExamplesLayout.svelte';
     import ScrollyIntro from '#lib/components/threejs-blog/ScrollyIntro.svelte';
+    import { tick } from 'svelte';
+    import { resetScroll } from '#lib/data/lenis.ts';
 
     let scrollyIntro = $state(true);
 
-    function finishIntro() {
+    async function finishIntro() {
         scrollyIntro = false;
+
+        await tick();
+        resetScroll();
     }
 </script>
 
