@@ -1,10 +1,17 @@
 import { dev } from '$app/env';
 
+const isDev =
+    dev ||
+    import.meta.env.DEV ||
+    (typeof location !== 'undefined' &&
+        (location.hostname === 'localhost' ||
+            location.hostname === '127.0.0.1'));
+
 export function initServiceWorker(): void {
     $effect(() => {
         if (!('serviceWorker' in navigator)) return;
 
-        if (dev) {
+        if (isDev) {
             void (async () => {
                 const registrations =
                     await navigator.serviceWorker.getRegistrations();

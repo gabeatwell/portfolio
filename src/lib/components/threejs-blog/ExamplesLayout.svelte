@@ -98,6 +98,7 @@
         font-weight: 700;
         z-index: 99;
         touch-action: auto;
+        text-overflow: ellipsis;
 
         @media (width <= 768px) {
             top: 5.8em;

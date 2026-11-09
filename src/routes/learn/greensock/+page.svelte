@@ -114,10 +114,6 @@
                     }
                 }
 
-                :global(.text) {
-                    color: var(--clr-light-500);
-                }
-
                 :global(.image-container img) {
                     border-radius: 0.5rem;
                     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

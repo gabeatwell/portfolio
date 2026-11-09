@@ -36,7 +36,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        overflow-x: clip;
+        /*overflow-x: clip;*/
         padding-top: clamp(
             calc(var(--space-md) - 0.2rem),
             3vw,

@@ -53,7 +53,7 @@
                 id="content-{index}"
                 class="text indent"
                 class:open={detailsAccordion.openStates[index]}
-                style="color: var(--clr-gray-500-fade);"
+                style="color: var(--clr-gray-500-fade); padding-top: 1rem;"
             >
                 {@html sanitize(item.content)}
             </div>
@@ -72,6 +72,7 @@
     :global(.details-link) {
         text-decoration: none;
         font-weight: 500;
+        color: var(--clr-warning-500);
 
         &:hover {
             text-decoration: underline;
@@ -156,6 +157,10 @@
             transition:
                 opacity 1s,
                 block-size 1s;
+
+            @media (width <= 768px) {
+                inline-size: 94svw;
+            }
 
             &.open {
                 opacity: 1;

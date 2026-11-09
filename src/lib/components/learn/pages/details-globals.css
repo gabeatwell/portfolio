@@ -13,8 +13,27 @@
 }
 
 /* (injected HTML) */
+.text {
+    hyphens: auto;
+    padding-inline: auto;
+    color: var(--clr-light-500);
+    min-inline-size: 90svw;
+
+    margin-bottom: 0.2rem;
+    padding-top: 1rem;
+
+    @media (width <= 768px) {
+        margin-left: -1em;
+    }
+}
 .text a {
-    color: var(--clr-blue-500-fade);
+    color: var(--clr-warning-500);
+    font-size: clamp(var(--h6), 1vw, var(--h5));
+    font-weight: 700;
+}
+
+.details-link {
+    color: var(--clr-warning-500);
     font-size: clamp(var(--h6), 1vw, var(--h5));
     font-weight: 700;
 }
@@ -37,14 +56,6 @@
     border-radius: 0.5rem;
     overflow-x: auto;
     margin: 1rem 0;
-}
-
-.text p {
-    margin: 0;
-    margin-bottom: 0.2rem;
-    color: var(--clr-light-500);
-    font-weight: 500;
-    padding-top: 1rem;
 }
 
 .text,

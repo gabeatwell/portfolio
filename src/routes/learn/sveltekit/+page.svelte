@@ -118,14 +118,6 @@
                     }
                 }
 
-                :global(.text) {
-                    color: var(--clr-light-500);
-
-                    :global(a) {
-                        color: var(--clr-blue-500-fade);
-                    }
-                }
-
                 :global(.structure) {
                     margin: 1rem 0;
                 }

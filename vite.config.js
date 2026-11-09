@@ -6,8 +6,72 @@ import { defineConfig } from 'vitest/config';
 
 const mdsvexOptions = { extensions: ['.md', '.svx'] };
 
+const DEV_SERVICE_WORKER = `
+const FLAG_CACHE = 'dev-sw-reset';
+const FLAG_URL = '/__reset__';
+
+self.addEventListener('install', () => self.skipWaiting());
+
+self.addEventListener('activate', (event) => {
+    event.waitUntil((async () => {
+        const flags = await caches.open(FLAG_CACHE);
+        const alreadyReset = await flags.match(FLAG_URL);
+
+        const keys = await caches.keys();
+        await Promise.all(
+            keys.filter((key) => key !== FLAG_CACHE).map((key) => caches.delete(key)),
+        );
+
+        await self.registration.unregister();
+
+        if (!alreadyReset) {
+            await flags.put(FLAG_URL, new Response('1'));
+            const clients = await self.clients.matchAll({ type: 'window' });
+            await Promise.all(
+                clients.map((client) => client.navigate(client.url).catch(() => {})),
+            );
+        }
+    })());
+});
+`;
+
+/**
+ * @param {import('node:http').IncomingMessage} req
+ * @param {import('node:http').ServerResponse} res
+ * @param {(err?: unknown) => void} next
+ */
+function serveDevServiceWorker(req, res, next) {
+    if (req.url?.split('?')[0] !== '/service-worker.js') {
+        next();
+        return;
+    }
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/javascript; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-store');
+    res.end(DEV_SERVICE_WORKER);
+}
+
+/**
+ * @param {import('vite').ViteDevServer} server
+ */
+function configureDevServiceWorker(server) {
+    server.middlewares.use(serveDevServiceWorker);
+}
+
+/**
+ * @returns {import('vite').Plugin}
+ */
+function devServiceWorker() {
+    return {
+        name: 'dev-self-destruct-service-worker',
+        apply: 'serve',
+        configureServer: configureDevServiceWorker,
+    };
+}
+
 export default defineConfig({
     plugins: [
+        devServiceWorker(),
         sveltekit({
             adapter: adapter({
                 routes: {
