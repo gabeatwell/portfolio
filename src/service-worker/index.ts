@@ -304,29 +304,28 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
                 ignoreVary: true,
             });
 
-            if (jsActive) {
-                // Stale-while-revalidate when we know JS is alive
-                const freshening = fetch(event.request)
-                    .then((response) => {
-                        if (response && response.status === 200) {
-                            cache.put(event.request, response.clone());
-                        }
-                        return response;
-                    })
-                    .catch(() => null);
+            // revalidate in the background.
+            const freshening = fetch(event.request)
+                .then((response) => {
+                    if (response && response.status === 200) {
+                        cache.put(event.request, response.clone());
+                    }
+                    return response;
+                })
+                .catch(() => null);
 
-                if (cached) return cached;
-
-                try {
-                    const response = await freshening;
-                    if (response) return response;
-                } catch {
-                    // fall through to fallbacks
-                }
-            } else if (cached) {
-                // Offline + no recent heartbeat → still serve the cached page
+            if (cached) {
+                // serve the cached page and refresh in bg (stale-while-revalidate)
+                event.waitUntil(freshening);
                 return cached;
             }
+
+            // Nothing cached for this navigation: only the network can render it, so
+            // wait for the fetch before falling back. Without this, an online
+            // navigation to an uncached route (including deep links after the
+            // heartbeat expired) gets the offline placeholder.
+            const response = await freshening;
+            if (response) return response;
 
             // Fallbacks
             const fallback =
