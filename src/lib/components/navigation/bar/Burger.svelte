@@ -52,14 +52,14 @@
         & .bars {
             display: flex;
             flex-direction: column;
-            width: 2.5em;
-            height: 2rem;
+            inline-size: 2.5em;
+            block-size: 2rem;
             position: relative;
             margin-top: 1.3em;
 
             & .bar {
-                width: 100%;
-                height: 0.3rem;
+                inline-size: 100%;
+                block-size: 0.3rem;
                 background-color: var(--clr-light-500);
                 border-radius: 2px;
                 transition:
@@ -70,35 +70,33 @@
             }
 
             & .bar-1 {
-                width: 2.8em;
+                inline-size: 2.8em;
                 transform: translateY(-0.35rem);
             }
 
             & .bar-2 {
-                width: 2em;
+                inline-size: 2em;
                 transform: translateY(0.35rem);
             }
         }
 
-        /* Open state */
+        /* open state */
         &:has(.nav-toggle:checked) {
-            padding-bottom: 0.5rem;
-
             & .bar-1 {
-                width: 2.2em;
+                inline-size: 2.2em;
                 transform: translateY(0) rotate(45deg);
             }
 
             & .bar-2 {
-                width: 2.2em;
+                inline-size: 2.2em;
                 transform: translateY(0) rotate(-45deg);
             }
         }
 
         & .nav-toggle {
             position: absolute;
-            width: 1px;
-            height: 1px;
+            inline-size: 1px;
+            block-size: 1px;
             padding: 0;
             margin: -1px;
             overflow: hidden;

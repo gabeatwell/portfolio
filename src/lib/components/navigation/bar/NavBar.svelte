@@ -141,7 +141,7 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        z-index: 500;
+        z-index: 100;
         inline-size: 100%;
         block-size: fit-content;
         padding: 0 calc(var(--space-xxxl) * 2) 0 calc(var(--space-md) + 2rem);
@@ -213,7 +213,7 @@
         position: fixed;
         right: 1em;
         top: 3em;
-        z-index: 10;
+        z-index: 101;
         overflow: clip;
         transform: scale(0.8);
         transition:

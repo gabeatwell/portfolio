@@ -96,11 +96,11 @@
         transform: translateX(-50%);
         color: var(--clr-light-500-fade);
         font-weight: 700;
-        z-index: 999;
+        z-index: 99;
         touch-action: auto;
 
         @media (width <= 768px) {
-            top: 3.5em;
+            top: 5.8em;
             bottom: auto;
             left: 50%;
         }
