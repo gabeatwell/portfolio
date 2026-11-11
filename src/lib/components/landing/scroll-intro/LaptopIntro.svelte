@@ -1,17 +1,22 @@
 <script lang="ts">
-    import { laptopScene } from '#lib/components/landing/scroll-intro/laptopReveal.js';
     import type { Attachment } from 'svelte/attachments';
     import { prefersReducedMotion } from '#lib/data/reduced-motion.svelte.ts';
     import Hero from '#lib/components/landing/hero-section/hero/Hero.svelte';
     import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.ts';
+    import { browser } from '$app/env';
 
     let {
         image,
         onComplete,
         title,
     }: { image: string; onComplete: () => void; title: string } = $props();
+
     let reduce = prefersReducedMotion();
     let skipped = false;
+    let sceneReady = $state(false);
+    let laptopSceneFunction:
+        | typeof import('./laptopReveal.js').laptopScene
+        | null = null;
 
     const breakpoints = getBreakpoints();
     const showSkipButton = $derived(
@@ -24,8 +29,28 @@
         onComplete();
     }
 
-    const intro: Attachment<HTMLElement> = (node) =>
-        laptopScene(node, onComplete, image);
+    async function loadScene() {
+        if (!browser || laptopSceneFunction) return;
+
+        const mod =
+            await import('#lib/components/landing/scroll-intro/laptopReveal.js');
+        laptopSceneFunction = mod.laptopScene;
+        sceneReady = true;
+    }
+
+    const intro: Attachment<HTMLElement> = (node) => {
+        let cleanup: (() => void) | undefined;
+
+        setTimeout(() => {
+            loadScene().then(() => {
+                if (laptopSceneFunction && !skipped) {
+                    cleanup = laptopSceneFunction(node, onComplete, image);
+                }
+            });
+        }, 100);
+
+        return () => cleanup?.();
+    };
 
     $effect(() => {
         if (reduce()) return;
