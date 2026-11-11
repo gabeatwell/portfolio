@@ -1,7 +1,13 @@
+h1 {
+    color: var(--clr-light-500-fade);
+}
 h2 {
     font-family: var(--thunder);
     font-size: clamp(var(--h5), 2.5vw, var(--h2));
     font-weight: 800;
+}
+h3 {
+    color: var(--clr-blue-500);
 }
 
 .post-content h2 {

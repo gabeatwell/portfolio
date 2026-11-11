@@ -119,10 +119,6 @@
             color: var(--clr-light-500);
             font-family: var(--mono);
         }
-
-        & :global(h3) {
-            color: var(--clr-gray-500-fade);
-        }
     }
 
     .scene-fallback {
