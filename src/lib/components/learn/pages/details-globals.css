@@ -40,8 +40,8 @@
 
 .text code {
     display: inline;
-    background-color: var(--clr-light-500);
-    color: var(--clr-dark-500);
+    background-color: transparent;
+    color: var(--clr-light-500);
     padding: 0.1rem;
     border-radius: 0.25rem;
     font-family: var(--mono);
@@ -50,8 +50,6 @@
 }
 
 .text pre {
-    background-color: var(--clr-light-500);
-    color: var(--clr-dark-500);
     padding: 1rem;
     border-radius: 0.5rem;
     overflow-x: auto;
