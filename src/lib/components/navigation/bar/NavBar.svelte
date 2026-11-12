@@ -25,7 +25,7 @@
         featured = withImage[Math.floor(Math.random() * withImage.length)];
     });
 
-    // nav items
+    // navigation items
     const desktopItems = $derived([
         {
             type: 'link' as const,
@@ -62,6 +62,15 @@
             viewTransitionName: 'three-heading',
         },
     ]);
+
+    const mobileItems = [
+        { href: '/about', title: 'About Gabe' },
+        { href: '/projects', title: "Things I've Built" },
+        { href: '/learn', title: 'Learn the Web' },
+        { href: '/threejs-blog', title: 'Learn Three.js' },
+        { href: '/contact/hire', title: 'Hire Me' },
+        { href: '/contact', title: 'Contact Me' },
+    ];
 </script>
 
 <InstallButton />
@@ -102,32 +111,15 @@
     </ul>
 
     <ul class="mobile" id="mobile-menu" aria-label="Main navigation">
-        <li>
-            <NavLink href="/about" title="About Gabe" onclick={closeMenu} />
-        </li>
-        <li>
-            <NavLink
-                href="/projects"
-                title="Things I've Built"
-                onclick={closeMenu}
-            />
-        </li>
-        <li>
-            <NavLink href="/learn" title="Learn the Web" onclick={closeMenu} />
-        </li>
-        <li>
-            <NavLink
-                href="/threejs-blog"
-                title="Learn Three.js"
-                onclick={closeMenu}
-            />
-        </li>
-        <li>
-            <NavLink href="/contact/hire" title="Hire Me" onclick={closeMenu} />
-        </li>
-        <li>
-            <NavLink href="/contact" title="Contact Me" onclick={closeMenu} />
-        </li>
+        {#each mobileItems as item}
+            <li>
+                <NavLink
+                    href={item.href}
+                    title={item.title}
+                    onclick={closeMenu}
+                />
+            </li>
+        {/each}
     </ul>
 </nav>
 
