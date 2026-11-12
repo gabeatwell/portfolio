@@ -101,12 +101,7 @@
         <SelectLink />
     </ul>
 
-    <ul
-        class="mobile"
-        id="mobile-menu"
-        aria-label="Main navigation"
-        hidden={!open}
-    >
+    <ul class="mobile" id="mobile-menu" aria-label="Main navigation">
         <li>
             <NavLink href="/about" title="About Gabe" onclick={closeMenu} />
         </li>

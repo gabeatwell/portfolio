@@ -24,6 +24,7 @@
 <label class="hamburger" class:open>
     <input
         type="checkbox"
+        id="nav-toggle"
         class="nav-toggle"
         bind:checked={open}
         aria-label={ariaLabel}
