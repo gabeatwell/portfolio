@@ -53,7 +53,7 @@
                 id="content-{index}"
                 class="text indent"
                 class:open={detailsAccordion.openStates[index]}
-                style="color: var(--clr-gray-500-fade); padding-top: 1rem;"
+                style="padding-top: 1rem;"
             >
                 {@html sanitize(item.content)}
             </div>
@@ -67,16 +67,6 @@
     :root {
         --100: 100%;
         interpolate-size: allow-keywords;
-    }
-
-    :global(.details-link) {
-        text-decoration: none;
-        font-weight: 500;
-        color: var(--clr-warning-500);
-
-        &:hover {
-            text-decoration: underline;
-        }
     }
 
     .animate-in {
@@ -153,7 +143,6 @@
             block-size: 0;
             overflow-y: clip;
             padding: 0 var(--space-md);
-            color: var(--clr-light-500-fade);
             transition:
                 opacity 1s,
                 block-size 1s;

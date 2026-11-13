@@ -1,6 +1,7 @@
 <script lang="ts">
     import '../app.css';
     import '@anyblades/blades';
+    import '../override.css';
     import NavBar from '#lib/components/navigation/bar/NavBar.svelte';
     import Footer from '#lib/components/navigation/footer/Footer.svelte';
     import Loading from '#lib/components/layout/loading/Loading.svelte';

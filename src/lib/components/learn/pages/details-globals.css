@@ -35,13 +35,17 @@
 .details-link {
     color: var(--clr-warning-500);
     font-size: clamp(var(--h6), 1vw, var(--h5));
-    font-weight: 700;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .text code {
+    /* the color/bg-color for the code blocks is handled on override.css */
     display: inline;
-    background-color: transparent;
-    color: var(--clr-light-500);
     padding: 0.1rem;
     border-radius: 0.25rem;
     font-family: var(--mono);
@@ -54,19 +58,6 @@
     border-radius: 0.5rem;
     overflow-x: auto;
     margin: 1rem 0;
-}
-
-.text,
-.text ul,
-.text ol,
-.text pre,
-.text table,
-.text blockquote,
-.text address,
-.text dl,
-.text figure,
-.text form {
-    color: var(--clr-gray-500-fade);
 }
 
 .text strong {

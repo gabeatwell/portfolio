@@ -1,0 +1,9 @@
+pre:has(code) {
+    --clr-blue-500-fade: oklch(from var(--clr-blue-500) 0.5 c h / 0.22);
+    background: var(--clr-blue-500-fade) !important;
+}
+
+.text code {
+    color: var(--clr-light-500-fade) !important;
+    background: transparent !important;
+}
