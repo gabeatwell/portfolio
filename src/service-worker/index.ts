@@ -2,15 +2,7 @@ import { immutable, assets, prerendered } from '$app/manifest';
 import { version } from '$app/env';
 
 const CACHE = `cache-${version}`;
-// Manifest paths arrive without a leading slash (`_app/immutable/...`), while
-// `new URL(request.url).pathname` always has one — normalize so both compare.
-/**
- * Routes with `prerender = false` have no HTML in the build, so the manifest
- * can't precache them. `cache.add` fetches them from the live server at
- * install time and stores an offline snapshot instead — the shell renders
- * offline; genuinely server-only content (form submits, live API data) still
- * needs a connection and degrades to the error UI.
- */
+
 const EXTRA_ROUTES = [
     '/learn/advanced',
     '/contact',
@@ -37,11 +29,7 @@ const CACHEABLE_CROSS_ORIGIN = /\.(?:png|jpe?g|webp|avif|gif|svg|woff2?)$/i;
 
 /**
  * CDN images referenced anywhere in the app, precached up-front so the first
- *-ever offline visit still shows imagery. The multi-megabyte textures
- * (asphalt-texture, random-stock, concrete-hole) are deliberately left out —
- * same policy as HEAVY_ASSET — and get runtime-cached after first view.
- * (`cache.add` with `no-cors` stores the opaque response the browser's `<img>`
- * requests will later hit in the cross-origin branch below.)
+ *-ever offline visit still shows imagery.
  */
 const CDN_BASE =
     'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/';
@@ -85,9 +73,7 @@ const CACHEABLE_ASSETS = ASSETS.filter(
 );
 
 /**
- * `killgrid`'s DRACOLoader pulls its decoder from a versioned, immutable
- * gstatic path. It isn't media, but caching it is what lets a scene that has
- * already been visited decompress its `.glb` models while offline.
+ * `killgrid`'s DRACOLoader pulls its decoder from a immutable gstatic path.
  */
 const DRACO_DECODER =
     /^https:\/\/www\.gstatic\.com\/draco\/versioned\/decoders\//;
@@ -101,9 +87,7 @@ function isCacheableCrossOrigin(url: URL): boolean {
 }
 
 /**
- * Heavy payloads (3D models, HDR/EXR environment maps) are never precached —
- * they are hundreds of megabytes and would flood the network on install.
- * They still get cached at runtime the first time a page actually needs them.
+ * Heavy payloads (3D models, HDR/EXR environment maps) are never precached
  */
 const HEAVY_ASSET = /^\/threejayess\/|\.(?:glb|gltf|exr|hdr|mp4|webm|zip)$/i;
 const PRECACHEABLE_ASSETS = CACHEABLE_ASSETS.filter(
@@ -123,9 +107,6 @@ const sw = self as unknown as ServiceWorkerGlobalScope;
  * JavaScript was switched off — the stamp goes stale within `ACTIVE_TTL` and
  * the worker passes every request straight to the network, behaving exactly as
  * if it were not installed: no precaching, no cache reads, no cache writes.
- *
- * Exception: navigation requests always try the cache first so offline
- * cold-starts (especially on iOS) work correctly.
  */
 const ACTIVE_TTL = 5 * 60 * 1000;
 const STATE_CACHE = 'sw-js-state';
@@ -155,7 +136,6 @@ async function markJsActive(): Promise<void> {
     await cache.put(STAMP_URL, new Response(String(Date.now())));
 }
 
-/** Precaches the light asset bundle at most once per build version. */
 let precachedVersion: string | null = null;
 
 async function precache(): Promise<void> {
@@ -179,9 +159,7 @@ async function precache(): Promise<void> {
         }),
     );
 
-    // CDN images: jsdelivr sends `Access-Control-Allow-Origin: *`, so
-    // `cache.add` (a cors-mode fetch) succeeds and stores a *basic* response.
-    // That matters: opaque (no-cors) entries are rejected for cors-mode
+    // opaque (no-cors) entries are rejected for cors-mode
     // consumers like three.js TextureLoader, even when the network is up.
     await Promise.allSettled(
         CDN_IMAGES.map(async (url) => {
@@ -206,13 +184,9 @@ async function precacheIfActive(): Promise<void> {
 /**
  * Self-removal. A page with JavaScript disabled cannot call `unregister()` —
  * there is no declarative or header-based way to drop a worker — so the worker
- * retires *itself* once the heartbeat has been missing long enough to conclude
+ * retires once the heartbeat has been missing long enough to conclude
  * JS is off for real. The next JS-enabled visit re-registers it from
  * `+layout.svelte`, so it comes straight back.
- *
- * Only ever retires a worker that was activated at least once (a stamp exists);
- * a freshly installed worker on a first-ever load may not have received its
- * heartbeat yet, and must not be torn down mid-load.
  */
 const RETIRE_AFTER = 60 * 60 * 1000;
 
@@ -291,15 +265,9 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
             event.request.mode === 'navigate' ||
             acceptHeader.includes('text/html');
 
-        // ---------- Navigation requests (offline-first priority) ----------
         // Always try the cache for navigations so cold-start offline works on iOS,
         // even if the JS heartbeat is missing or stale.
         if (isNavigation) {
-            // Try exact match first. `ignoreVary` is required: build assets
-            // are stored with `Vary: Origin` (from precache fetches that send
-            // no Origin header), while the browser's CORS-mode stylesheet/
-            // script requests do send one — without this those lookups
-            // silently miss and offline navigations 404 their own CSS/JS.
             const cached = await cache.match(event.request, {
                 ignoreVary: true,
             });
@@ -321,13 +289,10 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
             }
 
             // Nothing cached for this navigation: only the network can render it, so
-            // wait for the fetch before falling back. Without this, an online
-            // navigation to an uncached route (including deep links after the
-            // heartbeat expired) gets the offline placeholder.
+            // wait for the fetch before falling back.
             const response = await freshening;
             if (response) return response;
 
-            // Fallbacks
             const fallback =
                 (await cache.match('/')) || (await cache.match('/index.html'));
 
@@ -384,8 +349,6 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
         // ---------- Non-navigation requests ----------
         // keep the original dormant behavior when JS is inactive
         if (!jsActive) {
-            // Consider retiring the worker if the JS heartbeat has been gone long enough.
-            // (Navigations are already handled above, so we no longer need the mode check.)
             event.waitUntil(retireIfAbandoned().catch(() => {}));
             return fetch(event.request);
         }

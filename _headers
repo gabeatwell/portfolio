@@ -5,3 +5,6 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=63072000; includeSubDomains
   X-Frame-Options: DENY
+
+/service-worker.js
+  Cache-Control: no-cache, no-store, must-revalidate

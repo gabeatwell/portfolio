@@ -28,8 +28,7 @@ export function initServiceWorker(): void {
                     await Promise.all(keys.map((key) => caches.delete(key)));
                 }
 
-                // An unregistered worker keeps controlling this document
-                // until the next navigation.
+                // unregistered worker keeps controlling this document until the next navigation.
                 const guard = 'dev:sw-unregistered';
                 if (
                     navigator.serviceWorker.controller &&
@@ -46,8 +45,7 @@ export function initServiceWorker(): void {
         const abortController = new AbortController();
         let heartbeat: ReturnType<typeof setInterval> | undefined;
 
-        // The worker stays dormant (pure network passthrough, nothing
-        // precached) until a page with running JavaScript identifies itself.
+        // The worker stays dormant (pure network passthrough) until a page with running JavaScript identifies itself.
         function reportJsActive() {
             navigator.serviceWorker.controller?.postMessage({
                 type: 'JS_ENABLED',
