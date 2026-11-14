@@ -44,6 +44,7 @@
         onmouseleave={popover.hidePopover}
         role="dialog"
         tabindex="0"
+        class="popover-content"
     >
         <div class="popover-inner">
             <div data-summary-text>
@@ -185,6 +186,7 @@
         }
 
         & [popover] {
+            --clr-gray-500-fade: oklch(from var(--clr-gray-500) l c h / 0.5);
             margin-inline: auto;
             margin-block: auto;
             font-family: var(--bronova);

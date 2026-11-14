@@ -45,7 +45,11 @@
                         <p class="bio-paragraph" data-desktop>
                             If you want to see stuff I've been working on, when
                             you load a page press tab twice. a button should
-                            appear that says "<span>experiments</span>".
+                            appear that says <span
+                                ><a class="bio-link" href="/experiments"
+                                    >experiments</a
+                                ></span
+                            >.
                         </p>
                     {/if}
                 </article>
