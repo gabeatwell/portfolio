@@ -8,8 +8,9 @@
         experimentBySlug,
     } from '#lib/data/experiments';
 
+    const initialUrl = new URL(page.url.href);
     const initial =
-        experimentBySlug[page.url.searchParams.get('exp') ?? ''] ??
+        experimentBySlug[initialUrl.searchParams.get('exp') ?? ''] ??
         experiments[experimentIds[0]];
 
     let currentIndex = $state(initial.id);
@@ -23,9 +24,8 @@
         if (!entry) return;
 
         const url = new URL(page.url.href);
-        if (url.searchParams.get('exp') === entry.slug) return;
-
         url.searchParams.set('exp', entry.slug);
+
         void goto(url, {
             state: page.state,
             shallow: true,

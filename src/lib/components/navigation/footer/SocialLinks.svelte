@@ -18,8 +18,8 @@
         // specific experiment source
         if (path === '/experiments') {
             const experimentUrl = page.shallow?.url ?? page.url;
-            const entry =
-                experimentBySlug[experimentUrl.searchParams.get('exp') ?? ''];
+            const params = new URL(experimentUrl.href).searchParams;
+            const entry = experimentBySlug[params.get('exp') ?? ''];
 
             return `${REPO_URL}/tree/main/${
                 entry?.githubPath ?? 'src/routes/experiments/+page.svelte'
@@ -35,7 +35,7 @@
         // handle three.js with selected component
         if (path.includes('three-components')) {
             const component =
-                page.url.searchParams.get('component') ??
+                new URL(page.url.href).searchParams.get('component') ??
                 $selectedThreeComponent;
 
             if (component && component !== 'Select') {
