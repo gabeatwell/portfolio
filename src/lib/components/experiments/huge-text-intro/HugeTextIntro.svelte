@@ -159,4 +159,34 @@
         top: calc(anchor(top) + 0.5em);
         left: calc(anchor(center) - 3em);
     }
+
+    @media (width <= 767px) {
+        .title-intro {
+            block-size: 200svh;
+            margin-top: clamp(1.5em, 6vw, 4em);
+
+            & .words-wrapper {
+                flex-wrap: wrap;
+                inline-size: min(92vw, 28rem);
+                row-gap: 0.15em;
+            }
+
+            & .word {
+                font-size: 24vw;
+                margin-inline-end: 0.2em;
+            }
+        }
+
+        h2 {
+            position: static;
+            inset: auto;
+            margin-block-start: var(--space-lg);
+        }
+    }
+
+    @media (width >= 768px) and (width <= 1023px) {
+        .title-intro .word {
+            font-size: 16vw;
+        }
+    }
 </style>

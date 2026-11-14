@@ -118,4 +118,35 @@
             font-size: clamp(var(--sm), 1.4vw, var(--h3));
         }
     }
+
+    @media (width <= 767px) {
+        .overlay-text {
+            inline-size: min(92vw, 30rem);
+            padding-inline: var(--space-sm);
+
+            & .heading {
+                flex-direction: column;
+                gap: 0.25em;
+
+                & .title-start,
+                & .title-end {
+                    font-size: clamp(1.75rem, 11vw, var(--xl));
+                }
+            }
+
+            & .desc {
+                font-size: var(--sm);
+            }
+        }
+    }
+
+    @media (width >= 768px) and (width <= 1023px) {
+        .overlay-text {
+            inline-size: min(90vw, 40rem);
+
+            & .heading {
+                gap: clamp(1.5em, 4vw, 3em);
+            }
+        }
+    }
 </style>

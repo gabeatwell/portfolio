@@ -61,6 +61,49 @@
         border-radius: var(--radius);
         user-select: none;
 
+        @media (width >= 768px) and (width <= 1023px) {
+            inline-size: 92%;
+            block-size: 85svh;
+
+            & .hero-video {
+                inline-size: 55%;
+            }
+        }
+
+        @media (width <= 767px) {
+            inline-size: 100%;
+            block-size: 100svh;
+            margin-block: 0;
+            border-radius: 0;
+
+            & .hero-video {
+                position: absolute;
+                inset: 0;
+                inline-size: 100%;
+                block-size: 100%;
+                object-fit: cover;
+            }
+
+            & .content {
+                inline-size: 100%;
+                padding: var(--space-lg) var(--space-md);
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    'title'
+                    'subtitle'
+                    'cta';
+                gap: 0.85em;
+
+                & .title {
+                    transform: none;
+                }
+
+                & .cta {
+                    justify-self: center;
+                }
+            }
+        }
+
         & .hero-video {
             inline-size: 45vw;
             block-size: stretch;

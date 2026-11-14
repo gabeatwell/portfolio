@@ -200,6 +200,12 @@
             gap: 0.5rem;
         }
 
+        @media (width <= 767px) {
+            margin-block: var(--space-xl);
+            padding-inline: var(--space-md);
+            gap: 0.75rem;
+        }
+
         .card {
             display: grid;
             position: relative;

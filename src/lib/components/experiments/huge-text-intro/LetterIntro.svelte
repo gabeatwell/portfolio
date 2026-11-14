@@ -85,4 +85,31 @@
             }
         }
     }
+
+    @media (width <= 767px) {
+        .intro {
+            padding: 1rem;
+        }
+
+        .intro h2 {
+            font-size: clamp(2.5rem, 20vw, 8rem);
+            transform: scaleY(1.3);
+            text-align: center;
+        }
+
+        .intro .full-image .enter {
+            position: fixed;
+            inset-block-start: auto;
+            inset-block-end: 2rem;
+            inset-inline: 0;
+            margin-inline: auto;
+            inline-size: fit-content;
+        }
+    }
+
+    @media (width >= 768px) and (width <= 1023px) {
+        .intro h2 {
+            font-size: clamp(4rem, 20vw, 14rem);
+        }
+    }
 </style>

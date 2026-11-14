@@ -126,6 +126,55 @@
         }
     }
 
+    @media (width <= 767px) {
+        .vertical-wrapper {
+            inline-size: 100%;
+            block-size: auto;
+            min-block-size: 100svh;
+            padding-inline: var(--space-md);
+            padding-block: var(--space-xl);
+
+            & .vertical-stretch-bg {
+                inline-size: 100%;
+                block-size: 100%;
+                font-size: 12vw;
+
+                & span {
+                    transform: scaleX(1.4) scaleY(4.5);
+                }
+            }
+        }
+
+        .vertical-content {
+            inline-size: 100%;
+            display: grid;
+            justify-items: center;
+            gap: var(--space-sm);
+            text-align: center;
+
+            & .content-message {
+                &:first-of-type,
+                &:last-of-type {
+                    position: static;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    @media (width >= 768px) and (width <= 1023px) {
+        .vertical-content .content-message {
+            &:first-of-type {
+                left: calc(anchor(left) - 2em);
+            }
+
+            &:last-of-type {
+                right: auto;
+                left: calc(anchor(left) + 2em);
+            }
+        }
+    }
+
     @keyframes expandLine {
         0% {
             transform: scaleX(0.2);

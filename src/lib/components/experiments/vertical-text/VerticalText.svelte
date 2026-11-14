@@ -51,21 +51,25 @@
         liveVisibleAtHome = true,
     }: Props = $props();
 
-    let segments = $derived([
-        ...new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(text)
-    ].map((s) => s.segment));
+    let segments = $derived(
+        [
+            ...new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(
+                text,
+            ),
+        ].map((s) => s.segment),
+    );
 
     let segmentCount = $derived(segments.length);
     let containerEl: HTMLElement | undefined = $state();
     let segmentRefs: HTMLElement[] = [];
     let yOffsets = $derived(
         segments.map((_, i) => {
-        const centerIdx = (segmentCount - 1) / 2;
+            const centerIdx = (segmentCount - 1) / 2;
             const dist =
                 centerIdx === 0 ? 0 : Math.abs(i - centerIdx) / centerIdx;
-        const dir = i % 2 === 0 ? 1 : -1;
+            const dir = i % 2 === 0 ? 1 : -1;
 
-        return (amplitude + dist * centerOffset) * intensity * dir;
+            return (amplitude + dist * centerOffset) * intensity * dir;
         }),
     );
 
@@ -115,8 +119,12 @@
                 const totalAnimDuration =
                     f(enter) + Math.abs(segmentCount - 1) * f(pace);
                 // Pause at peak (center) — yoyo will reverse after this
-                tl.to({}, { duration: f(hold) }, totalAnimDuration).// Pause at bottom (fanned out) — after yoyo reverses
-                to({}, { duration: f(pause) }, `+=${totalAnimDuration + f(hold)}`);
+                tl.to({}, { duration: f(hold) }, totalAnimDuration) // Pause at bottom (fanned out) — after yoyo reverses
+                    .to(
+                        {},
+                        { duration: f(pause) },
+                        `+=${totalAnimDuration + f(hold)}`,
+                    );
             }
         });
 
@@ -171,6 +179,16 @@
         justify-content: center;
         min-height: 100vh;
         overflow: hidden;
+
+        @media (width <= 767px) {
+            min-height: 100svh;
+            padding-inline: 0.5rem;
+
+            & .ghost-layer,
+            & .live-layer {
+                max-inline-size: 100%;
+            }
+        }
 
         & .ghost-layer,
         & .live-layer {

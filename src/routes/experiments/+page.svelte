@@ -172,17 +172,31 @@
 <style>
     .nav {
         position: fixed;
-        bottom: 1em;
+        bottom: max(1em, env(safe-area-inset-bottom));
         left: 50%;
         transform: translateX(-50%);
         display: flex;
         align-items: center;
-        gap: 5em;
+        gap: clamp(1.5em, 6vw, 5em);
         background-color: transparent;
         color: var(--clr-light-500);
         padding: var(--padding-button);
         border-radius: var(--radius);
         z-index: 300;
+
+        @media (width <= 1023px) {
+            max-inline-size: calc(100% - 2rem);
+            padding-inline: max(1em, 5vw);
+            gap: clamp(1.5em, 8vw, 3.5em);
+
+            & button {
+                padding: max(0.5em, 2vw);
+            }
+
+            & button svg {
+                inline-size: clamp(2rem, 6vw, 3em);
+            }
+        }
 
         & button {
             background: transparent;

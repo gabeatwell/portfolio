@@ -152,6 +152,13 @@
         align-items: center;
         gap: 1em;
         user-select: none;
+
+        @media (width <= 1023px) {
+            flex-direction: column;
+            gap: clamp(2rem, 6vh, 4rem);
+            padding-block: var(--space-lg);
+            padding-inline: var(--space-md);
+        }
     }
 
     .smartphone {
@@ -165,6 +172,15 @@
         border-bottom-width: clamp(30px, 8vh, 60px);
         border-radius: clamp(20px, 5vw, 36px);
         opacity: 0;
+
+        @media (width <= 1023px) {
+            margin-block-start: 2em;
+        }
+
+        @media (width <= 767px) {
+            inline-size: min(80vw, 300px);
+            margin-block-start: 1em;
+        }
 
         &::before {
             content: '';
@@ -222,7 +238,7 @@
     .text-content {
         display: grid;
         align-items: center;
-        grid-template-columns: repeat(minmax(0, 1fr), 2);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         grid-template-areas:
             'title title'
             /* '. subtitle' */
@@ -232,7 +248,7 @@
         gap: 1em;
         margin-right: 10vw;
 
-        @media (width <= 768px) {
+        @media (width <= 767px) {
             grid-template-columns: 1fr;
             grid-template-areas:
                 'title'
@@ -328,6 +344,62 @@
 
             @media (width <= 925px) {
                 line-height: 0.75;
+            }
+        }
+    }
+
+    @media (width <= 1023px) {
+        .all-content {
+            flex-direction: column;
+            gap: clamp(2rem, 6vh, 4rem);
+            padding-block: var(--space-lg);
+            padding-inline: var(--space-md);
+        }
+
+        .smartphone {
+            margin-block-start: 2em;
+        }
+
+        .text-content {
+            grid-template-columns: 1fr;
+            grid-template-areas:
+                'title'
+                'subtitle'
+                'directions'
+                'cta';
+            block-size: auto;
+            margin: 0;
+            text-align: center;
+
+            & .subtitle,
+            & .cta {
+                position: static;
+                inset: auto;
+                margin: 0;
+            }
+
+            & .subtitle {
+                grid-area: subtitle;
+            }
+
+            & .cta {
+                grid-area: cta;
+                justify-self: center;
+            }
+        }
+    }
+
+    @media (width <= 767px) {
+        .smartphone {
+            inline-size: min(80vw, 300px);
+            margin-block-start: 1em;
+        }
+
+        .text-content {
+            padding-inline: var(--space-sm);
+
+            & .title {
+                transform: scaleY(1.6);
             }
         }
     }

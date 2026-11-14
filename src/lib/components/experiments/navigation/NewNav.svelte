@@ -254,4 +254,40 @@
             color: var(--clr-light-500);
         }
     }
+
+    @media (width <= 767px) {
+        .new-navigation {
+            inline-size: 22em;
+            block-size: 22em;
+            font-size: 0.8rem;
+
+            & .sub-btn {
+                inline-size: 4.2em;
+                block-size: 4.2em;
+            }
+
+            & .first-button {
+                translate: 0 -4em;
+            }
+
+            & .second-button {
+                translate: 5.5em 0;
+            }
+
+            & .third-button {
+                translate: 0 4em;
+            }
+
+            & .fourth-button {
+                translate: -5.5em 0;
+            }
+        }
+    }
+
+    @media (width >= 768px) and (width <= 1023px) {
+        .new-navigation {
+            inline-size: 26em;
+            block-size: 26em;
+        }
+    }
 </style>

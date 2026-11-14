@@ -75,6 +75,17 @@
         }
     }
 
+    @media (width <= 767px) {
+        .stretch-text {
+            padding-inline: var(--space-sm);
+
+            & h2 {
+                font-size: clamp(2.5rem, 18vw, 6rem);
+                transform: scaleY(1.8);
+            }
+        }
+    }
+
     @keyframes stretch {
         0% {
             transform: scaleX(1);

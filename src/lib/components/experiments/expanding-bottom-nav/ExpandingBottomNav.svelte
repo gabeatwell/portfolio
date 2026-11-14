@@ -279,6 +279,10 @@
         display: flex;
         justify-content: center;
         pointer-events: none;
+
+        @media (width <= 767px) {
+            inset-block-start: 5em;
+        }
     }
 
     .nav-shell {
