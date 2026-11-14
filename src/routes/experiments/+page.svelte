@@ -1,101 +1,53 @@
 <script lang="ts">
     import SEO from '#lib/data/SEO.svelte';
+    import { page } from '$app/state';
+    import { goto } from '$app/navigation';
+    import {
+        experiments,
+        experimentIds,
+        experimentBySlug,
+    } from '#lib/data/experiments';
 
-    const componentMap: Record<
-        number,
-        { load: () => Promise<any>; props?: Record<string, any> }
-    > = {
-        1: {
-            load: () =>
-                import('#lib/components/landing/hero-section/HeadshotHero.svelte'),
-            props: {
-                title: 'gabe atwell',
-                cta: 'Creations',
-                bgImage:
-                    'https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/headshot-noBG_a.webp',
-                text: 'I am a frontend developer who loves to create beautiful and functional websites. This website showcases my skills with some projects that I created. If you have any questions, feel free to contact me.. I look forward to hearing from you so we can discuss your goals for your online needs!',
-                link: '/contact',
-            },
-        },
-        2: {
-            load: () =>
-                import('#lib/components/experiments/hero-video/HeroVideo.svelte'),
-            props: {
-                videoSrc: '/videos/Street-Video.mp4',
-                title: 'component test',
-                subtitle:
-                    'This is a subtitle for the hero section. It can be a bit longer to provide more context about the content.',
-                ctaText: 'Learn More',
-            },
-        },
-        3: {
-            load: () =>
-                import('#lib/components/experiments/stretch/VerticalStretch.svelte'),
-            props: {
-                firstWord: 'testing',
-                titleLetters: ['m', 'a', 'g', 'i', 'c'],
-                firstMessage: "i'm testing out some",
-                secondMessage: 'new layout stuff',
-            },
-        },
-        4: {
-            load: () =>
-                import('#lib/components/experiments/hero-video/MobileVideoFrame.svelte'),
-            props: {
-                videoSrc: '/videos/Waves-Crashing.mp4',
-                videos: [
-                    '/videos/Waves-Crashing.mp4',
-                    '/videos/Street-Video.mp4',
-                    '/videos/Web-Code.mp4',
-                    '/videos/Html-Code.mp4',
-                ],
-                firstTitle: 'mobile',
-                secondTitle: 'video',
-            },
-        },
-        5: {
-            load: () =>
-                import('#lib/components/experiments/navigation/NewNav.svelte'),
-        },
-        6: {
-            load: () =>
-                import('#lib/components/experiments/image-zoom/ImageZoom.svelte'),
-        },
-        7: {
-            load: () =>
-                import('#lib/components/experiments/vertical-text/VerticalText.svelte'),
-        },
-        8: {
-            load: () => import('#lib/components/experiments/DialogVT.svelte'),
-        },
-        9: {
-            load: () =>
-                import('#lib/components/experiments/expanding-bottom-nav/ExpandingBottomNav.svelte'),
-        },
-    };
+    const initial =
+        experimentBySlug[page.url.searchParams.get('exp') ?? ''] ??
+        experiments[experimentIds[0]];
 
-    const sortedKeys = Object.keys(componentMap)
-        .map(Number)
-        .sort((a, b) => a - b);
-    let currentIndex = $state(1);
+    let currentIndex = $state(initial.id);
     let Component = $state<any>(null);
     let componentProps = $state<Record<string, any>>({});
 
+    function selectedExperiments(id: number) {
+        currentIndex = id;
+
+        const entry = experiments[id];
+        if (!entry) return;
+
+        const url = new URL(page.url.href);
+        if (url.searchParams.get('exp') === entry.slug) return;
+
+        url.searchParams.set('exp', entry.slug);
+        void goto(url, {
+            state: page.state,
+            shallow: true,
+            replace: true,
+        });
+    }
+
     function goNext() {
-        const pos = sortedKeys.indexOf(currentIndex);
-        const nextPos = (pos + 1) % sortedKeys.length;
-        currentIndex = sortedKeys[nextPos];
+        const pos = experimentIds.indexOf(currentIndex);
+        const nextPos = (pos + 1) % experimentIds.length;
+        selectedExperiments(experimentIds[nextPos]);
     }
 
     function goPrev() {
-        const pos = sortedKeys.indexOf(currentIndex);
-        const nextPos = (pos - 1 + sortedKeys.length) % sortedKeys.length;
-        currentIndex = sortedKeys[nextPos];
+        const pos = experimentIds.indexOf(currentIndex);
+        const nextPos = (pos - 1 + experimentIds.length) % experimentIds.length;
+        selectedExperiments(experimentIds[nextPos]);
     }
 
     $effect(() => {
         const key = currentIndex;
-        const entry = componentMap[key];
+        const entry = experiments[key];
         if (!entry) return;
 
         let cancelled = false;

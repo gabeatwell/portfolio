@@ -3,6 +3,7 @@
     import { useSound } from '#lib/data/stores/sounds/uiSounds.svelte.js';
     import { selectedThreeComponent } from '#lib/data/stores/threejsComponent.js';
     import { componentImportMap } from '#lib/threejs/threeComponentImports.js';
+    import { experimentBySlug } from '#lib/data/experiments';
 
     const { playSoundAsync: playHoverSound } = useSound(
         '/sounds/foley-bubble.wav',
@@ -13,6 +14,17 @@
 
         if (path === '/')
             return `${REPO_URL}/tree/main/src/routes/+page.svelte`;
+
+        // specific experiment source
+        if (path === '/experiments') {
+            const experimentUrl = page.shallow?.url ?? page.url;
+            const entry =
+                experimentBySlug[experimentUrl.searchParams.get('exp') ?? ''];
+
+            return `${REPO_URL}/tree/main/${
+                entry?.githubPath ?? 'src/routes/experiments/+page.svelte'
+            }`;
+        }
 
         // handle blog posts:: /threejs-blog/3 -> src/content/posts/3.md
         const blogMatch = path.match(/^\/threejs-blog\/(\d+)$/);
