@@ -7,4 +7,5 @@
   X-Frame-Options: DENY
 
 /service-worker.js
+  ! Cache-Control
   Cache-Control: no-cache, no-store, must-revalidate
