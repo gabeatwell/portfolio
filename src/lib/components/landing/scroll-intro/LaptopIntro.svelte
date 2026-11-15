@@ -142,7 +142,7 @@
         }
 
         & .skip-button {
-            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.43);
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.23);
             position: absolute;
             z-index: 3;
             inset-inline: 0;
@@ -157,11 +157,11 @@
             min-block-size: 2.75rem;
             padding: var(--padding-button);
 
-            border: 1px solid var(--clr-dark-500);
-            background: var(--clr-light-500-fade);
+            border: 1px solid var(--clr-light-500);
+            background: var(--clr-blue-500);
             font: inherit;
             font-size: clamp(var(--sm), 0.9vw, var(--h6));
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             touch-action: manipulation;
             transition:
