@@ -292,7 +292,10 @@
         --space: 1rem;
         --surface-1: transparent;
         --surface-2: var(--clr-dark-500);
-        --gradient: radial-gradient(var(--clr-gray-500-fade), var(--dark) 88%);
+        --gradient: radial-gradient(
+            var(--clr-gray-500-fade),
+            var(--clr-dark-500) 88%
+        );
     }
 
     * {
@@ -394,10 +397,10 @@
                         transition: none;
                     }
                     &[data-position-left] {
-                        box-shadow: 4px 4px 0 var(--clr-light-500);
+                        box-shadow: 4px 4px 0 var(--clr-light-500-fade);
                     }
                     &[data-position-right] {
-                        box-shadow: -4px 4px 0 var(--clr-light-500);
+                        box-shadow: -4px 4px 0 var(--clr-light-500-fade);
                     }
 
                     &:not(:hover) {

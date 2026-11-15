@@ -106,7 +106,7 @@
     }
 
     .blog-title {
-        --clr-dark-500-fade: oklch(71.484% 0.00136 15.538 / 0.92);
+        --clr-dark-500-fade: oklch(51.484% 0.00136 15.538 / 0.32);
         --clr-blue-500-fade: color-mix(
             in oklch,
             var(--darkest-blue) 99%,
@@ -118,7 +118,6 @@
         font-weight: 700;
         letter-spacing: -0.0075em;
         color: var(--clr-dark-500);
-        color: var(--clr-blue-500-fade);
         text-shadow:
             0 0 1px var(--clr-light-500),
             -3px -3px 0 var(--clr-dark-500-fade),
@@ -269,17 +268,17 @@
             font-weight: 700;
             transform: rotate(15deg);
             letter-spacing: -0.025em;
-            color: var(--clr-dark-500);
+            color: var(--clr-success-500);
             text-shadow:
                 0 0 1px var(--clr-dark-500),
-                -2px -2px 0 var(--clr-success-500),
-                2px -2px 0 var(--clr-success-500),
-                -2px 2px 0 var(--clr-success-500),
-                2px 2px 0 var(--clr-success-500),
-                -2px 0 0 var(--clr-success-500),
-                2px 0 0 var(--clr-success-500),
-                0 -2px 0 var(--clr-success-500),
-                0 2px 0 var(--clr-success-500);
+                -2px -2px 0 var(--clr-dark-500),
+                2px -2px 0 var(--clr-dark-500),
+                -2px 2px 0 var(--clr-dark-500),
+                2px 2px 0 var(--clr-dark-500),
+                -2px 0 0 var(--clr-dark-500),
+                2px 0 0 var(--clr-dark-500),
+                0 -2px 0 var(--clr-dark-500),
+                0 2px 0 var(--clr-dark-500);
             text-wrap: nowrap;
             margin: 0;
             padding: 0;

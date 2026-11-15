@@ -99,11 +99,11 @@
         }
 
         &.left {
-            box-shadow: -4px 4px 0 var(--clr-light-500);
+            box-shadow: -4px 4px 0 var(--clr-light-500-fade);
         }
 
         &.right {
-            box-shadow: 4px 4px 0 var(--clr-light-500);
+            box-shadow: 4px 4px 0 var(--clr-light-500-fade);
         }
     }
 

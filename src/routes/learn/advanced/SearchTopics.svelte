@@ -123,7 +123,7 @@
         gap: 2em;
 
         & input {
-            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.25);
+            --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.65);
             border: 3px solid var(--clr-light-500-fade);
             max-inline-size: 45vw;
             inline-size: 100%;
