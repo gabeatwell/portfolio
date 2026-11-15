@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { browser } from '$app/env';
     import Image from '#lib/components/layout/images/Image.svelte';
     import skills from '#lib/components/about/skills.json';
     import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
@@ -9,6 +8,7 @@
     const typedSkills: Skill[] = skills;
     let isPaused = $state(false);
 
+    // Duplicate so we can loop seamlessly
     const duplicatedSkills = [...typedSkills, ...typedSkills];
 
     const breakpoints = getBreakpoints();
@@ -26,7 +26,7 @@
         role="region"
         aria-label="skills-carousel"
     >
-        <div class="slider-track" style="animation-duration: {duration};">
+        <div class="slider-track" style="--duration: {duration};">
             {#each duplicatedSkills as skill, i (i)}
                 <a
                     href={skill.href}
@@ -62,7 +62,6 @@
         inline-size: 100%;
         overflow: clip;
         background-color: transparent;
-        padding: 2em 0;
         padding: var(--space-xl) 0;
         position: relative;
         margin-inline: auto;
@@ -76,12 +75,13 @@
             margin-block: 3em;
         }
 
+        /* faded edges */
         &::before,
         &::after {
             content: '';
             position: absolute;
             top: 0;
-            inline-size: 100px;
+            inline-size: 120px;
             block-size: 100%;
             z-index: 2;
             pointer-events: none;
@@ -89,10 +89,20 @@
 
         &::before {
             left: 0;
+            background: linear-gradient(
+                to right,
+                var(--clr-dark-500),
+                transparent
+            );
         }
 
         &::after {
             right: 0;
+            background: linear-gradient(
+                to left,
+                var(--clr-dark-500),
+                transparent
+            );
         }
 
         & .slider {
@@ -105,8 +115,9 @@
 
             & .slider-track {
                 display: flex;
+                width: max-content; /* important */
                 will-change: transform;
-                animation: scroll 10s linear infinite;
+                animation: scroll var(--duration) linear infinite;
 
                 & .slide {
                     flex-shrink: 0;
@@ -165,11 +176,11 @@
     }
 
     @keyframes scroll {
-        0% {
+        from {
             transform: translateX(0);
         }
-        100% {
-            transform: translateX(calc(-100% / 2));
+        to {
+            transform: translateX(-50%);
         }
     }
 </style>
