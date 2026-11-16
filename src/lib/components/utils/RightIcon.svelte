@@ -51,7 +51,7 @@
         margin: 0;
 
         &:hover {
-            animation: right 0.5s ease-out infinite;
+            animation: right 0.5s ease infinite;
         }
 
         path {

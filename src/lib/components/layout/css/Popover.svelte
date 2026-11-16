@@ -76,7 +76,7 @@
             }
 
             &:hover {
-                animation: wiggle 1s ease-out infinite;
+                animation: wiggle 1s ease infinite;
             }
 
             &:focus,
@@ -137,8 +137,8 @@
         opacity: 0;
         scale: 0.9;
         transition:
-            opacity 0.3s ease-in,
-            scale 0.3s ease-in,
+            opacity 0.2s ease-out,
+            scale 0.1s ease-out,
             overlay 0.3s allow-discrete,
             display 0.3s allow-discrete;
     }
@@ -154,8 +154,8 @@
         opacity: 1;
         scale: 1;
         transition:
-            opacity 0.3s ease-out,
-            scale 0.3s ease-out;
+            opacity 0.2s ease-out,
+            scale 0.1s ease-out;
     }
 
     @starting-style {

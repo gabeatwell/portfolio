@@ -245,7 +245,7 @@
             }
 
             &:hover {
-                animation: wiggle 01s ease-out infinite;
+                animation: wiggle 01s ease infinite;
             }
 
             &:active {

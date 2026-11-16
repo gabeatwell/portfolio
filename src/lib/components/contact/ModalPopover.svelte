@@ -264,7 +264,7 @@
         transition: scale 0.15s ease-out;
 
         &:hover {
-            animation: wiggle 1s ease-out infinite;
+            animation: wiggle 1s ease infinite;
         }
 
         &:active {

@@ -57,7 +57,7 @@
         top: -10px;
         border-radius: 2px;
         opacity: 0.9;
-        animation: fall 3s ease-in forwards;
+        animation: fall 3s ease-in-out forwards;
     }
 
     .particle.green {

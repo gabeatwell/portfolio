@@ -105,7 +105,7 @@
 
                 &:hover {
                     transform: scale(1.1);
-                    transition: transform 0.25s ease-out;
+                    transition: transform 0.25s ease;
                 }
 
                 &:nth-child(odd):hover {
