@@ -1,6 +1,8 @@
 <script lang="ts">
     import './details-globals.css';
     import { sanitize, detailsAccordion } from './detailsFunctions.svelte';
+    import { playOncePerSession } from '#lib/data/session';
+    import { page } from '$app/state';
 
     interface Item {
         summary: string;
@@ -13,6 +15,8 @@
 
     let { items = [] }: Props = $props();
 
+    const animate = playOncePerSession(`details:${page.url.pathname}`);
+
     $effect(() => {
         detailsAccordion.init(items.length);
     });
@@ -21,8 +25,9 @@
 {#if items && items.length > 0}
     {#each items as item, index}
         <div
-            class="details-custom animate-in"
-            style="--anim-delay: {index * 0.5}s; visibility: hidden;"
+            class="details-custom"
+            class:animate-in={animate}
+            style={animate ? `--anim-delay: ${index * 0.3}s` : undefined}
         >
             <button
                 class="summary-custom outline contrast spacing"
@@ -70,8 +75,12 @@
     }
 
     .animate-in {
-        animation: fadeInUp 1s ease forwards;
+        animation: fadeInUp 1s ease both;
         animation-delay: var(--anim-delay, 0s);
+
+        @media (prefers-reduced-motion: reduce) {
+            animation: none;
+        }
     }
 
     .details-custom {

@@ -4,6 +4,10 @@
     import Hero from '#lib/components/landing/hero-section/hero/Hero.svelte';
     import HeroContent from '#lib/components/landing/hero-section/hero/HeroContent.svelte';
     import { browser } from '$app/env';
+    import {
+        hasPlayedThisSession,
+        markPlayedThisSession,
+    } from '#lib/data/session.ts';
 
     type IntroProps = {
         image: string;
@@ -13,11 +17,14 @@
 
     type IntroModule = { default: Component<IntroProps> };
 
+    const INTRO_KEY = 'langing-intro';
     let Intro = $state<Component<any> | null>(null);
-    let showHero = $state(false);
+    let showHero = $state(hasPlayedThisSession(INTRO_KEY));
     let isOffline = $state(false);
 
     $effect(() => {
+        if (showHero) return;
+
         import('#lib/components/landing/scroll-intro/LaptopIntro.svelte')
             .then((module) => {
                 Intro = (module as IntroModule).default;
@@ -58,6 +65,7 @@
             image="/images/website.webp"
             title="Enter Site"
             onComplete={async () => {
+                markPlayedThisSession(INTRO_KEY);
                 showHero = true;
                 await tick();
                 window.scrollTo(0, 0);
