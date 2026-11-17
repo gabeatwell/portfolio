@@ -1,6 +1,6 @@
 import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
-const chars = 'Gabe Atwell';
+const chars = 'GabeAtwell';
 
 class HeroContentState {
     showContent = $state<boolean>(false);
@@ -12,12 +12,7 @@ class HeroContentState {
     titleWords = $derived(this.titleText.split(' '));
 
     constructor() {
-        this.displayedTitle = this.titleText.split('').map((char, index) => {
-            const wordIndex = this.getWordIndexFromCharIndex(index);
-            // first two words stay unchanged (Gabe Atwell)
-            if (wordIndex > 1) return char;
-            return char === ' ' ? ' ' : this.getRandomChar();
-        });
+        this.displayedTitle = this.titleText.split('');
     }
 
     getWordChars(wordIndex: number) {
@@ -56,6 +51,13 @@ class HeroContentState {
             this.showContent = true;
             return;
         }
+
+        this.displayedTitle = this.titleText.split('').map((char, index) => {
+            const wordIndex = this.getWordIndexFromCharIndex(index);
+            // words after 1st line stay unchanged (Gabe Atwell)
+            if (wordIndex > 1) return char;
+            return char === ' ' ? ' ' : this.getRandomChar();
+        });
 
         // animation state for each character
         const animState = this.titleText.split('').map((char, index) => ({
