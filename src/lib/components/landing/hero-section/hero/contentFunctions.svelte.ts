@@ -1,18 +1,21 @@
 import { getBreakpoints } from '#lib/data/stores/breakpoints.svelte.js';
 
-const chars = 'Handcrafted Frontend Interfaces';
+const chars = 'Gabe Atwell';
 
 class HeroContentState {
     showContent = $state<boolean>(false);
     displayedTitle = $state<string[]>([]);
-    titleText = 'Handcrafted Frontend Interfaces';
+
+    primaryText = 'Gabe Atwell';
+    secondaryText = 'Designer & Developer';
+    titleText = $derived(`${this.primaryText} ${this.secondaryText}`);
     titleWords = $derived(this.titleText.split(' '));
 
     constructor() {
         this.displayedTitle = this.titleText.split('').map((char, index) => {
             const wordIndex = this.getWordIndexFromCharIndex(index);
-            // first word stays unchanged
-            if (wordIndex === 0) return char;
+            // first two words stay unchanged (Gabe Atwell)
+            if (wordIndex > 1) return char;
             return char === ' ' ? ' ' : this.getRandomChar();
         });
     }
@@ -60,11 +63,11 @@ class HeroContentState {
             char,
             iterations: 0,
             shouldAnimate:
-                char !== ' ' && this.getWordIndexFromCharIndex(index) > 0,
+                char !== ' ' && this.getWordIndexFromCharIndex(index) < 2,
         }));
 
         const startTime = Date.now();
-        const animationDuration = 5000;
+        const animationDuration = 3000;
 
         const animate = () => {
             const elapsed = Date.now() - startTime;

@@ -1,10 +1,10 @@
 <script lang="ts">
+    import { heroContentState } from './contentFunctions.svelte';
+    import { heroContentStats } from '#lib/attachments/gsap/heroContentStats.js';
     import HeroButton from '../hero/HeroButton.svelte';
     import projects from '#lib/components/projects/projects.json';
     import ProjectsGrid from '../../ProjectsGrid.svelte';
-    import HandDrawnUnderline from '../HandDrawnUnderline.svelte';
-    import { heroContentState } from './contentFunctions.svelte';
-    import { heroContentStats } from '#lib/attachments/gsap/heroContentStats.js';
+    import HeroTitle from './HeroTitle.svelte';
 
     let { selectedBg = 0 as number | boolean } = $props();
     let isTunnel = $derived(selectedBg === 1);
@@ -16,29 +16,7 @@
 </script>
 
 <section aria-label="Introduction and portfolio overview" class="hero-content">
-    <header class="title-container">
-        <h2 class="hero-title glitch">
-            {#each heroContentState.titleWords as _, wordIndex}
-                {@const wordData = heroContentState.getWordChars(wordIndex)}
-
-                <span class="word">
-                    {#each wordData.chars as char, charIndex}
-                        <span
-                            class="char"
-                            style="--i: {wordData.start + charIndex}"
-                            >{char}</span
-                        >
-                    {/each}
-
-                    {#if wordIndex === 0}
-                        <span class="underline-wrapper">
-                            <HandDrawnUnderline width={100} height={50} />
-                        </span>
-                    {/if}
-                </span>
-            {/each}
-        </h2>
-    </header>
+    <HeroTitle />
 
     <div
         class="content-wrapper"
@@ -139,71 +117,6 @@
 
         @media (width <= 768px) {
             padding: calc(var(--space-md) - 0.2rem);
-        }
-
-        & .title-container {
-            margin-bottom: 2rem;
-
-            @media (height <= 700px) {
-                margin-bottom: 1rem;
-            }
-
-            & .hero-title {
-                font-family: var(--ultra);
-                font-size: clamp(var(--h3), 7vw, var(--xxl));
-                font-weight: 900;
-                color: var(--clr-dark-500);
-                filter: drop-shadow(0 0 5px var(--clr-light-500));
-                line-height: 1;
-                margin: 0;
-                margin-bottom: 0.2em;
-                word-wrap: normal;
-                overflow-wrap: break-word;
-                hyphens: none;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                user-select: none;
-
-                @media (height <= 768px) {
-                    line-height: 1.1;
-                    margin-bottom: 1em;
-                }
-
-                & .word:first-child {
-                    font-family: var(--thunder);
-                    font-size: clamp(var(--h2), 7vw, var(--xxl));
-                    font-weight: 700;
-                    color: var(--clr-dark-500);
-                    filter: drop-shadow(0 0 5px var(--clr-light-500));
-                    display: inline-block;
-                    transform: scaleX(1.7) scaleY(2);
-                    text-transform: uppercase;
-                    letter-spacing: -0.0195em;
-
-                    @media (width <= 768px) {
-                        transform: scaleX(1.3) scaleY(1.4);
-                    }
-                }
-
-                & .underline-wrapper {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    margin-top: -0.9em;
-                    margin-left: 0.75em;
-                    transform: scaleX(1.4);
-                }
-
-                & .word {
-                    display: block;
-                }
-
-                & .char {
-                    display: inline-block;
-                }
-            }
         }
 
         & .content-wrapper {

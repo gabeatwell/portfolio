@@ -47,9 +47,9 @@
 </script>
 
 <SEO
-    title="Handcrafted Frontend Experiences"
-    description="Gabriel Atwell's Portfolio - it shows his skills in building interfaces, making 3d animations, and telling stories."
-    keywords="gabriel atwell, gabe atwell, atwell, atwell dev, atwell.dev, atwell ui, atwell ui design, gabeatwell, Las Vegas web design, Las Vegas UI designer, Las Vegas frontend developer, website designer Las Vegas, web designer Las Vegas, custom web design Las Vegas, Svelte developer Las Vegas, GSAP developer Las Vegas, Three.js developer Las Vegas, frontend developer Las Vegas, GSAP animation developer Las Vegas, custom animated websites Las Vegas, Handcrafted frontend experiences"
+    title="Gabe Atwell - Designer & Developer"
+    description="Gabe Atwell is a Las Vegas designer & frontend developer creating handcrafted interfaces, animations, and 3D experiences with SvelteKit, GSAP, and Three.js."
+    keywords="gabe atwell, gabriel atwell, designer developer, frontend developer, web designer Las Vegas, Las Vegas web design, UI designer Las Vegas, Svelte developer, GSAP developer, Three.js developer, handcrafted frontend, custom web design Las Vegas, atwell.dev"
 />
 
 {#if !browser || isOffline}

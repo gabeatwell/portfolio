@@ -1,55 +1,117 @@
 <script lang="ts">
+    import { heroContentState } from './contentFunctions.svelte';
+    import HandDrawnUnderline from './HandDrawnUnderline.svelte';
+
     interface Props {
-        title: string;
+        primaryTitle?: string;
+        secondaryTitle?: string;
     }
 
-    let { title }: Props = $props();
+    let {
+        primaryTitle = 'Gabe Atwell',
+        secondaryTitle = 'Designer & Developer',
+    }: Props = $props();
 </script>
 
-<section>
-    <h2>{title}</h2>
-</section>
+<header class="title-container">
+    <h1 class="hero-title glitch">
+        <!-- primary line -->
+        <span class="word first-line">
+            {#each heroContentState.getWordChars(0).chars as char, charIndex}
+                <span class="char" style="--i: {charIndex}">{char}</span>
+            {/each}
+
+            <span class="char space">&nbsp;</span>
+
+            {#each heroContentState.getWordChars(1).chars as char, charIndex}
+                <span
+                    class="char"
+                    style="--i: {heroContentState.getWordChars(0).chars.length +
+                        1 +
+                        charIndex}">{char}</span
+                >
+            {/each}
+
+            <span class="underline-wrapper">
+                <HandDrawnUnderline width={100} height={50} />
+            </span>
+        </span>
+
+        <!-- secondary line -->
+        <span class="word second-line">
+            {#each heroContentState.secondaryText.split('') as char, charIndex}
+                <span class="char" style="--i: {12 + charIndex}"
+                    >{char === ' ' ? '\u00A0' : char}</span
+                >
+            {/each}
+        </span>
+    </h1>
+</header>
 
 <style>
-    section {
-        @supports (background-clip: text) or (-webkit-background-clip: text) {
-            & h2 {
-                --bgSize: 200%;
-                margin: 2rem auto;
-                margin-top: 5%;
-                color: transparent;
-                font-family: var(--ultra);
-                font-size: clamp(var(--h4), 4vw, var(--xxl));
-                font-weight: 700;
-                letter-spacing: -1px;
-                background-image: linear-gradient(
-                    to right,
-                    var(--clr-blue-500),
-                    var(--clr-light-500),
-                    var(--clr-blue-500),
-                    var(--clr-light-500),
-                    var(--clr-blue-500)
-                );
-                background-clip: text;
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-size: var(--bgSize);
-                animation: animate 5s ease-out infinite;
+    .title-container {
+        margin-bottom: 2rem;
+
+        @media (height <= 700px) {
+            margin-bottom: 1rem;
+        }
+
+        & .hero-title {
+            font-family: var(--ultra);
+            font-size: clamp(var(--h3), 7vw, var(--xxl));
+            font-weight: 900;
+            color: var(--clr-dark-500);
+            filter: drop-shadow(0 0 5px var(--clr-light-500));
+            line-height: 1;
+            margin: 0;
+            margin-bottom: 0.2em;
+            word-wrap: normal;
+            overflow-wrap: break-word;
+            hyphens: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            user-select: none;
+
+            @media (height <= 768px) {
+                line-height: 1.1;
+                margin-bottom: 1em;
             }
-        }
-    }
 
-    @keyframes animate {
-        0% {
-            background-position: 0;
-        }
+            & .first-line {
+                font-family: var(--thunder);
+                font-size: clamp(var(--h2), 7vw, var(--xxl));
+                font-weight: 700;
+                color: var(--clr-dark-500);
+                filter: drop-shadow(0 0 5px var(--clr-light-500));
+                display: inline-block;
+                transform: scaleX(1.7) scaleY(2);
+                text-transform: uppercase;
+                letter-spacing: -0.0195em;
 
-        50% {
-            background-position: 50%;
-        }
+                @media (width <= 768px) {
+                    transform: scaleX(1.3) scaleY(1.4);
+                }
+            }
 
-        100% {
-            background-position: 0;
+            & .second-line {
+                font-family: var(--ultra);
+                font-size: clamp(var(--h5), 4.2vw, var(--h2));
+                font-weight: 700;
+                letter-spacing: 0.03em;
+                margin-top: 0.1em;
+                display: block;
+            }
+
+            & .underline-wrapper {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-top: -0.8em;
+                margin-left: 0.75em;
+                transform: scaleX(1.4);
+            }
         }
     }
 </style>
