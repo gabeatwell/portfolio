@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { originAware } from './originAware';
+
     interface Props {
         title: string;
         videoSrc: string;
@@ -14,7 +16,7 @@
         {title}
     </button>
 
-    <div id={videoId} popover="auto" data-video-popover>
+    <div id={videoId} popover="auto" data-video-popover {@attach originAware}>
         <div class="video-wrapper">
             <div class="responsive-iframe">
                 <iframe
@@ -191,13 +193,15 @@
     [popover] {
         --radius: 0.2rem;
         --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.25);
+        --origin-x: 50%;
+        --origin-y: top;
         border: 3px solid var(--clr-light-500-fade);
         border-radius: var(--radius);
         box-shadow: var(--blackest) 0px 20px 25px -5px;
         display: none;
         opacity: 0;
         transform: translateY(2rem);
-        transform-origin: top center;
+        transform-origin: var(--origin-x, 50%) var(--origin-y, top);
 
         position: fixed;
         inset-inline: 0;

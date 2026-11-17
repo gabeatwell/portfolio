@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { originAware } from './originAware';
+
     interface Props {
         title: string;
         text: string;
@@ -16,7 +18,7 @@
         <span class="pwa-title">{title}</span>
     </button>
 
-    <div {id} popover="auto">
+    <div {id} popover="auto" {@attach originAware}>
         <!-- <p><span class="pwa-title">{title}</span></p> -->
         <div class="content">
             <p class="indent" data-content>{text}</p>
@@ -168,7 +170,7 @@
         border-radius: var(--radius);
         box-shadow: var(--blackest) 0px 20px 25px -5px;
         padding: var(--padding-button-lg);
-        transform-origin: top center;
+        transform-origin: var(--origin-x, 50%) var(--origin-y, top);
 
         position: fixed;
         inset: 0;
@@ -179,7 +181,7 @@
         /* close state */
         display: none;
         opacity: 0;
-        transform: translateY(2.5em);
+        transform: scale(0.95);
         overlay: none;
 
         transition:
@@ -193,7 +195,7 @@
     [popover]:popover-open {
         display: block;
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
         overlay: auto;
     }
 
@@ -201,7 +203,7 @@
     @starting-style {
         [popover]:popover-open {
             opacity: 0;
-            transform: translateY(-2.5em);
+            transform: scale(1.1);
         }
     }
 
