@@ -96,7 +96,7 @@
 
             & .second-line {
                 font-family: var(--ultra);
-                font-size: clamp(var(--h6), 4.2vw, var(--h2));
+                font-size: clamp(calc(var(--h6) + 0.1rem), 4.2vw, var(--h2));
                 font-weight: 700;
                 letter-spacing: 0.03em;
                 margin-top: 0.1em;
