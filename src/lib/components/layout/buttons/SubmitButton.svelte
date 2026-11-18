@@ -51,22 +51,9 @@
             }
 
             &:active {
-                scale: 0.95;
+                scale: var(--press-scale);
             }
         }
-
-        /* @media (width >= 500px) {
-            text-shadow:
-                0 0 1px var(--clr-light-500),
-                -3px -3px 0 var(--clr-light-500),
-                3px -3px 0 var(--clr-light-500),
-                -3px 3px 0 var(--clr-light-500),
-                3px 3px 0 var(--clr-light-500),
-                -3px 0 0 var(--clr-light-500),
-                3px 0 0 var(--clr-light-500),
-                0 -3px 0 var(--clr-light-500),
-                0 3px 0 var(--clr-light-500);
-        } */
     }
 
     @keyframes right {

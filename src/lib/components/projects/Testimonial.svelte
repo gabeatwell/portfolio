@@ -72,7 +72,7 @@
             box-shadow 0.2s;
 
         @media (width <= 768px) {
-            scale: 0.95;
+            scale: var(--press-scale);
             margin-top: -1rem;
         }
 

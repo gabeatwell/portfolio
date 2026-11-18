@@ -22,14 +22,11 @@
             color: var(--blackest);
             border: 1px solid var(--blackest);
             outline: 3px solid var(--blackest);
-            /* color: var(--clr-light-500);
-            border: 1px solid var(--clr-light-500);
-            outline: 3px solid var(--clr-light-500); */
             margin-inline: auto;
             cursor: pointer;
             letter-spacing: 1px;
             width: fit-content;
-            border-radius: var(--button-radius);
+            border-radius: var(--radius);
             transition:
                 outline-offset 300ms ease-out,
                 opacity 300ms ease-out,
@@ -53,7 +50,7 @@
             }
 
             &:active {
-                scale: 0.95;
+                scale: var(--press-scale);
             }
         }
     }

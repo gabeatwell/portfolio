@@ -93,7 +93,7 @@
             }
 
             &:active {
-                scale: 0.95;
+                scale: var(--press-scale);
             }
 
             &:focus {

@@ -86,7 +86,7 @@
             }
 
             &:active {
-                scale: 0.95;
+                scale: var(--press-scale);
             }
 
             @media (width <= 500px) {

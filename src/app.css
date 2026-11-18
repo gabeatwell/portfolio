@@ -126,6 +126,8 @@
         /* timings */
         --link-transition-duration: 0.75s;
         --title-transition-duration: 0.3s;
+
+        --press-scale: 0.97;
     }
 
     @media (prefers-reduced-motion: no-preference) {

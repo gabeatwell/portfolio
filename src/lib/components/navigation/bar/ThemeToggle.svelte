@@ -105,7 +105,7 @@
             color 0.15s ease-out;
 
         &:hover {
-            text-shadow: 0 0 1px var(--smoke);
+            text-shadow: 0 0 1px var(--clr-gray-500);
         }
 
         &:has(> .sr-only:focus-visible) {
@@ -115,7 +115,7 @@
 
         &:active {
             color: var(--clr-light-500);
-            scale: 0.95;
+            scale: var(--press-scale);
         }
 
         & .icon {

@@ -268,7 +268,7 @@
         }
 
         &:active {
-            scale: 0.955;
+            scale: var(--press-scale);
         }
 
         &:focus-visible {
@@ -309,7 +309,7 @@
         }
 
         &:active {
-            scale: 0.95;
+            scale: var(--press-scale);
         }
 
         & svg {
