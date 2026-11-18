@@ -52,8 +52,8 @@
     .title-container {
         margin-bottom: 2rem;
 
-        @media (height <= 700px) {
-            margin-bottom: 1rem;
+        @media (width <= 768px) {
+            margin-block: 1rem;
         }
 
         & .hero-title {
@@ -96,7 +96,7 @@
 
             & .second-line {
                 font-family: var(--ultra);
-                font-size: clamp(var(--h5), 4.2vw, var(--h2));
+                font-size: clamp(var(--h6), 4.2vw, var(--h2));
                 font-weight: 700;
                 letter-spacing: 0.03em;
                 margin-top: 0.1em;
