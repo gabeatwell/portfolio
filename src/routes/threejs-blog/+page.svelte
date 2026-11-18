@@ -232,6 +232,10 @@
         top: 9em;
         right: 1em;
 
+        &:active {
+            scale: var(--press-scale);
+        }
+
         @media (width <= 1350px) {
             top: 8.5em;
         }

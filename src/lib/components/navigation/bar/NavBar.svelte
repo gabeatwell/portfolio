@@ -5,7 +5,7 @@
     import NavDropdown from '#lib/components/navigation/bar/NavDropdown.svelte';
     import NavLink from '#lib/components/navigation/bar/NavLink.svelte';
     import SelectLink from '#lib/components/navigation/bar/SelectLink.svelte';
-    import AtwellLogo from '../AtwellLogo.svelte';
+    import AtwellLogo from './AtwellLogo.svelte';
     import projects from '#lib/components/projects/projects.json';
 
     type Project = (typeof projects)[number];

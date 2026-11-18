@@ -132,6 +132,10 @@
                     box-shadow: none;
                 }
 
+                &:active {
+                    scale: var(--press-scale);
+                }
+
                 & .option-text {
                     color: var(--clr-dark-500);
                     font-family: var(--bronova-bold);

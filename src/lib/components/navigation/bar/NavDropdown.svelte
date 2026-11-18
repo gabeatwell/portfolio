@@ -194,6 +194,10 @@
             outline-offset: 1px 2px;
         }
 
+        &:active {
+            scale: var(--press-scale);
+        }
+
         @media (hover: hover) and (pointer: fine) {
             &:hover::before,
             &:focus-visible::before {
