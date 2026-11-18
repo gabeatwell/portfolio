@@ -185,10 +185,10 @@
         overlay: none;
 
         transition:
-            opacity 0.5s allow-discrete,
-            display 0.5s allow-discrete,
-            transform 0.75s allow-discrete,
-            overlay 0.5s allow-discrete;
+            opacity 0.35s allow-discrete,
+            display 0.35s allow-discrete,
+            transform 0.35s allow-discrete,
+            overlay 0.35s allow-discrete;
     }
 
     /* open state */
@@ -203,7 +203,7 @@
     @starting-style {
         [popover]:popover-open {
             opacity: 0;
-            transform: scale(1.1);
+            transform: scale(0.75);
         }
     }
 
