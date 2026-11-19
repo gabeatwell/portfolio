@@ -75,8 +75,10 @@
                 }
             }
 
-            &:hover {
-                animation: wiggle 1s ease infinite;
+            @media (hover: hover) {
+                &:hover {
+                    animation: wiggle 1s ease infinite;
+                }
             }
 
             &:focus,
