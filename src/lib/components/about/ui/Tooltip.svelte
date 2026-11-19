@@ -4,22 +4,10 @@
         hover: string;
     }
     let { title, hover }: Props = $props();
-
-    function handleTooltipClick(event: Event) {
-        event.preventDefault();
-        event.stopPropagation();
-        return false;
-    }
 </script>
 
 <section class="tooltip-container" aria-label="tooltip container">
-    <button
-        type="button"
-        class="tooltip-trigger"
-        onclick={handleTooltipClick}
-        ontouchstart={handleTooltipClick}
-        aria-label="Show tooltip"
-    >
+    <button type="button" class="tooltip-trigger" aria-label="Show tooltip">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 530">
             <title>Attention!</title>
             <path
@@ -40,7 +28,7 @@
         justify-content: center;
         inline-size: fit-content;
 
-        &:hover .tooltip {
+        &:is(:hover, :focus-within) .tooltip {
             opacity: 1;
             visibility: visible;
             animation: fadeIn 0.25s forwards;

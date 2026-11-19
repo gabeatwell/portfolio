@@ -263,8 +263,10 @@
         color: var(--clr-light-500);
         transition: scale 0.15s ease-out;
 
-        &:hover {
-            animation: wiggle 1s ease infinite;
+        @media (hover: hover) {
+            &:hover {
+                animation: wiggle 1s ease infinite;
+            }
         }
 
         &:active {
@@ -304,8 +306,10 @@
             outline: 1px solid var(--clr-light-500);
         }
 
-        &:hover {
-            animation: wiggle 1s ease-out infinite;
+        @media (hover: hover) {
+            &:hover {
+                animation: wiggle 1s ease infinite;
+            }
         }
 
         &:active {

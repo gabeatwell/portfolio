@@ -403,8 +403,10 @@
                         box-shadow: -4px 4px 0 var(--clr-light-500-fade);
                     }
 
-                    &:not(:hover) {
-                        opacity: 0.9;
+                    @media (hover: hover) {
+                        &:not(:hover) {
+                            opacity: 0.9;
+                        }
                     }
 
                     & .bento-icons {

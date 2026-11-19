@@ -88,8 +88,10 @@
             min-inline-size: 44px;
             transition: scale 0.15s ease-out;
 
-            &:not(:hover) {
-                opacity: 0.85;
+            @media (hover: hover) {
+                &:not(:hover) {
+                    opacity: 0.85;
+                }
             }
 
             &:active {
