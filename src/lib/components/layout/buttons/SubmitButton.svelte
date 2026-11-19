@@ -5,6 +5,8 @@
 
 <style>
     .submit-button {
+        -webkit-tap-highlight-color: transparent;
+
         @media (width >= 300px) {
             background-color: transparent;
             font-family: var(--ultra);

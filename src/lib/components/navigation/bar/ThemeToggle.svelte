@@ -84,6 +84,7 @@
     }
 
     .theme-toggle {
+        -webkit-tap-highlight-color: transparent;
         inline-size: 2em;
         block-size: 2em;
         padding: 0;

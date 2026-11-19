@@ -145,7 +145,7 @@
                         filter: opacity(0.95);
                     }
 
-                    &:focus {
+                    &:focus-visible {
                         outline: 1px solid var(--clr-light-500);
                         background: transparent;
                         box-shadow: none;

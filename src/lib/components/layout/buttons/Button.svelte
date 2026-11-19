@@ -13,6 +13,8 @@
 <style>
     @media (width >= 300px) {
         .button {
+            -webkit-tap-highlight-color: transparent;
+
             display: inline-block;
             text-decoration: none;
             background-color: var(--light-sky);

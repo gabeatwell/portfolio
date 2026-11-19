@@ -34,18 +34,17 @@
 
 <style>
     [data-navigation-logo] {
+        -webkit-tap-highlight-color: transparent;
         user-select: none;
 
         display: inline-flex;
         align-items: center;
         border-radius: 0.25rem;
 
-        &:focus-visible,
-        &:focus {
+        &:focus-visible {
             outline: 2px solid var(--clr-light-500-fade);
             outline-offset: 3px;
             background: transparent;
-            box-shadow: none;
         }
 
         &:focus:not(:focus-visible) {

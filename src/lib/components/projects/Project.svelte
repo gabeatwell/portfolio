@@ -70,6 +70,8 @@
     }
 
     .project-card {
+        -webkit-tap-highlight-color: transparent;
+
         block-size: auto;
         border: 2px solid var(--clr-gray-500-fade);
         border-radius: 1em 1em var(--radius) var(--radius);
@@ -99,11 +101,9 @@
             inline-size: fit-content;
             margin-inline: auto;
 
-            &:focus,
             &:focus-visible {
                 outline: 1px solid var(--clr-light-500);
                 outline-offset: 2px;
-                box-shadow: none;
                 background-color: transparent;
             }
 
@@ -197,7 +197,7 @@
                 }
             }
 
-            &:focus {
+            &:focus-visible {
                 outline: 1px solid var(--clr-light-500);
                 background: transparent;
                 box-shadow: none;

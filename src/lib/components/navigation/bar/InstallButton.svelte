@@ -110,6 +110,7 @@
 
 <style>
     .install-btn {
+        -webkit-tap-highlight-color: transparent;
         width: fit-content;
         margin-inline: auto;
         font-family: var(--bronova);

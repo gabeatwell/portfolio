@@ -132,6 +132,7 @@
     }
 
     .nav-link {
+        -webkit-tap-highlight-color: transparent;
         --clr-light-500-fade: oklch(from var(--clr-light-500) l c h / 0.85);
         font-family: var(--bronova);
         font-size: clamp(var(--h6), 1.25vw, var(--h4));
@@ -187,11 +188,8 @@
             transform-origin: right center;
         }
 
-        &:focus-visible,
-        &:focus {
-            background: transparent;
-            outline: 2px solid var(--clr-dark-500-fade);
-            outline-offset: 1px 2px;
+        &:focus-visible {
+            outline: none;
         }
 
         &:active {

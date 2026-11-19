@@ -143,6 +143,8 @@
 
 <style>
     .footer {
+        -webkit-tap-highlight-color: transparent;
+
         display: flex;
         justify-content: space-evenly;
         gap: 5rem;
@@ -171,7 +173,7 @@
             pointer-events: all;
             background-color: transparent;
 
-            &:focus {
+            &:focus-visible {
                 outline: 1px solid var(--clr-light-500);
                 background: transparent;
                 box-shadow: none;
