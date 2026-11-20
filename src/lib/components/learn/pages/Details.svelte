@@ -75,7 +75,9 @@
     }
 
     .animate-in {
-        animation: fadeInUp 1s ease both;
+        @media (hover: hover) {
+            animation: fadeInUp 1s ease both;
+        }
         animation-delay: var(--anim-delay, 0s);
 
         @media (prefers-reduced-motion: reduce) {

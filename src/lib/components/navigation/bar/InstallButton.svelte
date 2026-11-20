@@ -202,7 +202,10 @@
         border-radius: var(--radius);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         z-index: 2000;
-        animation: slideUp 0.5s ease-out forwards;
+
+        @media (hover: hover) {
+            animation: slideUp 0.5s ease-out forwards;
+        }
 
         & .steps {
             font-size: clamp(var(--sm), 1.2vw, var(--h6));

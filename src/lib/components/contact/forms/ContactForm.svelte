@@ -291,7 +291,10 @@
                     border-color: var(--clr-fail-500);
                     box-shadow: 0 0 0 2px var(--clr-fail-500);
                     background-color: hsla(0, 70%, 55%, 0.05);
-                    animation: wiggle 0.5s ease-out;
+
+                    @media (hover: hover) {
+                        animation: wiggle 0.5s ease-out;
+                    }
                 }
 
                 &:placeholder-shown:user-invalid {

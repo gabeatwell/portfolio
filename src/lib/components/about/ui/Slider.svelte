@@ -117,7 +117,10 @@
                 display: flex;
                 width: max-content; /* important */
                 will-change: transform;
-                animation: scroll var(--duration) linear infinite;
+
+                @media (hover: hover) {
+                    animation: scroll var(--duration) linear infinite;
+                }
 
                 & .slide {
                     flex-shrink: 0;

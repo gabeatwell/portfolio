@@ -33,7 +33,9 @@
             opacity: 0.8;
             color: var(--dark-pale);
             outline-offset: 0px;
-            animation: wiggle 0.5s ease-out infinite;
+            @media (hover: hover) {
+                animation: wiggle 0.5s ease-out infinite;
+            }
         }
 
         &::after {

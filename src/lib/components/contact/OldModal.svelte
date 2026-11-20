@@ -245,7 +245,9 @@
             }
 
             &:hover {
-                animation: wiggle 01s ease infinite;
+                @media (hover: hover) {
+                    animation: wiggle 01s ease infinite;
+                }
             }
 
             &:active {
@@ -294,7 +296,9 @@
             color: var(--clr-light-500);
 
             &:hover {
-                animation: wiggle 01s ease-out infinite;
+                @media (hover: hover) {
+                    animation: wiggle 01s ease-out infinite;
+                }
             }
 
             &:active {
