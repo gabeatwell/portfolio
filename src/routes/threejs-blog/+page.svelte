@@ -87,6 +87,7 @@
 
             & .title-link {
                 color: var(--fg);
+                font-weight: 300;
             }
         }
 
@@ -94,7 +95,7 @@
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 1.15vw, var(--h5));
             font-weight: 400;
-            color: var(--fg);
+            color: oklch(from var(--fg) l c h / 0.7);
             padding-bottom: calc(var(--space-md) - 0.2em);
 
             &:empty {
@@ -119,7 +120,7 @@
         margin-top: 2em;
         font-family: var(--ultra);
         font-size: clamp(var(--h3), 5vw, var(--lg));
-        font-weight: 700;
+        font-weight: 500;
         letter-spacing: -0.0075em;
         color: var(--clr-dark-500);
         text-shadow:
