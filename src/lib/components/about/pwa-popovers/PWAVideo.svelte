@@ -76,7 +76,7 @@
         .open-popover {
             background-color: transparent;
             filter: brightness(1);
-            color: var(--clr-green-500);
+            color: var(--accent);
             inline-size: fit-content;
             font-family: var(--bronova-bold);
             font-size: clamp(var(--h6), 1.5vw, var(--h4));

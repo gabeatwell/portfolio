@@ -12,7 +12,7 @@
     />
 
     <div class="intro-content">
-        <HeroTitle title="Welcome!" />
+        <HeroTitle primaryTitle="Welcome!" />
 
         <h2>
             <span>This is the frontend portfolio of Gabe Atwell</span>

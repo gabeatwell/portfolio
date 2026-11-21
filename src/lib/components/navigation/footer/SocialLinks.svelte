@@ -187,8 +187,8 @@
                 cursor: pointer;
 
                 & path {
-                    fill: var(--clr-dark-500);
-                    stroke: var(--clr-light-500);
+                    fill: var(--bg);
+                    stroke: var(--fg);
                     stroke-width: 0.25em;
 
                     &:not(:hover) {

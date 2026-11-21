@@ -292,10 +292,7 @@
         --space: 1rem;
         --surface-1: transparent;
         --surface-2: var(--clr-dark-500);
-        --gradient: radial-gradient(
-            var(--clr-gray-500-fade),
-            var(--clr-dark-500) 88%
-        );
+        --gradient: radial-gradient(var(--clr-dark-500) 5%, var(--bg) 75%);
     }
 
     * {
@@ -378,7 +375,7 @@
                 & .bento-item {
                     --radius: 0.15rem;
                     inline-size: 100%;
-                    background-color: var(--surface-2);
+                    background-color: var(--bg);
                     background-image: var(--gradient);
                     text-decoration: none;
                     display: flex;

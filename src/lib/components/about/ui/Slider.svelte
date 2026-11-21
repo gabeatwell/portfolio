@@ -89,20 +89,12 @@
 
         &::before {
             left: 0;
-            background: linear-gradient(
-                to right,
-                var(--clr-dark-500),
-                transparent
-            );
+            background: linear-gradient(to right, var(--bg), transparent);
         }
 
         &::after {
             right: 0;
-            background: linear-gradient(
-                to left,
-                var(--clr-dark-500),
-                transparent
-            );
+            background: linear-gradient(to left, var(--bg), transparent);
         }
 
         & .slider {

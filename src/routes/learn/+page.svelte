@@ -90,7 +90,7 @@
             to bottom,
             oklch(from var(--clr-light-500-fade) 0.35 c h) 0%,
             var(--clr-dark-500) 30%,
-            var(--clr-dark-500) var(--100)
+            var(--clr-dark-500) var(--100, 100%)
         );
 
         @media (width <= 768px) {

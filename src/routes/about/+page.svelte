@@ -138,7 +138,7 @@
             }
 
             & .biography {
-                color: var(--white);
+                color: var(--fg);
                 position: relative;
                 opacity: 1;
 
@@ -150,6 +150,7 @@
                     padding-inline: 0;
                 }
                 & :global(.bio-link) {
+                    color: var(--accent);
                     font-weight: 900;
                     text-decoration: none;
 

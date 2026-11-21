@@ -7,7 +7,10 @@ h2 {
     font-weight: 800;
 }
 h3 {
-    color: var(--clr-blue-500);
+    color: var(--heading);
+}
+p {
+    color: var(--fg);
 }
 
 .post-content h2 {
@@ -47,9 +50,14 @@ code {
 }
 
 a {
-    font-weight: 700;
+    color: var(--accent);
+    font-weight: 900;
 }
 
+.post-content li,
+.post-content li strong {
+    color: var(--fg);
+}
 .post-content ul li {
     list-style-type: circle;
 }

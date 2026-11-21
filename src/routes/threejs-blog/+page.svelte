@@ -84,13 +84,17 @@
             font-family: var(--bronova-bold);
             font-weight: 800;
             color: var(--clr-gray-500-fade);
+
+            & .title-link {
+                color: var(--fg);
+            }
         }
 
         & .subtitle {
             font-family: var(--bronova);
             font-size: clamp(var(--sm), 1.15vw, var(--h5));
             font-weight: 400;
-            color: var(--clr-light-500-fade);
+            color: var(--fg);
             padding-bottom: calc(var(--space-md) - 0.2em);
 
             &:empty {
