@@ -86,11 +86,16 @@
     .learn-wrapper {
         padding-top: 7em;
         min-block-size: 100svh;
-        background: linear-gradient(
+        /*background: linear-gradient(
             to bottom,
             oklch(from var(--clr-light-500-fade) 0.35 c h) 0%,
             var(--clr-dark-500) 30%,
             var(--clr-dark-500) var(--100, 100%)
+        );*/
+        background: radial-gradient(
+            circle,
+            var(--clr-dark-500) 25%,
+            oklch(from var(--bg) l c h) 75%
         );
 
         @media (width <= 768px) {

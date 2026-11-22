@@ -36,14 +36,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        /*overflow-x: clip;*/
         padding-top: clamp(
             calc(var(--space-md) - 0.2rem),
             3vw,
             var(--space-lg)
         );
         z-index: 1;
-        opacity: 0.4;
+        opacity: 0.8;
 
         .left-word,
         .right-word {

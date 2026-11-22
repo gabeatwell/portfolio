@@ -61,7 +61,7 @@
 
 <nav class="footer" aria-label="Social media links">
     <a
-        class="social-link yellow"
+        class="social-link"
         href={githubUrl}
         target="_blank"
         rel="noopener noreferrer"
@@ -149,14 +149,13 @@
         justify-content: space-evenly;
         gap: 5rem;
         padding: calc(var(--space-md) - 0.2rem);
-        margin-top: 2.65rem;
+        block-size: fit-content;
 
         @media (width <= 990px) {
             display: flex;
             justify-content: space-evenly;
             align-items: center;
             gap: 1.65rem;
-            margin-top: 0;
         }
 
         & .social-link {

@@ -175,11 +175,16 @@
     }
 
     .projects {
-        background: linear-gradient(
+        /*background: linear-gradient(
             to bottom,
             oklch(from var(--clr-light-500-fade) 0.35 c h) 0%,
             var(--clr-dark-500) 12%,
             var(--clr-dark-500) 100%
+        );*/
+        background: radial-gradient(
+            circle,
+            var(--clr-dark-500) 25%,
+            oklch(from var(--bg) l c h) 75%
         );
 
         & .bevel-border {

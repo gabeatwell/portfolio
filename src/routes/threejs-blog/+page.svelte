@@ -111,7 +111,7 @@
     }
 
     .blog-title {
-        --clr-dark-500-fade: oklch(51.484% 0.00136 15.538 / 0.32);
+        --clr-dark-500-fade: oklch(91.484% 0.00136 15.538 / 0.32);
         --clr-blue-500-fade: color-mix(
             in oklch,
             var(--darkest-blue) 99%,
