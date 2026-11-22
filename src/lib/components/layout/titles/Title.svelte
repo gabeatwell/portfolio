@@ -10,7 +10,9 @@
         svg?: string;
         viewTransitionName?: string;
         viewTransitionClass?: string;
+        scaleX?: number;
         scaleY?: number;
+        ratio?: number;
     }
 
     let {
@@ -21,11 +23,12 @@
         svg,
         viewTransitionName,
         viewTransitionClass = 'slide-transition',
+        scaleX = 1,
         scaleY = 1,
+        ratio,
     }: Props = $props();
 
     let transitionName = $derived(viewTransitionName || 'page-title');
-
     let svgElement = $derived.by(() => {
         if (!svg) return '';
 
@@ -56,6 +59,20 @@
             KEEP_CONTENT: true,
         });
     });
+    let imgStyle = $derived.by(() => {
+        let style = `width: ${width}; view-transition-name: ${transitionName};`;
+
+        const scale = [
+            scaleX !== 1 && `scaleX(${scaleX})`,
+            scaleY !== 1 && `scaleY(${scaleY})`,
+        ]
+            .filter(Boolean)
+            .join(' ');
+
+        if (scale) style += ` transform: ${scale};`;
+
+        return style;
+    });
 </script>
 
 <div class="title-wrapper">
@@ -65,7 +82,7 @@
             id="image-title"
             src={img}
             alt={title}
-            style="width: {width}; view-transition-name: {transitionName};  transform: scaleY({scaleY});"
+            style={imgStyle}
             style:view-transition-class={viewTransitionClass}
             loading="lazy"
         />
@@ -104,7 +121,7 @@
 
     @media (width >= 300px) {
         .title-wrapper {
-            padding-top: 5em;
+            padding-top: min(14.5em, 25svw);
 
             @media (width <= 768px) {
                 padding-top: 1em;
@@ -115,7 +132,6 @@
         .title-container {
             position: relative;
             text-align: center;
-            margin-top: 5rem;
             view-timeline-name: page-title;
             hyphens: none;
 
@@ -192,11 +208,8 @@
             letter-spacing: normal;
             font-kerning: auto;
             color: initial;
-
-            @media (width <= 768px) {
-                margin-bottom: -4em;
-            }
         }
+
         #image-title {
             z-index: 5;
         }

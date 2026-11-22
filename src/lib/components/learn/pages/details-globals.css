@@ -17,7 +17,7 @@
     hyphens: auto;
     padding-inline: auto;
     color: var(--clr-light-500);
-    min-inline-size: 90svw;
+    max-inline-size: 100%;
 
     margin-bottom: 0.2rem;
     padding-top: 1rem;

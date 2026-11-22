@@ -128,6 +128,8 @@
         --title-transition-duration: 0.3s;
 
         --press-scale: 0.97;
+        --learn-band: clamp(14rem, 38svh, 24rem);
+        --learn-tuck: 3rem;
     }
 
     @media (prefers-reduced-motion: no-preference) {

@@ -1,7 +1,10 @@
 <script lang="ts">
     import './details-globals.css';
     import { sanitize, detailsAccordion } from './detailsFunctions.svelte';
-    import { playOncePerSession } from '#lib/data/session';
+    import {
+        hasPlayedThisSession,
+        markPlayedThisSession,
+    } from '#lib/data/session';
     import { page } from '$app/state';
 
     interface Item {
@@ -15,9 +18,15 @@
 
     let { items = [] }: Props = $props();
 
-    const animate = playOncePerSession(`details:${page.url.pathname}`);
+    const animKey = `details:${page.url.pathname}`;
+    let animate = $state(false);
 
     $effect(() => {
+        if (import.meta.env.DEV || !hasPlayedThisSession(animKey)) {
+            markPlayedThisSession(animKey);
+            animate = true;
+        }
+
         detailsAccordion.init(items.length);
     });
 </script>
@@ -30,7 +39,7 @@
             style={animate ? `--anim-delay: ${index * 0.3}s` : undefined}
         >
             <button
-                class="summary-custom outline contrast spacing"
+                class="summary-custom"
                 onclick={() => detailsAccordion.toggle(index)}
                 onkeydown={(e) => detailsAccordion.handleKeydown(e, index)}
                 aria-expanded={detailsAccordion.openStates[index]}
@@ -91,7 +100,6 @@
         position: relative;
         border: none;
         outline: none;
-        overflow: clip;
         padding: calc(var(--space-md) - 0.2rem);
         inline-size: 100ch;
         z-index: 10;
@@ -105,7 +113,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 2px solid var(--clr-light-500-fade);
+            border: 2px solid oklch(from var(--fg) l c h / 0.75);
             padding: var(--padding-button);
 
             &:focus-visible {
@@ -114,9 +122,13 @@
             }
 
             & .summary-text {
-                color: var(--details-summary);
+                color: oklch(from var(--fg) 0.8 c h / 1);
                 font-family: var(--bronova-bold);
-                font-size: clamp(var(--sm), 1.75vw, var(--h2));
+                font-size: clamp(var(--sm), 0.55rem + 0.85vw, var(--h4));
+                flex: 1;
+                min-inline-size: 0;
+                text-wrap: balance;
+                overflow-wrap: break-word;
             }
 
             & .arrow {
@@ -159,7 +171,7 @@
                 block-size 1s;
 
             @media (width <= 768px) {
-                inline-size: 94svw;
+                inline-size: 100%;
             }
 
             &.open {

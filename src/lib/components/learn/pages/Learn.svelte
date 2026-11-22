@@ -29,13 +29,12 @@
         padding: 0;
 
         & .learn-title {
-            --clr-blue-500-fade: oklch(
-                from var(--clr-success-500) l c h / 0.97
-            );
+            --clr-blue-500-fade: oklch(from var(--clr-success-500) l c h / 1);
             text-align: center;
-            font-family: var(--anta);
             color: var(--clr-blue-500-fade);
-            font-size: clamp(var(--h6), 2vw, var(--h3));
+            font-family: var(--serif);
+            font-size: clamp(var(--h6), 2.3vw, var(--h2));
+            font-weight: 900;
             padding: 0;
             margin: 0;
         }

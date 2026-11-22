@@ -28,11 +28,13 @@
 
 <section class="learn-svelte">
     <div class="content">
-        <div class="title-spacing">
+        <div class="title-band">
             <Title
                 img="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/Svelte-Dark.svg"
-                width="40vw"
-                scaleY={1.5}
+                width="min(75vw, 30svh, 20rem)"
+                ratio={1}
+                scaleX={1.75}
+                scaleY={2.4}
                 title="SvelteKit Framework"
                 viewTransitionName="sveltekit-logo"
                 viewTransitionClass="sveltekit-logo-transition"
@@ -68,21 +70,20 @@
     }
 
     .learn-svelte {
-        & .title-spacing {
-            margin-top: 3em;
-            margin-bottom: 0;
-
-            @media (width <= 768px) {
-                margin-top: 0;
-                margin-bottom: 6em;
-            }
+        & .title-band {
+            block-size: var(--learn-band);
+            display: grid;
+            place-items: center;
         }
 
         & .svelte-details {
+            position: relative;
+            z-index: 10;
+
             & .center-detail {
-                max-inline-size: 90vw;
+                max-inline-size: min(100ch, 90vw);
                 margin-inline: auto;
-                margin-top: calc(-1 * 8em);
+                margin-top: calc(var(--learn-tuck) * -1);
 
                 :global(details) {
                     position: relative;
@@ -90,9 +91,8 @@
                     outline: none;
                     -webkit-appearance: none;
                     appearance: none;
-                    overflow: clip;
                     padding: 1rem;
-                    inline-size: 100ch;
+                    inline-size: min(100ch, 100%);
 
                     &::details-content {
                         opacity: 0;

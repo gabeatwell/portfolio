@@ -28,12 +28,14 @@
 
 <section class="learn-gsap">
     <div class="content">
-        <div class="title-spacing">
+        <div class="title-band">
             <Title
                 img="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/GSAP-Dark.svg"
-                width="50vw"
+                width="min(50vw, 41svh, 26rem)"
+                ratio={82 / 30}
+                scaleX={1.8}
+                scaleY={4.2}
                 title="Greensock Animation Platform"
-                scaleY={2.8}
                 viewTransitionName="gsap-logo"
             />
         </div>
@@ -64,21 +66,20 @@
     }
 
     .learn-gsap {
-        & .title-spacing {
-            margin-top: 5em;
-            margin-bottom: 0;
-
-            @media (width <= 768px) {
-                margin-top: 0;
-                margin-bottom: 6em;
-            }
+        & .title-band {
+            block-size: var(--learn-band);
+            display: grid;
+            place-items: center;
         }
 
         & .gsap-details {
+            position: relative;
+            z-index: 10;
+
             & .center-detail {
-                max-inline-size: 90vw;
+                max-inline-size: min(100ch, 90vw);
                 margin-inline: auto;
-                margin-top: calc(-1 * 8em);
+                margin-top: calc(var(--learn-tuck) * -1);
 
                 :global(details) {
                     position: relative;
@@ -86,9 +87,8 @@
                     outline: none;
                     -webkit-appearance: none;
                     appearance: none;
-                    overflow: clip;
                     padding: 1rem;
-                    inline-size: 100ch;
+                    inline-size: min(100ch, 100%);
 
                     &::details-content {
                         opacity: 0;
