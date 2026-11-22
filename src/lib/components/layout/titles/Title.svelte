@@ -121,11 +121,18 @@
 
     @media (width >= 300px) {
         .title-wrapper {
-            padding-top: min(14.5em, 25svw);
+            --title-space-text: min(4.5em, 25svw);
+            --title-space-image: min(14.5em, 25svw);
+            --title-space-default: var(--title-space-text);
+            padding-top: var(--title-space-default);
 
             @media (width <= 768px) {
                 padding-top: 1em;
                 padding-bottom: 2rem;
+            }
+
+            &:has(.image-title) {
+                --title-space-default: var(--title-space-image);
             }
         }
 
@@ -137,6 +144,10 @@
 
             @media (width >= 740px) {
                 margin: 2rem auto;
+            }
+
+            @media (width <= 768px) {
+                margin-top: 5em;
             }
         }
 
