@@ -1,9 +1,9 @@
 <script lang="ts">
     interface Props {
-        content: string;
+        photoUrl: string;
     }
 
-    let { content }: Props = $props();
+    let { photoUrl }: Props = $props();
 
     function sanitizeSVG(svg: string): string {
         return svg
@@ -16,15 +16,15 @@
 
 <div class="motif-photo">
     <!-- <img src={img} alt="gabe atwell" /> -->
-    {#if content.startsWith('<svg')}
+    {#if photoUrl.startsWith('<svg')}
         <div class="svg-content">
             <!-- eslint-disable-next-line svelte/no-at-html-tags -->
-            {@html sanitizeSVG(content)}
+            {@html sanitizeSVG(photoUrl)}
         </div>
     {:else}
         <img
             class="image"
-            src={content}
+            src={photoUrl}
             alt="decorative motif"
             loading="lazy"
         />

@@ -26,7 +26,7 @@
 <div class="contact-grid">
     <div class="personal-image">
         <MotifPhoto
-            content="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/gabe-sketch.webp"
+            photoUrl="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/gabe-sketch.webp"
         />
     </div>
 
@@ -94,7 +94,7 @@
                     >company
 
                     <input
-                        {...submitContact.fields.email.as('text')}
+                        {...submitContact.fields.company.as('text')}
                         id="company"
                         required
                         aria-describedby="company-error"
@@ -104,7 +104,7 @@
                     />
                 </label>
 
-                {#each submitContact.fields.email?.issues() ?? [] as issue}
+                {#each submitContact.fields.company?.issues() ?? [] as issue}
                     <p class="field-error">{issue.message}</p>
                 {/each}
             </div>
