@@ -188,9 +188,7 @@
                 }
 
                 & .bio-paragraph {
-                    opacity: 0;
-                    will-change: transform, opacity;
-
+                    opacity: 1;
                     max-inline-size: var(--100);
                     margin-inline: auto;
                     font-size: clamp(var(--h6), 1.5vw, var(--h4));
@@ -201,10 +199,16 @@
                     text-align: start;
                     margin-bottom: 0;
 
-                    transform: translateY(30px) skewX(-3deg);
-                    animation: fadeInUp linear both;
-                    animation-timeline: view();
-                    animation-range: entry 0% cover 50%;
+                    @supports (animation-timeline: view()) {
+                        @media not (prefers-reduced-motion: reduce) {
+                            opacity: 0;
+                            will-change: transform, opacity;
+                            transform: translateY(30px) skewX(-3deg);
+                            animation: fadeInUp linear both;
+                            animation-timeline: view();
+                            animation-range: entry 0% cover 50%;
+                        }
+                    }
 
                     @media (width >= 990px) {
                         max-inline-size: 98%;
@@ -281,15 +285,6 @@
         & p {
             text-align: start;
             color: var(--clr-light-500);
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .about-me .about-section .biography .bio-paragraph {
-            opacity: 1;
-            transform: none;
-
-            animation: none;
         }
     }
 
