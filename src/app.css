@@ -707,6 +707,7 @@ a:not(#_):not(#_),
 [role='link']:not(#_):not(#_) {
     --pico-text-decoration: none;
     --pico-underline: transparent;
+    text-decoration: none;
 }
 
 p a:not(#_):not(#_),
