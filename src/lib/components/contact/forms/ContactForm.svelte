@@ -3,7 +3,7 @@
     import SubmitButton from '#lib/components/layout/buttons/SubmitButton.svelte';
     import A11yAnnouncer from '#lib/components/utils/A11yAnnouncer.svelte';
     import Popover from '#lib/components/layout/css/Popover.svelte';
-    import ModalPopover from '#lib/components/contact/ModalPopover.svelte';
+    // import ModalPopover from '#lib/components/contact/ModalPopover.svelte';
     import MotifPhoto from '../MotifPhoto.svelte';
 
     let submitStatus = $state<string>('');
@@ -13,14 +13,14 @@
 <A11yAnnouncer message={submitStatus} />
 
 <div class="contact-icons">
+    <!-- <ModalPopover /> -->
+
     <div class="popover-icon">
         <Popover
             title="need help?"
-            text="If contacting for work please provide details about the website you want created"
+            text="If contacting for work please provide details about the project you want created.. (is it a new project? or a re-branding? what's your budget and what's the best timeline?)"
         />
     </div>
-
-    <ModalPopover />
 </div>
 
 <div class="contact-grid">
