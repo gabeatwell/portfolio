@@ -164,7 +164,7 @@
                 var(--clr-light-500) 15%,
                 transparent
             );
-            transform: translateY(101%);
+            transform: translateY(105%);
             transform-origin: bottom;
             transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
             will-change: transform;
