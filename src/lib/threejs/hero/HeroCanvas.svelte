@@ -18,7 +18,7 @@
         heroContent: true,
     })}
 >
-    <HeroTitle title="Frontend Crafted Web Experiences" />
+    <HeroTitle primaryTitle="Frontend Crafted Web Experiences" />
 
     <h4 class="summary">
         I am a frontend developer who loves to create beautiful and functional

@@ -12,19 +12,19 @@
             font-family: var(--ultra);
             font-size: clamp(var(--h5), 1.5vw, var(--h4));
             font-weight: 900;
-            border: 1px solid var(--clr-light-500);
-            outline: 3px solid var(--clr-light-500);
-            color: var(--blackest);
+            border: 1px solid oklch(from var(--accent) 0.67 c h);
+            outline: 3px solid oklch(from var(--accent) 0.67 c h);
+            color: var(--bg);
             text-shadow:
                 0 0 1px var(--white-gray),
-                -2px -2px 0 var(--white-gray),
-                2px -2px 0 var(--white-gray),
-                -2px 2px 0 var(--white-gray),
-                2px 2px 0 var(--white-gray),
-                -2px 0 0 var(--white-gray),
-                2px 0 0 var(--white-gray),
-                0 -2px 0 var(--white-gray),
-                0 2px 0 var(--white-gray);
+                -2px -2px 0 oklch(from var(--accent) 0.67 c h),
+                2px -2px 0 oklch(from var(--accent) 0.67 c h),
+                -2px 2px 0 oklch(from var(--accent) 0.67 c h),
+                2px 2px 0 oklch(from var(--accent) 0.67 c h),
+                -2px 0 0 oklch(from var(--accent) 0.67 c h),
+                2px 0 0 oklch(from var(--accent) 0.67 c h),
+                0 -2px 0 oklch(from var(--accent) 0.67 c h),
+                0 2px 0 oklch(from var(--accent) 0.67 c h);
             border-radius: var(--radius);
             outline-offset: -7px;
             margin-inline: auto;

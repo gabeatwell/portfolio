@@ -34,31 +34,30 @@
 <style>
     .motif-photo {
         position: relative;
-        width: fit-content;
+        inline-size: fit-content;
         margin: 0;
         padding: 0;
         margin-inline: auto;
 
         & .svg-content {
-            width: clamp(200px, 30vw, 750px);
-            height: clamp(200px, 30vw, 750px);
+            inline-size: clamp(200px, 30vw, 750px);
+            block-size: clamp(200px, 30vw, 750px);
             display: flex;
             align-items: center;
             justify-content: center;
             margin-inline: auto;
-            border-radius: 10% var(--radius);
             z-index: 1;
 
             & :global(svg) {
-                width: 100%;
-                height: 100%;
+                inline-size: 100%;
+                block-size: 100%;
             }
         }
 
         & .image {
-            width: clamp(200px, 30vw, 750px);
-            height: clamp(200px, 30vw, 750px);
-            border-radius: 10% var(--radius);
+            inline-size: clamp(400px, 33svw, 900px);
+            block-size: clamp(400px, 50svw, 900px);
+            border-radius: 0.05rem;
             display: block;
             margin-inline: auto;
             z-index: 1;
@@ -73,6 +72,7 @@
                 box-shadow:
                     0 0 0 5px var(--clr-dark-500),
                     0 0 0 7px var(--clr-light-500);
+                inline-size: 95svw;
             }
         }
     }

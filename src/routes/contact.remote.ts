@@ -7,6 +7,7 @@ function spamBot(data: {
     ts?: string;
     name?: string;
     email?: string;
+    company?: string;
     message?: string;
 }) {
     // 1. honeypot
@@ -53,6 +54,7 @@ export const submitContact = form(contactSchema, async (data) => {
         body: JSON.stringify({
             name: data.name,
             email: data.email,
+            company: data.company,
             message: data.message,
             _replyto: data.email,
             _subject: `Contact from ${data.name}`,

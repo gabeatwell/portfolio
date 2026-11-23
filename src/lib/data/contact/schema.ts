@@ -3,6 +3,7 @@ import * as v from 'valibot';
 export const contactSchema = v.object({
     name: v.pipe(v.string(), v.minLength(1, 'Name is required')),
     email: v.pipe(v.string(), v.email('Valid email required')),
+    company: v.optional(v.string()),
     message: v.pipe(v.string(), v.minLength(1, 'Please add a bit more detail')),
     _gotcha: v.optional(v.string()), // honeypot
     ts: v.optional(v.string()),

@@ -10,111 +10,133 @@
     const formOpenedAt = Date.now();
 </script>
 
+<A11yAnnouncer message={submitStatus} />
+
 <div class="contact-icons">
     <div class="popover-icon">
         <Popover
-            title=""
-            text="Please provide a working email so I can message you back!"
+            title="need help?"
+            text="If contacting for work please provide details about the website you want created"
         />
     </div>
 
     <ModalPopover />
 </div>
 
-<div class="personal-image">
-    <MotifPhoto
-        content="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/gabe-sketch.webp"
-    />
+<div class="contact-grid">
+    <div class="personal-image">
+        <MotifPhoto
+            content="https://cdn.jsdelivr.net/gh/gabeatwell/portfolio-assets@assets-1/images/gabe-sketch.webp"
+        />
+    </div>
+
+    <form {...submitContact} novalidate>
+        <!-- honeypot -->
+        <input
+            {...submitContact.fields._gotcha.as('text')}
+            class="honeypot"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+            inert
+        />
+        <input
+            {...submitContact.fields.ts.as('hidden', String(formOpenedAt))}
+        />
+
+        <fieldset>
+            <!-- <legend>reach me</legend> -->
+
+            <div class="field-group">
+                <div class="form-group">
+                    <label for="name"
+                        >name
+
+                        <input
+                            {...submitContact.fields.name.as('text')}
+                            id="name"
+                            required
+                            aria-describedby="name-error"
+                            autocomplete="name"
+                            spellcheck="true"
+                            placeholder="Your Name"
+                        />
+                    </label>
+
+                    {#each submitContact.fields.name?.issues() ?? [] as issue}
+                        <p class="field-error">{issue.message}</p>
+                    {/each}
+                </div>
+
+                <div class="form-group">
+                    <label for="email"
+                        >email
+
+                        <input
+                            {...submitContact.fields.email.as('email')}
+                            id="email"
+                            required
+                            aria-describedby="email-error"
+                            autocomplete="email"
+                            spellcheck="true"
+                            placeholder="Your Email"
+                        />
+                    </label>
+
+                    {#each submitContact.fields.email?.issues() ?? [] as issue}
+                        <p class="field-error">{issue.message}</p>
+                    {/each}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="company"
+                    >company
+
+                    <input
+                        {...submitContact.fields.email.as('text')}
+                        id="company"
+                        required
+                        aria-describedby="company-error"
+                        autocomplete="organization"
+                        spellcheck="true"
+                        placeholder="Your Company (optional)"
+                    />
+                </label>
+
+                {#each submitContact.fields.email?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
+            </div>
+
+            <div class="form-group">
+                <label for="message"
+                    >message
+
+                    <textarea
+                        {...submitContact.fields.message.as('text')}
+                        id="message"
+                        rows="5"
+                        required
+                        aria-describedby="message-error"
+                        spellcheck="true"
+                        placeholder="Describe what I can help you with.."
+                    ></textarea>
+                </label>
+
+                {#each submitContact.fields.message?.issues() ?? [] as issue}
+                    <p class="field-error">{issue.message}</p>
+                {/each}
+            </div>
+
+            <div class="submit-button">
+                <SubmitButton />
+            </div>
+        </fieldset>
+    </form>
 </div>
 
-<A11yAnnouncer message={submitStatus} />
-
-<form {...submitContact} novalidate>
-    <!-- honeypot -->
-    <input
-        {...submitContact.fields._gotcha.as('text')}
-        class="hp"
-        tabindex="-1"
-        autocomplete="off"
-        aria-hidden="true"
-        inert
-    />
-    <input {...submitContact.fields.ts.as('hidden', String(formOpenedAt))} />
-
-    <fieldset>
-        <legend>reach me</legend>
-
-        <div class="form-group">
-            <label for="name"
-                >name
-
-                <input
-                    {...submitContact.fields.name.as('text')}
-                    id="name"
-                    required
-                    aria-describedby="name-error"
-                    autocomplete="name"
-                    spellcheck="true"
-                    placeholder="Your Name"
-                />
-            </label>
-
-            {#each submitContact.fields.name?.issues() ?? [] as issue}
-                <p class="field-error">{issue.message}</p>
-            {/each}
-        </div>
-
-        <div class="form-group">
-            <label for="email"
-                >email
-
-                <input
-                    {...submitContact.fields.email.as('email')}
-                    id="email"
-                    required
-                    aria-describedby="email-error"
-                    autocomplete="email"
-                    spellcheck="true"
-                    placeholder="Your Email"
-                />
-            </label>
-
-            {#each submitContact.fields.email?.issues() ?? [] as issue}
-                <p class="field-error">{issue.message}</p>
-            {/each}
-        </div>
-
-        <div class="form-group">
-            <label for="message"
-                >message
-
-                <textarea
-                    {...submitContact.fields.message.as('text')}
-                    id="message"
-                    rows="5"
-                    required
-                    aria-describedby="message-error"
-                    spellcheck="true"
-                    placeholder="Your Message"
-                ></textarea>
-            </label>
-
-            {#each submitContact.fields.message?.issues() ?? [] as issue}
-                <p class="field-error">{issue.message}</p>
-            {/each}
-        </div>
-
-        <div class="submit-button">
-            <SubmitButton />
-        </div>
-    </fieldset>
-</form>
-
 <style>
-    :root {
-        --100: 100%;
-    }
-
     :global(body.light) form {
         --label-bg: var(--dark-gray);
     }
@@ -130,9 +152,7 @@
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
         grid-template-rows: auto;
         align-items: center;
-        margin-bottom: 1em;
-        margin: 0;
-        margin-top: -3em;
+        margin: -3em 0 1em;
 
         @media (width <= 768px) {
             margin-top: -4em;
@@ -144,205 +164,236 @@
         }
     }
 
-    form {
-        --label-bg: var(--dark);
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 0.75fr 1.25fr;
+        margin-block: 3rem;
+        align-items: center;
 
-        @media (width >= 320px) {
-            inline-size: 85%;
-            margin-inline: auto;
-            display: grid;
-            padding: var(--space-xs) 0;
+        @media (width <= 990px) {
+            grid-template-columns: 1fr;
         }
 
-        @media (width >= 1024px) {
-            fieldset {
-                border: 5px solid oklch(from var(--clr-light-500) 0.35 c h);
+        & form {
+            --label-bg: var(--dark);
+            --100: 100%;
+            --input-cap: 75vw;
 
-                font-weight: bolder;
-                padding: var(--padding-button-lg);
-                border-radius: 10px;
-                inline-size: 90%;
+            @media (width >= 320px) {
+                inline-size: 85%;
+                margin-inline: auto;
+                display: grid;
+                padding: var(--space-xs) 0;
+            }
 
-                & .form-group input {
-                    margin-bottom: 1rem;
-                    transform: scale(1.05);
-                    inline-size: var(--100);
-                }
+            .field-group {
+                display: flex;
+                align-items: center;
+                gap: 3em;
 
-                & .form-group textarea {
-                    margin-bottom: 1rem;
-                    inline-size: var(--100);
+                @media (width <= 768px) {
+                    flex-direction: column;
+                    gap: 0;
                 }
             }
-        }
 
-        .hp {
-            position: absolute;
-            left: -9999px;
-            opacity: 0;
-            height: 0;
-            width: 0;
-            overflow: hidden;
-        }
+            @media (width >= 1024px) {
+                fieldset {
+                    font-weight: bolder;
+                    padding: var(--padding-button-lg);
+                    border-radius: 10px;
+                    inline-size: 90%;
 
-        & fieldset {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            inline-size: var(--100);
-            margin: 0 auto;
-        }
+                    & .form-group input {
+                        margin-bottom: 1rem;
+                        inline-size: var(--100);
+                    }
 
-        & legend {
-            font-family: var(--bronova);
-            font-size: clamp(var(--h6), 3.75vw, var(--xl));
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: var(--clr-light-500);
-            text-shadow: 0 0 5px var(--clr-dark-500);
-            padding-inline: 1rem;
-            margin-bottom: 1rem;
-
-            @media (width >= 720px) {
-                margin-bottom: 0;
-            }
-        }
-
-        & .form-group {
-            display: flex;
-            flex-direction: column;
-            inline-size: 100%;
-
-            & label {
-                transform: translate(20px, 5px);
-                background-color: transparent;
-                inline-size: 100%;
-                padding: 0;
-                font-family: var(--bronova);
-                font-size: clamp(var(--h6), 1.75vw, var(--h3));
-                font-weight: 500;
-                z-index: 5;
-                border-radius: var(--radius);
-                align-self: flex-start;
-                position: relative;
-                color: var(--clr-blue-500);
-                transition: color 0.3s ease;
-
-                @media (width <= 500px) {
-                    transform: translate(0px, 7px);
+                    & .form-group textarea {
+                        margin-bottom: 1rem;
+                        inline-size: var(--100);
+                    }
                 }
+            }
 
-                &::before {
-                    content: '';
-                    block-size: 2rem;
-                    background-color: var(--label-bg);
-                    color: var(--clr-inputs);
-                    transform: translateY(-50%);
-                    z-index: -1;
+            .honeypot {
+                position: absolute;
+                left: -9999px;
+                opacity: 0;
+                height: 0;
+                width: 0;
+                overflow: hidden;
+            }
+
+            & fieldset {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                inline-size: var(--100);
+                margin: 0 auto;
+            }
+
+            & .form-group {
+                display: flex;
+                flex-direction: column;
+                inline-size: var(--100);
+
+                & label {
+                    transform: translate(20px, 5px);
+                    background-color: transparent;
+                    inline-size: var(--100);
+                    padding: 0;
+                    font-family: var(--bronova);
+                    font-size: clamp(var(--h6), 1.5vw, var(--h4));
+                    font-weight: 500;
+                    z-index: 5;
                     border-radius: var(--radius);
+                    align-self: flex-start;
+                    position: relative;
+                    color: oklch(from var(--bg) 0.75 c h);
+                    transition: color 0.3s ease;
+
+                    @media (width <= 500px) {
+                        transform: translate(0px, 7px);
+                    }
+
+                    &::before {
+                        content: '';
+                        block-size: 2rem;
+                        background-color: var(--label-bg);
+                        color: var(--clr-inputs);
+                        transform: translateY(-50%);
+                        z-index: -1;
+                        border-radius: var(--radius);
+                    }
+
+                    & textarea {
+                        max-inline-size: 77vw;
+                        inline-size: var(--100);
+                    }
                 }
 
+                & input,
                 & textarea {
-                    max-inline-size: 77vw;
-                    inline-size: 100%;
+                    max-inline-size: 75vw;
+                    inline-size: var(--100);
+                    background-color: transparent;
+                    box-shadow: none;
+                    border: 3px solid oklch(from var(--bg) 0.5 c h);
+                    border-radius: var(--radius);
+                    caret-color: var(--sky);
+                    color: var(--clr-light-500);
+                    font-size: clamp(var(--sm), 1.75vw, var(--h5));
+                    outline: none;
+                    margin-inline: none;
+                    transition:
+                        border-color 0.3s ease,
+                        box-shadow 0.3s ease,
+                        background-color 0.2s ease;
 
                     @media (width <= 768px) {
                         max-inline-size: 100vw;
                     }
-                }
-            }
 
-            & input,
-            & textarea {
-                max-inline-size: 75vw;
-                inline-size: 100%;
-                background-color: transparent;
-                box-shadow: none;
-                border: 3px solid var(--gray);
-                border-radius: var(--radius);
-                caret-color: var(--sky);
-                color: var(--clr-light-500);
-                font-size: clamp(var(--sm), 1.75vw, var(--h5));
-                outline: none;
-                margin-inline: none;
-                transition:
-                    border-color 0.3s ease,
-                    box-shadow 0.3s ease,
-                    background-color 0.2s ease;
+                    &:focus {
+                        outline: none;
+                        border-color: var(--sky);
+                        box-shadow: 0 0 0 2px var(--sky);
+                    }
 
-                @media (width <= 768px) {
-                    max-inline-size: 100vw;
-                }
+                    &:user-valid {
+                        border-color: var(--clr-success-500);
+                        box-shadow: 0 0 0 2px var(--clr-success-500);
+                        background-color: hsla(120, 60%, 50%, 0.05);
+                    }
 
-                &:focus {
-                    outline: none;
-                    border-color: var(--sky);
-                    box-shadow: 0 0 0 2px var(--sky);
-                }
+                    &:user-invalid {
+                        border-color: var(--clr-fail-500);
+                        box-shadow: 0 0 0 2px var(--clr-fail-500);
+                        background-color: hsla(0, 70%, 55%, 0.05);
 
-                &:user-valid {
-                    border-color: var(--clr-success-500);
-                    box-shadow: 0 0 0 2px var(--clr-success-500);
-                    background-color: hsla(120, 60%, 50%, 0.05);
-                }
+                        @media (hover: hover) {
+                            animation: wiggle 0.5s ease-out;
+                        }
+                    }
 
-                &:user-invalid {
-                    border-color: var(--clr-fail-500);
-                    box-shadow: 0 0 0 2px var(--clr-fail-500);
-                    background-color: hsla(0, 70%, 55%, 0.05);
+                    &:placeholder-shown:user-invalid {
+                        border-color: var(--dark-gray);
+                        box-shadow: none;
+                        background-color: transparent;
+                        animation: none;
+                    }
 
-                    @media (hover: hover) {
-                        animation: wiggle 0.5s ease-out;
+                    &::placeholder {
+                        color: oklch(from var(--clr-light-500) l c h / 0.9);
+                        font-size: clamp(var(--sm), 1vw, var(--h5));
+                        font-weight: 400;
+                        opacity: 0.67;
                     }
                 }
 
-                &:placeholder-shown:user-invalid {
-                    border-color: var(--dark-gray);
-                    box-shadow: none;
-                    background-color: transparent;
-                    animation: none;
+                & input:placeholder-shown {
+                    letter-spacing: 1px;
                 }
 
-                &::placeholder {
-                    color: var(--clr-light-500);
-                    font-size: clamp(var(--sm), 1vw, var(--h5));
-                    font-weight: 400;
-                    opacity: 0.7;
+                &:is(input, textarea) {
+                    inline-size: 100%;
+                    max-inline-size: var(--input-cap);
+
+                    @media (width <= 768px) {
+                        max-inline-size: 97vw;
+                    }
+                }
+
+                &:is(:has(#name), :has(#email)) input {
+                    max-inline-size: 20ch;
+                    inline-size: var(--100);
+
+                    @media (width <= 768px) {
+                        max-inline-size: 30ch;
+                    }
+                }
+
+                &:has(#company) input {
+                    max-inline-size: car(--input-cap);
+                }
+
+                &:is(:has(#company)) input,
+                &:is(:has(#message)) textarea {
+                    inline-size: var(--100);
+                    max-inline-size: var(--100);
+                    transform: none;
+                }
+
+                & textarea {
+                    padding: var(--padding-button);
+                    resize: vertical;
+                    min-block-size: 150px;
+                    field-sizing: content;
+                    line-height: 1.2;
+
+                    &:placeholder-shown {
+                        letter-spacing: 0px;
+                    }
+                }
+
+                &:has(input:user-valid) label,
+                &:has(textarea:user-valid) label {
+                    color: var(--clr-success-500);
+                    font-weight: 600;
+                }
+
+                &:has(input:user-invalid:not(:placeholder-shown)) label,
+                &:has(textarea:user-invalid:not(:placeholder-shown)) label {
+                    color: var(--clr-fail-500);
+                    font-weight: 600;
                 }
             }
 
-            & input:placeholder-shown {
-                letter-spacing: 3px;
+            & .submit-button {
+                margin-top: 1.5em;
             }
-
-            & textarea {
-                padding: var(--padding-button);
-                resize: vertical;
-                min-block-size: 120px;
-                field-sizing: content;
-                line-height: 1.2;
-
-                &:placeholder-shown {
-                    letter-spacing: 0px;
-                }
-            }
-
-            &:has(input:user-valid) label,
-            &:has(textarea:user-valid) label {
-                color: var(--clr-success-500);
-                font-weight: 600;
-            }
-
-            &:has(input:user-invalid:not(:placeholder-shown)) label,
-            &:has(textarea:user-invalid:not(:placeholder-shown)) label {
-                color: var(--clr-fail-500);
-                font-weight: 600;
-            }
-        }
-
-        & .submit-button {
-            margin-top: 1.5em;
         }
     }
 

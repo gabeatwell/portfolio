@@ -61,6 +61,13 @@
             imageAlt: 'Three.js work',
             viewTransitionName: 'three-heading',
         },
+        {
+            type: 'link' as const,
+            href: '/contact',
+            title: 'Get in touch',
+            index: 4,
+            viewTransitionName: 'contact-heading',
+        },
     ]);
 
     const mobileItems = [
@@ -68,7 +75,7 @@
         { href: '/projects', title: "Things I've Built" },
         { href: '/learn', title: 'Learn the Web' },
         { href: '/threejs-blog', title: 'Learn Three.js' },
-        { href: '/contact/hire', title: 'Hire Me' },
+        // { href: '/contact/hire', title: 'Hire Me' },
         { href: '/contact', title: 'Contact Me' },
     ];
 </script>
@@ -107,7 +114,7 @@
             {/if}
         {/each}
 
-        <SelectLink />
+        <!-- <SelectLink /> -->
     </ul>
 
     <ul class="mobile" id="mobile-menu" aria-label="Main navigation">
