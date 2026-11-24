@@ -45,8 +45,6 @@
         />
 
         <fieldset>
-            <!-- <legend>reach me</legend> -->
-
             <div class="field-group">
                 <div class="form-group">
                     <label for="name"
@@ -166,7 +164,7 @@
 
     .contact-grid {
         display: grid;
-        grid-template-columns: 0.75fr 1.25fr;
+        grid-template-columns: repeat(2, auto);
         margin-block: 3rem;
         align-items: center;
 
@@ -350,8 +348,8 @@
                     max-inline-size: 20ch;
                     inline-size: var(--100);
 
-                    @media (width <= 768px) {
-                        max-inline-size: 30ch;
+                    @media (width <= 990px) {
+                        max-inline-size: 40ch;
                     }
                 }
 
