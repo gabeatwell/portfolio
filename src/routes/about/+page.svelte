@@ -52,6 +52,16 @@
                             >.
                         </p>
                     {/if}
+
+                    <p class="bio-paragraph" data-desktop>
+                        I made a sort of prototype playground <span
+                            ><a
+                                class="bio-link"
+                                href="https://atwell-playground.vercel.app"
+                                target="_blank">here</a
+                            ></span
+                        >.
+                    </p>
                 </article>
 
                 <p class="bio-paragraph indent">
