@@ -43,9 +43,9 @@
                 >
                     {#if breakpoints.isDesktop}
                         <p class="bio-paragraph" data-desktop>
-                            If you want to see stuff I've been working on, when
-                            you load a page press tab twice. a button should
-                            appear that says <span
+                            &middot; If you want to see stuff I've been working
+                            on, when you load a page press tab twice. a button
+                            should appear that says <span
                                 ><a class="bio-link" href="/experiments"
                                     >experiments</a
                                 ></span
@@ -54,11 +54,13 @@
                     {/if}
 
                     <p class="bio-paragraph" data-desktop>
-                        I made a sort of prototype playground <span
+                        &middot; I built a place where I can test prototypes
+                        from topics I just learned.. it even has an editor that
+                        works with emmet. <span
                             ><a
                                 class="bio-link"
                                 href="https://atwell-playground.vercel.app"
-                                target="_blank">here</a
+                                target="_blank">atwell playground</a
                             ></span
                         >.
                     </p>
